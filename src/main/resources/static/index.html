@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>首页</title>
+    <link rel="stylesheet" href="./layui/css/layui.css">
+</head>
+<body>
+
+<!-- 你的HTML代码 -->
+<a name="top"></a>
+<ul class="layui-nav" lay-filter="">
+    <li class="layui-nav-item layui-this"><a href="">&nbsp;&nbsp;首&nbsp;&nbsp;页&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+    <li class="layui-nav-item"><a href="book_detail.html">玄幻小说</a></li>
+    <li class="layui-nav-item"><a href="">修真小说</a></li>
+    <li class="layui-nav-item"><a href="">都市小说</a></li>
+    <li class="layui-nav-item"><a href="">历史小说</a></li>
+    <li class="layui-nav-item"><a href="">网游小说</a></li>
+    <li class="layui-nav-item"><a href="">科幻小说</a></li>
+    <li class="layui-nav-item"><a href="">女频小说</a></li>
+    <li class="layui-nav-item"><a href="">小说排行榜</a></li>
+</ul>
+
+<div class="layui-container">
+    <div class="layui-row">
+
+        <div class="layui-col-xs10 layui-col-sm10 layui-col-md11 layui-col-lg11" style="padding-top:1%">
+            <input type="text" name="title" required lay-verify="required" placeholder="请输入书名·作者" autocomplete="off"
+                   class="layui-input">
+        </div>
+        <div class="layui-col-xs1" style="padding: 1%">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">搜索</button>
+        </div>
+    </div>
+
+</div>
+<div class="layui-collapse">
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">本站推荐</h2>
+        <div class="layui-colla-content layui-show">
+
+
+            <div class="layui-container" style="padding: 0px">
+
+                <div class="layui-row" style="text-align: center">
+                    <div style="padding: 1%" class="layui-col-xs4 layui-col-sm4 layui-col-md3 layui-col-lg4">
+                        <img style=" width:auto; height:auto; max-width:100%; max-height:100%;" src="static/4868.jpg"/>
+                        <br/>
+                        <a href="book_detail.html">三寸人间</a>
+
+
+                    </div>
+                    <div style="padding: 1%" class="layui-col-xs4 layui-col-sm4 layui-col-md3 layui-col-lg4">
+                        <img style=" width:auto; height:auto; max-width:100%; max-height:100%;" src="static/4868.jpg"/>
+                        <br/>
+                        <a href="">三寸人间</a>
+                    </div>
+                    <div style="padding: 1%" class="layui-col-xs4 layui-col-sm4 layui-col-md3 layui-col-lg4">
+                        <img style=" width:auto; height:auto; max-width:100%; max-height:100%;" src="static/4868.jpg"/>
+                        <br/>
+                        <a href="">三寸人间</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">热门小说推荐</h2>
+        <div class="layui-colla-content layui-show">
+
+            <div class="layui-container">
+                <div class="layui-row">
+                    <div style="margin-top: 1%" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+                        <div class="layui-col-xs2">
+                            <img style=" width:auto; height:auto; max-width:100%; max-height:100%;"
+                                 src="static/4868.jpg"/>
+                        </div>
+                        <div class="layui-col-xs10 layui-col-sm8 layui-col-md8 layui-col-lg8"
+                             style="float: left;padding-left: 5%">
+                            <div><b>绝世唐门</b>
+                                <div style="float: right;"><b><i style="color: red">9.3分</i></b></div>
+                            </div>
+                            <div>作者：唐家三少</div>
+                            <div class="layui-elip" style="word-break:break-all;">
+                                这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                                百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1%" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+                        <div class="layui-col-xs2">
+                            <img style=" width:auto; height:auto; max-width:100%; max-height:100%;"
+                                 src="static/4868.jpg"/>
+                        </div>
+                        <div class="layui-col-xs10 layui-col-sm8 layui-col-md8 layui-col-lg8"
+                             style="float: left;padding-left: 5%">
+                            <div><b>绝世唐门</b>
+                                <div style="float: right;"><b><i style="color: red">9.3分</i></b></div>
+                            </div>
+                            <div>作者：唐家三少</div>
+                            <div class="layui-elip" style="word-break:break-all;">
+                                这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                                百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1%" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+                        <div class="layui-col-xs2">
+                            <img style=" width:auto; height:auto; max-width:100%; max-height:100%;"
+                                 src="static/4868.jpg"/>
+                        </div>
+                        <div class="layui-col-xs10 layui-col-sm8 layui-col-md8 layui-col-lg8"
+                             style="float: left;padding-left: 5%">
+                            <div><b>绝世唐门</b>
+                                <div style="float: right;"><b><i style="color: red">9.3分</i></b></div>
+                            </div>
+                            <div>作者：唐家三少</div>
+                            <div class="layui-elip" style="word-break:break-all;">
+                                这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                                百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1%" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+                        <div class="layui-col-xs2">
+                            <img style=" width:auto; height:auto; max-width:100%; max-height:100%;"
+                                 src="static/4868.jpg"/>
+                        </div>
+                        <div class="layui-col-xs10 layui-col-sm8 layui-col-md8 layui-col-lg8"
+                             style="float: left;padding-left: 5%">
+                            <div><b>绝世唐门</b>
+                                <div style="float: right;"><b><i style="color: red">9.3分</i></b></div>
+                            </div>
+                            <div>作者：唐家三少</div>
+                            <div class="layui-elip" style="word-break:break-all;">
+                                这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                                百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1%" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+                        <div class="layui-col-xs2">
+                            <img style=" width:auto; height:auto; max-width:100%; max-height:100%;"
+                                 src="static/4868.jpg"/>
+                        </div>
+                        <div class="layui-col-xs10 layui-col-sm8 layui-col-md8 layui-col-lg8"
+                             style="float: left;padding-left: 5%">
+                            <div><b>绝世唐门</b>
+                                <div style="float: right;"><b><i style="color: red">9.3分</i></b></div>
+                            </div>
+                            <div>作者：唐家三少</div>
+                            <div class="layui-elip" style="word-break:break-all;">
+                                这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                                百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1%" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+                        <div class="layui-col-xs2">
+                            <img style=" width:auto; height:auto; max-width:100%; max-height:100%;"
+                                 src="static/4868.jpg"/>
+                        </div>
+                        <div class="layui-col-xs10 layui-col-sm8 layui-col-md8 layui-col-lg8"
+                             style="float: left;padding-left: 5%">
+                            <div><b>绝世唐门</b>
+                                <div style="float: right;"><b><i style="color: red">9.3分</i></b></div>
+                            </div>
+                            <div>作者：唐家三少</div>
+                            <div class="layui-elip" style="word-break:break-all;">
+                                这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                                百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1%" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+                        <div class="layui-col-xs2">
+                            <img style=" width:auto; height:auto; max-width:100%; max-height:100%;"
+                                 src="static/4868.jpg"/>
+                        </div>
+                        <div class="layui-col-xs10 layui-col-sm8 layui-col-md8 layui-col-lg8"
+                             style="float: left;padding-left: 5%">
+                            <div><b>绝世唐门</b>
+                                <div style="float: right;"><b><i style="color: red">9.3分</i></b></div>
+                            </div>
+                            <div>作者：唐家三少</div>
+                            <div class="layui-elip" style="word-break:break-all;">
+                                这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                                百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="layui-colla-item">
+        <h2 class="layui-colla-title">最近更新小说<div style="float: right; margin-right: 20px"><a href="javascript:moreNewBooks()"><i style="font-size: 14px;" class="layui-icon">更多&#xe65b;</i></a></div></h2>
+        <div class="layui-colla-content layui-show">
+
+            <div class="layui-container" style="padding-left: 2px;padding-right: 5px">
+                <div class="layui-row">
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 30px" class="layui-col-xs11 layui-col-sm6 layui-col-md6 layui-col-lg6">
+
+                        <div class="layui-col-xs8 layui-col-sm5 layui-col-md5 layui-col-lg5"><b>1.我真的要飞天了</b> - 柳一条
+                        </div>
+                        <div style="color: #FF5722;float: right;padding-right: 20px"><i>08-22 19:13</i></div>
+                        <div style="clear: both"></div>
+                        <div style="padding-left: 5px;padding-top: 5px" class="layui-elip">
+                            这里没有魔法，没有斗气，没有武术，却有武魂。唐门创立万年之后的斗罗大陆上，唐门式微。一代天骄横空出世，新一代史莱克七怪能否重振唐门，谱写一曲绝世唐门之歌？
+                            百万年魂兽，手握日月摘星辰的死灵圣法神，导致唐门衰落的全新魂导器体系。一切的神奇都将一一展现。 唐门暗器能否重振雄风，唐门能否重现辉煌，一切尽在绝世唐门！
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div style="height: 60px;line-height: 60px;text-align: center" class="layui-footer footer footer-demo layui-bg-cyan">
+    <a style="font-size: 14px;color: #92B8B1;">首页</a>
+    <a style="font-size: 14px;color: #92B8B1;margin-left: 50px">阅读记录</a>
+    <div style="float: right"><a href="#top"><i class="layui-icon"
+                                                style="margin-right:15px;font-size: 30px;color:#92B8B1 ">&#xe604;</i></a>
+    </div>
+</div>
+
+
+<script src="./layui/layui.all.js"></script>
+<script src="./js/jquery-1.9.1.js"></script>
+
+<script>
+
+    function moreNewBooks(event) {
+        alert("获取更多");
+        alert($("a"))
+    }
+
+</script>
+</body>
+</html>

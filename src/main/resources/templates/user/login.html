@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>登录|注册</title>
+    <meta name="description"
+    content="精品小说楼致力于网络精品小说的收集，智能计算小说评分，打造小说精品排行榜，致力于无广告无弹窗的小说阅读环境，是广大网友最喜欢的温馨小说站。">
+    <div th:include="common/css :: css"></div>
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?2cf01edbc2b27cd3a143e17948167d77";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+
+
+    </script>
+
+</head>
+<body id="read" >
+
+</div>
+
+<div style="height: 50px;line-height: 50px;text-align: center" class="layui-header header header-doc  layui-bg-cyan">
+
+    <div style="float: left;margin-left: 10px">
+        <a href="javascript:history.go(-1)">
+            <i style="font-size: 20px;color: #92B8B1;" class="layui-icon">&#xe65c;</i></a>
+    </div>
+    <b class="layui-icon">登录|注册</b>
+    <div style="float: right;margin-right: 10px"><a href="/">
+        <i style="font-size: 20px;color: #92B8B1;" class="layui-icon">&#xe68e;</i>
+    </a>
+    </div>
+</div>
+
+<form style="height: 500px;margin-top: 50px" class="layui-form" action="">
+    <input type="hidden" id="bookIdHidden" name="bookId" th:value="${bookId}"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label">登录名</label>
+        <div class="layui-input-block">
+            <input type="text" id="loginName" name="loginName" required  lay-verify="required" placeholder="请输入登录名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">密码</label>
+        <div class="layui-input-inline">
+            <input id="password" type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">如果登录名不存在，则直接注册！</div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">登录|注册</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+
+<div th:replace="common/footer :: footer">
+</div>
+
+<a name="buttom"></a>
+</body>
+<div th:replace="common/js :: js"></div>
+
+<script>
+    $.get("/book/addVisit",{"bookId":$("#bookIdHidden").val()},function(){});
+
+</script>
+
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(){
+            $.post("/user/loginOrRegist",{"bookId":$("#bookIdHidden").val(),"loginName":$("#loginName").val(),"password":$("#password").val()},function (data) {
+                if(data.code == 1 || data.code == 2){
+                    localStorage.setItem("token",data.token);
+                    layer.alert(data.desc);
+                    setTimeout(function () {
+                        var bookId = $("#bookIdHidden").val();
+                        if(bookId){
+                            //加入书架
+                            window.location.href="/book/"+bookId+".html";
+                        }else{
+                            //我的书架
+                            window.location.href="/book/search?token="+data.token;
+                        }
+                    },3000)
+
+                }else{
+                    layer.alert(data.desc);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+<script>
+    (function(){
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+
+
+
+    function toMyCollect(){
+        var token = localStorage.getItem("token");
+        if(token) {
+            window.location.href = "/book/search?token=" + token;
+        }else{
+            window.location.href = "/user/login.html";
+        }
+    }
+</script>
+
+
+</html>

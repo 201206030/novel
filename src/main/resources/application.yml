@@ -1,0 +1,66 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/books?useUnicode=true&characterEncoding=utf-8
+    username: books
+    password: books
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml
+  thymeleaf:
+    mode: LEGACYHTML5 #去除thymeleaf的html严格校验thymeleaf.mode=LEGACYHTML5
+    cache: true # 是否开启模板缓存，默认true,建议在开发时关闭缓存,不然没法看到实时页面
+  freemarker:
+    template-loader-path: classpath:/templates #设定thymeleaf文件路径 默认为src/main/resources/templatestemplate-loader-path=classpath:/templates
+    charset: UTF-8 # 模板编码
+  #邮箱服务器
+  mail:
+   host: smtp.163.com
+  #邮箱账户
+   username: 
+  #你的QQ邮箱第三方授权码
+   password: 
+  #编码类型
+   default-encoding: UTF-8
+   port: 465
+   properties:
+    mail:
+      smtp:
+        auth: true
+        starttls:
+          enable: true
+          required: rue
+        socketFactory:
+          port: 465
+          class: javax.net.ssl.SSLSocketFactory
+          fallback: false
+
+
+
+
+#  mvc:
+#    static-path-pattern: /static/** #设定静态文件路径，js,css等
+mybatis:
+  mapper-locations: classpath:mybatis/mapping/*.xml
+  type-aliases-package: xyz.zinglizingli.books.po
+
+
+
+search:
+  schedule:
+    isRunExcute: 0;
+
+
+logging:
+  config: classpath:logback-boot.xml
+
+
+baidu:
+  record:
+    ids: 999999,888888
+
+
+browser:
+  cookie: SINAGLOBAL=5945695441587.724.1559298271897; __guid=109181959.2094437407894937900.1565875017257.2095; un=13560421324; _s_tentry=-; Apache=8157572449986.1455.1566918991846; ULV=1566918991855:7:6:1:8157572449986.1455.1566918991846:1566086532731; login_sid_t=0cc80b9f5ea5f473e83fce3054291c03; cross_origin_proto=SSL; un=13560421324; YF-Widget-G0=4aade6ec367f09ec0a5eec921227137f; WBtopGlobal_register_version=307744aa77dd5677; SSOLoginState=1566928337; wvr=6; UOR=,,www.zinglizingli.xyz; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WFRg9065OjUyD0aaGsKRxPW5JpX5KMhUgL.Fo-f1hB7SKMp1h52dJLoI0qLxK-L1KqL1-eLxKMLB.-L122LxKMLB.-L122LxK-LBo5L12qLxKnLB-qLBoBLxKMLB.BL1K2t; ALF=1599046395; SCF=AsBEGOtiUG1hPLyZCxI1FunZd9Hg9hWWkgyzcAZjG6AxOiKPAEM99ZxY8qofeWw3xoU_Wh3OqNzt4BSkCAyD_8o.; SUB=_2A25waj8tDeRhGeNL41YR9SnNwzyIHXVTHhflrDV8PUNbmtANLXXAkW9NSM603mvU3tqplLCrqvedw1Q29U_TkxRA; SUHB=0xnyhR4nBtqt14; monitor_count=2; webim_unReadCount=%7B%22time%22%3A1567510495487%2C%22dm_pub_total%22%3A2%2C%22chat_group_client%22%3A0%2C%22allcountNum%22%3A36%2C%22msgbox%22%3A0%7D

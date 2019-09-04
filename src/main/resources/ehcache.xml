@@ -1,0 +1,30 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd">
+	<!--timeToIdleSeconds 当缓存闲置n秒后销毁 -->
+	<!--timeToLiveSeconds 当缓存存活n秒后销毁 -->
+	<!-- 缓存配置 name:缓存名称。 maxElementsInMemory：缓存最大个数。 eternal:对象是否永久有效，一但设置了，timeout将不起作用。 
+		timeToIdleSeconds：设置对象在失效前的允许闲置时间（单位：秒）。仅当eternal=false对象不是永久有效时使用，可选属性，默认值是0，也就是可闲置时间无穷大。 
+		timeToLiveSeconds：设置对象在失效前允许存活时间（单位：秒）。最大时间介于创建时间和失效时间之间。仅当eternal=false对象不是永久有效时使用，默认是0.，也就是对象存活时间无穷大。 
+		overflowToDisk：当内存中对象数量达到maxElementsInMemory时，Ehcache将会对象写到磁盘中。 diskSpoolBufferSizeMB：这个参数设置DiskStore（磁盘缓存）的缓存区大小。默认是30MB。每个Cache都应该有自己的一个缓冲区。 
+		maxElementsOnDisk：硬盘最大缓存个数。 diskPersistent：是否缓存虚拟机重启期数据 Whether the disk 
+		store persists between restarts of the Virtual Machine. The default value 
+		is false. diskExpiryThreadIntervalSeconds：磁盘失效线程运行时间间隔，默认是120秒。 memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。默认策略是 
+		LRU（最近最少使用）。你可以设置为FIFO（先进先出）或是LFU（较少使用）。 clearOnFlush：内存数量最大时是否清除。 maxEntriesLocalHeap="1000" 
+		: 堆内存中最大缓存对象数,0没有限制(必须设置) maxEntriesLocalDisk="1000" : 硬盘最大缓存个数。 -->
+	<!-- 磁盘缓存位置 -->
+	<diskStore path="user.dir/cachedata" />
+
+	<!-- 默认缓存 -->
+	<defaultCache maxElementsInMemory="10000" eternal="false"
+		timeToIdleSeconds="120" timeToLiveSeconds="120"
+		maxElementsOnDisk="10000000" diskExpiryThreadIntervalSeconds="120"
+		memoryStoreEvictionPolicy="LRU">
+
+		<persistence strategy="localTempSwap" />
+	</defaultCache>
+
+
+	<cache name="util_cache" maxEntriesLocalHeap="0" eternal="true"
+		   overflowToDisk="true" diskPersistent="true" />
+
+</ehcache>

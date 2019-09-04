@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xyz.zinglizingli.books.mapper.BookMapper">
+    <resultMap id="BaseResultMap" type="xyz.zinglizingli.books.po.Book">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="catId" property="catid" jdbcType="INTEGER"/>
+        <result column="pic_url" property="picUrl" jdbcType="VARCHAR"/>
+        <result column="book_name" property="bookName" jdbcType="VARCHAR"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="book_desc" property="bookDesc" jdbcType="VARCHAR"/>
+        <result column="score" property="score" jdbcType="REAL"/>
+        <result column="book_status" property="bookStatus" jdbcType="VARCHAR"/>
+        <result column="visit_count" property="visitCount" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time_str" property="updateTimeStr" jdbcType="VARCHAR"/>
+        <result column="soft_cat" property="softCat" jdbcType="INTEGER"/>
+        <result column="soft_tag" property="softTag" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Example_Where_Clause">
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Base_Column_List">
+    id, catId, pic_url, book_name, author, book_desc, score, book_status, visit_count,
+    update_time,soft_cat,soft_tag
+  </sql>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="xyz.zinglizingli.books.po.BookExample">
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from book
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from book
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from book
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+    <delete id="deleteByExample" parameterType="xyz.zinglizingli.books.po.BookExample">
+        delete from book
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </delete>
+    <insert id="insert" parameterType="xyz.zinglizingli.books.po.Book">
+    insert into book (id, catId, pic_url,
+      book_name, author, book_desc,
+      score, book_status, visit_count,
+      update_time)
+    values (#{id,jdbcType=BIGINT}, #{catid,jdbcType=INTEGER}, #{picUrl,jdbcType=VARCHAR},
+      #{bookName,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{bookDesc,jdbcType=VARCHAR},
+      #{score,jdbcType=REAL}, #{bookStatus,jdbcType=VARCHAR}, #{visitCount,jdbcType=BIGINT},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" parameterType="xyz.zinglizingli.books.po.Book" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="catid != null">
+                catId,
+            </if>
+            <if test="picUrl != null">
+                pic_url,
+            </if>
+            <if test="bookName != null">
+                book_name,
+            </if>
+            <if test="author != null">
+                author,
+            </if>
+            <if test="bookDesc != null">
+                book_desc,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="bookStatus != null">
+                book_status,
+            </if>
+            <if test="visitCount != null">
+                visit_count,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="catid != null">
+                #{catid,jdbcType=INTEGER},
+            </if>
+            <if test="picUrl != null">
+                #{picUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="bookName != null">
+                #{bookName,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null">
+                #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="bookDesc != null">
+                #{bookDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null">
+                #{score,jdbcType=REAL},
+            </if>
+            <if test="bookStatus != null">
+                #{bookStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="visitCount != null">
+                #{visitCount,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <select id="countByExample" parameterType="xyz.zinglizingli.books.po.BookExample" resultType="java.lang.Integer">
+        select count(*) from book
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        update book
+        <set>
+            <if test="record.id != null">
+                id = #{record.id,jdbcType=BIGINT},
+            </if>
+            <if test="record.catid != null">
+                catId = #{record.catid,jdbcType=INTEGER},
+            </if>
+            <if test="record.picUrl != null">
+                pic_url = #{record.picUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bookName != null">
+                book_name = #{record.bookName,jdbcType=VARCHAR},
+            </if>
+            <if test="record.author != null">
+                author = #{record.author,jdbcType=VARCHAR},
+            </if>
+            <if test="record.bookDesc != null">
+                book_desc = #{record.bookDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="record.score != null">
+                score = #{record.score,jdbcType=REAL},
+            </if>
+            <if test="record.bookStatus != null">
+                book_status = #{record.bookStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="record.visitCount != null">
+                visit_count = #{record.visitCount,jdbcType=BIGINT},
+            </if>
+            <if test="record.updateTime != null">
+                update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByExample" parameterType="map">
+        update book
+        set id = #{record.id,jdbcType=BIGINT},
+        catId = #{record.catid,jdbcType=INTEGER},
+        pic_url = #{record.picUrl,jdbcType=VARCHAR},
+        book_name = #{record.bookName,jdbcType=VARCHAR},
+        author = #{record.author,jdbcType=VARCHAR},
+        book_desc = #{record.bookDesc,jdbcType=VARCHAR},
+        score = #{record.score,jdbcType=REAL},
+        book_status = #{record.bookStatus,jdbcType=VARCHAR},
+        visit_count = #{record.visitCount,jdbcType=BIGINT},
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
+    </update>
+    <update id="updateByPrimaryKeySelective" parameterType="xyz.zinglizingli.books.po.Book">
+        update book
+        <set>
+            <if test="catid != null">
+                catId = #{catid,jdbcType=INTEGER},
+            </if>
+            <if test="picUrl != null">
+                pic_url = #{picUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="bookName != null">
+                book_name = #{bookName,jdbcType=VARCHAR},
+            </if>
+            <if test="author != null">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="bookDesc != null">
+                book_desc = #{bookDesc,jdbcType=VARCHAR},
+            </if>
+            <if test="score != null">
+                score = #{score,jdbcType=REAL},
+            </if>
+            <if test="bookStatus != null">
+                book_status = #{bookStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="visitCount != null">
+                visit_count = #{visitCount,jdbcType=BIGINT},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="xyz.zinglizingli.books.po.Book">
+    update book
+    set catId = #{catid,jdbcType=INTEGER},
+      pic_url = #{picUrl,jdbcType=VARCHAR},
+      book_name = #{bookName,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      book_desc = #{bookDesc,jdbcType=VARCHAR},
+      score = #{score,jdbcType=REAL},
+      book_status = #{bookStatus,jdbcType=VARCHAR},
+      visit_count = #{visitCount,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+    <select id="search" resultMap="BaseResultMap">
+        select book.id,book.catId,book.book_name,book.pic_url,book.author,book.book_desc,
+        book.score,book.book_status,book.update_time,book.soft_cat,book.soft_tag
+        from book
+        <if test="userId != null and userId != ''.toString()">
+            inner join user_ref_book on book.id = user_ref_book.book_id
+        </if>
+        <where>
+            <if test="userId != null and userId != ''.toString()">
+                AND user_ref_book.user_id = #{userId,jdbcType=BIGINT}
+
+            </if>
+            <if test="ids != null and ids != ''.toString()">
+                AND book.id in (${ids})
+            </if>
+            <if test="softCat != null">
+                AND book.soft_cat = #{softCat,jdbcType=INTEGER}
+            </if>
+            <choose>
+                <when test="catId != null">
+                    AND book.catId = #{catId,jdbcType=INTEGER}
+                </when>
+                <otherwise><!-- 我的书架和我的阅读记录查询所有记录，不分版块-->
+                    <if test="(ids == null or ids == ''.toString()) and (userId == null or userId == ''.toString())">
+                    AND book.catId  <![CDATA[ <> ]]> 8
+                    </if>
+                </otherwise>
+            </choose>
+            <if test="softTag != null and softTag != ''.toString()">
+                AND book.soft_tag like concat('%',#{softTag,jdbcType=VARCHAR},'%')
+            </if>
+            <if test="keyword != null and keyword != ''.toString()">
+
+                AND (book.book_name like concat('%',#{keyword,jdbcType=VARCHAR},'%') or book.author like
+                concat('%',#{keyword,jdbcType=VARCHAR},'%'))
+            </if>
+            <if test="bookStatus != null and bookStatus != ''.toString()">
+                AND  book.book_status = #{bookStatus,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <update id="addVisitCount" parameterType="java.lang.Long">
+
+      update book set visit_count = visit_count + 1
+      where id = #{bookId,jdbcType=BIGINT}
+  </update>
+
+    <select id="queryRandomBook" resultMap="BaseResultMap">
+
+    select id,book_name,book_desc,author from book order by rand() limit 1
+
+
+  </select>
+
+    <select id="queryNewstBook" resultMap="BaseResultMap">
+        select id,book_name,book_desc,author from book
+
+        <foreach collection="collection" item="item" open="where id not in(" close=")" separator=",">
+            #{item}
+        </foreach>
+
+        order by rand() desc limit 1
+
+    </select>
+
+
+    <select id="queryNewstBookIdList" resultType="string">
+        select id from book ORDER BY update_time desc limit 30
+    </select>
+
+    <select id="queryEndBookIdList" resultType="string">
+        select id from book/* where book_status like '%完成%'*/
+    </select>
+</mapper>

@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0026)http://m.zinglizingli.xyz/ -->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description"
+          content="看小说吧致力于打造小说最全，更新最快、无弹窗、无广告的在线小说阅读网，看小说吧收录了当前最火热的网络小说，提供无广告、高质量内容的小说服务，是广大网友最喜欢的温馨小说站。">
+    <meta name="shenma-site-verification" content="5548d4bd962d5cdd4cf6aeba92b991a8_1565878917">
+
+    <title>看小说吧</title>
+    <meta name="keywords" content="小说阅读,小说排行,好看小说排行,热门小说排行,小说阅读手机版">
+
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="max-age=0">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="MobileOptimized" content="240">
+    <meta name="applicable-device" content="mobile">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="/static/index.css">
+    <style type="text/css">
+        .bannerLink .ajax_html, .list .ajax_html {
+            height: auto;
+            overflow: hidden;
+            line-height: normal;
+        }
+
+        .ajax_html {
+            text-align: center;
+            width: 320px;
+            margin: 0 auto;
+        }
+
+        .tabArea4 .ajax_html {
+            width: 25%;
+            margin: 0;
+        }
+
+        .ajax_html img {
+            padding: 20px 0;
+        }
+
+        .ajax_html b {
+            display: none;
+        }
+    </style>
+
+    <script language="javascript" type="text/javascript" src="/js/wap_collect.js"></script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?b3a84b2ec6cc52dd088d735565b49644";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <script>
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+    <style id="tsbrowser_video_independent_player_style" type="text/css">
+        [tsbrowser_force_max_size] {
+            width: 100% !important;
+            height: 100% !important;
+            left: 0px !important;
+            top: 0px !important;
+            margin: 0px !important;
+            padding: 0px !important;
+            transform: none !important;
+        }
+
+        [tsbrowser_force_fixed] {
+            position: fixed !important;
+            z-index: 9999 !important;
+            background: black !important;
+        }
+
+        [tsbrowser_force_hidden] {
+            opacity: 0 !important;
+            z-index: 0 !important;
+        }
+
+        [tsbrowser_hide_scrollbar] {
+            overflow: hidden !important;
+        }
+
+        [tsbrowser_display_none] {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
+        }
+
+        [tsbrowser_force_show] {
+            display: black !important;
+            visibility: visible !important;
+            opacity: 0;
+        }
+
+        .hiddenNode {
+            position: fixed;
+            opacity: 0;
+            z-index: -1000;
+        }
+    </style>
+</head>
+<body>
+<header class="Index_Header">
+    <img src="/static/logo.png" class="logo" title="看小说吧" alt="看小说吧">
+
+    <a style="visibility:hidden" href="http://m.zinglizingli.xyz/login.php" id="login" class="login">登录</a>
+</header>
+<nav class="smallNav">
+    <a href="http://m.zinglizingli.xyz/lhb/0/1.html" style="width:19%;font-weight:bold;">龙虎榜</a>
+    <a href="http://m.zinglizingli.xyz/ph/week.html" style="width:19%">热点</a>
+    <a href="http://m.zinglizingli.xyz/class/0/1.html" style="width:16%">分类</a>
+    <a href="http://m.zinglizingli.xyz/quanben.html" style="width:16%">全本</a>
+    <a href="http://m.zinglizingli.xyz/tempcase.html" style="width:16%">足迹</a>
+    <a href="javascript:AddToFavorites(true);" style="width:14%">收藏</a>
+</nav>
+<h2 class="hiddenNode" th:text="${hotBookList.hotWord_0}"></h2>
+<form class="searchForm" method="post" action="http://m.zinglizingli.xyz/SearchBook.php">
+    <input type="text" name="keyword" class="searchForm_input searchForm_input2" value="输入书名•作者">
+    <input type="hidden" name="t" value="1">
+    <textarea class="hiddenNode" th:text="${hotBookList.hotWord_4}"></textarea>
+    <input type="submit" class="searchForm_btn" value="搜索">
+</form>
+
+<div class="hiddenNode" th:text="${hotBookList.hotWord_1}"></div>
+
+
+<div class="tabArea tabArea4 hot">
+    <div class="tab-nav clearfix">
+        <h2><a class="tab-nav-cur">强推</a></h2>
+        <h2><a style="display: none;">热门</a></h2>
+        <h2><a style="display: none;">全本</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+    </div>
+    <div class="hiddenNode" th:text="${hotBookList.hotWord_2}"></div>
+
+    <div class="slide">
+        <div class="slide-con4 div">
+            <div class="slide-item index_hot1">
+
+                <div class="hot_sale">
+                    <a href="http://m.zinglizingli.xyz/0_310.html">
+                        <img class="lazy" style="width: 89px; height: 119px;"
+                             data-original="https://www.biquta.com//BookFiles/BookImages/310.jpg"
+                             src="https://www.biquta.com//BookFiles/BookImages/310.jpg"
+                             onerror="this.src=&#39;images/nopic.gif&#39;">
+                        <p class="title">帝霸</p>
+                        <p class="author">作者：厌笔萧生</p>
+                        <p class="review">简介：　　千万年前，李七夜栽下一株翠竹。八百万年前，李七夜养了一条鲤鱼。五百万年前，李七夜收养一个小女孩。今天，李七夜一觉醒来，翠竹修...</p>
+                        <p class="hiddenNode" th:text="${hotBookList.hotWord_3}"></p>
+                    </a>
+                </div>
+
+
+                <div class="hot_sale">
+                    <a href="http://m.zinglizingli.xyz/143_143504.html">
+                        <img class="lazy" style="width: 89px; height: 119px;"
+                             data-original="https://www.biquta.com//BookFiles/BookImages/143504.jpg"
+                             src="https://www.biquta.com//BookFiles/BookImages/143504.jpg"
+                             onerror="this.src=&#39;images/nopic.gif&#39;">
+                        <p class="title">斗罗大陆IV终极斗罗</p>
+                        <p class="author">作者：唐家三少</p>
+                        <p class="review">简介：　　一万年后，冰化了。斗罗联邦科考队在极北之地科考时发现了一个有着金银双色花纹的蛋，用仪器探察之后，发现里面居然有生命体征，赶忙...</p>
+                    </a>
+                </div>
+
+
+                <div class="hot_sale">
+                    <a href="http://m.zinglizingli.xyz/57_57654.html">
+                        <img class="lazy" style="width: 89px; height: 119px;"
+                             data-original="https://www.biquta.com//BookFiles/BookImages/57654.jpg"
+                             src="https://www.biquta.com//BookFiles/BookImages/57654.jpg"
+                             onerror="this.src=&#39;images/nopic.gif&#39;">
+                        <p class="title">超神机械师</p>
+                        <p class="author">作者：齐佩甲</p>
+                        <p class="review">
+                            简介：　　韩萧，《星海》骨灰级代练，被来自东（zuo）方(zhe)的神秘力量扔进穿越大军，携带玩家面板变成NPC，回到《星海》公测之前，毅然选择...</p>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<ul class="hiddenNode">
+    <li class="hiddenNode" th:text="${hotBookList.hotWord_5}"></li>
+    <li class="hiddenNode" th:text="${hotBookList.hotWord_6}"></li>
+    <li class="hiddenNode" th:text="${hotBookList.hotWord_7}"></li>
+    <li class="hiddenNode" th:text="${hotBookList.hotWord_8}"></li>
+    <li class="hiddenNode" th:text="${hotBookList.hotWord_9}"></li>
+    <li class="hiddenNode" th:text="${hotBookList.hotWord_10}"></li>
+
+</ul>
+<div class="tabArea tabArea4 bannerLink div">
+    <div class="tab-nav tab-nav4 clearfix">
+        <h2><a class="tab-nav-cur">玄幻奇幻</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+    </div>
+
+    <div class="slide">
+        <div class="slide-con4">
+            <div class="slide-item index_sort1">
+
+                <a href="http://m.zinglizingli.xyz/62_62663.html">
+                    <p>
+                        <span class="sort">[玄幻奇幻]</span><span class="title">绝世武魂</span></p>
+
+                </a><a href="http://m.zinglizingli.xyz/48_48690.html">
+                <p>
+                    <span class="sort">[玄幻奇幻]</span><span class="title">逆天邪神</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/7_7007.html">
+                <p>
+                    <span class="sort">[东方玄幻]</span><span class="title">全职法师</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/103_103922.html">
+                <p>
+                    <span class="sort">[玄幻奇幻]</span><span class="title">最强圣帝</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/4_4581.html">
+                <p>
+                    <span class="sort">[玄幻奇幻]</span><span class="title">伏天氏</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/2_2449.html">
+                <p>
+                    <span class="sort">[玄幻奇幻]</span><span class="title">完美世界</span></p>
+
+            </a></div>
+            <a href="http://m.zinglizingli.xyz/11_11643.html">
+            </a></div>
+        <a href="http://m.zinglizingli.xyz/11_11643.html">
+        </a></div>
+    <a href="http://m.zinglizingli.xyz/11_11643.html">
+    </a></div>
+<table class="hiddenNode" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td><b>内容</b></td>
+    </tr>
+    <tr>
+        <td th:text="${hotBookList.hotWord_11}"></td>
+    </tr>
+    <tr>
+        <td th:text="${hotBookList.hotWord_12}"></td>
+    </tr>
+    <tr>
+        <td th:text="${hotBookList.hotWord_13}"></td>
+    </tr>
+    <tr>
+        <td th:text="${hotBookList.hotWord_14}"></td>
+    </tr>
+    <tr>
+        <td th:text="${hotBookList.hotWord_15}"></td>
+    </tr>
+</table>
+<a href="http://m.zinglizingli.xyz/11_11643.html">
+</a>
+<div class="hiddenNode" th:text="${hotBookList.hotWord_16}"></div>
+<div class="tabArea tabArea4 bannerLink div"><a href="http://m.zinglizingli.xyz/11_11643.html">
+</a>
+    <div class="tab-nav tab-nav4 clearfix"><a href="http://m.zinglizingli.xyz/11_11643.html">
+    </a>
+        <h2 id="H2_1"><a href="http://m.zinglizingli.xyz/11_11643.html"></a><a class="tab-nav-cur">武侠仙侠</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+    </div>
+
+    <div class="slide">
+        <div class="slide-con4">
+            <div class="slide-item index_sort1">
+
+                <a href="http://m.zinglizingli.xyz/7_7166.html">
+                    <p>
+                        <span class="sort">[武侠仙侠]</span><span class="title">星辰变</span></p>
+
+                </a><a href="http://m.zinglizingli.xyz/49_49478.html">
+                <p>
+                    <span class="sort">[武侠仙侠]</span><span class="title">逆天神妃至上</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/170_170814.html">
+                <p>
+                    <span class="sort">[武侠仙侠]</span><span class="title">问道红尘</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/5_5082.html">
+                <p>
+                    <span class="sort">[武侠仙侠]</span><span class="title">凡人修仙之仙界篇</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/9_9379.html">
+                <p>
+                    <span class="sort">[武侠仙侠]</span><span class="title">九仙图</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/161_161754.html">
+                <p>
+                    <span class="sort">[武侠仙侠]</span><span class="title">我夺舍了东皇太一</span></p>
+            </a>
+
+            </div>
+            <a href="http://m.zinglizingli.xyz/161_161754.html">
+            </a></div>
+        <a href="http://m.zinglizingli.xyz/161_161754.html">
+        </a></div>
+    <a href="http://m.zinglizingli.xyz/161_161754.html">
+    </a></div>
+<a href="http://m.zinglizingli.xyz/161_161754.html">
+</a>
+<div class="tabArea tabArea4 bannerLink div"><a href="http://m.zinglizingli.xyz/161_161754.html">
+</a>
+    <div class="tab-nav tab-nav4 clearfix"><a href="http://m.zinglizingli.xyz/161_161754.html">
+    </a>
+        <h2 id="H2_2"><a href="http://m.zinglizingli.xyz/161_161754.html"></a><a class="tab-nav-cur">都市言情</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+    </div>
+    <div class="slide">
+        <div class="slide-con4">
+            <div class="slide-item index_sort1">
+
+                <a href="http://m.zinglizingli.xyz/44_44856.html">
+                    <p>
+                        <span class="sort">[都市言情]</span><span class="title">透视神医</span></p>
+
+                </a><a href="http://m.zinglizingli.xyz/1_1733.html">
+                <p>
+                    <span class="sort">[都市言情]</span><span class="title">正道潜龙</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/1_1669.html">
+                <p>
+                    <span class="sort">[都市言情]</span><span class="title">神级奶爸</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/49_49208.html">
+                <p>
+                    <span class="sort">[都市言情]</span><span class="title">回到地球当神棍</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/4_4856.html">
+                <p>
+                    <span class="sort">[都市言情]</span><span class="title">俗人回档</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/57_57556.html">
+                <p>
+                    <span class="sort">[都市言情]</span><span class="title">女神的修仙高手</span></p>
+
+            </a></div>
+            <a href="http://m.zinglizingli.xyz/57_57556.html">
+            </a></div>
+        <a href="http://m.zinglizingli.xyz/57_57556.html">
+        </a></div>
+    <a href="http://m.zinglizingli.xyz/57_57556.html">
+    </a></div>
+
+
+
+<a href="http://m.zinglizingli.xyz/57_57556.html">
+</a>
+
+<div class="tabArea tabArea4 bannerLink div"><a href="http://m.zinglizingli.xyz/57_57556.html">
+</a>
+    <div class="tab-nav tab-nav4 clearfix"><a href="http://m.zinglizingli.xyz/57_57556.html">
+    </a>
+        <h2 id="H2_3"><a href="http://m.zinglizingli.xyz/57_57556.html"></a><a class="tab-nav-cur">历史军事</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+    </div>
+    <div class="slide">
+        <div class="slide-con4">
+            <div class="slide-item index_sort1">
+
+                <a href="http://m.zinglizingli.xyz/23_23446.html">
+                    <p>
+                        <span class="sort">[历史军事]</span><span class="title">秦吏</span></p>
+
+                </a><a href="http://m.zinglizingli.xyz/113_113619.html">
+                <p>
+                    <span class="sort">[历史军事]</span><span class="title">如意小郎君</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/110_110674.html">
+                <p>
+                    <span class="sort">[历史军事]</span><span class="title">明朝败家子</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/122_122037.html">
+                <p>
+                    <span class="sort">[历史军事]</span><span class="title">抗战之血肉丛林</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/129_129114.html">
+                <p>
+                    <span class="sort">[历史军事]</span><span class="title">民国谍影</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/5_5224.html">
+                <p>
+                    <span class="sort">[历史军事]</span><span class="title">弹痕</span></p>
+
+            </a></div>
+            <a href="http://m.zinglizingli.xyz/0_823.html">
+            </a></div>
+        <a href="http://m.zinglizingli.xyz/0_823.html">
+        </a></div>
+    <a href="http://m.zinglizingli.xyz/0_823.html">
+    </a></div>
+
+
+<div class="tabArea tabArea4 bannerLink div"><a href="http://m.zinglizingli.xyz/57_57556.html">
+</a>
+    <div class="tab-nav tab-nav4 clearfix"><a href="http://m.zinglizingli.xyz/57_57556.html">
+    </a>
+        <h2 id="H2_3"><a href="http://m.zinglizingli.xyz/57_57556.html"></a><a class="tab-nav-cur">女生频道</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+        <h2><a style="display: none;">&nbsp;</a></h2>
+    </div>
+    <div class="slide">
+        <div class="slide-con4">
+            <div class="slide-item index_sort1">
+
+                <a href="http://m.zinglizingli.xyz/115_115087.html">
+                    <p>
+                        <span class="sort">[女生频道]</span><span class="title">山里人家</span></p>
+
+                </a><a href="http://m.zinglizingli.xyz/5_5805.html">
+                <p>
+                    <span class="sort">[女生频道]</span><span class="title">慕川向晚</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/49_49926.html">
+                <p>
+                    <span class="sort">[女生频道]</span><span class="title">高能预警：剧情人物黑化中</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/14_14157.html">
+                <p>
+                    <span class="sort">[女生频道]</span><span class="title">帝王攻略</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/26_26326.html">
+                <p>
+                    <span class="sort">[女生频道]</span><span class="title">病宠成瘾</span></p>
+
+            </a><a href="http://m.zinglizingli.xyz/45_45149.html">
+                <p>
+                    <span class="sort">[女生频道]</span><span class="title">快穿：炮灰女配要反攻</span></p>
+
+            </a></div>
+            <a href="http://m.zinglizingli.xyz/0_823.html">
+            </a></div>
+        <a href="http://m.zinglizingli.xyz/0_823.html">
+        </a></div>
+    <a href="http://m.zinglizingli.xyz/0_823.html">
+    </a></div>
+
+<!-- 搜索 -->
+<form class="searchForm" method="post" action="http://m.zinglizingli.xyz/SearchBook.php">
+    <input type="text" name="keyword" class="searchForm_input searchForm_input2" value="输入书名•作者">
+    <input type="hidden" name="t" value="1">
+    <input type="submit" class="searchForm_btn" value="搜索">
+</form>
+
+<footer><a href="http://m.zinglizingli.xyz/0_823.html">
+</a><a href="http://m.zinglizingli.xyz/#top"><img src="/static/icon-backtop.gif" title="↑" alt="↑"></a>
+    <p class="version channel">
+        <!--<a href="http://m.zinglizingli.xyz/">首页</a>-->
+        <a href="https://sf.zinglizingli.xyz">轻小说</a>
+        <a href="https://www.zinglizingli.xyz">精品小说</a>
+        <a href="/HotBook.apk">客户端下载</a>
+        <a href="/sitemap.html" style="font-size: 14px;color: #92B8B1;margin-left: 8px">Sitemap</a>
+    </p>
+</footer>
+
+<p class="hiddenNode">
+    <span class="hiddenNode"  th:text="${hotBookList.hotWord_17}"></span>
+</p>
+</body>
+</html>
