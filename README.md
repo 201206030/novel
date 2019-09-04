@@ -21,15 +21,15 @@ Springboot+mybatis+Mysql+Ehcache
 
 1. 电脑端
 
-   ![index](D:\用户目录\我的图片\index.png)
+   ![index](.\assets\index.png)
 
 2. 手机端
 
-   ![微信图片_20190904181558](D:\用户目录\我的图片\微信图片_20190904181558.png)
+   ![微信图片_20190904181558](.\assets\微信图片_20190904181558.png)
 
 3. 小程序
 
-![mini4](C:\Users\Administrator\Desktop\mini4.png)
+![mini4](.\assets\mini4.png)
 
 #### 演示地址
 
@@ -37,7 +37,7 @@ Springboot+mybatis+Mysql+Ehcache
 
 #### 小程序二维码
 
-![mini-code](C:\Users\Administrator\Desktop\mini-code.png)
+![mini-code](.\assets\mini-code.png)
 
 
 
