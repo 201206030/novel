@@ -44,7 +44,7 @@ public class SendUrlSchedule {
     private Logger log = LoggerFactory.getLogger(SendUrlSchedule.class);
 
 
-    @Scheduled(cron = "0 0 1 * * 5")
+    @Scheduled(cron = "0 0 1 * * 1")
     public void sendAllBookToBaidu() {
         System.out.println("sendAllBookToBaidu。。。。。。。。。。。。。。。");
 
@@ -70,6 +70,11 @@ public class SendUrlSchedule {
                         System.out.println("推送数据：" + reqBody);
                         ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?site=www.zinglizingli.xyz&token=IuK7oVrPKe3U606x", request, String.class);
                         System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
+                        Thread.sleep(1000 * 10);
+                        System.out.println("推送数据：" + reqBody);
+                        stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?appid=1643715155923937&token=fkEcTlId6Cf21Sz3&type=batch", request, String.class);
+                        System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
+
                         reqBody = "";
                         Thread.sleep(1000 * 10);
                     }

@@ -354,7 +354,8 @@
     <select id="queryNewstBook" resultMap="BaseResultMap">
         select id,book_name,book_desc,author from book
 
-        <foreach collection="collection" item="item" open="where id not in(" close=")" separator=",">
+        <foreach collection="collection" item="item"
+                 open="where id not in(" close=")" separator=",">
             #{item}
         </foreach>
 

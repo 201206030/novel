@@ -5,14 +5,8 @@ package xyz.zinglizingli.books.util;
 
 /****
  *
- * Project Name:recruit-helper-util
- * <p>随机数生成工具类,主要包括<br>
+ * 随机数生成工具类,主要包括
  *  中文姓名，性别，Email，手机号，住址
- * @ClassName: RandomValueUtil
- * @date 2018年5月23日  下午2:11:12
- *
- * @version 1.0
- * @since
  */
 public class RandomValueUtil {
 
@@ -31,10 +25,6 @@ public class RandomValueUtil {
      *
      * Project Name: recruit-helper-util
      * <p>随机生成Email
-     *
-     * @date 2018年5月23日  下午2:13:06
-     * @version v1.0
-     * @since
      * @param lMin
      *         最小长度
      * @param lMax
@@ -72,13 +62,7 @@ public class RandomValueUtil {
 
     /***
      *
-     * Project Name: recruit-helper-util
-     * <p>随机生成手机号码
-     *
-     * @date 2018年5月23日  下午2:14:17
-     * @version v1.0
-     * @since
-     * @return
+     * 随机生成手机号码
      */
     public static String getTelephone() {
         int index=getNum(0,telFirst.length-1);
@@ -90,13 +74,7 @@ public class RandomValueUtil {
 
     /***
      *
-     * Project Name: recruit-helper-util
      * <p>随机生成8位电话号码
-     *
-     * @date 2018年5月23日  下午2:15:31
-     * @version v1.0
-     * @since
-     * @return
      */
     public static String getLandline() {
         int index=getNum(0,telFirst.length-1);
@@ -115,13 +93,8 @@ public class RandomValueUtil {
 
     /***
      *
-     * Project Name: recruit-helper-util
      * <p>返回中文姓名
      *
-     * @date 2018年5月23日  下午2:16:16
-     * @version v1.0
-     * @since
-     * @return
      */
     public static String getChineseName() {
         int index = getNum(0, firstName.length() - 1);

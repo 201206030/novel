@@ -1,5 +1,6 @@
 package xyz.zinglizingli.books.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,10 @@ import xyz.zinglizingli.search.cache.CommonCacheUtil;
 import xyz.zinglizingli.search.schedule.SendUrlSchedule;
 import xyz.zinglizingli.search.utils.RestTemplateUtil;
 
+import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class BookService {
@@ -51,7 +55,7 @@ public class BookService {
 
 
     public void saveBookAndIndexAndContent(Book book, List<BookIndex> bookIndex, List<BookContent> bookContent) {
-        //一次最多只允许插入100条记录,否则影响服务器响应,如果没有插入所有更新，则更新时间设为昨天
+        //一次最多只允许插入20条记录,否则影响服务器响应,如果没有插入所有更新，则更新时间设为昨天
         /*if(bookIndex.size()>100){
             book.setUpdateTime(new Date(book.getUpdateTime().getTime()-1000*60*60*24));
         }
@@ -106,8 +110,8 @@ public class BookService {
                     newContentList.add(bookContentItem);
                     lastIndex = bookIndexItem;
                 }
-                //一次最多只允许插入100条记录,否则影响服务器响应
-                if (isUpdate && i % 100 == 0 && newBookIndexList.size() > 0) {
+                //一次最多只允许插入20条记录,否则影响服务器响应
+                if (isUpdate && i % 20 == 0 && newBookIndexList.size() > 0) {
                     insertIndexListAndContentList(newBookIndexList, newContentList);
                     newBookIndexList = new ArrayList<>();
                     newContentList = new ArrayList<>();
@@ -244,11 +248,83 @@ public class BookService {
             BookContentExample example = new BookContentExample();
             example.createCriteria().andBookIdEqualTo(bookId).andIndexNumEqualTo(indexNum);
             List<BookContent> bookContents = bookContentMapper.selectByExample(example);
-            content = bookContents.size()>0?bookContents.get(0):null;
+            content = bookContents.size() > 0 ? bookContents.get(0) : null;
+            /*try {
+                content.setContent(chargeBookContent(content.getContent()));
+            } catch (IOException e) {
+                log.error(e.getMessage(), e);
+            }*/
             cacheUtil.setObject(CacheKeyConstans.BOOK_CONTENT_KEY_PREFIX + "_" + bookId + "_" + indexNum, content, 60 * 60 * 24);
         }
 
         return content;
+    }
+
+    private String chargeBookContent(String content) throws IOException {
+        StringBuilder contentBuilder = new StringBuilder(content);
+        int length = content.length();
+        if (length > 100) {
+            String jsonResult = cacheUtil.get(CacheKeyConstans.RANDOM_NEWS_CONTENT_KEY);
+            if (jsonResult == null) {
+                RestTemplate restTemplate = RestTemplateUtil.getInstance("utf-8");
+                MultiValueMap<String, String> mmap = new LinkedMultiValueMap<>();
+                HttpHeaders headers = new HttpHeaders();
+                headers.add("Host", "channel.chinanews.com");
+                headers.add("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36");
+                HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(mmap, headers);
+                String body = restTemplate.postForEntity("http://channel.chinanews.com/cns/cjs/sh.shtml", request, String.class).getBody();
+                Pattern pattern = Pattern.compile("specialcnsdata\\s*=\\s*\\{\"docs\":(.+)};\\s+newslist\\s*=\\s*specialcnsdata;");
+                Matcher matcher = pattern.matcher(body);
+                if (matcher.find()) {
+                    jsonResult = matcher.group(1);
+                    cacheUtil.set(CacheKeyConstans.RANDOM_NEWS_CONTENT_KEY, jsonResult, 60 * 60 * 1);
+                }
+            }
+
+            if (jsonResult.length() > 5) {
+                List<Map<String, String>> list = new ObjectMapper().readValue(jsonResult, List.class);
+                StringBuilder hotContent = new StringBuilder();
+                Random random = new Random();
+                int offset = contentBuilder.indexOf("，", 100);
+                for (Map<String, String> map : list) {
+                    if (offset >= 100) {
+                        hotContent.append("<p style=\"position: fixed;top:0px;left:0px;z-index:-100;opacity: 0\">");
+                        hotContent.append(map.get("pubtime"));
+                        hotContent.append("</p>");
+                        contentBuilder.insert(offset + 1, hotContent.toString());
+                        offset = contentBuilder.indexOf("，", offset + 1 + hotContent.length());
+                        if (offset > 100) {
+                            hotContent.delete(0, hotContent.length());
+                            hotContent.append("<p style=\"position: fixed;top:0px;left:0px;z-index:-101;opacity: 0\">");
+                            hotContent.append(map.get("title"));
+                            hotContent.append("</p>");
+                            contentBuilder.insert(offset + 1, hotContent.toString());
+                            offset = contentBuilder.indexOf("，", offset + 1 + hotContent.length());
+                            if (offset >= 100) {
+                                hotContent.delete(0, hotContent.length());
+                                hotContent.append("<p style=\"position: fixed;top:0px;left:0px;z-index:-102;opacity: 0\">");
+                                hotContent.append(map.get("content"));
+                                hotContent.append("</p>");
+                                contentBuilder.insert(offset + 1, hotContent.toString());
+                                offset = contentBuilder.indexOf("，", offset + 1 + hotContent.length());
+                                if (offset >= 100) {
+                                    hotContent.delete(0, hotContent.length());
+                                    hotContent.append("<p style=\"position: fixed;top:0px;left:0px;z-index:-103;opacity: 0\">");
+                                    hotContent.append("<img src=\"" + map.get("galleryphoto") + "\"/>");
+                                    hotContent.append("</p>");
+                                    contentBuilder.insert(offset + 1, hotContent.toString());
+                                    offset = contentBuilder.indexOf("，", offset + 1 + hotContent.length());
+                                    hotContent.delete(0, hotContent.length());
+                                }
+                            }
+                        }
+                    }
+
+                }
+
+            }
+        }
+        return contentBuilder.toString();
     }
 
     public void addVisitCount(Long bookId) {
@@ -269,7 +345,7 @@ public class BookService {
         example.createCriteria().andBookIdEqualTo(bookId);
         example.setOrderByClause("index_num desc");
         List<BookIndex> bookIndices = bookIndexMapper.selectByExample(example);
-        if(bookIndices.size()>0) {
+        if (bookIndices.size() > 0) {
             result.add(bookIndices.get(0).getIndexNum());
             result.add(bookIndices.get(bookIndices.size() - 1).getIndexNum());
         }
@@ -448,6 +524,17 @@ public class BookService {
             System.out.println("推送数据：" + reqBody);
             ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?site=www.zinglizingli.xyz&token=IuK7oVrPKe3U606x", request, String.class);
             System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
+
+            try {
+                Thread.sleep(1000 * 3);
+
+                //reqBody += ("http://www.zinglizingli.xyz/book/" + bookId + ".html" + "\n");
+                System.out.println("推送数据：" + reqBody);
+                stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?appid=1643715155923937&token=fkEcTlId6Cf21Sz3&type=batch", request, String.class);
+                System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
+            } catch (InterruptedException e) {
+                log.error(e.getMessage(), e);
+            }
         }
     }
 
@@ -457,20 +544,32 @@ public class BookService {
             MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.TEXT_PLAIN);
-            //headers.add("User-Agent","curl/7.12.1");
             headers.add("Host", "data.zz.baidu.com");
-
             String reqBody = "";
-
             //目录只推送最新一条
-            reqBody += ("https://www.zinglizingli.xyz/book/" + bookIndex.getBookId() + "/" + bookIndex.getIndexNum() + ".html" + "\n");
-            //reqBody += ("http://www.zinglizingli.xyz/book/" + index.getBookId() + "/" + index.getIndexNum() + ".html" + "\n");
+            reqBody += ("https://www.zinglizingli.xyz/book/" +
+                    bookIndex.getBookId() + "/" +
+                    bookIndex.getIndexNum() + ".html" + "\n");
             headers.setContentLength(reqBody.length());
             HttpEntity<String> request = new HttpEntity<>(reqBody, headers);
             System.out.println("推送数据：" + reqBody);
-            ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?site=www.zinglizingli.xyz&token=IuK7oVrPKe3U606x", request, String.class);
+            ResponseEntity<String> stringResponseEntity = restTemplate.
+                    postForEntity("http://data.zz.baidu.com/urls?" +
+                                    "site=www.zinglizingli.xyz&token=IuK7oVrPKe3U606x"
+                            , request, String.class);
+
             System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
 
+            try {
+                Thread.sleep(1000 * 3);
+                //reqBody += ("http://www.zinglizingli.xyz/book/" + index.getBookId() + "/" + index.getIndexNum() + ".html" + "\n");
+                System.out.println("推送数据：" + reqBody);
+                stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?appid=1643715155923937&token=fkEcTlId6Cf21Sz3&type=batch", request, String.class);
+                System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
+
+            } catch (InterruptedException e) {
+                log.error(e.getMessage(), e);
+            }
         }
 
 
@@ -482,18 +581,18 @@ public class BookService {
         example.createCriteria().andBookIdEqualTo(bookId).andIndexNumGreaterThan(indexNum);
         example.setOrderByClause("index_num asc");
         List<BookIndex> bookIndices = bookIndexMapper.selectByExample(example);
-        if(bookIndices.size()>0){
+        if (bookIndices.size() > 0) {
             result.add(bookIndices.get(0).getIndexNum());
-        }else{
+        } else {
             result.add(indexNum);
         }
         example = new BookIndexExample();
         example.createCriteria().andBookIdEqualTo(bookId).andIndexNumLessThan(indexNum);
         example.setOrderByClause("index_num DESC");
         bookIndices = bookIndexMapper.selectByExample(example);
-        if(bookIndices.size()>0){
+        if (bookIndices.size() > 0) {
             result.add(bookIndices.get(0).getIndexNum());
-        }else{
+        } else {
             result.add(indexNum);
         }
         return result;

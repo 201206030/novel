@@ -110,15 +110,6 @@ public class SearchFilter implements Filter {
 
 
         try {
-            if (requestURL.contains("http://book.zinglizingli.xyz")) {
-                if(requestURI.matches("/*|(/index\\.html)")){
-                    req.getRequestDispatcher("/book/index.html").forward(servletRequest,servletResponse);
-                    return;
-                }
-
-                filterChain.doFilter(servletRequest, servletResponse);
-                return;
-            }
 
             if (requestURL.matches("http://m.zinglizingli.xyz(/*|(/index\\.html))") || requestURI.startsWith("/static/")) {
                 filterChain.doFilter(req, resp);

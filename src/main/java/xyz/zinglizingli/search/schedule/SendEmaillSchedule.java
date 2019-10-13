@@ -46,7 +46,7 @@ public class SendEmaillSchedule {
     private Logger log = LoggerFactory.getLogger(SendEmaillSchedule.class);
 
 
-    @Scheduled(cron = "0 10 17 * * *")
+   // @Scheduled(fixedRate = 1000*60*60*24)
     public void sendEmaill() {
         System.out.println("SendEmaillSchedule。。。。。。。。。。。。。。。");
 
@@ -62,7 +62,7 @@ public class SendEmaillSchedule {
                     +"<br/><img src='https://www.zinglizingli.xyz/me/assets/images/work001-01.jpg'>";
             mailService.sendHtmlMail(email, subject, content);
             try {
-                Thread.sleep(new Random().nextInt(1000*60)+1000*60);
+                Thread.sleep(new Random().nextInt(1000*60*10)+1000*60);
             } catch (InterruptedException e) {
                 log.error(e.getMessage(),e);
             }

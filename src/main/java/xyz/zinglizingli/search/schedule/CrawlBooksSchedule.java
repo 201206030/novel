@@ -361,7 +361,7 @@ public class CrawlBooksSchedule {
     }
 
 
-    @Scheduled(cron = "0 0 2 * * ?")
+    //@Scheduled(cron = "0 0 2 * * ?")磁盘空间不足，暂时不抓新书
     //暂定2小说，只爬分类前3本书，一共3*7=21本书，爬等以后书籍多了之后，会适当缩短更新间隔
     public void crawBquge11BooksAtNight() throws Exception {
         final String baseUrl = "https://m.biqudao.com";

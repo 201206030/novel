@@ -1,16 +1,24 @@
 package xyz.zinglizingli.books.web;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import xyz.zinglizingli.books.constant.CacheKeyConstans;
 import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.po.BookContent;
@@ -19,15 +27,19 @@ import xyz.zinglizingli.books.po.ScreenBullet;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.vo.BookVO;
 import xyz.zinglizingli.search.cache.CommonCacheUtil;
+import xyz.zinglizingli.search.utils.RestTemplateUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("book")
@@ -39,6 +51,9 @@ public class BookController {
 
     @Autowired
     private CommonCacheUtil commonCacheUtil;
+
+
+    private Logger log = LoggerFactory.getLogger(BookController.class);
 
 
     @RequestMapping("index.html")
@@ -181,13 +196,15 @@ public class BookController {
         int minIndexNum = 0;
         //查询最小目录号
         List<Integer> integers = bookService.queryMaxAndMinIndexNum(bookId);
-        if(integers.size()>1){
+        if (integers.size() > 1) {
             minIndexNum = integers.get(1);
         }
+
 
         BookVO bookvo = new BookVO();
         BeanUtils.copyProperties(book, bookvo);
         bookvo.setCateName(bookService.getCatNameById(bookvo.getCatid()));
+
         modelMap.put("bookId", bookId);
         modelMap.put("book", bookvo);
         modelMap.put("minIndexNum", minIndexNum);
@@ -213,17 +230,17 @@ public class BookController {
     public String bookContent(@PathVariable("bookId") Long bookId, @PathVariable("indexNum") Integer indexNum, ModelMap modelMap) {
         BookContent bookContent = bookService.queryBookContent(bookId, indexNum);
         String indexName;
-        if(bookContent==null) {
+        if (bookContent == null) {
             bookContent = new BookContent();
             bookContent.setId(-1l);
             bookContent.setBookId(bookId);
             bookContent.setIndexNum(indexNum);
             bookContent.setContent("正在手打中，请稍等片刻，内容更新后，需要重新刷新页面，才能获取最新更新");
-            indexName="更新中。。。";
-        }else{
+            indexName = "更新中。。。";
+        } else {
             indexName = bookService.queryIndexNameByBookIdAndIndexNum(bookId, indexNum);
         }
-        List<Integer> preAndNextIndexNum = bookService.queryPreAndNextIndexNum(bookId,indexNum);
+        List<Integer> preAndNextIndexNum = bookService.queryPreAndNextIndexNum(bookId, indexNum);
         modelMap.put("nextIndexNum", preAndNextIndexNum.get(0));
         modelMap.put("preIndexNum", preAndNextIndexNum.get(1));
         modelMap.put("bookContent", bookContent);
@@ -232,6 +249,7 @@ public class BookController {
         modelMap.put("bookName", bookName);
         return "books/book_content";
     }
+
 
     @RequestMapping("addVisit")
     @ResponseBody
@@ -321,6 +339,8 @@ public class BookController {
         }
 
     }
+
+
 
 
 }

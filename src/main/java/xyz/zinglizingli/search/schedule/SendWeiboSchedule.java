@@ -446,13 +446,14 @@ public class SendWeiboSchedule {
     private String sendOneSiteWeibo(RestTemplate template, String bookName, String indexName, String author, String desc, String wapName, String bookNum, String href) {
         String baseUrl = "http://service.weibo.com/share/aj_share.php";
         Map<String, String> param = new HashMap<>();
-        String content = bookName + "小说最新章节列表," + bookName + "小说免费在线阅读," + bookName +
+        /*String content = bookName + "小说最新章节列表," + bookName + "小说免费在线阅读," + bookName +
                 "小说TXT下载,尽在" + wapName +href+ "\n";
         if(indexName != null){
             content+=("最新章节："+indexName+"\n");
         }
         content = content + "作者："+(author.replace("作者：","")) + "\n";
-        content += ("简介："+desc.replace("简介：",""));
+        content += ("简介："+desc.replace("简介：",""));*/
+        String content = bookName+"最新章节,小说"+bookName+"("+author.replace("作者：","")+")手机阅读,小说"+bookName+"TXT下载 - "+href;
         param.put("content", content );
         param.put("styleid", "1");
         param.put("from", "share");

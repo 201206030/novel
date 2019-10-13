@@ -12,7 +12,7 @@
     <artifactId>search</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>search</name>
-    <description>搜索引擎</description>
+    <description>小说精品楼</description>
 
     <properties>
         <!--开始没加这三个，报错Fatal error compiling: 无效的标记: -parameters ->-->
