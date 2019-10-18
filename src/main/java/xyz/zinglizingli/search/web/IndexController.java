@@ -15,8 +15,7 @@ public class IndexController {
 
 
     @RequestMapping(value = {"/index.html","/"})
-    public String index(ModelMap modelMap){
-        modelMap.put("hotBookList", ContentFactory.giveRandomContent());
-        return "index";
+    public String index(){
+        return "redirect:/books";
     }
 }

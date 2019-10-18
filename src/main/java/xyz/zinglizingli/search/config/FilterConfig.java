@@ -8,7 +8,7 @@ import xyz.zinglizingli.search.filter.SearchFilter;
 @Configuration
 public class FilterConfig{
 
-    @Bean
+    //@Bean
     public FilterRegistrationBean filterRegist() {
         FilterRegistrationBean frBean = new FilterRegistrationBean();
         frBean.setFilter(new SearchFilter());
