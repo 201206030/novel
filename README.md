@@ -16,7 +16,7 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 3. 本地直接运行或使用maven插件打包成jar文件上传到服务器上。
 4. `http://ip:port`访问首页
 5. `http://ip:port/books`访问精品小说模块
-6. `http://ip.port/book/searchSoftBook.html`访问轻小说模块
+6. `http://ip:port/book/searchSoftBook.html`访问轻小说模块
 
 #### 项目截图
 
@@ -64,5 +64,5 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
 #### PS
 
-本人提倡共享精神，该项目可自由用于任何场景，做任何修改。但希望修改后的代码提交到本项目分支上。如特殊情况，不希望公开代码，可单独向作者说明，谢谢！个人精力有限，欢迎大家共同完善项目。
+本人提倡共享精神，该项目可自由用于任何场景，做任何修改，但是修改后的项目建议开源，否则需要经过作者同意才能用于商用，谢谢！个人精力有限，欢迎大家加入项目开发者中共同完善项目。
 
