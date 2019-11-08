@@ -172,6 +172,7 @@ public class ApiBookController {
         modelMap.put("indexName", indexName);
         String bookName = bookService.queryBaseInfo(bookId).getBookName();
         modelMap.put("bookName", bookName);
+		modelMap.put("bookContent", bookContent);
         return modelMap;
     }
 
