@@ -62,6 +62,10 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
 ![mini-code](./assets/mini-code.png)
 
+#### QQ交流群
+
+![mini-code](./assets/小说精品屋开源项目交流群群聊二维码.png)
+
 #### PS
 
 本人提倡共享精神，该项目可自由用于任何场景，做任何修改，但是修改后的项目建议开源，否则需要经过作者同意才能用于商用，谢谢！个人精力有限，欢迎大家加入项目开发者中共同完善项目。
