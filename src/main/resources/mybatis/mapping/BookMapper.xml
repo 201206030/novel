@@ -386,5 +386,6 @@
                 </trim>
             </foreach>
         </where>
+        limit 3
     </select>
 </mapper>

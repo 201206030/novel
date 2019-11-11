@@ -9,18 +9,16 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 
-import java.io.UnsupportedEncodingException;
-
 @SpringBootApplication
 @EnableCaching
 @EnableScheduling
 @MapperScan({"xyz.zinglizingli.*.mapper"})
-public class SearchApplication {
+public class BookApplication {
 
     public static void main(String[] args) {
 
 
-        SpringApplication.run(SearchApplication.class, args);
+        SpringApplication.run(BookApplication.class, args);
     }
 
     /**
