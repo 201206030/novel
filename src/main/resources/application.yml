@@ -58,8 +58,9 @@ index:
     - {bookName: 我有一座恐怖屋,bookAuthor: 我会修空调}
 
 
-
-
+#mysql编码
+mysql:
+  charset: utf8mb4
 
 
 
