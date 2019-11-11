@@ -404,21 +404,23 @@
                         if(!eval(localStorage.getItem(isShowKey))){
                             clearInterval(schedule);
                         }
-                        currentCreateTime = new Date(data[i].createTime).getTime();
-                        if(lastCreateTime && currentCreateTime-lastCreateTime>60000 && sllepTime <= 3000){
-                            if(sllepTime==3000) {
+                        if(data.length>i) {
+                            currentCreateTime = new Date(data[i].createTime).getTime();
+                            if (lastCreateTime && currentCreateTime - lastCreateTime > 60000 && sllepTime <= 3000) {
+                                if (sllepTime == 3000) {
+                                    lastCreateTime = currentCreateTime;
+                                }
+                                sllepTime += 3000;
+                            } else {
+                                sllepTime = 0;
+                                var bullet = data[i].screenBullet;
+                                // 创建弹幕
+                                var jqueryDom = createScreenbullet(bullet);
+                                // 添加定时任务
+                                addInterval(jqueryDom);
+                                i++;
                                 lastCreateTime = currentCreateTime;
                             }
-                            sllepTime+=3000;
-                        }else{
-                            sllepTime = 0;
-                            var bullet = data[i].screenBullet;
-                            // 创建弹幕
-                            var jqueryDom = createScreenbullet(bullet);
-                            // 添加定时任务
-                            addInterval(jqueryDom);
-                            i++;
-                            lastCreateTime = currentCreateTime;
                         }
 
 
