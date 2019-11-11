@@ -507,69 +507,71 @@ public class BookService {
 
 
     private void sendNewstBook(Long bookId) {
-        if (bookId >= 0) {
+        try {
+            if (bookId >= 0) {
 
-            //List<String> idList = queryEndBookIdList();
-            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.TEXT_PLAIN);
-            //headers.add("User-Agent","curl/7.12.1");
-            headers.add("Host", "data.zz.baidu.com");
+                //List<String> idList = queryEndBookIdList();
+                MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.TEXT_PLAIN);
+                //headers.add("User-Agent","curl/7.12.1");
+                headers.add("Host", "data.zz.baidu.com");
 
-            String reqBody = "";
-            reqBody += ("https://www.zinglizingli.xyz/book/" + bookId + ".html" + "\n");
-            //reqBody += ("http://www.zinglizingli.xyz/book/" + bookId + ".html" + "\n");
-            headers.setContentLength(reqBody.length());
-            HttpEntity<String> request = new HttpEntity<>(reqBody, headers);
-            System.out.println("推送数据：" + reqBody);
-            ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?site=www.zinglizingli.xyz&token=IuK7oVrPKe3U606x", request, String.class);
-            System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
+                String reqBody = "";
+                reqBody += ("https://www.zinglizingli.xyz/book/" + bookId + ".html" + "\n");
+                //reqBody += ("http://www.zinglizingli.xyz/book/" + bookId + ".html" + "\n");
+                headers.setContentLength(reqBody.length());
+                HttpEntity<String> request = new HttpEntity<>(reqBody, headers);
+                System.out.println("推送数据：" + reqBody);
+                ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?site=www.zinglizingli.xyz&token=IuK7oVrPKe3U606x", request, String.class);
+                System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
 
-            try {
+
                 Thread.sleep(1000 * 3);
 
                 //reqBody += ("http://www.zinglizingli.xyz/book/" + bookId + ".html" + "\n");
                 System.out.println("推送数据：" + reqBody);
                 stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?appid=1643715155923937&token=fkEcTlId6Cf21Sz3&type=batch", request, String.class);
                 System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
-            } catch (InterruptedException e) {
-                log.error(e.getMessage(), e);
             }
+        } catch (InterruptedException e) {
+            log.info(e.getMessage(), e);
         }
     }
 
 
     private void sendNewstIndex(BookIndex bookIndex) {
-        if (bookIndex != null) {
-            MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.TEXT_PLAIN);
-            headers.add("Host", "data.zz.baidu.com");
-            String reqBody = "";
-            //目录只推送最新一条
-            reqBody += ("https://www.zinglizingli.xyz/book/" +
-                    bookIndex.getBookId() + "/" +
-                    bookIndex.getIndexNum() + ".html" + "\n");
-            headers.setContentLength(reqBody.length());
-            HttpEntity<String> request = new HttpEntity<>(reqBody, headers);
-            System.out.println("推送数据：" + reqBody);
-            ResponseEntity<String> stringResponseEntity = restTemplate.
-                    postForEntity("http://data.zz.baidu.com/urls?" +
-                                    "site=www.zinglizingli.xyz&token=IuK7oVrPKe3U606x"
-                            , request, String.class);
+        try {
+            if (bookIndex != null) {
+                MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.TEXT_PLAIN);
+                headers.add("Host", "data.zz.baidu.com");
+                String reqBody = "";
+                //目录只推送最新一条
+                reqBody += ("https://www.zinglizingli.xyz/book/" +
+                        bookIndex.getBookId() + "/" +
+                        bookIndex.getIndexNum() + ".html" + "\n");
+                headers.setContentLength(reqBody.length());
+                HttpEntity<String> request = new HttpEntity<>(reqBody, headers);
+                System.out.println("推送数据：" + reqBody);
+                ResponseEntity<String> stringResponseEntity = restTemplate.
+                        postForEntity("http://data.zz.baidu.com/urls?" +
+                                        "site=www.zinglizingli.xyz&token=IuK7oVrPKe3U606x"
+                                , request, String.class);
 
-            System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
+                System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
 
-            try {
+
                 Thread.sleep(1000 * 3);
                 //reqBody += ("http://www.zinglizingli.xyz/book/" + index.getBookId() + "/" + index.getIndexNum() + ".html" + "\n");
                 System.out.println("推送数据：" + reqBody);
                 stringResponseEntity = restTemplate.postForEntity("http://data.zz.baidu.com/urls?appid=1643715155923937&token=fkEcTlId6Cf21Sz3&type=batch", request, String.class);
                 System.out.println("推送URL结果：code:" + stringResponseEntity.getStatusCode().value() + ",body:" + stringResponseEntity.getBody());
 
-            } catch (InterruptedException e) {
-                log.error(e.getMessage(), e);
             }
+        } catch (InterruptedException e) {
+            log.info(e.getMessage(), e);
         }
 
 

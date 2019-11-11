@@ -56,7 +56,7 @@
 	<!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
 	<!-- com.maijinjie.springboot 为根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG -->
 	<!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE -->
-	<logger name="*" level="ERROR">
+	<logger name="*" level="DEBUG">
 		<appender-ref ref="debug" />
 	</logger>
 </configuration>
