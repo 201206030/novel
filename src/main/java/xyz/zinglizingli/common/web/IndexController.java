@@ -31,7 +31,7 @@ public class IndexController {
 
 
 
-    @RequestMapping(value = {"/index.html","/","/books","/books/index.html"})
+    @RequestMapping(value = {"/index.html","/","/books","/book","/book/index.html"})
     public String index(ModelMap modelMap){
         List<Book> recBooks = (List<Book>) commonCacheUtil.getObject(CacheKeyConstans.REC_BOOK_LIST_KEY);
         if (!indexRecBooksConfig.isRead() || recBooks == null) {
