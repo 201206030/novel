@@ -62,10 +62,11 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
 ![mini-code](./assets/mini-code.png)
 
-#### Github地址
+#### 代码仓库
 
- <iframe src="https://ghbtns.com/github-btn.html?user=201206030&repo=fiction_house&type=star&count=true“ frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
- <iframe src="https://ghbtns.com/github-btn.html?user=201206030&repo=fiction_house&type=fork&count=true“ frameborder="0" scrolling="0" width="100px" height="20px"></iframe>
+ Gitee仓库地址：  https://gitee.com/xiongxyang/fiction_house 
+
+ GitHub仓库地址：  https://github.com/201206030/fiction_house 
 
 #### QQ交流群
 
@@ -79,11 +80,11 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
 ##### 捐赠名单 
 
-| 捐赠者 | 金额     | 留言             | 时间                        |
-| ------ | -------- | ---------------- | --------------------------- |
-| **海   | ￥ 15.00 | 支持一下         | 2019年11月11日 上午7点45分  |
-| *鹏飞  | ￥5.00   | 用上了，支持一下 | 2019年11月11日 上午0点14分  |
-| *沐    | ￥10.00  | 谢谢开源 ，支持  | 2019年11月10日 上午12点09分 |
+| 捐赠者 | 金额     | 时间                        |
+| ------ | -------- | --------------------------- |
+| **海   | ￥ 15.00 | 2019年11月11日 上午7点45分  |
+| *鹏飞  | ￥5.00   | 2019年11月11日 上午0点14分  |
+| *沐    | ￥10.00  | 2019年11月10日 上午12点09分 |
 
 
 
