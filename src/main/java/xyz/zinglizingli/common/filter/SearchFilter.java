@@ -1,4 +1,4 @@
-package xyz.zinglizingli.search.filter;
+package xyz.zinglizingli.common.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -7,11 +7,10 @@ import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
-import xyz.zinglizingli.search.cache.CommonCacheUtil;
-import xyz.zinglizingli.search.utils.RestTemplateUtil;
-import xyz.zinglizingli.search.utils.SpringUtil;
+import xyz.zinglizingli.common.cache.CommonCacheUtil;
+import xyz.zinglizingli.common.utils.RestTemplateUtil;
+import xyz.zinglizingli.common.utils.SpringUtil;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

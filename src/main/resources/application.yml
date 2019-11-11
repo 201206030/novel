@@ -53,6 +53,19 @@ mybatis:
   type-aliases-package: xyz.zinglizingli.books.po
 
 
+#首页本站推荐小说配置
+index:
+  recBooks:
+    - {bookName: 黎明之剑,bookAuthor: 远瞳}
+    - {bookName: 诸天投影,bookAuthor: 裴屠狗}
+    - {bookName: 我有一座恐怖屋,bookAuthor: 我会修空调}
+
+
+
+
+
+
+
 
 search:
   schedule:

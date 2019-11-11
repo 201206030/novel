@@ -22,9 +22,8 @@ import xyz.zinglizingli.books.mapper.BookIndexMapper;
 import xyz.zinglizingli.books.mapper.BookMapper;
 import xyz.zinglizingli.books.mapper.ScreenBulletMapper;
 import xyz.zinglizingli.books.po.*;
-import xyz.zinglizingli.search.cache.CommonCacheUtil;
-import xyz.zinglizingli.search.schedule.SendUrlSchedule;
-import xyz.zinglizingli.search.utils.RestTemplateUtil;
+import xyz.zinglizingli.common.cache.CommonCacheUtil;
+import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
 import java.io.IOException;
 import java.util.*;
@@ -599,5 +598,12 @@ public class BookService {
         }
         return result;
 
+    }
+
+    /**
+     * 查询推荐书籍数据
+     * */
+    public List<Book> queryRecBooks(List<Map<String, String>> configMap) {
+        return bookMapper.queryRecBooks(configMap);
     }
 }

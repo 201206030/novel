@@ -1,4 +1,4 @@
-package xyz.zinglizingli.search.utils;
+package xyz.zinglizingli.common.utils;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.BeansException;

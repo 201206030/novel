@@ -1,27 +1,18 @@
 package xyz.zinglizingli.books.web;
 
 
-import com.github.pagehelper.PageInfo;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import xyz.zinglizingli.books.po.Book;
-import xyz.zinglizingli.books.po.BookContent;
-import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.po.User;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.service.UserService;
 import xyz.zinglizingli.books.util.UUIDUtils;
-import xyz.zinglizingli.books.vo.BookVO;
-import xyz.zinglizingli.search.cache.CommonCacheUtil;
+import xyz.zinglizingli.common.cache.CommonCacheUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller

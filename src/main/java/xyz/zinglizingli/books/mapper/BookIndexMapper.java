@@ -1,10 +1,12 @@
 package xyz.zinglizingli.books.mapper;
 
 import org.apache.ibatis.annotations.Param;
+import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.po.BookIndexExample;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BookIndexMapper {
     int countByExample(BookIndexExample example);
@@ -32,4 +34,6 @@ public interface BookIndexMapper {
     void insertBatch(List<BookIndex> bookIndex);
 
     String queryNewstIndexName(@Param("bookId") Long bookId);
+
+
 }

@@ -11,7 +11,7 @@ import xyz.zinglizingli.books.po.BookContent;
 import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.vo.BookVO;
-import xyz.zinglizingli.search.cache.CommonCacheUtil;
+import xyz.zinglizingli.common.cache.CommonCacheUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

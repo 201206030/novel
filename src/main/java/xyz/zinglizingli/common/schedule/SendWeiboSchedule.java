@@ -1,4 +1,4 @@
-package xyz.zinglizingli.search.schedule;
+package xyz.zinglizingli.common.schedule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,14 +12,12 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.service.BookService;
-import xyz.zinglizingli.search.cache.CommonCacheUtil;
-import xyz.zinglizingli.search.utils.RestTemplateUtil;
+import xyz.zinglizingli.common.cache.CommonCacheUtil;
+import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

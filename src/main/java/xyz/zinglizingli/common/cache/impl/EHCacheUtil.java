@@ -1,11 +1,11 @@
-package xyz.zinglizingli.search.cache.impl;
+package xyz.zinglizingli.common.cache.impl;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xyz.zinglizingli.search.cache.CommonCacheUtil;
+import xyz.zinglizingli.common.cache.CommonCacheUtil;
 
 @Service
 public class EHCacheUtil implements CommonCacheUtil {

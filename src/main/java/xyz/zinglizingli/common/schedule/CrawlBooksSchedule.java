@@ -1,4 +1,4 @@
-package xyz.zinglizingli.search.schedule;
+package xyz.zinglizingli.common.schedule;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import xyz.zinglizingli.books.po.BookContent;
 import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.util.ExcutorUtils;
-import xyz.zinglizingli.search.utils.RestTemplateUtil;
+import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

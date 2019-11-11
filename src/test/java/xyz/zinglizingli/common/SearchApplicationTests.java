@@ -1,4 +1,4 @@
-package xyz.zinglizingli.search;
+package xyz.zinglizingli.common;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

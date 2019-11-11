@@ -5,6 +5,7 @@ import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.po.BookExample;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public interface BookMapper {
@@ -41,4 +42,9 @@ public interface BookMapper {
     List<String> queryNewstBookIdList();
 
     List<String> queryEndBookIdList();
+
+    /**
+     * 查询推荐书籍数据
+     * */
+    List<Book> queryRecBooks(List<Map<String, String>> configMap);
 }

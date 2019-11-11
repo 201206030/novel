@@ -1,4 +1,4 @@
-package xyz.zinglizingli.search.cache;
+package xyz.zinglizingli.common.cache;
 
 public interface CommonCacheUtil {
 

@@ -1,4 +1,4 @@
-package xyz.zinglizingli.search.config;
+package xyz.zinglizingli.common.config;
 
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.ErrorPageRegistrar;

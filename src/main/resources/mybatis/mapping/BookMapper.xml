@@ -371,4 +371,20 @@
     <select id="queryEndBookIdList" resultType="string">
         select id from book/* where book_status like '%完成%'*/
     </select>
+
+
+    <select id="queryRecBooks" parameterType="java.util.List" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from book
+        <where>
+            <foreach collection="list" item="item" index="index"
+                     separator="or">
+                <trim prefix="(" suffix=")">
+                    book_name = #{item.bookName,jdbcType=VARCHAR} and
+                    author = #{item.bookAuthor,jdbcType=VARCHAR}
+                </trim>
+            </foreach>
+        </where>
+    </select>
 </mapper>

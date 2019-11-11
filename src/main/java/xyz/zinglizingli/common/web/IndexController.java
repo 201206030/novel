@@ -1,12 +1,8 @@
-package xyz.zinglizingli.search.web;
+package xyz.zinglizingli.common.web;
 
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import xyz.zinglizingli.search.utils.ContentFactory;
-
-import java.util.Set;
 
 @Controller
 @RequestMapping

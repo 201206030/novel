@@ -1,4 +1,4 @@
-package xyz.zinglizingli.search.utils;
+package xyz.zinglizingli.common.utils;
 
 import java.util.*;
 

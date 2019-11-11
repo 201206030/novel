@@ -1,24 +1,18 @@
 package xyz.zinglizingli.books.web;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 import xyz.zinglizingli.books.constant.CacheKeyConstans;
 import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.po.BookContent;
@@ -26,20 +20,15 @@ import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.po.ScreenBullet;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.vo.BookVO;
-import xyz.zinglizingli.search.cache.CommonCacheUtil;
-import xyz.zinglizingli.search.utils.RestTemplateUtil;
+import xyz.zinglizingli.common.cache.CommonCacheUtil;
+import xyz.zinglizingli.common.config.IndexRecBooksConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping("book")
@@ -52,12 +41,26 @@ public class BookController {
     @Autowired
     private CommonCacheUtil commonCacheUtil;
 
+    @Autowired
+    private IndexRecBooksConfig indexRecBooksConfig;
+
 
     private Logger log = LoggerFactory.getLogger(BookController.class);
 
 
     @RequestMapping("index.html")
     public String index(ModelMap modelMap) {
+
+        List<Book> recBooks = (List<Book>) commonCacheUtil.getObject(CacheKeyConstans.REC_BOOK_LIST_KEY);
+        if (!indexRecBooksConfig.isRead() || recBooks == null) {
+            List<Map<String,String>> configMap = indexRecBooksConfig.getRecBooks();
+            //查询推荐书籍数据
+            recBooks = bookService.queryRecBooks(configMap);
+            commonCacheUtil.setObject(CacheKeyConstans.REC_BOOK_LIST_KEY, recBooks, 60 * 60 * 24 * 10);
+            indexRecBooksConfig.setRead(true);
+        }
+
+
         List<Book> hotBooks = (List<Book>) commonCacheUtil.getObject(CacheKeyConstans.HOT_BOOK_LIST_KEY);
         if (hotBooks == null) {
             //查询热点数据
@@ -70,6 +73,7 @@ public class BookController {
             newBooks = bookService.search(1, 20, null, null, null, null, null, null, null, "update_time", "DESC");
             commonCacheUtil.setObject(CacheKeyConstans.NEWST_BOOK_LIST_KEY, newBooks, 60 * 30);
         }
+        modelMap.put("recBooks", recBooks);
         modelMap.put("hotBooks", hotBooks);
         modelMap.put("newBooks", newBooks);
         return "books/index";
@@ -339,8 +343,6 @@ public class BookController {
         }
 
     }
-
-
 
 
 }
