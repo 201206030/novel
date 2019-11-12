@@ -566,7 +566,7 @@ public class CrawlBooksSchedule {
                                             book.setCatid(catNum);
                                             book.setBookDesc(desc);
                                             book.setBookName(bookName);
-                                            book.setScore(score);
+                                            book.setScore(score>10?8.0f:score);
                                             book.setPicUrl(picSrc);
                                             book.setBookStatus(status);
                                             book.setUpdateTime(updateTime);
@@ -765,7 +765,7 @@ public class CrawlBooksSchedule {
                                     book.setCatid(catNum);
                                     book.setBookDesc(desc);
                                     book.setBookName(bookName);
-                                    book.setScore(score);
+                                    book.setScore(score>10?8.0f:score);
                                     book.setPicUrl(picSrc);
                                     book.setBookStatus(status);
                                     book.setUpdateTime(updateTime);
