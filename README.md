@@ -65,11 +65,25 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
 ![mini4](./assets/mini4.png)
 
+
+
 #### 功能开发清单（包括待开发计划）
 
 [点击下载高清大图](./assets/小说精品屋功能清单.twdx)
 
-![1573589880588](./assets/1573589880588.png)
+![1573589880588](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/1573592459699.png)
+
+#### 后期架构演进
+
+为了满足部分网站用户量大、并发量高的需求，将计划明年5月份之前上线Spring Cloud微服务架构的分支版本供有此需求的用户使用。
+
+计划开发技术栈：Nginx + Spring Cloud + Spring Security OAuth2 SSO + Mybatis + Redis + Mycat + Mysql + RabbitMq + Elastic Search + FastDfs 。
+
+架构设计图：
+
+![1573589880588](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/springcloud.jpg)
+
+后续系统功能会越来越多，结构会越来越复杂，所以将考虑出完整图文和视频教程，请大家持续关注。喜欢此项目的可以给我的GitHub和Gitee加个Star支持一下 。
 
 ##### 演示地址1
 
