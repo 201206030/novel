@@ -71,7 +71,7 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
 [点击下载高清大图](./assets/小说精品屋功能清单.twdx)
 
-![1573589880588](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/1573592459699.png)
+![1573589880588](./assets/1573592459699.png)
 
 #### 后期架构演进
 
@@ -81,7 +81,7 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
 架构设计图：
 
-![1573589880588](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/springcloud.jpg)
+![1573589880588](./assets/springcloud.jpg)
 
 后续系统功能会越来越多，结构会越来越复杂，所以将考虑出完整图文和视频教程，请大家持续关注。喜欢此项目的可以给我的GitHub和Gitee加个Star支持一下 。
 
