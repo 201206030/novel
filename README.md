@@ -21,7 +21,7 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
    ![](./assets/index_config.png)
 
-4. 根据需求，修改项目application.yml配置文件中的爬取小说最低分配置。
+4. 根据需求，修改项目application.yml配置文件中的爬取小说最低评分配置（建议和爬虫程序中的最低评分配置保持一致）。
 
    ![](./assets/score_config.png)
 
