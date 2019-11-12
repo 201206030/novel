@@ -3,6 +3,7 @@ package xyz.zinglizingli.common.schedule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -32,6 +33,9 @@ public class CrawlBooksSchedule {
     private BookService bookService;
 
     RestTemplate restTemplate = RestTemplateUtil.getInstance("utf-8");
+
+    @Value("${books.lowestScore}")
+    private Float lowestScore;
 
 
     private boolean isExcuting = false;
@@ -485,7 +489,7 @@ public class CrawlBooksSchedule {
             try {
                 Float score = Float.parseFloat(scoreMatch.group(1));
 
-                if (score < 8.0) {//数据库空间有效暂时爬取7.5分以上的小说
+                if (score < lowestScore) {//数据库空间有限，暂时爬取8.0分以上的小说
                     continue;
                 }
 
@@ -725,7 +729,7 @@ public class CrawlBooksSchedule {
             try {
                 Float score = Float.parseFloat(scoreMatch.group(1));
 
-                if (score < 8.0) {//数据库空间有效暂时爬取7.5分以上的小说
+                if (score < lowestScore) {//数据库空间有限，暂时爬取8.0分以上的小说
                     continue;
                 }
                 String bookName = bookNameMatch.group(1);

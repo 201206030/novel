@@ -15,17 +15,23 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
 2. 修改项目application.yml配置文件中的数据库配置。
 
+   ![](./assets/database_config.png)
+
 3. 修改项目application.yml配置文件中的首页本站推荐小说配置（修改的小说需要在数据库中存在）。
 
    ![](./assets/index_config.png)
 
-4. 本地直接运行或使用maven插件打包成jar文件上传到服务器上。
+4. 根据需求，修改项目application.yml配置文件中的爬取小说最低分配置。
 
-5. `http://ip:port`访问首页。
+   ![](./assets/score_config.png)
 
-6. `http://ip:port/books`访问精品小说模块。
+5. 本地直接运行或使用maven插件打包成jar文件上传到服务器上。
 
-7. `http://ip:port/book/searchSoftBook.html`访问轻小说模块。
+6. `http://ip:port`访问首页。
+
+7. `http://ip:port/books`访问精品小说模块。
+
+8. `http://ip:port/book/searchSoftBook.html`访问轻小说模块。
 
 #### 项目截图
 

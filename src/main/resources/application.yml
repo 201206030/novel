@@ -62,7 +62,9 @@ index:
 mysql:
   charset: utf8mb4
 
-
+#爬取小说数据的最低评分
+books:
+  lowestScore: 8.0
 
 
 search:
