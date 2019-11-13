@@ -40,7 +40,7 @@ public class SendUrlSchedule {
     private Logger log = LoggerFactory.getLogger(SendUrlSchedule.class);
 
 
-    @Scheduled(cron = "0 0 1 * * 1")
+    //@Scheduled(cron = "0 0 1 * * 1")
     public void sendAllBookToBaidu() {
         System.out.println("sendAllBookToBaidu。。。。。。。。。。。。。。。");
 

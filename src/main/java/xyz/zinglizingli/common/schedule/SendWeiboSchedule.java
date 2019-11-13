@@ -46,7 +46,7 @@ public class SendWeiboSchedule {
     private static final String BOOKNAME_CACHE_PREFIX = "bookName_Cache_Prefix:";
 
 
-    @Scheduled(fixedRate = 1000 * 60 * 35)
+    //@Scheduled(fixedRate = 1000 * 60 * 35)
     public void sendAtDay() {
         log.debug("sendWeoboSchedule执行中。。。。。。。。。。。。");
         if (!isExcuting) {
