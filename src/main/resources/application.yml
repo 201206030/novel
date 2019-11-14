@@ -64,8 +64,12 @@ mysql:
 
 #爬取小说数据的最低评分
 books:
-  lowestScore: 8.0
+  lowestScore: 6.0
 
+#爬取的网站名称类型 1：笔趣岛 ，2：笔趣塔  更多网站解析中，敬请期待
+crawl:
+  website:
+    type: 1
 
 search:
   schedule:
