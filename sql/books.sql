@@ -1,19 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : 蜂鸟服务器
-Source Server Version : 80017
-Source Host           : 120.79.187.46:3306
-Source Database       : books
-
-Target Server Type    : MYSQL
-Target Server Version : 80017
-File Encoding         : 65001
-
-Date: 2019-11-11 17:43:17
-*/
-
-SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
 -- Table structure for book
@@ -31,10 +15,10 @@ CREATE TABLE `book` (
   `visit_count` bigint(20) DEFAULT '103',
   `update_time` datetime NOT NULL,
   `soft_cat` int(10) DEFAULT '0',
-  `soft_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '',
+  `soft_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `key_uniq_name_author` (`book_name`,`author`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=6320 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6320 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for book_content
@@ -45,10 +29,10 @@ CREATE TABLE `book_content` (
   `book_id` bigint(20) NOT NULL,
   `index_id` bigint(20) DEFAULT NULL,
   `index_num` int(5) NOT NULL,
-  `content` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `content` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
   PRIMARY KEY (`id`),
   UNIQUE KEY `key_bookid_indexnum` (`book_id`,`index_num`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3158081 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3158081 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for book_index
@@ -58,10 +42,10 @@ CREATE TABLE `book_index` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `book_id` bigint(20) NOT NULL,
   `index_num` int(5) NOT NULL,
-  `index_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `index_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `unq_bookid_indexNum` (`book_id`,`index_num`)
-) ENGINE=InnoDB AUTO_INCREMENT=3572436 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3572436 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for category
@@ -74,7 +58,7 @@ CREATE TABLE `category` (
   `get_url` varchar(100) DEFAULT NULL,
   `req_url` varchar(100) DEFAULT '本站请求的URL',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for screen_bullet
@@ -87,7 +71,7 @@ CREATE TABLE `screen_bullet` (
   `create_time` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `key_content_id` (`content_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for user
@@ -98,7 +82,7 @@ CREATE TABLE `user` (
   `login_name` varchar(50) NOT NULL,
   `password` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Table structure for user_ref_book
@@ -109,4 +93,4 @@ CREATE TABLE `user_ref_book` (
   `user_id` bigint(20) NOT NULL,
   `book_id` bigint(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
