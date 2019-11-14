@@ -25,13 +25,17 @@ Springboot+Mybatis+Mysql+Ehcache+Thymeleaf+Layui
 
    ![](./assets/score_config.png)
 
-5. 本地直接运行或使用maven插件打包成jar文件上传到服务器上。
+5. 根据需求，修改项目application.yml配置文件中的小说爬虫源配置。
 
-6. `http://ip:port`访问首页。
+   ![](./assets/craw_config.png)
 
-7. `http://ip:port/books`访问精品小说模块。
+6. 本地直接运行或使用maven插件打包成jar文件上传到服务器上。
 
-8. `http://ip:port/book/searchSoftBook.html`访问轻小说模块。
+7. `http://ip:port`访问首页。
+
+8. `http://ip:port/books`访问精品小说模块。
+
+9. `http://ip:port/book/searchSoftBook.html`访问轻小说模块。
 
 #### 项目截图
 
