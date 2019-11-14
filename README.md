@@ -20,29 +20,29 @@ novel-admin ：平台后台管理系统源码
 
 1. 电脑端（首页）
 
-   ![index](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/%E7%B2%BE%E5%93%81%E5%B0%8F%E8%AF%B4%E6%A5%BC.png)
+   ![index](./assets/%E7%B2%BE%E5%93%81%E5%B0%8F%E8%AF%B4%E6%A5%BC.png)
 
 2. 移动端（首页）
 
-   ![index](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/QQ%E5%9B%BE%E7%89%8720191018162208.jpg)
+   ![index](./assets/QQ%E5%9B%BE%E7%89%8720191018162208.jpg)
 
 3. 移动端（轻小说专区）
 
-   ![index](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/QQ%E5%9B%BE%E7%89%8720191018161330.jpg)
+   ![index](./assets/QQ%E5%9B%BE%E7%89%8720191018161330.jpg)
 
 4. 移动端（小说详情页）
 
-   ![微信图片_20190904181558](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20190904181558.png)
+   ![微信图片_20190904181558](./assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20190904181558.png)
 
    
 
 5. 移动端（目录页）
 
-   ![QQ图片20191018161901](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/QQ%E5%9B%BE%E7%89%8720191108022250.png)
+   ![QQ图片20191018161901](./assets/QQ%E5%9B%BE%E7%89%8720191108022250.png)
 
 6. 移动端（小说阅读页）
 
-   ![QQ图片20191018161901](E:/baseprojectparent/70_GDSPP-EDU/fiction_house/assets/QQ%E5%9B%BE%E7%89%8720191018161901.png)
+   ![QQ图片20191018161901](./assets/QQ%E5%9B%BE%E7%89%8720191018161901.png)
 
    
 
