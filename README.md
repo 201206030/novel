@@ -70,15 +70,22 @@ novel-admin ：平台后台管理系统源码
 
 #### 安装教程
 
+数据库安装：
+
+1. 安装MySQL软件。
+2. 新建数据库books:create database books default character set utf8mb4 collate utf8mb4_general_ci 。
+3. 执行sql/books.sql文件。
+
+小说数据爬取方式：
+
+1. 拉取小说爬虫程序，按照说明文档爬取网络小说到数据库中。（[点击获取爬虫程序](https://gitee.com/xiongxyang/crawl-book)）（适用于本地多机器运行） 
+2. 安装后台管理系统后，打开爬虫管理菜单，点击爬虫运行按钮。（适用于线上环境运行，会占用较多服务器资源）
+
 平台后台管理系统安装：
 
-1. 新建数据库books:create database books default character set utf8mb4 collate utf8mb4_general_ci 。
+1. 修改application.yml文件中数据库配置。
 
-2. 执行sql/books.sql文件。
-
-3. 修改application.yml文件中数据库配置。
-
-4. 启动程序，登录后台系统，运行爬虫程序爬取小说数据。
+2. 启动程序，登录后台系统，运行爬虫程序爬取小说数据。
 
    ![](./assets/crawl_pic.png)
 
