@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java2nb.books.dao.BookDao">
+
+	<select id="get" resultType="com.java2nb.books.domain.BookDO">
+		select `id`,`catId`,`pic_url`,`book_name`,`author`,`book_desc`,`score`,`book_status`,`visit_count`,`update_time`,`soft_cat`,`soft_tag` from book where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.java2nb.books.domain.BookDO">
+		select `id`,`catId`,`pic_url`,`book_name`,`author`,`book_desc`,`score`,`book_status`,`visit_count`,`update_time`,`soft_cat`,`soft_tag` from book
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="catid != null and catid != ''"> and catId = #{catid} </if>
+		  		  <if test="picUrl != null and picUrl != ''"> and pic_url = #{picUrl} </if>
+		  		  <if test="bookName != null and bookName != ''"> and book_name = #{bookName} </if>
+		  		  <if test="author != null and author != ''"> and author = #{author} </if>
+		  		  <if test="bookDesc != null and bookDesc != ''"> and book_desc = #{bookDesc} </if>
+		  		  <if test="score != null and score != ''"> and score = #{score} </if>
+		  		  <if test="bookStatus != null and bookStatus != ''"> and book_status = #{bookStatus} </if>
+		  		  <if test="visitCount != null and visitCount != ''"> and visit_count = #{visitCount} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="softCat != null and softCat != ''"> and soft_cat = #{softCat} </if>
+		  		  <if test="softTag != null and softTag != ''"> and soft_tag = #{softTag} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from book
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="catid != null and catid != ''"> and catId = #{catid} </if>
+		  		  <if test="picUrl != null and picUrl != ''"> and pic_url = #{picUrl} </if>
+		  		  <if test="bookName != null and bookName != ''"> and book_name = #{bookName} </if>
+		  		  <if test="author != null and author != ''"> and author = #{author} </if>
+		  		  <if test="bookDesc != null and bookDesc != ''"> and book_desc = #{bookDesc} </if>
+		  		  <if test="score != null and score != ''"> and score = #{score} </if>
+		  		  <if test="bookStatus != null and bookStatus != ''"> and book_status = #{bookStatus} </if>
+		  		  <if test="visitCount != null and visitCount != ''"> and visit_count = #{visitCount} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		  <if test="softCat != null and softCat != ''"> and soft_cat = #{softCat} </if>
+		  		  <if test="softTag != null and softTag != ''"> and soft_tag = #{softTag} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.java2nb.books.domain.BookDO" useGeneratedKeys="true" keyProperty="id">
+		insert into book
+		(
+			`id`, 
+			`catId`, 
+			`pic_url`, 
+			`book_name`, 
+			`author`, 
+			`book_desc`, 
+			`score`, 
+			`book_status`, 
+			`visit_count`, 
+			`update_time`, 
+			`soft_cat`, 
+			`soft_tag`
+		)
+		values
+		(
+			#{id}, 
+			#{catid}, 
+			#{picUrl}, 
+			#{bookName}, 
+			#{author}, 
+			#{bookDesc}, 
+			#{score}, 
+			#{bookStatus}, 
+			#{visitCount}, 
+			#{updateTime}, 
+			#{softCat}, 
+			#{softTag}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.java2nb.books.domain.BookDO">
+		update book 
+		<set>
+			<if test="catid != null">`catId` = #{catid}, </if>
+			<if test="picUrl != null">`pic_url` = #{picUrl}, </if>
+			<if test="bookName != null">`book_name` = #{bookName}, </if>
+			<if test="author != null">`author` = #{author}, </if>
+			<if test="bookDesc != null">`book_desc` = #{bookDesc}, </if>
+			<if test="score != null">`score` = #{score}, </if>
+			<if test="bookStatus != null">`book_status` = #{bookStatus}, </if>
+			<if test="visitCount != null">`visit_count` = #{visitCount}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}, </if>
+			<if test="softCat != null">`soft_cat` = #{softCat}, </if>
+			<if test="softTag != null">`soft_tag` = #{softTag}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from book where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from book where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

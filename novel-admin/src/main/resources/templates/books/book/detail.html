@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content ">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-content">
+                    <form class="form-horizontal m-t" id="signupForm">
+                        <input id="id" name="id" th:value="${book.id}"
+                               type="hidden">
+                                                                                                                                        <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="catid" name="catid" class="form-control"
+                                                   th:value="${book.catid}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="picUrl" name="picUrl" class="form-control"
+                                                   th:value="${book.picUrl}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="bookName" name="bookName" class="form-control"
+                                                   th:value="${book.bookName}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="author" name="author" class="form-control"
+                                                   th:value="${book.author}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="bookDesc" name="bookDesc" class="form-control"
+                                                   th:value="${book.bookDesc}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="score" name="score" class="form-control"
+                                                   th:value="${book.score}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="bookStatus" name="bookStatus" class="form-control"
+                                                   th:value="${book.bookStatus}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="visitCount" name="visitCount" class="form-control"
+                                                   th:value="${book.visitCount}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="updateTime" name="updateTime" class="form-control"
+                                                   th:value="${book.updateTime}==null?null:${#dates.format(book.updateTime,'yyyy-MM-dd HH:mm:ss')}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="softCat" name="softCat" class="form-control"
+                                                   th:value="${book.softCat}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                                                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">：</label>
+                                    <div class="col-sm-8">
+                                                                                    <input readonly id="softTag" name="softTag" class="form-control"
+                                                   th:value="${book.softTag}"
+                                                   type="text">
+                                        
+
+
+                                    </div>
+                                </div>
+                                                                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="include::footer"></div>
+</body>
+</html>

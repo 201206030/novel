@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java2nb.common.dao.DictDao">
+
+	<select id="get" resultType="com.java2nb.common.domain.DictDO">
+		select
+		`id`,`name`,`value`,`type`,`description`,`sort`,`parent_id`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag`
+		from sys_dict where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.java2nb.common.domain.DictDO">
+		select
+		`id`,`name`,`value`,`type`,`description`,`sort`,`parent_id`,`create_by`,`create_date`,`update_by`,`update_date`,`remarks`,`del_flag`
+		from sys_dict
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="value != null and value != ''"> and value = #{value} </if>
+			<if test="type != null and type != ''"> and type = #{type} </if>
+			<if test="description != null and description != ''"> and description = #{description} </if>
+			<if test="sort != null and sort != ''"> and sort = #{sort} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+			<if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+			<if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+			<if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+			<if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+			<if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+			<if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		</where>
+		<choose>
+			<when test="sort != null and sort.trim() != ''">
+				order by ${sort} ${order}
+			</when>
+			<otherwise>
+				order by id desc
+			</otherwise>
+		</choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="count" resultType="int">
+		select count(*) from sys_dict
+		<where>
+			<if test="id != null and id != ''"> and id = #{id} </if>
+			<if test="name != null and name != ''"> and name = #{name} </if>
+			<if test="value != null and value != ''"> and value = #{value} </if>
+			<if test="type != null and type != ''"> and type = #{type} </if>
+			<if test="description != null and description != ''"> and description = #{description} </if>
+			<if test="sort != null and sort != ''"> and sort = #{sort} </if>
+			<if test="parentId != null and parentId != ''"> and parent_id = #{parentId} </if>
+			<if test="createBy != null and createBy != ''"> and create_by = #{createBy} </if>
+			<if test="createDate != null and createDate != ''"> and create_date = #{createDate} </if>
+			<if test="updateBy != null and updateBy != ''"> and update_by = #{updateBy} </if>
+			<if test="updateDate != null and updateDate != ''"> and update_date = #{updateDate} </if>
+			<if test="remarks != null and remarks != ''"> and remarks = #{remarks} </if>
+			<if test="delFlag != null and delFlag != ''"> and del_flag = #{delFlag} </if>
+		</where>
+	</select>
+
+	<insert id="save" parameterType="com.java2nb.common.domain.DictDO"
+		useGeneratedKeys="true" keyProperty="id">
+		insert into sys_dict
+		(
+		`name`,
+		`value`,
+		`type`,
+		`description`,
+		`sort`,
+		`parent_id`,
+		`create_by`,
+		`create_date`,
+		`update_by`,
+		`update_date`,
+		`remarks`,
+		`del_flag`
+		)
+		values
+		(
+		#{name},
+		#{value},
+		#{type},
+		#{description},
+		#{sort},
+		#{parentId},
+		#{createBy},
+		#{createDate},
+		#{updateBy},
+		#{updateDate},
+		#{remarks},
+		#{delFlag}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.java2nb.common.domain.DictDO">
+		update sys_dict
+		<set>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="value != null">`value` = #{value}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="description != null">`description` = #{description}, </if>
+			<if test="sort != null">`sort` = #{sort}, </if>
+			<if test="parentId != null">`parent_id` = #{parentId}, </if>
+			<if test="createBy != null">`create_by` = #{createBy}, </if>
+			<if test="createDate != null">`create_date` = #{createDate}, </if>
+			<if test="updateBy != null">`update_by` = #{updateBy}, </if>
+			<if test="updateDate != null">`update_date` = #{updateDate}, </if>
+			<if test="remarks != null">`remarks` = #{remarks}, </if>
+			<if test="delFlag != null">`del_flag` = #{delFlag}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="remove">
+		delete from sys_dict where id = #{value}
+	</delete>
+
+	<delete id="batchRemove">
+		delete from sys_dict where id in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<select id="listType" resultType="com.java2nb.common.domain.DictDO">
+		select distinct `type` , description from sys_dict
+	</select>
+
+</mapper>

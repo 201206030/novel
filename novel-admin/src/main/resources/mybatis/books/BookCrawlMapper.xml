@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java2nb.books.dao.BookCrawlDao">
+
+	<select id="get" resultType="com.java2nb.books.domain.BookCrawlDO">
+		select `id`,`crawl_web_name`,`crawl_web_url`,`crawl_web_code`,`status` from book_crawl where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.java2nb.books.domain.BookCrawlDO">
+		select `id`,`crawl_web_name`,`crawl_web_url`,`crawl_web_code`,`status` from book_crawl
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="crawlWebName != null and crawlWebName != ''"> and crawl_web_name = #{crawlWebName} </if>
+		  		  <if test="crawlWebUrl != null and crawlWebUrl != ''"> and crawl_web_url = #{crawlWebUrl} </if>
+		  		  <if test="crawlWebCode != null and crawlWebCode != ''"> and crawl_web_code = #{crawlWebCode} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from book_crawl
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="crawlWebName != null and crawlWebName != ''"> and crawl_web_name = #{crawlWebName} </if>
+		  		  <if test="crawlWebUrl != null and crawlWebUrl != ''"> and crawl_web_url = #{crawlWebUrl} </if>
+		  		  <if test="crawlWebCode != null and crawlWebCode != ''"> and crawl_web_code = #{crawlWebCode} </if>
+		  		  <if test="status != null and status != ''"> and status = #{status} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.java2nb.books.domain.BookCrawlDO">
+		insert into book_crawl
+		(
+			`id`, 
+			`crawl_web_name`, 
+			`crawl_web_url`, 
+			`crawl_web_code`, 
+			`status`
+		)
+		values
+		(
+			#{id}, 
+			#{crawlWebName}, 
+			#{crawlWebUrl}, 
+			#{crawlWebCode}, 
+			#{status}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.java2nb.books.domain.BookCrawlDO">
+		update book_crawl 
+		<set>
+			<if test="crawlWebName != null">`crawl_web_name` = #{crawlWebName}, </if>
+			<if test="crawlWebUrl != null">`crawl_web_url` = #{crawlWebUrl}, </if>
+			<if test="crawlWebCode != null">`crawl_web_code` = #{crawlWebCode}, </if>
+			<if test="status != null">`status` = #{status}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from book_crawl where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from book_crawl where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<update id="initStatus">
+		update book_crawl set status = 0
+	</update>
+
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java2nb.books.dao.BookIndexDao">
+
+	<select id="get" resultType="com.java2nb.books.domain.BookIndexDO">
+		select `id`,`book_id`,`index_num`,`index_name` from book_index where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.java2nb.books.domain.BookIndexDO">
+		select `id`,`book_id`,`index_num`,`index_name` from book_index
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="bookId != null and bookId != ''"> and book_id = #{bookId} </if>
+		  		  <if test="indexNum != null and indexNum != ''"> and index_num = #{indexNum} </if>
+		  		  <if test="indexName != null and indexName != ''"> and index_name = #{indexName} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from book_index
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="bookId != null and bookId != ''"> and book_id = #{bookId} </if>
+		  		  <if test="indexNum != null and indexNum != ''"> and index_num = #{indexNum} </if>
+		  		  <if test="indexName != null and indexName != ''"> and index_name = #{indexName} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.java2nb.books.domain.BookIndexDO" useGeneratedKeys="true" keyProperty="id">
+		insert into book_index
+		(
+			`id`, 
+			`book_id`, 
+			`index_num`, 
+			`index_name`
+		)
+		values
+		(
+			#{id}, 
+			#{bookId}, 
+			#{indexNum}, 
+			#{indexName}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.java2nb.books.domain.BookIndexDO">
+		update book_index 
+		<set>
+			<if test="bookId != null">`book_id` = #{bookId}, </if>
+			<if test="indexNum != null">`index_num` = #{indexNum}, </if>
+			<if test="indexName != null">`index_name` = #{indexName}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from book_index where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from book_index where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<insert id="insertBatch" parameterType="java.util.List">
+		insert into book_index (book_id, index_num, index_name)
+		values
+		<foreach collection="list" item="item" index="index"
+				 separator=",">
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+				#{item.bookId,jdbcType=VARCHAR},
+				#{item.indexNum,jdbcType=VARCHAR},
+				#{item.indexName,jdbcType=VARCHAR},
+			</trim>
+		</foreach>
+	</insert>
+
+</mapper>
