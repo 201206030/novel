@@ -152,7 +152,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 				parseBiquTaBook(bookPatten, forObject, i, baseUrl);
 				while (currentPage < totalPage) {
 					if(isInteruptBiquTaCrawl){
-						break;
+						return;
 					}
 
 					catBookListUrl = catBookListUrlBase + i + "/" + (currentPage + 1) + ".html";
@@ -196,7 +196,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 		System.out.println("匹配分数" + scoreFind);
 		while (isFind && scoreFind && isBookNameMatch && isFindAuthor) {
 			if(isInteruptBiquTaCrawl){
-				break;
+				return;
 			}
 
 			try {
@@ -274,7 +274,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
 											while (isFindIndex) {
 												if(isInteruptBiquTaCrawl){
-													break;
+													return;
 												}
 
 												if (!hasIndexNum.contains(indexNum)) {
@@ -371,7 +371,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 				while (currentPage < totalPage) {
 
 					if(isInteruptBiquDaoCrawl){
-						break;
+						return;
 					}
 
 					catBookListUrl = catBookListUrlBase + i + "/" + (currentPage + 1) + ".html";
@@ -419,7 +419,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
 			try {
 				if(isInteruptBiquDaoCrawl){
-					break;
+					return;
 				}
 
 
@@ -497,7 +497,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
 											while (isFindIndex) {
 												if(isInteruptBiquDaoCrawl){
-													break;
+													return;
 												}
 												if (!hasIndexNum.contains(indexNum)) {
 
