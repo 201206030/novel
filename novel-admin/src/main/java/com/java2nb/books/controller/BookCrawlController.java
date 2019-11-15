@@ -1,8 +1,13 @@
 package com.java2nb.books.controller;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.java2nb.books.config.CrawlConfig;
+import com.java2nb.common.utils.GenUtils;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,11 +35,15 @@ import com.java2nb.common.utils.R;
  * @date 2019-11-15 03:42:54
  */
 
+@Slf4j
 @Controller
 @RequestMapping("/books/bookCrawl")
 public class BookCrawlController {
     @Autowired
     private BookCrawlService bookCrawlService;
+
+    @Autowired
+    private CrawlConfig crawlConfig;
 
     @GetMapping()
     @RequiresPermissions("books:bookCrawl:bookCrawl")
@@ -63,11 +72,9 @@ public class BookCrawlController {
     }
 
     @ApiOperation(value = "修改页面", notes = "修改页面")
-    @GetMapping("/edit/{id}")
-    @RequiresPermissions("books:bookCrawl:edit")
-    String edit(@PathVariable("id") Long id, Model model) {
-            BookCrawlDO bookCrawl = bookCrawlService.get(id);
-        model.addAttribute("bookCrawl", bookCrawl);
+    @GetMapping("/edit")
+    String edit( Model model) throws Exception {
+        model.addAttribute("property", crawlConfig);
         return "books/bookCrawl/edit";
     }
 
@@ -100,9 +107,8 @@ public class BookCrawlController {
     @ApiOperation(value = "修改", notes = "修改")
     @ResponseBody
     @RequestMapping("/update")
-    @RequiresPermissions("books:bookCrawl:edit")
-    public R update( BookCrawlDO bookCrawl) {
-            bookCrawlService.update(bookCrawl);
+    public R update(CrawlConfig config) {
+        crawlConfig = config;
         return R.ok();
     }
 

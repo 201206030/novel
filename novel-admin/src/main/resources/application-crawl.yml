@@ -1,0 +1,11 @@
+crawl:
+  #爬虫线程数
+  threadCount: 1
+    #爬取优先级 1：评分优先 2：更新时间优先
+  priority: 1
+    #小说最低评分
+  lowestScore: 7.8
+    #小说最小更新时间
+  minUptTime: 2000-01-01
+    #爬取最大条数
+  maxNumber: 100000

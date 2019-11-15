@@ -163,7 +163,7 @@ function edit(){
     console.log('打开配置页面');
     layer.open({
         type : 2,
-        title : '增加',
+        title : '爬虫配置修改',
         maxmin : true,
         shadeClose : false,
         area : [ '800px', '520px' ],

@@ -31,6 +31,7 @@ spring:
     type: redis
 
 
+
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
@@ -76,6 +77,8 @@ spring:
         max-active: 100
         # 连接池最大阻塞等待时间（使用负值表示没有限制）
         max-wait: -1
+  profiles:
+    include: crawl
 mybatis:
   configuration:
     #自动将数据库带下划线的表字段值映射到Java类的驼峰字段上

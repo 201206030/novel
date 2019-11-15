@@ -1,5 +1,6 @@
 package com.java2nb.books.service.impl;
 
+import com.java2nb.books.config.CrawlConfig;
 import com.java2nb.books.dao.BookContentDao;
 import com.java2nb.books.dao.BookDao;
 import com.java2nb.books.dao.BookIndexDao;
@@ -7,6 +8,7 @@ import com.java2nb.books.domain.BookContentDO;
 import com.java2nb.books.domain.BookDO;
 import com.java2nb.books.domain.BookIndexDO;
 import com.java2nb.books.util.RestTemplateUtil;
+import com.java2nb.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class BookCrawlServiceImpl implements BookCrawlService {
+
+    @Autowired
+    private CrawlConfig crawlConfig;
 
     private boolean isInteruptBiquDaoCrawl;//是否中断笔趣岛爬虫程序
 
@@ -103,59 +108,66 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
 
     private void crawlBook(BookCrawlDO bookCrawl) {
-        for (int i = 1; i <= 7; i++) {
-
-            int finalI = i;
+        int threadCount = crawlConfig.getThreadCount();
+        int step = 7 / threadCount;
+        int pos = step;
+        int i = 1;
+        while (i <= 7) {
+            final int fPos = pos;
+            final int fI = i;
+            i = pos + 1;
             new Thread(
                     () -> {
+                        int j = fI;
+                        for (; j <= fPos; j++) {
+                            try {
 
-                        try {
-
-                            switch (bookCrawl.getCrawlWebCode()) {
-                                case 1: {
-                                    while (true) {
-                                        if (isInteruptBiquDaoCrawl) {
-                                            return;
+                                switch (bookCrawl.getCrawlWebCode()) {
+                                    case 1: {
+                                        while (true) {
+                                            if (isInteruptBiquDaoCrawl) {
+                                                return;
+                                            }
+                                            crawBiqudaoBooks(j);
+                                            Thread.sleep(1000 * 60 * 60 * 24);
                                         }
-                                        crawBiqudaoBooks(finalI);
-                                        Thread.sleep(1000 * 60 * 60 * 24);
                                     }
-                                }
-                                case 2: {
-                                    while (true) {
-                                        if (isInteruptBiquTaCrawl) {
-                                            return;
+                                    case 2: {
+                                        while (true) {
+                                            if (isInteruptBiquTaCrawl) {
+                                                return;
+                                            }
+                                            crawBiquTaBooks(j);
+                                            Thread.sleep(1000 * 60 * 60 * 24);
                                         }
-                                        crawBiquTaBooks(finalI);
-                                        Thread.sleep(1000 * 60 * 60 * 24);
                                     }
-                                }
 
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-							bookCrawl.setStatus(0);
-							bookCrawlDao.update(bookCrawl);
                         }
 
                     }
             ).start();
+            pos += step;
+            if (7 - pos < step) {
+                pos = 7;
+            }
         }
 
+        new Thread(() -> {
+            for (int j = 21; j <= 29; j++) {
 
 
-        for (int j = 21; j <= 29; j++) {
-            int finalJ = j;
-            new Thread(() -> {
-
-                for (int i = 1; i <= 499; i++) {
-                    if(isInteruptBiquTaCrawl || isInteruptBiquDaoCrawl){
+                for (int k = 1; k <= 499; k++) {
+                    if (isInteruptBiquTaCrawl || isInteruptBiquDaoCrawl) {
                         return;
                     }
-                    System.out.println("==============分类============：" + finalJ);
-                    System.out.println("==============页码============：" + i);
-                    int catId = finalJ;
-                    int page = i;
+                    System.out.println("==============分类============：" + j);
+                    System.out.println("==============页码============：" + k);
+                    int catId = j;
+                    int page = k;
 
                     String bookListUrl = "http://book.sfacg.com/List/default.aspx?&tid=" + catId + "&if=1&PageIndex=" + page;
 
@@ -168,7 +180,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
                         while (isFindBook) {
                             try {
-                                if(isInteruptBiquTaCrawl || isInteruptBiquDaoCrawl){
+                                if (isInteruptBiquTaCrawl || isInteruptBiquDaoCrawl) {
                                     return;
                                 }
                                 long bookNum = Long.parseLong(bookMatcher.group(1));
@@ -320,7 +332,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                                                                         List<Integer> hasIndexNum = queryIndexCountByBookNameAndBAuthor(bookName, author);
 
                                                                         while (isFindIndex) {
-                                                                            if(isInteruptBiquTaCrawl || isInteruptBiquDaoCrawl){
+                                                                            if (isInteruptBiquTaCrawl || isInteruptBiquDaoCrawl) {
                                                                                 return;
                                                                             }
                                                                             if (!hasIndexNum.contains(indexNum)) {
@@ -378,16 +390,18 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                     }
                 }
 
-            }).start();
 
-
-        }
+            }
+        }).start();
 
     }
 
     private void crawBiquTaBooks(int i) {
         String baseUrl = "https://m.biquta.com";
         String catBookListUrlBase = baseUrl + "/class/";
+        if (crawlConfig.getPriority() == 1) {
+            catBookListUrlBase = baseUrl + "/lhb/";
+        }
         //拼接分类URL
         int page = 1;//起始页码
         int totalPage = page;
@@ -457,10 +471,9 @@ public class BookCrawlServiceImpl implements BookCrawlService {
             try {
                 Float score = Float.parseFloat(scoreMatch.group(1));
 
-				/*if (score < lowestScore) {//数据库空间有限，暂时爬取8.0分以上的小说
-					// Thread.sleep(1000 * 60 * 60 * 24);//因为爬的是龙虎榜，所以遇到第一个8分以下的，之后的都是8分以下的
-					continue;
-				}*/
+                if (score < crawlConfig.getLowestScore()) {//数据库空间有限，暂时爬取8.0分以上的小说
+                    continue;
+                }
 
                 String bookName = bookNameMatch.group(1);
                 String author = authoreMatch.group(1);
@@ -487,6 +500,9 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                             String updateTimeStr = updateTimeMatch.group(1);
                             SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
                             Date updateTime = format.parse(updateTimeStr);
+                            if (updateTime.getTime() < new SimpleDateFormat("yyyy-MM-dd").parse(crawlConfig.getMinUptTime()).getTime()) {
+                                continue;
+                            }
                             Pattern picPatten = Pattern.compile("<img src=\"([^>]+)\"\\s+onerror=\"this.src=");
                             Matcher picMather = picPatten.matcher(body);
                             if (picMather.find()) {
@@ -605,7 +621,11 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
     private void crawBiqudaoBooks(final int i) {
         String baseUrl = "https://m.biqudao.com";
-        String catBookListUrlBase = baseUrl + "/bqgelhb/";
+        String catBookListUrlBase = baseUrl + "/bqgeclass/";
+        if (crawlConfig.getPriority() == 1) {
+
+            catBookListUrlBase = baseUrl + "/bqgelhb/";
+        }
         //拼接分类URL
         int page = 1;//起始页码
         int totalPage = page;
@@ -680,10 +700,9 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
                 Float score = Float.parseFloat(scoreMatch.group(1));
 
-				/*if (score < lowestScore) {//数据库空间有限，暂时爬取8.0分以上的小说
-					Thread.sleep(1000 * 60 * 60 * 24);//因为爬的是龙虎榜，所以遇到第一个8分以下的，之后的都是8分以下的
-					continue;
-				}*/
+                if (score < crawlConfig.getLowestScore()) {//数据库空间有限，暂时爬取8.0分以上的小说
+                    continue;
+                }
 
                 String bookName = bookNameMatch.group(1);
                 String author = authoreMatch.group(1);
@@ -710,6 +729,9 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                             String updateTimeStr = updateTimeMatch.group(1);
                             SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
                             Date updateTime = format.parse(updateTimeStr);
+                            if (updateTime.getTime() < new SimpleDateFormat("yyyy-MM-dd").parse(crawlConfig.getMinUptTime()).getTime()) {
+                                continue;
+                            }
                             Pattern picPatten = Pattern.compile("<img src=\"([^>]+)\"\\s+onerror=\"this.src=");
                             Matcher picMather = picPatten.matcher(body);
                             if (picMather.find()) {
