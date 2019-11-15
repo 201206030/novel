@@ -13,7 +13,7 @@ File Encoding         : 65001
 Date: 2019-11-15 06:10:36
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+
 
 -- ----------------------------
 -- Table structure for `book`
