@@ -98,14 +98,21 @@ function load() {
                     }]
             });
 }
-
+//防表单连续点击，需要等第一个点击有结果，才能进行第二次点击
+var lock = false;
 function updateStatus(id,cStatus,crawlWebCode,uStatus) {
-    if(cStatus === 1 && uStatus === 1){
+    if (lock) {
+        return;
+    }
+    lock = true;
 
+    if(cStatus === 1 && uStatus === 1){
+        lock = false;
         parent.layer.alert("正在运行中，无需重复运行");
         return;
     }
     if(cStatus === 0 && uStatus === 0){
+        lock = false;
         parent.layer.alert("已经停止运行，无需重复执行");
         return;
     }
@@ -116,9 +123,11 @@ function updateStatus(id,cStatus,crawlWebCode,uStatus) {
         data : {id:id,status:uStatus,crawlWebCode:crawlWebCode},// 你的formid
         async : false,
         error : function(request) {
+            lock = false;
             parent.layer.alert("Connection error");
         },
         success : function(data) {
+            lock = false;
             if (data.code == 0) {
                 layer.msg(data.msg);
                 reLoad();
