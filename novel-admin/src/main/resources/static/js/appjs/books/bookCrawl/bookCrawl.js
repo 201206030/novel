@@ -159,14 +159,15 @@ function detail(id) {
     });
 }
 
-function edit(id) {
+function edit(){
+    console.log('打开配置页面');
     layer.open({
-        type: 2,
-        title: '编辑',
-        maxmin: true,
-        shadeClose: false, // 点击遮罩关闭层
-        area: ['800px', '520px'],
-        content: prefix + '/edit/' + id // iframe的url
+        type : 2,
+        title : '增加',
+        maxmin : true,
+        shadeClose : false,
+        area : [ '800px', '520px' ],
+        content : prefix + '/edit'
     });
 }
 

@@ -309,35 +309,16 @@
     // 弹幕定时器
     var timers = [];
     // 控制弹幕显隐变量
+    //监听键盘事件
+    $("#screenBulletText").keypress(function (even) {
+        if (even.which == 13) {
+            //enter键按下
+            sendBullet();
+        }
+    });
     // 监听发送按钮
     $(".send").on("click", function () {
-        var bullet = $("#screenBulletText").val();
-        var contentId = $("#contentIdHidden").val();
-        if (bullet && contentId) {
-            $.ajax({
-                type: "POST",
-                url: "/book/sendBullet",
-                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
-                data: {contentId: contentId, bullet: bullet},
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var bullet = $("#screenBulletText").val("")
-                },
-                error: function (e) {
-                    console.log(e);
-                    layer.alert("发送失败");
-                    return;
-                }
-            });
-        } else {
-            layer.alert("发送内容不能为空");
-            return;
-        }
-        // 创建弹幕
-        var jqueryDom = createScreenbullet(bullet);
-        // 添加定时任务
-        addInterval(jqueryDom);
+        sendBullet();
     });
     // 监听关闭弹幕按钮
     $("[lay-skin='_switch']").click(function () {
@@ -487,6 +468,36 @@
 
         while(true)  if(new Date().getTime()-start > n) break;
 
+    }
+    //发送弹幕
+    function sendBullet(){
+        var bullet = $("#screenBulletText").val();
+        var contentId = $("#contentIdHidden").val();
+        if (bullet && contentId) {
+            $.ajax({
+                type: "POST",
+                url: "/book/sendBullet",
+                contentType: 'application/x-www-form-urlencoded;charset=utf-8',
+                data: {contentId: contentId, bullet: bullet},
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var bullet = $("#screenBulletText").val("")
+                },
+                error: function (e) {
+                    console.log(e);
+                    layer.alert("发送失败");
+                    return;
+                }
+            });
+        } else {
+            layer.alert("发送内容不能为空");
+            return;
+        }
+        // 创建弹幕
+        var jqueryDom = createScreenbullet(bullet);
+        // 添加定时任务
+        addInterval(jqueryDom);
     }
 </script>
 
