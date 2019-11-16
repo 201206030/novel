@@ -54,8 +54,8 @@ mybatis:
 index:
   recBooks:
     - {bookName: 黎明之剑,bookAuthor: 远瞳}
-    - {bookName: 诸天投影,bookAuthor: 裴屠狗}
-    - {bookName: 我有一座恐怖屋,bookAuthor: 我会修空调}
+    - {bookName: 最强装逼打脸系统,bookAuthor: 太上布衣}
+    - {bookName: 天道图书馆,bookAuthor: 横扫天涯}
 
 
 #mysql编码
