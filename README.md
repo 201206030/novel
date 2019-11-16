@@ -82,7 +82,7 @@ novel-admin ：平台后台管理系统源码
 2. 新建数据库books:create database books default character set utf8mb4 collate utf8mb4_general_ci 。
 3. 执行sql/books.sql文件。
 
-小说数据爬取方式：
+小说数据爬取的两种方式 ：
 
 1. 拉取小说爬虫程序，按照说明文档爬取网络小说到数据库中。（[点击获取爬虫程序](https://gitee.com/xiongxyang/crawl-book)）（适用于本地多机器运行） 
 2. 安装后台管理系统后，打开爬虫管理菜单，点击爬虫运行按钮。（适用于线上环境运行，会占用较多服务器资源）
