@@ -56,7 +56,13 @@ novel-admin ：平台后台管理系统源码
 
    ![](./assets/crawl_pic.png)
 
-   3.其他功能开发中。。。
+   3.爬虫配置界面。
+
+   ![](./assets/crawl_config.png)
+
+   4.其他功能开发中。。。
+
+   
 
 #### 微信小程序截图
 
@@ -76,7 +82,7 @@ novel-admin ：平台后台管理系统源码
 2. 新建数据库books:create database books default character set utf8mb4 collate utf8mb4_general_ci 。
 3. 执行sql/books.sql文件。
 
-小说数据爬取方式：
+小说数据爬取的两种方式 ：
 
 1. 拉取小说爬虫程序，按照说明文档爬取网络小说到数据库中。（[点击获取爬虫程序](https://gitee.com/xiongxyang/crawl-book)）（适用于本地多机器运行） 
 2. 安装后台管理系统后，打开爬虫管理菜单，点击爬虫运行按钮。（适用于线上环境运行，会占用较多服务器资源）
@@ -133,13 +139,25 @@ novel-admin ：平台后台管理系统源码
 
 ![1573589880588](./assets/springcloud.jpg)
 
-后续系统功能会越来越多，结构会越来越复杂，所以将考虑出完整图文和视频教程，请大家持续关注。喜欢此项目的可以给我的GitHub和Gitee加个Star支持一下 。
+后续系统功能会越来越多，结构会越来越复杂，所以将考虑出完整图文和视频教程，请大家持续关注。喜欢此项目的可以给我的GitHub和Gitee加个Star支持一下 。**如果你觉得此项目还不错，请给我投上宝贵的一票，谢谢！**
+
+**开源中国投票通道**：https://www.oschina.net/p/fiction_house
+
+![1573589880588](./assets/oschina_tp.png)
 
 ##### 演示地址1
 
 [点击前往](https://www.zinglizingli.xyz)（前台，快过期）
 
-##### 演示地址2（备用）
+**演示地址2**
+
+[点击前往](https://book.100boot.cn/)（前台，推荐）
+
+**演示地址3**
+
+[点击前往](http://www.jsy66.vip/)
+
+##### 演示地址4（备用）
 
 [点击前往](http://47.106.243.172)（前台）
 
