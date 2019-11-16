@@ -100,6 +100,16 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                 }
             }
         } else {
+            switch (bookCrawl.getCrawlWebCode()) {
+                case 1: {
+                    isInteruptBiquDaoCrawl = false;
+                    break;
+                }
+                case 2: {
+                    isInteruptBiquTaCrawl = false;
+                    break;
+                }
+            }
             crawlBook(bookCrawl);
         }
 
