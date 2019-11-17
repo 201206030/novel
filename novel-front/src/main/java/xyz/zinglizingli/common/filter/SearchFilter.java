@@ -181,7 +181,6 @@ public class SearchFilter implements Filter {
                       forObject=forObject.replace("class=\"red_box\"","style='display:none' class=\"red_box\"");
                         forObject=forObject.replace("<div class=\"show\"></div>","");
                         forObject=forObject.replace("<div class=\"light\"></div>","");
-                        forObject=forObject.replace("class=\"side_public\"","style='display:none' class=\"side_public\"");
                         forObject=forObject.replace("class=\"foot-detail\"","style='display:none' class=\"foot-detail\"");
                         forObject=forObject.replace("https://static.dmzj.com/ocomic/js/dmzjMhFinally-new.js","");
                         forObject=forObject.replace("https://static.dmzj.com/ocomic/js/dmzjMhFinally-new.js","");
@@ -191,7 +190,11 @@ public class SearchFilter implements Filter {
                         forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
                         forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
                         forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
-                        forObject=forObject.replace("<div id=\"float_nav_type\"></div>","")
+                        forObject=forObject.replace("<div id=\"float_nav_type\"></div>","");
+                        forObject=forObject.replace("class=\"side_public\"","");
+                        forObject=forObject.replace(" id=\"sidePublic\"","");
+                        forObject=forObject.replaceAll("globalNav.js","");
+                        forObject=forObject.replaceAll("TSB.js","");
 // forObject = forObject.replaceAll("/manhua/", "https://www.dmzj.com/")
 //                                    .replaceAll("笔趣岛", "酸味书屋")
 //                                    .replaceAll("笔趣阁", "酸味书屋")
