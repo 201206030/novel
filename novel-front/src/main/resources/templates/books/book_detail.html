@@ -141,6 +141,7 @@
 <input type="hidden" id="bookIdHidden" th:value="${bookId}"/>
 <input type="hidden" id="bookTagHidden" th:value="${book.softTag}"/>
 <input type="hidden" id="bookNamedHidden" th:value="${book.bookName}"/>
+<input type="hidden" id="catidHidden" th:value="${book.catid}"/>
 
 <div style="height: 50px;line-height: 50px;text-align: center" class="layui-header header header-doc  layui-bg-cyan">
 
@@ -308,9 +309,15 @@
             var innerHtml = "";
             for(var i=0; i< bookTag.length;i++){
                 var tag = bookTag[i];
-                innerHtml+=("<li class=\"tag\">\n" +
-                    "        <a href=\"/book/searchSoftBook.html?softTag="+encodeURI(tag)+"\" class=\"highlight\"><span class=\"layui-icon\">&#xe66e;</span><span class=\"text\">"+tag+"</span></a>\n" +
-                    "    </li>");
+                if($("#catidHidden").val() == 8) {
+                    innerHtml += ("<li class=\"tag\">\n" +
+                        "        <a href=\"/book/searchSoftBook.html?softTag=" + encodeURI(tag) + "\" class=\"highlight\"><span class=\"layui-icon\">&#xe66e;</span><span class=\"text\">" + tag + "</span></a>\n" +
+                        "    </li>");
+                }else{
+                    innerHtml += ("<li class=\"tag\">\n" +
+                        "        <a href=\"/book/searchMhBook.html?softTag=" + encodeURI(tag) + "\" class=\"highlight\"><span class=\"layui-icon\">&#xe66e;</span><span class=\"text\">" + tag + "</span></a>\n" +
+                        "    </li>");
+                }
             }
 
             $("#tagLi").html(innerHtml);
