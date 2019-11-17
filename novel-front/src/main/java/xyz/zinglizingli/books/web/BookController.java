@@ -150,6 +150,41 @@ public class BookController {
         return "books/soft_book_search";
     }
 
+    @RequestMapping("searchMhBook.html")
+    public String searchMhBook(@RequestParam(value = "curr", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "20") int pageSize,
+                                 @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "catId", defaultValue = "9") Integer catId,
+                                 @RequestParam(value = "softCat", required = false) Integer softCat,
+                                 @RequestParam(value = "bookStatus", required = false) String bookStatus,
+                                 @RequestParam(value = "softTag", required = false) String softTag,
+                                 @RequestParam(value = "sortBy", defaultValue = "update_time") String sortBy, @RequestParam(value = "sort", defaultValue = "DESC") String sort,
+                                 HttpServletRequest req, HttpServletResponse resp, ModelMap modelMap) {
+
+        String userId = null;
+        List<Book> books = bookService.search(page, pageSize, userId, null, keyword, bookStatus, catId, softCat, softTag, sortBy, sort);
+        List<BookVO> bookVOList;
+        bookVOList = new ArrayList<>();
+        for (Book book : books) {
+            BookVO bookvo = new BookVO();
+            BeanUtils.copyProperties(book, bookvo);
+            bookvo.setCateName(bookService.getMhCatNameById(bookvo.getSoftCat()));
+            bookVOList.add(bookvo);
+        }
+
+
+        PageInfo<Book> bookPageInfo = new PageInfo<>(books);
+        modelMap.put("limit", bookPageInfo.getPageSize());
+        modelMap.put("curr", bookPageInfo.getPageNum());
+        modelMap.put("total", bookPageInfo.getTotal());
+        modelMap.put("books", bookVOList);
+        modelMap.put("keyword", keyword);
+        modelMap.put("bookStatus", bookStatus);
+        modelMap.put("softCat", softCat);
+        modelMap.put("softTag", softTag);
+        modelMap.put("sortBy", sortBy);
+        modelMap.put("sort", sort);
+        return "books/mh_book_search";
+    }
+
     @RequestMapping("{bookId}.html")
     public String detail(@PathVariable("bookId") Long bookId, ModelMap modelMap) {
         //查询基本信息

@@ -320,7 +320,7 @@
                 </when>
                 <otherwise><!-- 我的书架和我的阅读记录查询所有记录，不分版块-->
                     <if test="(ids == null or ids == ''.toString()) and (userId == null or userId == ''.toString())">
-                    AND book.catId  <![CDATA[ <> ]]> 8
+                    AND book.catId  <![CDATA[ < ]]> 8
                     </if>
                 </otherwise>
             </choose>

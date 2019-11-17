@@ -211,6 +211,10 @@ public class BookService {
                 catName = "轻小说";
                 break;
             }
+            case 9: {
+                catName = "漫画";
+                break;
+            }
             default: {
                 break;
             }
@@ -446,6 +450,28 @@ public class BookService {
             }
             case 0: {
                 catName = "动漫";
+                break;
+            }
+            default: {
+                break;
+            }
+
+
+        }
+        return catName;
+
+    }
+
+    public String getMhCatNameById(Integer softCat) {
+        String catName = "其他";
+
+        switch (softCat) {
+            case 3262: {
+                catName = "少年漫";
+                break;
+            }
+            case 3263: {
+                catName = "少女漫";
                 break;
             }
             default: {
