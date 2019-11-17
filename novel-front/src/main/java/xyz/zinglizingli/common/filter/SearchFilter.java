@@ -93,76 +93,35 @@ public class SearchFilter implements Filter {
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         String requestURL = req.getRequestURL().toString();
         String requestURI = req.getRequestURI();
-        if(requestURL.contains("www.zinglizingli.xyz") || requestURL.contains("sf.zinglizingli.xyz")){
-            if(requestURI.matches("/*|(/index\\.html)")){
-                String requestDispatcher = "/book/index.html";
-                if(requestURL.contains("sf.zinglizingli.xyz")){
-                    requestDispatcher = "/book/searchSoftBook.html";
-                }
-                req.getRequestDispatcher(requestDispatcher).forward(servletRequest,servletResponse);
-                return;
-            }
-            filterChain.doFilter(servletRequest,servletResponse);
-            return;
-
-        }
-
 
         try {
 
-            if (requestURL.matches("http://m.zinglizingli.xyz(/*|(/index\\.html))") || requestURI.startsWith("/static/")) {
+            if (!requestURL.contains("/manhua/")) {
                 filterChain.doFilter(req, resp);
                 return;
             }
 
 
-            if (cacheUtil == null) {
-                cacheUtil = SpringUtil.getBean(CommonCacheUtil.class);
-            }
-
-            if (requestURL.contains("http://m.zinglizingli.xyz/search")) {
-                //搜索跳转
-                Map<String, String> otherParam = new HashMap<>();
-                otherParam.put("t", "1");
-                otherParam.put("keyword", req.getParameter("q"));
-                String realURL = "https://m.biquta.com/SearchBook.php";
-                forObject = postBiquta(req, realURL, otherParam);
-                resp.setCharacterEncoding("utf-8");
-
-            } else {
-
-                final String method = req.getMethod();
-                if (requestURL.contains("www.zinglizingli.xyz")) {
-
-                    String realUrl = "https://m.biquge.info" + requestURI;
-
-                    String postFix = requestURI.substring(requestURI.lastIndexOf(".") + 1);
+            final String method = req.getMethod();
 
 
-                    // 案例：充当客户端通过restTemplate请求网络数据，并充当服务端将数据返回给浏览器
-                    // 客户端请求数据：输入流（byte[]）==》字符串
-                    // 服务端响应数据：字符串 == 》 输出流（byte[]）
+                // 案例：充当客户端通过restTemplate请求网络数据，并充当服务端将数据返回给浏览器
+                // 客户端请求数据：输入流（byte[]）==》字符串
+                // 服务端响应数据：字符串 == 》 输出流（byte[]）
 
-                    //默认方式：
-                    //RestTemplate restTemplate = new RestTemplate();
-                    // ①当返回的response-header的content-type属性有charset值时，
-                    // restTemplate的StringHttpMessageConverter会设置默认charset为content-type属性
-                    // charset值
-                    // StringHttpMessageConverter.setDefaultCharset(Charset.forName(charset));
-                    // ②当返回的response-header的content-type属性没有charset值时
-                    // restTemplate的StringHttpMessageConverter会使用默认的charset即ISO-8859-1
+                //默认方式：
+                //RestTemplate restTemplate = new RestTemplate();
+                // ①当返回的response-header的content-type属性有charset值时，
+                // restTemplate的StringHttpMessageConverter会设置默认charset为content-type属性
+                // charset值
+                // StringHttpMessageConverter.setDefaultCharset(Charset.forName(charset));
+                // ②当返回的response-header的content-type属性没有charset值时
+                // restTemplate的StringHttpMessageConverter会使用默认的charset即ISO-8859-1
 
-                    if (picPostFix.contains(postFix)) {
-                        // 对服务端请求返回的输入流（byte[]）采用何种编码转换成字符串（String）
-                        restTemplate = RestTemplateUtil.getInstance("ISO-8859-1");//请求图片
-                        realUrl = "https://www.biquge.info" + requestURI;
-                        resp.setContentType("image/apng");
-                    } else {
-                        // 对服务端请求返回的输入流（byte[]）采用何种编码转换成字符串（String）
-                        restTemplate = RestTemplateUtil.getInstance("utf-8");//请求html/css/js等文件
-                        // 对客户端响应返回的字符串（String）采用何种编码转换成输出流（byte[]）
-                        resp.setCharacterEncoding("utf-8");
-                        setContentType(postFix, resp);
+                    // 对服务端请求返回的输入流（byte[]）采用何种编码转换成字符串（String）
+                    restTemplate = RestTemplateUtil.getInstance("utf-8");//请求html/css/js等文件
+                    // 对客户端响应返回的字符串（String）采用何种编码转换成输出流（byte[]）
+                    resp.setCharacterEncoding("utf-8");
 
                         /*//=====现在浏览器有编码自动识别功能，所以上面的代码没有加content-type的Header也没有问题==========
                         //=====正确做法应该是下面代码片段1和代码片段2二选一==========
@@ -181,311 +140,169 @@ public class SearchFilter implements Filter {
                         resp.setContentType("text/html;charset=utf-8");
                         //===============================================代码片段2===============================
 */
+
+
+                if (HttpMethod.GET.name().equals(method)) {
+
+
+                    String fileName = requestURI.substring(requestURI.lastIndexOf("/") + 1);
+                    if (localFileFix.contains(fileName) || fileName.startsWith("9a4a540e-1759-4268-90fa-7fb652c3604a.")) {
+                        filterChain.doFilter(servletRequest, servletResponse);
+                        return;
                     }
 
 
-                    if (HttpMethod.GET.name().equals(method)) {
 
-
-                        String fileName = requestURI.substring(requestURI.lastIndexOf("/") + 1);
-                        if (localFileFix.contains(fileName) || fileName.startsWith("9a4a540e-1759-4268-90fa-7fb652c3604a.")) {
-                            filterChain.doFilter(servletRequest, servletResponse);
-                            return;
-                        }
-
-
-                        if (requestURI.matches(SUANWEI_BOOK_HTML_REGEX)) {
-                            realUrl = realUrl.substring(0, realUrl.length() - 5);
-                        }
-
-                        String queryString = req.getQueryString();
-                        if (queryString != null && queryString.length() > 0 && !queryString.contains("bsh_bid=")) {
-                            queryString = "?" + URLDecoder.decode(req.getQueryString());
-                        } else {
-                            queryString = "";
-                        }
-                        realUrl = realUrl + queryString;
-
-
-                        forObject = cacheUtil.get(realUrl);
-                        if (forObject == null) {
-
-
-                            ResponseEntity<String> forEntity = restTemplate.getForEntity(realUrl, String.class);
-                            forObject = forEntity.getBody();
-
-                            //  forObject = new String(forObject.getBytes("ISO-8859-1"),"utf-8");
-                            if (!picPostFix.contains(postFix)) {
-                                forObject = forObject.replaceAll("https://m.biquge.info", "http://www.zinglizingli.xyz")
-                                        .replaceAll("https://www.biquge.info", "http://www.zinglizingli.xyz")
-                                        .replaceAll("笔趣岛", "酸味书屋")
-                                        .replaceAll("笔趣阁", "酸味书屋")
-                                        .replaceAll("<a href=\"/login.php\" id=\"login\" class=\"login\">登录</a>", "<a style=\"visibility:hidden\" href=\"/login.php\" id=\"login\" class=\"login\">登录</a>")
-                                        .replaceAll("</head>", "<script language=\"javascript\" type=\"text/javascript\" src=\"http://www.zinglizingli.xyz/js/wap_collect.js\"></script></head>")
-                                        .replaceFirst("</head>", "<script>" +
-                                                "var _hmt = _hmt || [];" +
-                                                "(function() {" +
-                                                "  var hm = document.createElement(\"script\");" +
-                                                "  hm.src = \"https://hm.baidu.com/hm.js?0bd7345ca6b694ea3dfbe87da008082e\";" +
-                                                "  var s = document.getElementsByTagName(\"script\")[0]; " +
-                                                "  s.parentNode.insertBefore(hm, s);" +
-                                                "})();" +
-                                                "</script></head>")
-                                        .replaceAll("<input type=\"image\" src=\"https://m.baidu.com/se/transcode/static/img/bgn.png\".*>", "")
-                                        .replaceAll("https://zhannei.baidu.com/cse", "http://m.zinglizingli.xyz")
-                                        .replaceAll("<a href=\"/.*/\">返回</a>", "<a href=\"javascript:history.go(-1)\">返回</a>")
-                                        .replaceAll("<a href=\".*\".*>加入书架</a>", "<a href=\"javascript:AddToFavorites(true);\">加入收藏</a>")
-                                        .replaceFirst("</head>", "<script>\n" +
-                                                "(function(){\n" +
-                                                "    var bp = document.createElement('script');\n" +
-                                                "    var curProtocol = window.location.protocol.split(':')[0];\n" +
-                                                "    if (curProtocol === 'https') {\n" +
-                                                "        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';\n" +
-                                                "    }\n" +
-                                                "    else {\n" +
-                                                "        bp.src = 'http://push.zhanzhang.baidu.com/push.js';\n" +
-                                                "    }\n" +
-                                                "    var s = document.getElementsByTagName(\"script\")[0];\n" +
-                                                "    s.parentNode.insertBefore(bp, s);\n" +
-                                                "})();\n" +
-                                                "</script>\n</head>")//页面访问自动推送到百度
-                                        .replaceAll("<script.*wap\\.js.*script>", "")//去除广告
-                                ;
-                                forObject = addAttacDivForSearch(forObject, requestURI);
-
-                                forObject = setBookURIToHTML(forObject, SUANWEI_BOOK_REGEX);
-
-                                if (requestURI.matches(SUANWEI_BOOK_HTML_REGEX)) {
-                                    Pattern pattern = Pattern.compile("<h1\\s+id=\"bqgmb_h1\">(.+)\\s+目录共\\d+章</h1>");
-                                    Matcher matcher = pattern.matcher(forObject);
-                                    String title = "";
-                                    if (matcher.find()) {
-                                        title = matcher.group(1);
-                                    }//<li class="sort">     类别：武侠仙侠</li>
-                                    pattern = Pattern.compile("<p>作者：(.+)</p>");
-                                    matcher = pattern.matcher(forObject);
-                                    String author = "";
-                                    if (matcher.find()) {
-                                        author = matcher.group(1);
-                                    }
-                                    pattern = Pattern.compile("<a\\s+href=\"/list/\\d+_\\d+.*\">(.+)</a>");
-                                    matcher = pattern.matcher(forObject);
-                                    String sort = "";
-                                    if (matcher.find()) {
-                                        sort = matcher.group(1);
-                                    }
-                                    String desc = title + "，" + title + "小说最新章节免费在线阅读、最新章节列表，" + title + "小说最新更新免费提供，《" + title + "》是一本情节与文笔俱佳的" + sort + "小说，由作者" + author + "创建。";
-
-                                    forObject = forObject.replaceFirst("<meta\\s+name=\"description\"\\s+content=\"[^>]+\"\\s*/?>", "");//[^>]+表示1个或多个不是>的字符
-                                    forObject = forObject.replaceFirst("<head>", "<head><meta name=\"description\" content=\"" + desc + "\"/>");
-
-
-                                }
-
-                                if ("/".equals(requestURI)) {
-                                    forObject = forObject.replaceFirst("<meta\\s+name=\"description\"\\s+content=\"[^>]+\"\\s*/?>", "");//[^>]+表示1个或多个不是>的字符
-                                    forObject = forObject.replaceFirst("<head>", "<head><meta name=\"description\" content=\"酸味书屋致力于打造小说最全，更新最快的在线小说阅读网，本站收录了当前最火热的网络小说，提供无广告、高质量内容的小说服务，是广大网友最喜欢的温馨小说站。\">");
-
-
-                                }
-                            }
-                            long timeout = 1800;
-                            if (staticFileFix.contains(postFix)) {
-                                timeout = 60 * 60 * 24;
-                            }
-                            cacheUtil.set(realUrl, forObject, timeout);
-                        }
-
-
-
+                    String queryString = req.getQueryString();
+                    if (queryString != null && queryString.length() > 0 && !queryString.contains("bsh_bid=")) {
+                        queryString = "?" + URLDecoder.decode(req.getQueryString());
                     } else {
-
-
-                        Map<String, String[]> oldParameterMap = req.getParameterMap();
-                        Map<String, String> newParameterMap = new HashMap<>();
-                        Set<Map.Entry<String, String[]>> entries = oldParameterMap.entrySet();
-                        for (Map.Entry<String, String[]> entry : entries) {
-                            newParameterMap.put(entry.getKey(), entry.getValue()[0]);
-                        }
-
-                        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
-                        map.setAll(newParameterMap);
-                        HttpHeaders headers = new HttpHeaders();
-                        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-                        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
-                        forObject = restTemplate.postForEntity(realUrl, request, String.class).getBody();
-                        // forObject = new String(forObject.getBytes("ISO-8859-1"),"utf-8");
-                        forObject = forObject.replaceAll("https://m.biquge.info", "http://www.zinglizingli.xyz")
-                                .replaceAll("https://www.biquge.info", "http://www.zinglizingli.xyz")
-                                .replaceAll("笔趣岛", "酸味书屋")
-                                .replaceAll("笔趣阁", "酸味书屋")
-                                .replaceAll("https://zhannei.baidu.com/cse", "http://m.zinglizingli.xyz")
-                                .replaceFirst("</head>", "<script>\n" +
-                                        "var _hmt = _hmt || [];" +
-                                        "(function() {" +
-                                        "  var hm = document.createElement(\"script\");" +
-                                        "  hm.src = \"https://hm.baidu.com/hm.js?0bd7345ca6b694ea3dfbe87da008082e\";" +
-                                        "  var s = document.getElementsByTagName(\"script\")[0]; " +
-                                        "  s.parentNode.insertBefore(hm, s);" +
-                                        "})();" +
-                                        "</script></head>")
-                                .replaceAll("<a\\s+href=\"/bookcase.php\">书架</a>", "<a href=\"" + noteURI.get(new Random().nextInt(noteURI.size())) + "\">笔记</a>")
-                                .replaceAll("<a href=\"/.*/\">返回</a>", "<a href=\"javascript:history.go(-1)\">返回</a>")
-                        ;
-                        forObject = setBookURIToHTML(forObject, SUANWEI_BOOK_REGEX);
-                        //resp.setCharacterEncoding("utf-8");
-                        //setContentType(postFix, resp);
-
+                        queryString = "";
                     }
 
 
-                } else if (requestURL.contains("m.zinglizingli.xyz")) {
-                    String realUrl = "https://m.biquta.com" + requestURI;
+                    if (forObject == null) {
 
-                    String postFix = requestURI.substring(requestURI.lastIndexOf(".") + 1);
-                    if (picPostFix.contains(postFix)) {
-                        restTemplate = RestTemplateUtil.getInstance("ISO-8859-1");//请求图片
-                        resp.setContentType("image/apng");
-                    } else {
-                        restTemplate = RestTemplateUtil.getInstance("utf-8");//请求html/css/js等文件
-                        resp.setCharacterEncoding("utf-8");
-                        setContentType(postFix, resp);
 
+                        ResponseEntity<String> forEntity = restTemplate.getForEntity("https://www.dmzj.com/"+requestURI.substring(8), String.class);
+                        forObject = forEntity.getBody();
+
+                        //  forObject = new String(forObject.getBytes("ISO-8859-1"),"utf-8");
+                        int i = forObject.indexOf("class=\"mainNav independNav\"");
+                        forObject=forObject.replace("class=\"mainNav independNav\"","style='display:none' class=\"mainNav independNav\"");
+                      forObject=forObject.replace("https://www.dmzj.com/js/ad/ad_12.js","");
+                      forObject=forObject.replace("class=\"wrap_last_head autoHeight\"","style='display:none' class=\"wrap_last_head autoHeight\"");
+                      forObject=forObject.replace("class=\"wrap_last_mid autoHeight\"","style='display:none' class=\"wrap_last_mid autoHeight\"");
+                      forObject=forObject.replace("https://www.dmzj.com/js/ad/ad_13.js","");
+                      forObject=forObject.replace("class=\"comic_gd autoHeight\"","style='display:none' class=\"comic_gd autoHeight\"");
+                      forObject=forObject.replace("class=\"comic_last autoHeight\"","style='display:none' class=\"comic_last autoHeight\"");
+                      forObject=forObject.replace("class=\"side_bar autoHeight\"","style='display:none' class=\"side_bar autoHeight\"");
+                      forObject=forObject.replace("<div class=\"point_wrap\"></div>","");
+                      forObject=forObject.replace("class=\"red_box\"","style='display:none' class=\"red_box\"");
+                        forObject=forObject.replace("<div class=\"show\"></div>","");
+                        forObject=forObject.replace("<div class=\"light\"></div>","");
+                        forObject=forObject.replace("class=\"side_public\"","style='display:none' class=\"side_public\"");
+                        forObject=forObject.replace("class=\"foot-detail\"","style='display:none' class=\"foot-detail\"");
+                        forObject=forObject.replace("https://static.dmzj.com/ocomic/js/dmzjMhFinally-new.js","");
+                        forObject=forObject.replace("https://static.dmzj.com/ocomic/js/dmzjMhFinally-new.js","");
+                        forObject=forObject.replace("https://static.dmzj.com/module/js/float_code.js","");
+                        forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
+                        forObject=forObject.replaceAll("https://static.dmzj.com/public/js/dmzj-land-2015.6.js","");
+                        forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
+                        forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
+                        forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
+                        forObject=forObject.replace("<div id=\"float_nav_type\"></div>","")
+// forObject = forObject.replaceAll("/manhua/", "https://www.dmzj.com/")
+//                                    .replaceAll("笔趣岛", "酸味书屋")
+//                                    .replaceAll("笔趣阁", "酸味书屋")
+//                                    .replaceAll("class=\"mainNav independNav\"", "style='dispaly:none' class=\"mainNav independNav\"")
+//                                    .replaceAll("</head>", "<script language=\"javascript\" type=\"text/javascript\" src=\"http://www.zinglizingli.xyz/js/wap_collect.js\"></script></head>")
+//                                    .replaceFirst("</head>", "<script>" +
+//                                            "var _hmt = _hmt || [];" +
+//                                            "(function() {" +
+//                                            "  var hm = document.createElement(\"script\");" +
+//                                            "  hm.src = \"https://hm.baidu.com/hm.js?0bd7345ca6b694ea3dfbe87da008082e\";" +
+//                                            "  var s = document.getElementsByTagName(\"script\")[0]; " +
+//                                            "  s.parentNode.insertBefore(hm, s);" +
+//                                            "})();" +
+//                                            "</script></head>")
+//                                    .replaceAll("<input type=\"image\" src=\"https://m.baidu.com/se/transcode/static/img/bgn.png\".*>", "")
+//                                    .replaceAll("https://zhannei.baidu.com/cse", "http://m.zinglizingli.xyz")
+//                                    .replaceAll("<a href=\"/.*/\">返回</a>", "<a href=\"javascript:history.go(-1)\">返回</a>")
+//                                    .replaceAll("<a href=\".*\".*>加入书架</a>", "<a href=\"javascript:AddToFavorites(true);\">加入收藏</a>")
+//                                    .replaceFirst("</head>", "<script>\n" +
+//                                            "(function(){\n" +
+//                                            "    var bp = document.createElement('script');\n" +
+//                                            "    var curProtocol = window.location.protocol.split(':')[0];\n" +
+//                                            "    if (curProtocol === 'https') {\n" +
+//                                            "        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';\n" +
+//                                            "    }\n" +
+//                                            "    else {\n" +
+//                                            "        bp.src = 'http://push.zhanzhang.baidu.com/push.js';\n" +
+//                                            "    }\n" +
+//                                            "    var s = document.getElementsByTagName(\"script\")[0];\n" +
+//                                            "    s.parentNode.insertBefore(bp, s);\n" +
+//                                            "})();\n" +
+//                                            "</script>\n</head>")//页面访问自动推送到百度
+//                                    .replaceAll("<script.*wap\\.js.*script>", "")//去除广告
+                            ;
+
+
+//                            if (requestURI.matches(SUANWEI_BOOK_HTML_REGEX)) {
+//                                Pattern pattern = Pattern.compile("<h1\\s+id=\"bqgmb_h1\">(.+)\\s+目录共\\d+章</h1>");
+//                                Matcher matcher = pattern.matcher(forObject);
+//                                String title = "";
+//                                if (matcher.find()) {
+//                                    title = matcher.group(1);
+//                                }//<li class="sort">     类别：武侠仙侠</li>
+//                                pattern = Pattern.compile("<p>作者：(.+)</p>");
+//                                matcher = pattern.matcher(forObject);
+//                                String author = "";
+//                                if (matcher.find()) {
+//                                    author = matcher.group(1);
+//                                }
+//                                pattern = Pattern.compile("<a\\s+href=\"/list/\\d+_\\d+.*\">(.+)</a>");
+//                                matcher = pattern.matcher(forObject);
+//                                String sort = "";
+//                                if (matcher.find()) {
+//                                    sort = matcher.group(1);
+//                                }
+//                                String desc = title + "，" + title + "小说最新章节免费在线阅读、最新章节列表，" + title + "小说最新更新免费提供，《" + title + "》是一本情节与文笔俱佳的" + sort + "小说，由作者" + author + "创建。";
+//
+//                                forObject = forObject.replaceFirst("<meta\\s+name=\"description\"\\s+content=\"[^>]+\"\\s*/?>", "");//[^>]+表示1个或多个不是>的字符
+//                                forObject = forObject.replaceFirst("<head>", "<head><meta name=\"description\" content=\"" + desc + "\"/>");
+//
+//
+//                            }
+//
+//                            if ("/".equals(requestURI)) {
+//                                forObject = forObject.replaceFirst("<meta\\s+name=\"description\"\\s+content=\"[^>]+\"\\s*/?>", "");//[^>]+表示1个或多个不是>的字符
+//                                forObject = forObject.replaceFirst("<head>", "<head><meta name=\"description\" content=\"酸味书屋致力于打造小说最全，更新最快的在线小说阅读网，本站收录了当前最火热的网络小说，提供无广告、高质量内容的小说服务，是广大网友最喜欢的温馨小说站。\">");
+//
+//
+//                            }
                     }
 
 
-                    if (HttpMethod.GET.name().equals(method)) {
-
-                        String fileName = requestURI.substring(requestURI.lastIndexOf("/") + 1);
-
-                        if (localFileFix.contains(fileName) || fileName.startsWith("9a4a540e-1759-4268-90fa-7fb652c3604a.")) {
-                            filterChain.doFilter(servletRequest, servletResponse);
-                            return;
-                        }
-
-
-                        if (requestURI.matches(XIYANGYANG_BOOK_HTML_REGEX)) {
-                            realUrl = realUrl.substring(0, realUrl.length() - 5);
-                        }
-                        String queryString = req.getQueryString();
-                        if (queryString != null && queryString.length() > 0 && !queryString.contains("bsh_bid=")) {
-                            queryString = "?" + URLDecoder.decode(req.getQueryString());
-                        } else {
-                            queryString = "";
-                        }
-                        realUrl = realUrl + queryString;
-
-
-                        forObject = cacheUtil.get(realUrl);
-                        if (forObject == null) {
-                            forObject = restTemplate.getForEntity(realUrl, String.class).getBody();
-
-                            if (!picPostFix.contains(postFix)) {
-                                forObject = forObject.replaceAll("https://m.biquta.com", "http://m.zinglizingli.xyz")
-                                        .replaceAll("笔趣阁", "看小说吧")
-                                        .replaceAll("笔趣塔", "看小说吧")
-                                        .replaceFirst("<title>看小说吧手机版-看小说吧</title>", "<title>看小说吧</title>")
-                                        .replaceFirst("content=\"看小说吧\"", "content=\"小说阅读,小说排行,好看小说排行,热门小说排行,小说阅读手机版\"")
-                                        .replaceAll("<a href=\"/login.php\" id=\"login\" class=\"login\">登录</a>", "<a style=\"visibility:hidden\" href=\"/login.php\" id=\"login\" class=\"login\">登录</a>")
-                                        .replaceFirst("<head>", "<head><meta name=\"shenma-site-verification\" content=\"5548d4bd962d5cdd4cf6aeba92b991a8_1565878917\">")
-                                        .replaceAll("<a href=\"/bookcase.php\".*>书架</a>", "<a href=\"javascript:AddToFavorites(true);\" style=\"width:14%\">收藏</a>")
-                                        .replaceAll("<a href=\"javascript:addBookMarkByManual.*\" class=\"btn_toBookShelf\">加入书架</a>", "<a href=\"javascript:AddToFavorites(true);\" class=\"btn_toBookShelf\">加入收藏</a>")
-                                        .replaceAll("<a href=\"/bookcase.php\" class=\"btn_toMyBook\">我的书架</a>", "")
-                                        .replaceFirst("<a href=\"http://m.zinglizingli.xyz/tempcase.html\">阅读记录</a>","<a href=\"/HotBook.apk\">客户端下载</a>")
-                                        .replaceAll("<a href=\"/bookcase.php\".*>我的书架</a>", "<a href=\"https://www.zinglizingli.xyz/book/searchSoftBook.html\">轻小说</a><a href=\"https://www.zinglizingli.xyz\">精品小说</a>")
-                                        .replaceAll("</head>", "<script language=\"javascript\" type=\"text/javascript\" src=\"http://m.zinglizingli.xyz/js/wap_collect.js\"></script></head>")
-
-                                        .replaceFirst("</head>", "<script>\n" +
-                                                "var _hmt = _hmt || [];\n" +
-                                                "(function() {\n" +
-                                                "  var hm = document.createElement(\"script\");\n" +
-                                                "  hm.src = \"https://hm.baidu.com/hm.js?b3a84b2ec6cc52dd088d735565b49644\";\n" +
-                                                "  var s = document.getElementsByTagName(\"script\")[0]; \n" +
-                                                "  s.parentNode.insertBefore(hm, s);\n" +
-                                                "})();\n" +
-                                                "</script>\n</head>")
-
-                                        .replaceFirst("</head>", "<script>\n" +
-                                                "(function(){\n" +
-                                                "    var bp = document.createElement('script');\n" +
-                                                "    var curProtocol = window.location.protocol.split(':')[0];\n" +
-                                                "    if (curProtocol === 'https') {\n" +
-                                                "        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';\n" +
-                                                "    }\n" +
-                                                "    else {\n" +
-                                                "        bp.src = 'http://push.zhanzhang.baidu.com/push.js';\n" +
-                                                "    }\n" +
-                                                "    var s = document.getElementsByTagName(\"script\")[0];\n" +
-                                                "    s.parentNode.insertBefore(bp, s);\n" +
-                                                "})();\n" +
-                                                "</script>\n</head>")//页面访问自动推送到百度
-                                        .replaceAll("<script.*common\\.js.*script>", "");//去除广告
-
-                                forObject = addAttacDivForSearch(forObject, requestURI);
-
-                                forObject = setBookURIToHTML(forObject, XIYANGYANG_BOOK_REGEX);
-
-                                if (requestURI.matches(XIYANGYANG_BOOK_HTML_REGEX)) {
-                                    Pattern pattern = Pattern.compile("<span\\s+class=\"title\">(.+)</span>");
-                                    Matcher matcher = pattern.matcher(forObject);
-                                    String title = "";
-                                    if (matcher.find()) {
-                                        title = matcher.group(1);
-                                    }//<li class="sort">     类别：武侠仙侠</li>
-                                    pattern = Pattern.compile("<li\\s+class=\"author\">作者：(.+)</li>");
-                                    matcher = pattern.matcher(forObject);
-                                    String author = "";
-                                    if (matcher.find()) {
-                                        author = matcher.group(1);
-                                    }
-                                    pattern = Pattern.compile("<li\\s+class=\"sort\">\\s+类别：(.+)</li>");
-                                    matcher = pattern.matcher(forObject);
-                                    String sort = "";
-                                    if (matcher.find()) {
-                                        sort = matcher.group(1);
-                                    }
-                                    String desc = title + "，" + title + "小说最新章节免费在线阅读、最新章节列表，" + title + "小说最新更新免费提供，《" + title + "》是一本情节与文笔俱佳的" + sort + "小说，由作者" + author + "创建。";
-
-                                    forObject = forObject.replaceFirst("<meta\\s+name=\"description\"\\s+content=\"[^>]+\"\\s*/?>", "");//[^>]+表示1个或多个不是>的字符
-                                    forObject = forObject.replaceFirst("<head>", "<head><meta name=\"description\" content=\"" + desc + "\"/>");
-
-
-                                }
-
-                                if ("/".equals(requestURI)) {
-                                    forObject = forObject.replaceFirst("<meta\\s+name=\"description\"\\s+content=\"[^>]+\"\\s*/?>", "");//[^>]+表示1个或多个不是>的字符
-                                    forObject = forObject.replaceFirst("<head>", "<head><meta name=\"description\" content=\"看小说吧致力于打造小说最全，更新最快的在线小说阅读网，本站收录了当前最火热的网络小说，提供无广告、高质量内容的小说服务，是广大网友最喜欢的温馨小说站。\">");
-
-                            /*forObject = forObject.replaceFirst("<head>", "<head>" + jsString)
-                                    .replaceFirst("<body>", "<body style=\"position:relative\">" + imagDiv);*/
-                                    // forObject = forObject.replaceFirst("<body>", "<body>" + imagDiv);
-
-
-                                }
-                            }
-
-                            // forObject = forObject.replaceFirst("<body>", "<body><a class=\"bshareDiv\" href=\"http://www.bshare.cn/share\">分享按钮</a><script type=\"text/javascript\" charset=\"utf-8\" src=\"http://static.bshare.cn/b/buttonLite.js#uuid=&amp;style=5&amp;fs=4&amp;bgcolor=LightBlue&amp;pophcol=1\"></script>\n" +
-                            //        "              ");
-
-                       /* if (forObject.contains("class=\"sortChannel_nav\"") || forObject.contains("channelHeader2")) {
-                            forObject = forObject.replaceFirst("class=\"searchForm\"", "class=\"searchForm\" style=\"display:none\"");
-
-                        }*/
-                            long timeout = 1800;
-                            if (staticFileFix.contains(postFix)) {
-                                timeout = 60 * 60 * 24;
-                            }
-                            cacheUtil.set(realUrl, forObject, timeout);
-                        }
-
-
-                    } else {
-                        forObject = postBiquta(req, realUrl, null);
-                    }
                 } else {
-                    return;
+
+
+                    Map<String, String[]> oldParameterMap = req.getParameterMap();
+                    Map<String, String> newParameterMap = new HashMap<>();
+                    Set<Map.Entry<String, String[]>> entries = oldParameterMap.entrySet();
+                    for (Map.Entry<String, String[]> entry : entries) {
+                        newParameterMap.put(entry.getKey(), entry.getValue()[0]);
+                    }
+
+                    MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+                    map.setAll(newParameterMap);
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+                    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+                    forObject = restTemplate.postForEntity("https://www.dmzj.com/"+requestURI.substring(8), request, String.class).getBody();
+                    // forObject = new String(forObject.getBytes("ISO-8859-1"),"utf-8");
+                    forObject = forObject.replaceAll("/manhua/", "https://www.dmzj.com/")
+                            .replaceAll("笔趣岛", "酸味书屋")
+                            .replaceAll("笔趣阁", "酸味书屋")
+                            .replaceFirst("</head>", "<script>\n" +
+                                    "var _hmt = _hmt || [];" +
+                                    "(function() {" +
+                                    "  var hm = document.createElement(\"script\");" +
+                                    "  hm.src = \"https://hm.baidu.com/hm.js?0bd7345ca6b694ea3dfbe87da008082e\";" +
+                                    "  var s = document.getElementsByTagName(\"script\")[0]; " +
+                                    "  s.parentNode.insertBefore(hm, s);" +
+                                    "})();" +
+                                    "</script></head>")
+                            .replaceAll("<a\\s+href=\"/bookcase.php\">书架</a>", "<a href=\"" + noteURI.get(new Random().nextInt(noteURI.size())) + "\">笔记</a>")
+                            .replaceAll("<a href=\"/.*/\">返回</a>", "<a href=\"javascript:history.go(-1)\">返回</a>")
+                    ;
+                    forObject = setBookURIToHTML(forObject, SUANWEI_BOOK_REGEX);
+                    //resp.setCharacterEncoding("utf-8");
+                    //setContentType(postFix, resp);
+
                 }
-            }
+
+
 
         } catch (RuntimeException e) {
             log.error(e.getMessage(), e);
@@ -605,7 +422,7 @@ public class SearchFilter implements Filter {
                 .replaceFirst("content=\"看小说吧\"", "content=\"小说阅读,小说排行,好看小说排行,热门小说排行,小说阅读手机版\"")
                 .replaceFirst("<head>", "<head><meta name=\"shenma-site-verification\" content=\"5548d4bd962d5cdd4cf6aeba92b991a8_1565878917\">")
                 .replaceAll("<a href=\"/bookcase.php\".*>我的书架</a>", "<a href=\"https://www.zinglizingli.xyz/book/searchSoftBook.html\">轻小说</a><a href=\"https://www.zinglizingli.xyz\">精品小说</a>")
-                .replaceFirst("<a href=\"http://m.zinglizingli.xyz/tempcase.html\">阅读记录</a>","<a href=\"/HotBook.apk\">客户端下载</a>")
+                .replaceFirst("<a href=\"http://m.zinglizingli.xyz/tempcase.html\">阅读记录</a>", "<a href=\"/HotBook.apk\">客户端下载</a>")
                 .replaceFirst("</head>", "<script>\n" +
                         "var _hmt = _hmt || [];\n" +
                         "(function() {\n" +
