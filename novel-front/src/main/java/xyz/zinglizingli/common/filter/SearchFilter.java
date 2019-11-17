@@ -168,20 +168,8 @@ public class SearchFilter implements Filter {
                         forObject = forEntity.getBody();
 
                         //  forObject = new String(forObject.getBytes("ISO-8859-1"),"utf-8");
-                        int i = forObject.indexOf("class=\"mainNav independNav\"");
-                        forObject=forObject.replace("class=\"mainNav independNav\"","style='display:none' class=\"mainNav independNav\"");
                       forObject=forObject.replace("https://www.dmzj.com/js/ad/ad_12.js","");
-                      forObject=forObject.replace("class=\"wrap_last_head autoHeight\"","style='display:none' class=\"wrap_last_head autoHeight\"");
-                      forObject=forObject.replace("class=\"wrap_last_mid autoHeight\"","style='display:none' class=\"wrap_last_mid autoHeight\"");
                       forObject=forObject.replace("https://www.dmzj.com/js/ad/ad_13.js","");
-                      forObject=forObject.replace("class=\"comic_gd autoHeight\"","style='display:none' class=\"comic_gd autoHeight\"");
-                      forObject=forObject.replace("class=\"comic_last autoHeight\"","style='display:none' class=\"comic_last autoHeight\"");
-                      forObject=forObject.replace("class=\"side_bar autoHeight\"","style='display:none' class=\"side_bar autoHeight\"");
-                      forObject=forObject.replace("<div class=\"point_wrap\"></div>","");
-                      forObject=forObject.replace("class=\"red_box\"","style='display:none' class=\"red_box\"");
-                        forObject=forObject.replace("<div class=\"show\"></div>","");
-                        forObject=forObject.replace("<div class=\"light\"></div>","");
-                        forObject=forObject.replace("class=\"foot-detail\"","style='display:none' class=\"foot-detail\"");
                         forObject=forObject.replace("https://static.dmzj.com/ocomic/js/dmzjMhFinally-new.js","");
                         forObject=forObject.replace("https://static.dmzj.com/ocomic/js/dmzjMhFinally-new.js","");
                         forObject=forObject.replace("https://static.dmzj.com/module/js/float_code.js","");
@@ -190,11 +178,15 @@ public class SearchFilter implements Filter {
                         forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
                         forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
                         forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
-                        forObject=forObject.replace("<div id=\"float_nav_type\"></div>","");
-                        forObject=forObject.replace("class=\"side_public\"","");
-                        forObject=forObject.replace(" id=\"sidePublic\"","");
                         forObject=forObject.replaceAll("globalNav.js","");
                         forObject=forObject.replaceAll("TSB.js","");
+                        forObject=forObject+"<script>$(function(){$(\"#app_manhua\").remove();" +
+                                "$('.btmBtnBox').remove();$('.red_box').remove()" +
+                                ";$('.mainNav').remove();$('.wrap_last_head').remove();$('.wrap_last_mid').remove()" +
+                                ";$('.comic_gd').remove();$('.comic_last').remove();$('.side_bar').remove()" +
+                                ";$('.point_wrap').remove();$('.show').remove();$('.light').remove()" +
+                                ";$('#sidePublic').remove();$('.side_public').remove()" +
+                                ";$('.foot-detail').remove();$('#float_nav_type').remove()})</script>";
 // forObject = forObject.replaceAll("/manhua/", "https://www.dmzj.com/")
 //                                    .replaceAll("笔趣岛", "酸味书屋")
 //                                    .replaceAll("笔趣阁", "酸味书屋")

@@ -30,6 +30,16 @@
 
 
     </script>
+    <script type="text/javascript">
+        function reinitIframe(){
+
+            var iframe = document.getElementById("frame_content");
+            try{
+                iframe.height =  iframe.contentWindow.document.documentElement.scrollHeight;
+            }catch (ex){}
+        }
+        window.setInterval("reinitIframe()", 200);
+    </script>
 
     <style type="text/css">
         .line-limit-length {
@@ -499,6 +509,7 @@
         // 添加定时任务
         addInterval(jqueryDom);
     }
+
 </script>
 
 </html>
