@@ -923,8 +923,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
     }
 
     private Long generateVisiteCount(Float score) {
-        int baseNum = (int) (Math.pow(score * 10, (int) (score - 5)) / 2);
-        return Long.parseLong(baseNum + new Random().nextInt(1000) + "");
+        return Long.parseLong((int)(score*10000) + new Random().nextInt(1000) + "");
     }
 
     private String getByHttpClient(String catBookListUrl) {

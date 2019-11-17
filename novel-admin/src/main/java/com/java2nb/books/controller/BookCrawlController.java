@@ -9,6 +9,7 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -108,7 +109,7 @@ public class BookCrawlController {
     @ResponseBody
     @RequestMapping("/update")
     public R update(CrawlConfig config) {
-        crawlConfig = config;
+        BeanUtils.copyProperties(config,crawlConfig);
         return R.ok();
     }
 
