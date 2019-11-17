@@ -53,9 +53,9 @@ mybatis:
 #首页本站推荐小说配置
 index:
   recBooks:
-    - {bookName: 黎明之剑,bookAuthor: 远瞳}
+    - {bookName: 惊悚乐园,bookAuthor: 三天两觉}
     - {bookName: 最强装逼打脸系统,bookAuthor: 太上布衣}
-    - {bookName: 天道图书馆,bookAuthor: 横扫天涯}
+    - {bookName: 丧尸不修仙,bookAuthor: 彩虹鱼}
 
 
 #mysql编码
