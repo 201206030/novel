@@ -200,4 +200,4 @@ novel-admin ：平台后台管理系统源码
 
 #### 备注
 
-精品小说屋所有相关项目均已在开源中国公开，感兴趣的可进入[开源中国](https://www.oschina.net/project)按关键字`精品小说屋`搜索。
+精品小说屋所有相关项目均已在开源中国公开，感兴趣的可进入[开源中国](https://www.oschina.net/p/fiction_house)按关键字`精品小说屋`搜索。
