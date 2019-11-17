@@ -10,7 +10,7 @@
     </parent>
     <groupId>xyz.zinglizingli</groupId>
     <artifactId>novel-front</artifactId>
-    <version>1.5.0</version>
+    <version>1.5.1</version>
     <name>novel-front</name>
     <description>小说精品楼-前台web网站</description>
 
