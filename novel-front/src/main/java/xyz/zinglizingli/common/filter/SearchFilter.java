@@ -180,6 +180,25 @@ public class SearchFilter implements Filter {
                         forObject=forObject.replaceAll("<script type=\"text/javascript\">var cnzz_protocol =[^<]+</script>","");
                         forObject=forObject.replaceAll("globalNav.js","");
                         forObject=forObject.replaceAll("TSB.js","");
+                        forObject=forObject+"<script>var browser={\n" +
+                                "    versions:function(){\n" +
+                                "    var u = window.navigator.userAgent;\n" +
+                                "    return {\n" +
+                                "        trident: u.indexOf('Trident') > -1, //IE内核\n" +
+                                "        presto: u.indexOf('Presto') > -1, //opera内核\n" +
+                                "        webKit: u.indexOf('AppleWebKit') > -1, //苹果、谷歌内核\n" +
+                                "        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1, //火狐内核\n" +
+                                "        mobile: !!u.match(/AppleWebKit.*Mobile.*/)||!!u.match(/AppleWebKit/), //是否为移动终端\n" +
+                                "        ios: !!u.match(/\\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端\n" +
+                                "        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或者uc浏览器\n" +
+                                "        iPhone: u.indexOf('iPhone') > -1 || u.indexOf('Mac') > -1, //是否为iPhone或者安卓QQ浏览器\n" +
+                                "        iPad: u.indexOf('iPad') > -1, //是否为iPad\n" +
+                                "        webApp: u.indexOf('Safari') == -1 ,//是否为web应用程序，没有头部与底部\n" +
+                                "        weixin: u.indexOf('MicroMessenger') == -1 //是否为微信浏览器\n" +
+                                "        };\n" +
+                                "    }()\n" +
+                                "};" +
+                                "</script>";
                         forObject=forObject+"<script>$(function(){$(\"#app_manhua\").remove();" +
                                 "$('.btmBtnBox').remove();$('.red_box').remove()" +
                                 ";$('.mainNav').remove();$('.wrap_last_head').remove();$('.wrap_last_mid').remove()" +

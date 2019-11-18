@@ -244,8 +244,11 @@ public class BookController {
         modelMap.put("preIndexNum", preAndNextIndexNum.get(1));
         modelMap.put("bookContent", bookContent);
         modelMap.put("indexName", indexName);
-        String bookName = bookService.queryBaseInfo(bookId).getBookName();
+        Book basicBook = bookService.queryBaseInfo(bookId);
+        String bookName = basicBook.getBookName();
+        Integer catId = basicBook.getCatid();
         modelMap.put("bookName", bookName);
+        modelMap.put("catId", catId);
         return "books/book_content";
     }
 

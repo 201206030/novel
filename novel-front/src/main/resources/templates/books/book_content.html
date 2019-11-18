@@ -4,7 +4,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta th:if="${catId == 9}" name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=1">
+    <meta th:if="${catId != 9}" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title th:text="${bookName}+${indexName}"></title>
 
     <meta name="keywords" th:attr="content=${bookName}+','+${indexName}">
@@ -210,7 +211,7 @@
 </div>
 <div id="chaptercontent" class="Readarea ReadAjax_content screen_container"
      style="color: rgb(0, 0, 0); font-size: 25px;">
-    <p style="width:100%;text-alight:center;">&nbsp;&nbsp;&nbsp;&nbsp;
+    <p style="width:100%;text-alight:center; overflow: auto;-webkit-overflow-scrolling:touch;" >&nbsp;&nbsp;&nbsp;&nbsp;
         <a
                 href="javascript:void(0);" th:utext="${bookContent.content}"></a></p>
 </div>
