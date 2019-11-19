@@ -11,7 +11,7 @@
                     <div class="columns pull-left">
                         <button type="button"
                                 class="btn  btn-primary" onclick="add()">
-                            <i class="fa fa-plus" aria-hidden="true"></i>添加
+                            <i class="fa fa-plus" aria-hidden="true"></i>小说发布
                         </button>
                         <button type="button"
                                 class="btn  btn-danger"
@@ -25,9 +25,23 @@
 
                     <form id="searchForm">
                         <div class="columns pull-right col-md-2">
-                            <input id="id" name="id" type="text" class="form-control"
-                                   placeholder="主键">
+                            <select data-placeholder="--选择类别--" name="catid" id="catid"
+                                    class="form-control chosen-select" tabindex="2" dict-type="novel_category" dict-change-func="reLoad">
+                                <option value="">全部</option>
+                            </select>
                         </div>
+
+                        <div class="columns pull-right col-md-2">
+                            <input id="author" name="author" type="text" class="form-control"
+                                   placeholder="作者">
+                        </div>
+
+                        <div class="columns pull-right col-md-2">
+                            <input id="bookName" name="bookName" type="text" class="form-control"
+                                   placeholder="书名">
+                        </div>
+
+
                     </form>
 
                 </div>
@@ -62,5 +76,6 @@
 </div>
 <div th:include="include :: footer"></div>
 <script type="text/javascript" src="/js/appjs/books/book/book.js"></script>
+<script type="text/javascript" src="/js/dict-util.js"></script>
 </body>
 </html>

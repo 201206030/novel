@@ -5,7 +5,10 @@ import com.java2nb.books.domain.BookIndexDO;
 import java.util.List;
 import java.util.Map;
 
+import com.java2nb.books.vo.BookIndexVO;
+import com.java2nb.common.utils.Query;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 
@@ -31,4 +34,10 @@ public interface BookIndexDao {
 	int batchRemove(Long[] ids);
 
     void insertBatch(List<BookIndexDO> newBookIndexList);
+
+	Integer queryMaxIndexNum(@Param("bookId") Long bookId);
+
+	List<BookIndexVO> listVO(Query query);
+
+	int countVO(Query query);
 }

@@ -2,10 +2,12 @@ package com.java2nb.books.dao;
 
 import com.java2nb.books.domain.BookDO;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 
@@ -29,4 +31,6 @@ public interface BookDao {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+    void uptUpdateTime( @Param("id") Long bookId, @Param("updateTime") Date date);
 }

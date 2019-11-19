@@ -3,6 +3,9 @@ package com.java2nb.books.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.java2nb.books.domain.BookContentDO;
+import com.java2nb.books.domain.BookIndexDO;
+import com.java2nb.books.vo.BookIndexVO;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,9 +25,9 @@ import com.java2nb.common.utils.PageBean;
 import com.java2nb.common.utils.Query;
 import com.java2nb.common.utils.R;
 
+import javax.jws.WebParam;
+
 /**
- * 
- *
  * @author xiongxy
  * @email 1179705413@qq.com
  * @date 2019-11-13 09:27:04
@@ -64,7 +67,7 @@ public class BookController {
     @ApiOperation(value = "修改页面", notes = "修改页面")
     @GetMapping("/edit/{id}")
     String edit(@PathVariable("id") Long id, Model model) {
-            BookDO book = bookService.get(id);
+        BookDO book = bookService.get(id);
         model.addAttribute("book", book);
         return "books/book/edit";
     }
@@ -72,7 +75,7 @@ public class BookController {
     @ApiOperation(value = "查看页面", notes = "查看页面")
     @GetMapping("/detail/{id}")
     String detail(@PathVariable("id") Long id, Model model) {
-			BookDO book = bookService.get(id);
+        BookDO book = bookService.get(id);
         model.addAttribute("book", book);
         return "books/book/detail";
     }
@@ -83,7 +86,7 @@ public class BookController {
     @ApiOperation(value = "新增", notes = "新增")
     @ResponseBody
     @PostMapping("/save")
-    public R save( BookDO book) {
+    public R save(BookDO book) {
         if (bookService.save(book) > 0) {
             return R.ok();
         }
@@ -96,8 +99,8 @@ public class BookController {
     @ApiOperation(value = "修改", notes = "修改")
     @ResponseBody
     @RequestMapping("/update")
-    public R update( BookDO book) {
-            bookService.update(book);
+    public R update(BookDO book) {
+        bookService.update(book);
         return R.ok();
     }
 
@@ -107,7 +110,7 @@ public class BookController {
     @ApiOperation(value = "删除", notes = "删除")
     @PostMapping("/remove")
     @ResponseBody
-    public R remove( Long id) {
+    public R remove(Long id) {
         if (bookService.remove(id) > 0) {
             return R.ok();
         }
@@ -121,8 +124,69 @@ public class BookController {
     @PostMapping("/batchRemove")
     @ResponseBody
     public R remove(@RequestParam("ids[]") Long[] ids) {
-            bookService.batchRemove(ids);
+        bookService.batchRemove(ids);
         return R.ok();
     }
 
+
+    @ApiOperation(value = "新增章节页面", notes = "新增章节页面")
+    @GetMapping("/index/add")
+    String indexAdd(Long bookId, Model model) {
+        model.addAttribute("bookId",bookId);
+        return "books/bookIndex/add";
+    }
+
+    /**
+     * 保存章节
+     */
+    @ApiOperation(value = "新增章节", notes = "新增章节")
+    @ResponseBody
+    @PostMapping("/index/save")
+    public R indexSave(BookIndexDO bookIndex, BookContentDO bookContent) {
+        if (bookService.saveIndexAndContent(bookIndex,bookContent) > 0) {
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    @GetMapping("/index")
+    String BookIndex() {
+        return "books/bookIndex/bookIndex";
+    }
+
+    @ApiOperation(value = "获取章节列表", notes = "获取章节列表")
+    @ResponseBody
+    @GetMapping("/index/list")
+    public R indexList(@RequestParam Map<String, Object> params) {
+        //查询列表数据
+        Query query = new Query(params);
+        List<BookIndexVO> bookIndexList = bookService.indexVOList(query);
+        int total = bookService.indexVOCount(query);
+        PageBean pageBean = new PageBean(bookIndexList, total);
+        return R.ok().put("data", pageBean);
+    }
+
+    /**
+     * 删除
+     */
+    @ApiOperation(value = "删除", notes = "删除")
+    @PostMapping("/index/remove")
+    @ResponseBody
+    public R indexRemove( Long id) {
+        if (bookService.indexRemove(id) > 0) {
+            return R.ok();
+        }
+        return R.error();
+    }
+
+    /**
+     * 删除
+     */
+    @ApiOperation(value = "批量删除", notes = "批量删除")
+    @PostMapping("/index/batchRemove")
+    @ResponseBody
+    public R indexRemove(@RequestParam("ids[]") Long[] ids) {
+        bookService.batchIndexRemove(ids);
+        return R.ok();
+    }
 }

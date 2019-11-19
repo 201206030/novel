@@ -9,7 +9,7 @@
 
 	<select id="list" resultType="com.java2nb.books.domain.BookIndexDO">
 		select `id`,`book_id`,`index_num`,`index_name` from book_index
-        <where>  
+        <where>
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="bookId != null and bookId != ''"> and book_id = #{bookId} </if>
 		  		  <if test="indexNum != null and indexNum != ''"> and index_num = #{indexNum} </if>
@@ -27,17 +27,54 @@
 			limit #{offset}, #{limit}
 		</if>
 	</select>
-	
+
  	<select id="count" resultType="int">
 		select count(*) from book_index
-		 <where>  
+		 <where>
 		  		  <if test="id != null and id != ''"> and id = #{id} </if>
 		  		  <if test="bookId != null and bookId != ''"> and book_id = #{bookId} </if>
 		  		  <if test="indexNum != null and indexNum != ''"> and index_num = #{indexNum} </if>
 		  		  <if test="indexName != null and indexName != ''"> and index_name = #{indexName} </if>
 		  		</where>
 	</select>
-	 
+
+    <select id="listVO" resultType="com.java2nb.books.vo.BookIndexVO">
+        select t1.`id`,t1.`book_id`,t1.`index_num`,t1.`index_name`,t2.book_name bookName from book_index t1 inner join book t2
+        on t1.book_id = t2.id
+        <where>
+            <if test="id != null and id != ''">and t1.id = #{id}</if>
+            <if test="bookId != null and bookId != ''">and t1.book_id = #{bookId}</if>
+            <if test="indexNum != null and indexNum != ''">and t1.index_num = #{indexNum}</if>
+            <if test="indexName != null and indexName != ''">and t1.index_name = #{indexName}</if>
+            <if test="bookName != null and bookName != ''">and t2.book_name = #{bookName}</if>
+            <if test="author != null and author != ''">and t2.author = #{author}</if>
+        </where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by t1.${sort} ${order}
+            </when>
+            <otherwise>
+                order by t1.book_id asc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="countVO" resultType="int">
+        select count(*) from book_index t1 inner join book t2
+        on t1.book_id = t2.id
+        <where>
+            <if test="id != null and id != ''">and t1.id = #{id}</if>
+            <if test="bookId != null and bookId != ''">and t1.book_id = #{bookId}</if>
+            <if test="indexNum != null and indexNum != ''">and t1.index_num = #{indexNum}</if>
+            <if test="indexName != null and indexName != ''">and t1.index_name = #{indexName}</if>
+            <if test="bookName != null and bookName != ''">and t2.book_name = #{bookName}</if>
+            <if test="author != null and author != ''">and t2.author = #{author}</if>
+        </where>
+    </select>
+
 	<insert id="save" parameterType="com.java2nb.books.domain.BookIndexDO" useGeneratedKeys="true" keyProperty="id">
 		insert into book_index
 		(
@@ -54,9 +91,9 @@
 			#{indexName}
 		)
 	</insert>
-	 
+
 	<update id="update" parameterType="com.java2nb.books.domain.BookIndexDO">
-		update book_index 
+		update book_index
 		<set>
 			<if test="bookId != null">`book_id` = #{bookId}, </if>
 			<if test="indexNum != null">`index_num` = #{indexNum}, </if>
@@ -64,13 +101,13 @@
 		</set>
 		where id = #{id}
 	</update>
-	
+
 	<delete id="remove">
 		delete from book_index where id = #{value}
 	</delete>
-	
+
 	<delete id="batchRemove">
-		delete from book_index where id in 
+		delete from book_index where id in
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>
@@ -88,5 +125,9 @@
 			</trim>
 		</foreach>
 	</insert>
+
+	<select id="queryMaxIndexNum" parameterType="java.lang.Long" resultType="java.lang.Integer">
+		select max(index_num) from book_index where book_id = #{bookId,jdbcType=VARCHAR} ;
+	</select>
 
 </mapper>

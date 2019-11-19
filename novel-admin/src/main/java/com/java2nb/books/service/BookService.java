@@ -1,6 +1,10 @@
 package com.java2nb.books.service;
 
+import com.java2nb.books.domain.BookContentDO;
 import com.java2nb.books.domain.BookDO;
+import com.java2nb.books.domain.BookIndexDO;
+import com.java2nb.books.vo.BookIndexVO;
+import com.java2nb.common.utils.Query;
 
 import java.util.List;
 import java.util.Map;
@@ -27,4 +31,18 @@ public interface BookService {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+	/**
+	 * 保存章节
+	 */
+    int saveIndexAndContent(BookIndexDO bookIndex, BookContentDO bookContent);
+
+
+	List<BookIndexVO> indexVOList(Query query);
+
+	int indexVOCount(Query query);
+
+	int indexRemove(Long id);
+
+	int batchIndexRemove(Long[] ids);
 }
