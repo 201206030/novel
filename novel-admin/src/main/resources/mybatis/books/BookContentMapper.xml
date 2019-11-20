@@ -94,4 +94,9 @@
 		</foreach>
 	</insert>
 
+
+	<delete id="removeByBookIds" parameterType="string">
+		delete from book_content where book_id in (${bookIds});
+	</delete>
+
 </mapper>

@@ -42,7 +42,7 @@ public interface BookService {
 
 	int indexVOCount(Query query);
 
-	int indexRemove(Long id);
+	int indexRemove(Long id, Long bookId);
 
-	int batchIndexRemove(Long[] ids);
+	int batchIndexRemove(Long[] ids, Long[] bookIds);
 }

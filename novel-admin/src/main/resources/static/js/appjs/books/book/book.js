@@ -125,7 +125,10 @@ function load() {
                             var p = '<a class="btn" style="color: #0a6aa1"  href="#" mce_href="#" title="章节发布" onclick="addIndex(\''
                                 + row.id
                                 + '\')">章节发布</a> ';
-                            return d +  r + p;
+                            var cm = '<a class="btn" style="color: #0a6aa1"  href="#" mce_href="#" title="章节管理" onclick="manageIndex(\''
+                                + row.id
+                                + '\')">章节管理</a> ';
+                            return d +  r + p +cm;
                         }
                     }]
             });
@@ -154,6 +157,17 @@ function addIndex(bookId) {
         shadeClose: false, // 点击遮罩关闭层
         area: ['800px', '520px'],
         content: prefix + '/index/add?bookId='+bookId // iframe的url
+    });
+}
+
+function manageIndex(bookId) {
+    layer.open({
+        type: 2,
+        title: '章节管理',
+        maxmin: true,
+        shadeClose: false, // 点击遮罩关闭层
+        area: ['800px', '520px'],
+        content: prefix + '/index?bookId='+bookId // iframe的url
     });
 }
 

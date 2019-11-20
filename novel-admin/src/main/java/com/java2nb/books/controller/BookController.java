@@ -150,7 +150,9 @@ public class BookController {
     }
 
     @GetMapping("/index")
-    String BookIndex() {
+    String BookIndex(Long bookId, Model model) {
+
+        model.addAttribute("bookId",bookId);
         return "books/bookIndex/bookIndex";
     }
 
@@ -167,26 +169,26 @@ public class BookController {
     }
 
     /**
-     * 删除
+     * 删除章节
      */
-    @ApiOperation(value = "删除", notes = "删除")
+    @ApiOperation(value = "删除章节", notes = "删除章节")
     @PostMapping("/index/remove")
     @ResponseBody
-    public R indexRemove( Long id) {
-        if (bookService.indexRemove(id) > 0) {
+    public R indexRemove( Long id,Long bookId) {
+        if (bookService.indexRemove(id,bookId) > 0) {
             return R.ok();
         }
         return R.error();
     }
 
     /**
-     * 删除
+     * 删除章节
      */
-    @ApiOperation(value = "批量删除", notes = "批量删除")
+    @ApiOperation(value = "批量删除章节", notes = "批量删除章节")
     @PostMapping("/index/batchRemove")
     @ResponseBody
-    public R indexRemove(@RequestParam("ids[]") Long[] ids) {
-        bookService.batchIndexRemove(ids);
+    public R indexRemove(@RequestParam("ids[]") Long[] ids,@RequestParam("bookIds[]") Long[] bookIds) {
+        bookService.batchIndexRemove(ids,bookIds);
         return R.ok();
     }
 }

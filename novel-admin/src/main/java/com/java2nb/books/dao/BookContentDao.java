@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 
@@ -31,4 +32,6 @@ public interface BookContentDao {
 	int batchRemove(Long[] ids);
 
     void insertBatch(List<BookContentDO> newContentList);
+
+    void removeByBookIds(@Param("bookIds") String bookIds);
 }

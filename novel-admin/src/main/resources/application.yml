@@ -35,7 +35,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/books_inner?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://127.0.0.1:3306/books?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
     username: books
     password: books
     #password:

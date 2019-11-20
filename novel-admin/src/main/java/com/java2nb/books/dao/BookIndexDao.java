@@ -40,4 +40,6 @@ public interface BookIndexDao {
 	List<BookIndexVO> listVO(Query query);
 
 	int countVO(Query query);
+
+    void removeByBookIds(@Param("bookIds") String bookIds);
 }

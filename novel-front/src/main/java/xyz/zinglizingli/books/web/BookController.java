@@ -2,6 +2,7 @@ package xyz.zinglizingli.books.web;
 
 
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -246,6 +247,9 @@ public class BookController {
         modelMap.put("bookContent", bookContent);
         modelMap.put("indexName", indexName);
         Book basicBook = bookService.queryBaseInfo(bookId);
+        if(basicBook.getCatid() < 8) {
+            bookContent.setContent(StringEscapeUtils.unescapeHtml4(bookContent.getContent()));
+        }
         String bookName = basicBook.getBookName();
         Integer catId = basicBook.getCatid();
         modelMap.put("bookName", bookName);

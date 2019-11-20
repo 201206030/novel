@@ -80,7 +80,7 @@ function load() {
                                 + '\')"><i class="fa fa-edit"></i></a> ';*/
                             var r = '<a class="btn btn-warning btn-sm" href="#" title="删除"  mce_href="#" onclick="remove(\''
                                 + row.id
-                                + '\')"><i class="fa fa-remove"></i></a> ';
+                                + '\',\''+row.bookId+'\')"><i class="fa fa-remove"></i></a> ';
                             return r;
                         }
                     }]
@@ -124,7 +124,7 @@ function edit(id) {
     });
 }
 
-function remove(id) {
+function remove(id,bookId) {
     layer.confirm('确定要删除选中的记录？', {
         btn: ['确定', '取消']
     }, function () {
@@ -132,7 +132,8 @@ function remove(id) {
             url: prefix + "/remove",
             type: "post",
             data: {
-                'id': id
+                'id': id,
+                'bookId':bookId
             },
             success: function (r) {
                 if (r.code == 0) {
@@ -159,15 +160,22 @@ function batchRemove() {
         btn: ['确定', '取消']
         // 按钮
     }, function () {
+        debugger
         var ids = new Array();
         // 遍历所有选择的行数据，取每条数据对应的ID
         $.each(rows, function (i, row) {
             ids[i] = row['id'];
         });
+        var bookIds = new Array();
+        // 遍历所有选择的行数据，取每条数据对应的ID
+        $.each(rows, function (i, row) {
+            bookIds[i] = row['bookId'];
+        });
         $.ajax({
             type: 'POST',
             data: {
-                "ids": ids
+                "ids": ids,
+                "bookIds":bookIds
             },
             url: prefix + '/batchRemove',
             success: function (r) {

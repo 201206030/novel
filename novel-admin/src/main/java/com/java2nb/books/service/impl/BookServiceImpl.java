@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,15 +67,26 @@ public class BookServiceImpl implements BookService {
 
 		return bookDao.update(book);
 	}
-	
+
+	@Transactional
 	@Override
 	public int remove(Long id){
-		return bookDao.remove(id);
+		int rows = bookDao.remove(id);
+		bookIndexDao.removeByBookIds(id+"");
+		bookContentDao.removeByBookIds(id+"");
+		return rows;
 	}
-	
+
+	@Transactional
 	@Override
 	public int batchRemove(Long[] ids){
-		return bookDao.batchRemove(ids);
+
+		 int rows = bookDao.batchRemove(ids);
+		 String bookIds = StringUtils.join(ids,",");
+		bookIndexDao.removeByBookIds(bookIds);
+		bookContentDao.removeByBookIds(bookIds);
+		return rows;
+
 	}
 
 	@Override
@@ -108,12 +118,16 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public int indexRemove(Long id) {
+	@Transactional
+	public int indexRemove(Long id, Long bookId) {
+		bookContentDao.removeByBookIds(id+"");
 		return bookIndexDao.remove(id);
 	}
 
+	@Transactional
 	@Override
-	public int batchIndexRemove(Long[] ids) {
+	public int batchIndexRemove(Long[] ids, Long[] bookIds) {
+		bookContentDao.removeByBookIds(StringUtils.join(ids,","));
 		return bookIndexDao.batchRemove(ids);
 	}
 

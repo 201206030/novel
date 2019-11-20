@@ -130,4 +130,8 @@
 		select max(index_num) from book_index where book_id = #{bookId,jdbcType=VARCHAR} ;
 	</select>
 
+	<delete id="removeByBookIds" parameterType="string">
+		delete from book_index where book_id in (${bookIds});
+	</delete>
+
 </mapper>
