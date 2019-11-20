@@ -7,8 +7,8 @@ spring:
 #      username: xiongxiaoyang
 #      password: Lzslov123!
       url: jdbc:mysql://127.0.0.1:3306/books?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-      username: root
-      password: test123456
+      username: books
+      password: books
   cache:
     ehcache:
       config: classpath:ehcache.xml

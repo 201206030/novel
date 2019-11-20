@@ -1,5 +1,5 @@
 java2nb:
-  uploadPath: c:/var/java2nb/uploaded_files/
+  uploadPath: /var/java2nb/uploaded_files/
   username: admin
   password: 111111
 

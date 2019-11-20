@@ -111,7 +111,13 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
 1. 修改application.yml文件中数据库配置。
 
-2. 启动程序，登录后台系统，运行爬虫程序爬取小说数据。
+2. 修改application.yml文件中Redis配置。
+
+3. 修改application.yml文件中文件上传路径配置。
+
+   ![](./assets/upload_config.png)
+
+4. 启动程序，登录后台系统，运行爬虫程序爬取小说数据。
 
    ![](./assets/crawl_pic.png)
 

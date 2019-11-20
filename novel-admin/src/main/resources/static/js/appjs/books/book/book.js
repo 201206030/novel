@@ -113,9 +113,9 @@ function load() {
                         field: 'id',
                         align: 'center',
                         formatter: function (value, row, index) {
-                            var d = '<a class="btn" style="color: #0a6aa1"  href="#" mce_href="#" title="详情" onclick="detail(\''
+                           /* var d = '<a class="btn" style="color: #0a6aa1"  href="#" mce_href="#" title="详情" onclick="detail(\''
                                 + row.id
-                                + '\')">详情</a> <br/>';
+                                + '\')">详情</a> <br/>';*/
                             /*var e = '<a class="btn" style="color: #0a6aa1"  href="#" mce_href="#" title="编辑" onclick="edit(\''
                                 + row.id
                                 + '\')">编辑</a><br/> ';*/
@@ -128,7 +128,7 @@ function load() {
                             var cm = '<a class="btn" style="color: #0a6aa1"  href="#" mce_href="#" title="章节管理" onclick="manageIndex(\''
                                 + row.id
                                 + '\')">章节管理</a> ';
-                            return d +  r + p +cm;
+                            return   r + p +cm;
                         }
                     }]
             });
