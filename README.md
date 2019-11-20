@@ -66,9 +66,23 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
    ![](./assets/crawl_config.png)
 
-   4.其他功能开发中。。。
+   3.小说管理页面。
 
+   ![](./assets/novel_list.png)
    
+   4.小说发布页面。
+   
+   ![](./assets/novel_pub.png)
+   
+   5.小说章节发布页面
+   
+   ![](./assets/chapter_pub.png)
+   
+   6.小说章节管理页面。
+   
+   ![](./assets/chapter_manager.png)
+
+
 
 #### 微信小程序截图
 

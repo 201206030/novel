@@ -1,0 +1,3 @@
+books.sql为全量sql文件，yyyy-MM-dd.sql为增量sql文件。
+新用户只需要执行books.sql文件即可。
+老用户更新代码后，根据上次代码的更新时间，执行该日期之后的增量sql文件。
