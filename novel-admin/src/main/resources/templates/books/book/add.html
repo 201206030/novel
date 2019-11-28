@@ -10,19 +10,20 @@
                 <div class="ibox-content">
                     <form class="form-horizontal m-t" id="signupForm">
                         <div class="form-group">
-                        <label class="col-sm-3 control-label">分类：</label>
-                        <div class="col-sm-8">
-                            <select data-placeholder="--选择类别--" name="catid" id="catid"
-                                    class="form-control chosen-select" tabindex="2" dict-type="novel_category" >
-                            </select>
+                            <label class="col-sm-3 control-label">分类：</label>
+                            <div class="col-sm-8">
+                                <select data-placeholder="--选择类别--" name="catid" id="catid"
+                                        class="form-control chosen-select" tabindex="2" dict-type="novel_category">
+                                </select>
+                            </div>
                         </div>
-                    </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">封面：</label>
                             <div class="col-sm-8">
-                                <img title="点击选择图片"  id="picImage" style="cursor:pointer;width: 100px;height: 100px" src="/img/webuploader.png"/>
+                                <img title="点击选择图片" id="picImage" style="cursor:pointer;width: 100px;height: 100px"
+                                     src="/img/webuploader.png"/>
                                 <input id="picUrl" name="picUrl" class="form-control"
-                                       type="hidden" >
+                                       type="hidden">
 
                             </div>
                         </div>
@@ -104,7 +105,7 @@
             size: 1000,
             accept: 'file',
             done: function (r) {
-                $("#picImage").attr("src",r.fileName);
+                $("#picImage").attr("src", r.fileName);
                 $("#picUrl").val(r.fileName);
             },
             error: function (r) {
