@@ -14,7 +14,7 @@ spring:
       config: classpath:ehcache.xml
   thymeleaf:
     mode: LEGACYHTML5 #去除thymeleaf的html严格校验thymeleaf.mode=LEGACYHTML5
-    cache: true # 是否开启模板缓存，默认true,建议在开发时关闭缓存,不然没法看到实时
+    cache: false # 是否开启模板缓存，默认true,建议在开发时关闭缓存,不然没法看到实时
   freemarker:
     template-loader-path: classpath:/templates #设定freemarker文件路径 默认为src/main/resources/templatestemplate-loader-path=classpath:/templates
     charset: UTF-8 # 模板编码
