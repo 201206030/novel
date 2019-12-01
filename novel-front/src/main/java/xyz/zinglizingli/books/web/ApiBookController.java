@@ -176,13 +176,13 @@ public class ApiBookController {
         return modelMap;
     }
 
-    @RequestMapping("addVisit")
+    /*@RequestMapping("addVisit")
     public String addVisit(@RequestParam("bookId") Long bookId) {
 
-        bookService.addVisitCount(bookId);
+        bookService.addVisitCount(bookId, userId, indexNum);
 
         return "ok";
-    }
+    }*/
 
 
 }

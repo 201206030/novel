@@ -17,10 +17,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.client.RestTemplate;
 import tk.mybatis.orderbyhelper.OrderByHelper;
 import xyz.zinglizingli.books.constant.CacheKeyConstans;
-import xyz.zinglizingli.books.mapper.BookContentMapper;
-import xyz.zinglizingli.books.mapper.BookIndexMapper;
-import xyz.zinglizingli.books.mapper.BookMapper;
-import xyz.zinglizingli.books.mapper.ScreenBulletMapper;
+import xyz.zinglizingli.books.mapper.*;
 import xyz.zinglizingli.books.po.*;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
@@ -44,6 +41,9 @@ public class BookService {
 
     @Autowired
     private ScreenBulletMapper screenBulletMapper;
+
+    @Autowired
+    private UserRefBookMapper userRefBookMapper;
 
     @Autowired
     private CommonCacheUtil cacheUtil;
@@ -330,9 +330,14 @@ public class BookService {
         return contentBuilder.toString();
     }
 
-    public void addVisitCount(Long bookId) {
+    public void addVisitCount(Long bookId, String userId, Integer indexNum) {
 
         bookMapper.addVisitCount(bookId);
+
+        if(org.apache.commons.lang3.StringUtils.isNotBlank(userId)) {
+            userRefBookMapper.updateNewstIndex(bookId, userId, indexNum);
+        }
+
     }
 
     public String queryIndexNameByBookIdAndIndexNum(Long bookId, Integer indexNum) {

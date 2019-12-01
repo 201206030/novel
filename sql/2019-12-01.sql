@@ -1,0 +1,1 @@
+alter table user_ref_book add column `index_num` int(5);

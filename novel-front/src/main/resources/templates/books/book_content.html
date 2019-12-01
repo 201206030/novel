@@ -375,6 +375,14 @@
 
 <input type="hidden" id="contentIdHidden" th:value="${bookContent.id}"/>
 
+<input type="hidden" id="indexNumHidden" th:value="${bookContent.indexNum}"/>
+
+<script>
+    var token = localStorage.getItem("token");
+    $.get("/book/addVisit", {"bookId": $("#bookIdHidden").val(),"indexNum":$("#indexNumHidden").val(),"token":token}, function () {
+    });
+</script>
+
 <div style="height: 50px;line-height: 50px;text-align: center" class="layui-header header header-doc  layui-bg-cyan">
 
     <div style="width:10%;float: left;margin-left: 10px">
@@ -458,8 +466,7 @@
         isMobile = isIphone || isAndroid;
 
 
-    $.get("/book/addVisit", {"bookId": $("#bookIdHidden").val()}, function () {
-    });
+
 
 </script>
 <script>

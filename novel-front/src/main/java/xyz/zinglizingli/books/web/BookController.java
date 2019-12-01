@@ -17,6 +17,7 @@ import xyz.zinglizingli.books.po.BookContent;
 import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.po.ScreenBullet;
 import xyz.zinglizingli.books.service.BookService;
+import xyz.zinglizingli.books.service.UserService;
 import xyz.zinglizingli.books.vo.BookVO;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 
@@ -34,6 +35,9 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private CommonCacheUtil commonCacheUtil;
@@ -187,7 +191,16 @@ public class BookController {
     }
 
     @RequestMapping("{bookId}.html")
-    public String detail(@PathVariable("bookId") Long bookId, ModelMap modelMap) {
+    public String detail(@PathVariable("bookId") Long bookId, @RequestParam(value = "token",required = false)String token, ModelMap modelMap) {
+        String userId = commonCacheUtil.get(token);
+        if(org.apache.commons.lang3.StringUtils.isNotBlank(userId)){
+            Integer indexNumber = userService.queryBookIndexNumber(userId,bookId);
+            if(indexNumber!=null){
+                return "redirect:/book/"+bookId+"/"+indexNumber+".html";
+            }
+
+        }
+
         //查询基本信息
         Book book = bookService.queryBaseInfo(bookId);
         //查询最新目录信息
@@ -260,9 +273,10 @@ public class BookController {
 
     @RequestMapping("addVisit")
     @ResponseBody
-    public String addVisit(@RequestParam("bookId") Long bookId) {
+    public String addVisit(@RequestParam("bookId") Long bookId,@RequestParam("indexNum") Integer indexNum,@RequestParam("token") String token) {
+        String userId = commonCacheUtil.get(token);
 
-        bookService.addVisitCount(bookId);
+        bookService.addVisitCount(bookId,userId,indexNum);
 
         return "ok";
     }

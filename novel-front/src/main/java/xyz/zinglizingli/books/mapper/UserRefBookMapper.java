@@ -28,4 +28,8 @@ public interface UserRefBookMapper {
     int updateByPrimaryKeySelective(UserRefBook record);
 
     int updateByPrimaryKey(UserRefBook record);
+
+    void updateNewstIndex(@Param("bookId") Long bookId,@Param("userId") String userId,@Param("indexNum") Integer indexNum);
+
+    Integer queryBookIndexNumber(@Param("userId") String userId,@Param("bookId") Long bookId);
 }

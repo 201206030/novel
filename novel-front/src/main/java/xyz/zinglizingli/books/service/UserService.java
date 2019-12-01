@@ -83,4 +83,8 @@ public class UserService {
             addToCollect(bookId, userid);
         }
     }
+
+    public Integer queryBookIndexNumber(String userId, Long bookId) {
+        return userRefBookMapper.queryBookIndexNumber(userId,bookId);
+    }
 }

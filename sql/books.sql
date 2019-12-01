@@ -1009,5 +1009,5 @@ INSERT INTO `sys_dict` (`id`, `name`, `value`, `type`, `description`, `sort`, `p
 INSERT INTO `sys_dict` (`id`, `name`, `value`, `type`, `description`, `sort`, `parent_id`, `create_by`, `create_date`, `update_by`, `update_date`, `remarks`, `del_flag`) VALUES ('128', '网游竞技', '6', 'novel_category', '小说分类', '6', NULL, NULL, NULL, NULL, NULL, '', NULL);
 INSERT INTO `sys_dict` (`id`, `name`, `value`, `type`, `description`, `sort`, `parent_id`, `create_by`, `create_date`, `update_by`, `update_date`, `remarks`, `del_flag`) VALUES ('129', '女生频道', '7', 'novel_category', '小说分类', '7', NULL, NULL, NULL, NULL, NULL, '', NULL);
 
-
+alter table user_ref_book add column `index_num` int(5);
 

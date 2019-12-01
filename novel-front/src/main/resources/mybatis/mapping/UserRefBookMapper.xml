@@ -178,4 +178,15 @@
       book_id = #{bookId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <update id="updateNewstIndex">
+    update user_ref_book
+    set index_num = #{indexNum}
+    where book_id = #{bookId} and user_id = #{userId}
+  </update>
+
+  <select id="queryBookIndexNumber" resultType="java.lang.Integer">
+     select index_num from user_ref_book
+     where book_id = #{bookId} and user_id = #{userId}
+  </select>
 </mapper>
