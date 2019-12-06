@@ -102,8 +102,8 @@ public class SearchFilter implements Filter {
 
         try {
 
-            OutputStream out = resp.getOutputStream();
             if(requestURI.contains("/localPic/")){
+                OutputStream out = resp.getOutputStream();
                 InputStream input = new FileInputStream(new File(picSavePath+requestURI));
                 byte[] b = new byte[4096];
                 for (int n; (n = input.read(b)) != -1;) {
@@ -193,6 +193,7 @@ public class SearchFilter implements Filter {
                         String realUrl = "https://images.dmzj.com/" + requestURI.substring(15);
                         ResponseEntity<Resource> resEntity = restTemplate.exchange(realUrl, HttpMethod.GET, requestEntity, Resource.class);
                         InputStream input = resEntity.getBody().getInputStream();
+                        OutputStream out = resp.getOutputStream();
                         byte[] b = new byte[4096];
                         for (int n; (n = input.read(b)) != -1;) {
                             out.write(b, 0, n);

@@ -38,7 +38,9 @@ public class CrawlBooksSchedule {
     @Autowired
     private BookService bookService;
 
-    RestTemplate restTemplate = RestTemplateUtil.getInstance("utf-8");
+    RestTemplate utf8RestTemplate = RestTemplateUtil.getInstance("utf-8");
+
+    RestTemplate isoRestTemplate = RestTemplateUtil.getInstance("iso-8859-1");
 
     @Value("${books.lowestScore}")
     private Float lowestScore;
@@ -166,10 +168,9 @@ public class CrawlBooksSchedule {
                                         String picSrc = picMather.group(1);
 
                                         if(picSaveType == 2 && StringUtils.isNotBlank(picSrc)){
-                                            restTemplate = RestTemplateUtil.getInstance("iso-8859-1");
                                             HttpHeaders headers = new HttpHeaders();
                                             HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
-                                            ResponseEntity<Resource> resEntity = restTemplate.exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
+                                            ResponseEntity<Resource> resEntity = isoRestTemplate.exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
                                             InputStream input = resEntity.getBody().getInputStream();
                                             picSrc = "/localPic/" + updateTimeStr.substring(0,4)+"/"+updateTimeStr.substring(5,7)+"/"+updateTimeStr.substring(8,10)
                                                     + UUIDUtils.getUUID32()
@@ -528,11 +529,10 @@ public class CrawlBooksSchedule {
                                         String picSrc = picMather.group(1);
 
                                         if(picSaveType == 2 && StringUtils.isNotBlank(picSrc)){
-                                            restTemplate = RestTemplateUtil.getInstance("iso-8859-1");
                                             HttpHeaders headers = new HttpHeaders();
                                             headers.add("Referer","https://www.biqudao.com");
                                             HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
-                                            ResponseEntity<Resource> resEntity = restTemplate.exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
+                                            ResponseEntity<Resource> resEntity = isoRestTemplate.exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
                                             InputStream input = resEntity.getBody().getInputStream();
                                             picSrc = "/localPic/" + updateTimeStr.substring(0,2)+"/"+updateTimeStr.substring(3,5)+"/"+updateTimeStr.substring(6,8)
                                                     + UUIDUtils.getUUID32()
@@ -670,7 +670,7 @@ public class CrawlBooksSchedule {
 
     }
 
-    private String getByHttpClient(String catBookListUrl) {
+    private String getByHttpClient(String url) {
         try {
            /* HttpClient httpClient = new DefaultHttpClient();
             HttpGet getReq = new HttpGet(catBookListUrl);
@@ -683,7 +683,7 @@ public class CrawlBooksSchedule {
                 return null;
             }*/
             //经测试restTemplate比httpClient效率高出很多倍，所有选择restTemplate
-            ResponseEntity<String> forEntity = restTemplate.getForEntity(catBookListUrl, String.class);
+            ResponseEntity<String> forEntity = utf8RestTemplate.getForEntity(url, String.class);
             if (forEntity.getStatusCode() == HttpStatus.OK) {
                 return forEntity.getBody();
             } else {
