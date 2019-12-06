@@ -139,15 +139,19 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
    ![](./assets/craw_config.png)
 
-5. 本地直接运行或使用maven插件打包成jar文件上传到服务器上。
+5. 根据需求，修改项目application.yml配置文件中的图片保存方式。
 
-6. `http://ip:port`访问首页。
+   ![](./assets/pic_save_type.png)
 
-7. `http://ip:port/books`访问精品小说模块。
+6. 本地直接运行或使用maven插件打包成jar文件上传到服务器上。
 
-8. `http://ip:port/book/searchSoftBook.html`访问轻小说模块。
+7. `http://ip:port`访问首页。
 
-9. `http://ip:port/book/searchMhBook.html`访问漫画模块。
+8. `http://ip:port/books`访问精品小说模块。
+
+9. `http://ip:port/book/searchSoftBook.html`访问轻小说模块。
+
+10. `http://ip:port/book/searchMhBook.html`访问漫画模块。
 
 **喜欢此项目的可以给我的GitHub和Gitee加个Star支持一下 。**
 
@@ -180,6 +184,10 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
  Gitee仓库地址：  https://gitee.com/xiongxyang/fiction_house 
 
  GitHub仓库地址：  https://github.com/201206030/fiction_house 
+
+#### 文档地址
+
+ http://www.java2nb.com/article/5.html 
 
 #### QQ交流群
 
