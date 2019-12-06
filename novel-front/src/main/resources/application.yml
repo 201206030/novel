@@ -4,8 +4,8 @@ server:
 spring:
   datasource:
       url: jdbc:mysql://127.0.0.1:3306/books?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-      username: books
-      password: books
+      username: root
+      password: test123456
 #      url: jdbc:mysql://127.0.0.1:3306/books?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
 #      username: root
 #      password: test123456
@@ -70,6 +70,15 @@ books:
 crawl:
   website:
     type: 2
+
+
+
+
+pic:
+  save:
+    type: 1 #图片保存方式, 1不保存，使用网络图片 ，2本地保存
+    path: d:/pic  #图片保存路径
+
 
 search:
   schedule:

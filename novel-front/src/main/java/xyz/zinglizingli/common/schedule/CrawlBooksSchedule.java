@@ -1,11 +1,12 @@
 package xyz.zinglizingli.common.schedule;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,8 +15,13 @@ import xyz.zinglizingli.books.po.BookContent;
 import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.util.ExcutorUtils;
+import xyz.zinglizingli.books.util.UUIDUtils;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -39,6 +45,13 @@ public class CrawlBooksSchedule {
 
     @Value("${crawl.website.type}")
     private Byte websiteType;
+
+
+    @Value("${pic.save.type}")
+    private Byte picSaveType;
+
+    @Value("${pic.save.path}")
+    private String picSavePath;
 
 
     private boolean isExcuting = false;
@@ -151,6 +164,30 @@ public class CrawlBooksSchedule {
                                     Matcher picMather = picPatten.matcher(body);
                                     if (picMather.find()) {
                                         String picSrc = picMather.group(1);
+
+                                        if(picSaveType == 2 && StringUtils.isNotBlank(picSrc)){
+                                            restTemplate = RestTemplateUtil.getInstance("iso-8859-1");
+                                            HttpHeaders headers = new HttpHeaders();
+                                            HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+                                            ResponseEntity<Resource> resEntity = restTemplate.exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
+                                            InputStream input = resEntity.getBody().getInputStream();
+                                            picSrc = "/localPic/" + updateTimeStr.substring(0,4)+"/"+updateTimeStr.substring(5,7)+"/"+updateTimeStr.substring(8,10)
+                                                    + UUIDUtils.getUUID32()
+                                                    + picSrc.substring(picSrc.lastIndexOf("."));
+                                            File picFile = new File(picSavePath+picSrc);
+                                            File parentFile = picFile.getParentFile();
+                                            if(!parentFile.exists()){
+                                                parentFile.mkdirs();
+                                            }
+                                            OutputStream out = new FileOutputStream(picFile);
+                                            byte[] b = new byte[4096];
+                                            for (int n; (n = input.read(b)) != -1;) {
+                                                out.write(b, 0, n);
+                                            }
+                                            out.close();
+                                            input.close();
+
+                                        }
 
                                         Pattern descPatten = Pattern.compile("class=\"review\">([^<]+)</p>");
                                         Matcher descMatch = descPatten.matcher(body);
@@ -489,6 +526,31 @@ public class CrawlBooksSchedule {
                                     Matcher picMather = picPatten.matcher(body);
                                     if (picMather.find()) {
                                         String picSrc = picMather.group(1);
+
+                                        if(picSaveType == 2 && StringUtils.isNotBlank(picSrc)){
+                                            restTemplate = RestTemplateUtil.getInstance("iso-8859-1");
+                                            HttpHeaders headers = new HttpHeaders();
+                                            headers.add("Referer","https://www.biqudao.com");
+                                            HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+                                            ResponseEntity<Resource> resEntity = restTemplate.exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
+                                            InputStream input = resEntity.getBody().getInputStream();
+                                            picSrc = "/localPic/" + updateTimeStr.substring(0,2)+"/"+updateTimeStr.substring(3,5)+"/"+updateTimeStr.substring(6,8)
+                                                    + UUIDUtils.getUUID32()
+                                                    + picSrc.substring(picSrc.lastIndexOf("."));
+                                            File picFile = new File(picSavePath+picSrc);
+                                            File parentFile = picFile.getParentFile();
+                                            if(!parentFile.exists()){
+                                                parentFile.mkdirs();
+                                            }
+                                            OutputStream out = new FileOutputStream(picFile);
+                                            byte[] b = new byte[4096];
+                                            for (int n; (n = input.read(b)) != -1;) {
+                                                out.write(b, 0, n);
+                                            }
+                                            out.close();
+                                            input.close();
+
+                                        }
 
                                         Pattern descPatten = Pattern.compile("class=\"review\">([^<]+)</p>");
                                         Matcher descMatch = descPatten.matcher(body);

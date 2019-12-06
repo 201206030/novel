@@ -3,6 +3,7 @@ package xyz.zinglizingli.common.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -38,6 +39,9 @@ public class SearchFilter implements Filter {
 
     private RestTemplate restTemplate;
 
+    private String picSavePath;
+
+
 
     private final String SUANWEI_BOOK_REGEX = "<a\\s+href=\"/(\\d+_\\d+)/\">";
     private final String SUANWEI_BOOK_HTML_REGEX = "/\\d+_\\d+\\.html";
@@ -48,6 +52,7 @@ public class SearchFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        picSavePath = filterConfig.getInitParameter("picSavePath");
         picPostFix = new ArrayList<>();
         picPostFix.add("jpg");
         picPostFix.add("pcx");
@@ -96,6 +101,19 @@ public class SearchFilter implements Filter {
         String requestURI = req.getRequestURI();
 
         try {
+
+            OutputStream out = resp.getOutputStream();
+            if(requestURI.contains("/localPic/")){
+                InputStream input = new FileInputStream(new File(picSavePath+requestURI));
+                byte[] b = new byte[4096];
+                for (int n; (n = input.read(b)) != -1;) {
+                    out.write(b, 0, n);
+                }
+                input.close();
+                out.close();
+                return;
+
+            }
 
             if (!requestURL.contains("/manhua/")) {
                 filterChain.doFilter(req, resp);
@@ -175,7 +193,6 @@ public class SearchFilter implements Filter {
                         String realUrl = "https://images.dmzj.com/" + requestURI.substring(15);
                         ResponseEntity<Resource> resEntity = restTemplate.exchange(realUrl, HttpMethod.GET, requestEntity, Resource.class);
                         InputStream input = resEntity.getBody().getInputStream();
-                        OutputStream out = resp.getOutputStream();
                         byte[] b = new byte[4096];
                         for (int n; (n = input.read(b)) != -1;) {
                             out.write(b, 0, n);
