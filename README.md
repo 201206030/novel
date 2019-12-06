@@ -2,9 +2,7 @@
 
 #### 项目文档
 
-[点击前往]: http://www.java2nb.com/article/5.html
-
-
+[点击前往]( http://www.java2nb.com/article/5.html )
 
 #### 项目介绍
 
