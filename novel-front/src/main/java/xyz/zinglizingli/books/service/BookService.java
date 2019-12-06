@@ -103,6 +103,7 @@ public class BookService {
                     }
                     out.close();
                     input.close();
+                    book.setPicUrl(picSrc);
                 }catch (Exception e){
                     log.error(e.getMessage(),e);
                 }

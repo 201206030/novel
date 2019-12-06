@@ -1,12 +1,11 @@
 package xyz.zinglizingli.common.schedule;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,16 +14,13 @@ import xyz.zinglizingli.books.po.BookContent;
 import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.util.ExcutorUtils;
-import xyz.zinglizingli.books.util.UUIDUtils;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,7 +36,6 @@ public class CrawlBooksSchedule {
 
     RestTemplate utf8RestTemplate = RestTemplateUtil.getInstance("utf-8");
 
-    RestTemplate isoRestTemplate = RestTemplateUtil.getInstance("iso-8859-1");
 
     @Value("${books.lowestScore}")
     private Float lowestScore;
