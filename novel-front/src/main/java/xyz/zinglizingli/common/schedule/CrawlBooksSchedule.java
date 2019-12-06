@@ -91,7 +91,7 @@ public class CrawlBooksSchedule {
     }
 
     private void updateBiquTaBooks(int finalI) {
-        String baseUrl = "https://m.biquta.com";
+        String baseUrl = "https://m.biquta.la";
         String catBookListUrlBase = baseUrl + "/class/";
 
         int page = 1;//起始页码
@@ -167,28 +167,7 @@ public class CrawlBooksSchedule {
                                     if (picMather.find()) {
                                         String picSrc = picMather.group(1);
 
-                                        if(picSaveType == 2 && StringUtils.isNotBlank(picSrc)){
-                                            HttpHeaders headers = new HttpHeaders();
-                                            HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
-                                            ResponseEntity<Resource> resEntity = isoRestTemplate.exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
-                                            InputStream input = resEntity.getBody().getInputStream();
-                                            picSrc = "/localPic/" + updateTimeStr.substring(0,4)+"/"+updateTimeStr.substring(5,7)+"/"+updateTimeStr.substring(8,10)
-                                                    + UUIDUtils.getUUID32()
-                                                    + picSrc.substring(picSrc.lastIndexOf("."));
-                                            File picFile = new File(picSavePath+picSrc);
-                                            File parentFile = picFile.getParentFile();
-                                            if(!parentFile.exists()){
-                                                parentFile.mkdirs();
-                                            }
-                                            OutputStream out = new FileOutputStream(picFile);
-                                            byte[] b = new byte[4096];
-                                            for (int n; (n = input.read(b)) != -1;) {
-                                                out.write(b, 0, n);
-                                            }
-                                            out.close();
-                                            input.close();
 
-                                        }
 
                                         Pattern descPatten = Pattern.compile("class=\"review\">([^<]+)</p>");
                                         Matcher descMatch = descPatten.matcher(body);
@@ -343,15 +322,15 @@ public class CrawlBooksSchedule {
 
 //①爬分类列表的书籍url和总页数
 //        https:
-////m.biquta.com/class/1/1.html
+////m.biquta.la/class/1/1.html
 //        https:
-////m.biquta.com/class/2/1.html
+////m.biquta.la/class/2/1.html
 //        https:
-////m.biquta.com/class/2/2.html
+////m.biquta.la/class/2/2.html
 //
 //
 //        https:
-////m.biquta.com/class/2/2.html
+////m.biquta.la/class/2/2.html
 //<input type = "text" class="page_txt" value = "2/1244" size = "5" name = "txtPage" id = "txtPage" >
 //
 //
@@ -528,29 +507,6 @@ public class CrawlBooksSchedule {
                                     if (picMather.find()) {
                                         String picSrc = picMather.group(1);
 
-                                        if(picSaveType == 2 && StringUtils.isNotBlank(picSrc)){
-                                            HttpHeaders headers = new HttpHeaders();
-                                            headers.add("Referer","https://www.biqudao.com");
-                                            HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
-                                            ResponseEntity<Resource> resEntity = isoRestTemplate.exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
-                                            InputStream input = resEntity.getBody().getInputStream();
-                                            picSrc = "/localPic/" + updateTimeStr.substring(0,2)+"/"+updateTimeStr.substring(3,5)+"/"+updateTimeStr.substring(6,8)
-                                                    + UUIDUtils.getUUID32()
-                                                    + picSrc.substring(picSrc.lastIndexOf("."));
-                                            File picFile = new File(picSavePath+picSrc);
-                                            File parentFile = picFile.getParentFile();
-                                            if(!parentFile.exists()){
-                                                parentFile.mkdirs();
-                                            }
-                                            OutputStream out = new FileOutputStream(picFile);
-                                            byte[] b = new byte[4096];
-                                            for (int n; (n = input.read(b)) != -1;) {
-                                                out.write(b, 0, n);
-                                            }
-                                            out.close();
-                                            input.close();
-
-                                        }
 
                                         Pattern descPatten = Pattern.compile("class=\"review\">([^<]+)</p>");
                                         Matcher descMatch = descPatten.matcher(body);

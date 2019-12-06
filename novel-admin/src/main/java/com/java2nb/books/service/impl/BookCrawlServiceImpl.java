@@ -407,7 +407,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
     }
 
     private void crawBiquTaBooks(int i) {
-        String baseUrl = "https://m.biquta.com";
+        String baseUrl = "https://m.biquta.la";
         String catBookListUrlBase = baseUrl + "/class/";
         if (crawlConfig.getPriority() == 1) {
             catBookListUrlBase = baseUrl + "/lhb/";
