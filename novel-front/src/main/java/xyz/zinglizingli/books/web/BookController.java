@@ -273,7 +273,7 @@ public class BookController {
 
     @RequestMapping("addVisit")
     @ResponseBody
-    public String addVisit(@RequestParam("bookId") Long bookId,@RequestParam("indexNum") Integer indexNum,@RequestParam("token") String token) {
+    public String addVisit(@RequestParam("bookId") Long bookId,@RequestParam(value = "indexNum",defaultValue = "0") Integer indexNum,@RequestParam(value = "token",defaultValue = "") String token) {
         String userId = commonCacheUtil.get(token);
 
         bookService.addVisitCount(bookId,userId,indexNum);
