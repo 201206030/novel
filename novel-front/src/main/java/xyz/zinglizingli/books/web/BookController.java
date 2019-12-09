@@ -2,9 +2,9 @@ package xyz.zinglizingli.books.web;
 
 
 import com.github.pagehelper.PageInfo;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -26,24 +26,30 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
+/**
+ * 小说Controller
+ * @author 11797
+ */
 @Controller
 @RequestMapping("book")
+@RequiredArgsConstructor
 public class BookController {
 
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private CommonCacheUtil commonCacheUtil;
+    private final CommonCacheUtil commonCacheUtil;
 
 
 
+    /**
+     * 精品小说搜索页
+     * */
     @RequestMapping("search")
     public String search(@RequestParam(value = "curr", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "20") int pageSize,
                          @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "catId", required = false) Integer catId,
@@ -120,6 +126,9 @@ public class BookController {
     }
 
 
+    /**
+     * 轻小说搜索页
+     * */
     @RequestMapping("searchSoftBook.html")
     public String searchSoftBook(@RequestParam(value = "curr", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "20") int pageSize,
                                  @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "catId", defaultValue = "8") Integer catId,
@@ -155,6 +164,9 @@ public class BookController {
         return "books/soft_book_search";
     }
 
+    /**
+     * 漫画搜索页
+     * */
     @RequestMapping("searchMhBook.html")
     public String searchMhBook(@RequestParam(value = "curr", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "20") int pageSize,
                                  @RequestParam(value = "keyword", required = false) String keyword, @RequestParam(value = "catId", defaultValue = "9") Integer catId,
@@ -190,6 +202,9 @@ public class BookController {
         return "books/mh_book_search";
     }
 
+    /**
+     * 书籍详情页
+     * */
     @RequestMapping("{bookId}.html")
     public String detail(@PathVariable("bookId") Long bookId, @RequestParam(value = "token",required = false)String token, ModelMap modelMap) {
         String userId = commonCacheUtil.get(token);
@@ -229,6 +244,9 @@ public class BookController {
         return "books/book_detail";
     }
 
+    /**
+     * 书籍目录页
+     * */
     @RequestMapping("{bookId}/index.html")
     public String bookIndex(@PathVariable("bookId") Long bookId, ModelMap modelMap) {
         List<BookIndex> indexList = bookService.queryAllIndexList(bookId);
@@ -239,13 +257,17 @@ public class BookController {
         return "books/book_index";
     }
 
+
+    /**
+     * 书籍内容页
+     * */
     @RequestMapping("{bookId}/{indexNum}.html")
     public String bookContent(@PathVariable("bookId") Long bookId, @PathVariable("indexNum") Integer indexNum, ModelMap modelMap) {
         BookContent bookContent = bookService.queryBookContent(bookId, indexNum);
         String indexName;
         if (bookContent == null) {
             bookContent = new BookContent();
-            bookContent.setId(-1l);
+            bookContent.setId(-1L);
             bookContent.setBookId(bookId);
             bookContent.setIndexNum(indexNum);
             bookContent.setContent("正在手打中，请稍等片刻，内容更新后，需要重新刷新页面，才能获取最新更新");
@@ -271,6 +293,9 @@ public class BookController {
     }
 
 
+    /**
+     * 增加访问次数
+     * */
     @RequestMapping("addVisit")
     @ResponseBody
     public String addVisit(@RequestParam("bookId") Long bookId,@RequestParam(value = "indexNum",defaultValue = "0") Integer indexNum,@RequestParam(value = "token",defaultValue = "") String token) {
@@ -281,6 +306,9 @@ public class BookController {
         return "ok";
     }
 
+    /**
+     * 发送弹幕
+     * */
     @RequestMapping("sendBullet")
     @ResponseBody
     public Map<String, Object> sendBullet(@RequestParam("contentId") Long contentId, @RequestParam("bullet") String bullet) {
@@ -291,6 +319,9 @@ public class BookController {
         return result;
     }
 
+    /**
+     * 查询是否正在下载
+     * */
     @RequestMapping("queryIsDownloading")
     @ResponseBody
     public Map<String, Object> queryIsDownloading(HttpSession session) {
@@ -304,6 +335,9 @@ public class BookController {
     }
 
 
+    /**
+     * 查询弹幕
+     * */
     @RequestMapping("queryBullet")
     @ResponseBody
     public List<ScreenBullet> queryBullet(@RequestParam("contentId") Long contentId) {
@@ -325,27 +359,30 @@ public class BookController {
             OutputStream out = resp.getOutputStream();
             //设置响应头，对文件进行url编码
             bookName = URLEncoder.encode(bookName, "UTF-8");
-            resp.setContentType("application/octet-stream");//解决手机端不能下载附件的问题
+            //解决手机端不能下载附件的问题
+            resp.setContentType("application/octet-stream");
             resp.setHeader("Content-Disposition", "attachment;filename=" + bookName + ".txt");
             if (count > 0) {
                 for (int i = 0; i < count; i++) {
-                    String index = bookService.queryIndexList(bookId, i);
-                    String content = bookService.queryContentList(bookId, i);
-                    out.write(index.getBytes("utf-8"));
-                    out.write("\n".getBytes("utf-8"));
-                    content = content.replaceAll("<br\\s*/*>", "\r\n");
-                    content = content.replaceAll("&nbsp;", " ");
-                    content = content.replaceAll("<a[^>]*>", "");
-                    content = content.replaceAll("</a>", "");
-                    content = content.replaceAll("<div[^>]*>", "");
-                    content = content.replaceAll("</div>", "");
-                    content = content.replaceAll("<p[^>]*>[^<]*<a[^>]*>[^<]*</a>\\s*</p>", "");
-                    content = content.replaceAll("<p[^>]*>", "");
-                    content = content.replaceAll("</p>", "\r\n");
-                    out.write(content.getBytes("utf-8"));
-                    out.write("\r\n".getBytes("utf-8"));
-                    out.write("\r\n".getBytes("utf-8"));
-                    out.flush();
+                    String index = bookService.queryIndexNameByBookIdAndIndexNum(bookId, i);
+                    if(index != null) {
+                        String content = bookService.queryContentList(bookId, i);
+                        out.write(index.getBytes(StandardCharsets.UTF_8));
+                        out.write("\n".getBytes(StandardCharsets.UTF_8));
+                        content = content.replaceAll("<br\\s*/*>", "\r\n");
+                        content = content.replaceAll("&nbsp;", " ");
+                        content = content.replaceAll("<a[^>]*>", "");
+                        content = content.replaceAll("</a>", "");
+                        content = content.replaceAll("<div[^>]*>", "");
+                        content = content.replaceAll("</div>", "");
+                        content = content.replaceAll("<p[^>]*>[^<]*<a[^>]*>[^<]*</a>\\s*</p>", "");
+                        content = content.replaceAll("<p[^>]*>", "");
+                        content = content.replaceAll("</p>", "\r\n");
+                        out.write(content.getBytes(StandardCharsets.UTF_8));
+                        out.write("\r\n".getBytes(StandardCharsets.UTF_8));
+                        out.write("\r\n".getBytes(StandardCharsets.UTF_8));
+                        out.flush();
+                    }
                 }
 
             }

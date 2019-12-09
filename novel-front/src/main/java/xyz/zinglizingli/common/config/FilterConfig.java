@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import xyz.zinglizingli.common.filter.SearchFilter;
+import xyz.zinglizingli.common.filter.BookFilter;
 
 @Configuration
 public class FilterConfig{
@@ -13,9 +13,9 @@ public class FilterConfig{
     private String picSavePath;
 
     @Bean
-    public FilterRegistrationBean filterRegist() {
-        FilterRegistrationBean frBean = new FilterRegistrationBean();
-        frBean.setFilter(new SearchFilter());
+    public FilterRegistrationBean<BookFilter> filterRegist() {
+        FilterRegistrationBean<BookFilter> frBean = new FilterRegistrationBean<>();
+        frBean.setFilter(new BookFilter());
         frBean.addUrlPatterns("/*");
         frBean.addInitParameter("picSavePath",picSavePath);
         return frBean;

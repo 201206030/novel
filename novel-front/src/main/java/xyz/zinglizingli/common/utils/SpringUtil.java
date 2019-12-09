@@ -8,23 +8,17 @@ import org.springframework.stereotype.Component;
 import java.io.UnsupportedEncodingException;
 
 
+/**
+ * @author XXY
+ */
 @Component
 public class SpringUtil implements ApplicationContextAware {
 
 
-    public static void main(String[] args) {
-        String a = "���";
-        try {
-            String b = new String(a.getBytes("ISO-8859-1"),"gbk");
-            System.out.println(b);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     private static ApplicationContext applicationContext;
 
+    @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         if (SpringUtil.applicationContext == null) {
             SpringUtil.applicationContext = applicationContext;

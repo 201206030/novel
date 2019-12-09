@@ -1,6 +1,7 @@
 package xyz.zinglizingli.common.web;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,19 +15,21 @@ import xyz.zinglizingli.common.config.IndexRecBooksConfig;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 首页controller
+ * @author XXY
+ */
 @Controller
 @RequestMapping
+@RequiredArgsConstructor
 public class IndexController {
 
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    private CommonCacheUtil commonCacheUtil;
+    private final CommonCacheUtil commonCacheUtil;
 
-    @Autowired
-    private IndexRecBooksConfig indexRecBooksConfig;
+    private final IndexRecBooksConfig indexRecBooksConfig;
 
 
 
@@ -49,6 +52,7 @@ public class IndexController {
             hotBooks = bookService.search(1, 9, null, null, null, null, null, null, null, "visit_count DESC,score ", "DESC");
             commonCacheUtil.setObject(CacheKeyConstans.HOT_BOOK_LIST_KEY, hotBooks, 60 * 60 * 24);
         }
+
         List<Book> newBooks = (List<Book>) commonCacheUtil.getObject(CacheKeyConstans.NEWST_BOOK_LIST_KEY);
         if (newBooks == null) {
             //查询最近更新数据

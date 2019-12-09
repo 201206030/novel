@@ -3,6 +3,9 @@ package xyz.zinglizingli.books.util;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+/**
+ * @author XXY
+ */
 public class ExcutorUtils {
 
     private static ExecutorService fixedThreadPool;

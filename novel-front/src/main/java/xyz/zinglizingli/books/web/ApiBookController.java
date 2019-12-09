@@ -2,10 +2,13 @@ package xyz.zinglizingli.books.web;
 
 
 import com.github.pagehelper.PageInfo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.po.BookContent;
 import xyz.zinglizingli.books.po.BookIndex;
@@ -13,22 +16,26 @@ import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.vo.BookVO;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 
+/**
+ * api接口
+ * @author XXY
+ */
 @RestController
 @RequestMapping("api/book")
+@RequiredArgsConstructor
 public class ApiBookController {
 
 
-    @Autowired
-    private BookService bookService;
+    private final BookService bookService;
 
-    @Autowired
-    private CommonCacheUtil commonCacheUtil;
+    private final CommonCacheUtil commonCacheUtil;
 
 
+    /**
+     * 首页热门书籍查询接口
+     * */
     @RequestMapping("hotBook")
     public List<Book> hotBooks () {
         //查询热点数据
@@ -36,6 +43,9 @@ public class ApiBookController {
         return hotBooks;
     }
 
+    /**
+     * 首页最新书籍查询接口
+     * */
     @RequestMapping("newstBook")
     public List<Book> newstBook() {
         //查询最近更新数据
@@ -44,6 +54,9 @@ public class ApiBookController {
         return newBooks;
     }
 
+    /**
+     * 书籍搜索接口
+     * */
     @RequestMapping("search")
     public Map<String,Object> search(@RequestParam(value = "curr", defaultValue = "1") int page, @RequestParam(value = "limit", defaultValue = "20") int pageSize,
                          @RequestParam(value = "keyword", required = false) String keyword,
@@ -51,15 +64,14 @@ public class ApiBookController {
                                      @RequestParam(value = "catId", required = false) Integer catId,
                          @RequestParam(value = "historyBookIds", required = false) String ids,
                          @RequestParam(value = "token", required = false) String token,
-                         @RequestParam(value = "sortBy", defaultValue = "update_time") String sortBy, @RequestParam(value = "sort", defaultValue = "DESC") String sort,
-                         HttpServletRequest req, HttpServletResponse resp) {
+                         @RequestParam(value = "sortBy", defaultValue = "update_time") String sortBy, @RequestParam(value = "sort", defaultValue = "DESC") String sort
+                         ) {
 
         Map<String,Object> modelMap = new HashMap<>();
         String userId = null;
         String titleType = "最近更新";
         if (catId != null) {
             titleType = bookService.getCatNameById(catId);
-            ;
         } else if (keyword != null) {
             titleType = "搜索";
         } else if ("score".equals(sortBy)) {
@@ -114,6 +126,9 @@ public class ApiBookController {
         return modelMap;
     }
 
+    /**
+     * 书籍详情信息查询接口
+     * */
     @RequestMapping("{bookId}.html")
     public Map<String,Object> detail(@PathVariable("bookId") Long bookId) {
         Map<String,Object> modelMap = new HashMap<>();
@@ -131,6 +146,9 @@ public class ApiBookController {
         return modelMap;
     }
 
+    /**
+     * 书籍目录查询接口
+     * */
     @RequestMapping("{bookId}/index.html")
     public Map<String,Object> bookIndex(@PathVariable("bookId") Long bookId) {
         Map<String,Object> modelMap = new HashMap<>();
@@ -142,6 +160,9 @@ public class ApiBookController {
         return modelMap;
     }
 
+    /**
+     * 书籍章节内容查询接口
+     * */
     @RequestMapping("{bookId}/{indexNum}.html")
     public Map<String,Object> bookContent(@PathVariable("bookId") Long bookId, @PathVariable("indexNum") Integer indexNum) {
         Map<String,Object> modelMap = new HashMap<>();
@@ -161,7 +182,7 @@ public class ApiBookController {
         String indexName;
         if(bookContent==null) {
             bookContent = new BookContent();
-            bookContent.setId(-1l);
+            bookContent.setId(-1L);
             bookContent.setBookId(bookId);
             bookContent.setIndexNum(indexNum);
             bookContent.setContent("正在手打中，请稍等片刻，内容更新后，需要重新刷新页面，才能获取最新更新");
@@ -176,13 +197,6 @@ public class ApiBookController {
         return modelMap;
     }
 
-    /*@RequestMapping("addVisit")
-    public String addVisit(@RequestParam("bookId") Long bookId) {
-
-        bookService.addVisitCount(bookId, userId, indexNum);
-
-        return "ok";
-    }*/
 
 
 }

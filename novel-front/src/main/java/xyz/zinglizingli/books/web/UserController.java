@@ -1,6 +1,7 @@
 package xyz.zinglizingli.books.web;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,21 +16,23 @@ import xyz.zinglizingli.common.cache.CommonCacheUtil;
 
 import java.util.*;
 
+/**
+ * @author XXY
+ */
 @Controller
 @RequestMapping("user")
+@RequiredArgsConstructor
 public class UserController {
 
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private CommonCacheUtil commonCacheUtil;
+    private final CommonCacheUtil commonCacheUtil;
 
 
+    /**
+     * 登陆页面
+     * */
     @RequestMapping("login.html")
     public String login(Long bookId, ModelMap modelMap) {
         modelMap.put("bookId", bookId);
@@ -37,10 +40,13 @@ public class UserController {
     }
 
 
+    /**
+     * 登陆或注册
+     * */
     @RequestMapping("loginOrRegist")
     @ResponseBody
     public Map<String, Object> loginOrRegist(User user,Long bookId) {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(2);
         //查询用户名是否存在
         boolean isExistLoginName = userService.isExistLoginName(user.getLoginName());
         String token = null;
@@ -77,10 +83,13 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 登陆状态查询
+     * */
     @RequestMapping("isLogin")
     @ResponseBody
     public Map<String, Object> isLogin(String token) {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(2);
         String userId = commonCacheUtil.get(token);
         if(StringUtils.isEmpty(userId)){
             result.put("code", -1);
@@ -93,6 +102,9 @@ public class UserController {
     }
 
 
+    /**
+     * 加入书架
+     * */
     @RequestMapping("addToCollect")
     @ResponseBody
     public Map<String, Object> addToCollect(Long bookId,String token) {
@@ -109,10 +121,13 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 撤下书架
+     * */
     @RequestMapping("cancelToCollect")
     @ResponseBody
     public Map<String, Object> cancelToCollect(Long bookId,String token) {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(2);
         String userId = commonCacheUtil.get(token);
         if(StringUtils.isEmpty(userId)){
             result.put("code", -1);
@@ -125,10 +140,13 @@ public class UserController {
         return result;
     }
 
+    /**
+     * 判断是否加入书架
+     * */
     @RequestMapping("isCollect")
     @ResponseBody
     public Map<String, Object> isCollect(Long bookId,String token) {
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(2);
         String userId = commonCacheUtil.get(token);
         if(StringUtils.isEmpty(userId)){
             result.put("code", -1);

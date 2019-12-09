@@ -1,8 +1,8 @@
 package xyz.zinglizingli.books.service;
 
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,36 +14,52 @@ import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 
+/**
+ * @author XXY
+ */
 @Service
+@RequiredArgsConstructor
 public class MailService {
 
     private final Logger logger = LoggerFactory.getLogger(MailService.class);
 
+    /**
+     * 使用@Value注入application.properties中指定的用户名
+     * */
     @Value("${spring.mail.username}")
-    //使用@Value注入application.properties中指定的用户名
     private String from;
 
-    String nickName = "精品小说楼";
+    private String nickName = "精品小说楼";
 
-    @Autowired
-    //用于发送文件
-    private JavaMailSender mailSender;
+    /**
+     * 用于发送文件
+     * */
+    private final JavaMailSender mailSender;
 
 
+    /**
+     * 发送简单邮件
+     * */
     public void sendSimpleMail(String to, String subject, String content) {
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(to);//收信人
-        message.setSubject(subject);//主题
-        message.setText(content);//内容
-        message.setFrom(from);//发信人
+        //收信人
+        message.setTo(to);
+        //主题
+        message.setSubject(subject);
+        //内容
+        message.setText(content);
+        //发信人
+        message.setFrom(from);
 
         mailSender.send(message);
     }
 
 
+    /**
+     * 发送html邮件
+     * */
     public void sendHtmlMail(String to, String subject, String content){
 
         logger.info("发送HTML邮件开始：{},{},{}", to, subject, content);
@@ -57,7 +73,8 @@ public class MailService {
             helper.setFrom(new InternetAddress(from, nickName, "UTF-8"));
             helper.setTo(to);
             helper.setSubject(subject);
-            helper.setText(content, true);//true代表支持html
+            //true代表支持html
+            helper.setText(content, true);
             mailSender.send(message);
             logger.info("发送HTMLto"+to+"邮件成功");
         } catch (Exception e) {
@@ -65,6 +82,9 @@ public class MailService {
         }
     }
 
+    /**
+     * 发送带附件的邮件
+     * */
     public void sendAttachmentMail(String to, String subject, String content, String filePath) {
 
         logger.info("发送带附件邮件开始：{},{},{},{}", to, subject, content, filePath);
@@ -80,7 +100,8 @@ public class MailService {
             helper.setText(content, true);
             FileSystemResource file = new FileSystemResource(new File(filePath));
             String fileName = file.getFilename();
-            helper.addAttachment(fileName, file);//添加附件，可多次调用该方法添加多个附件
+            //添加附件，可多次调用该方法添加多个附件
+            helper.addAttachment(fileName, file);
             mailSender.send(message);
             logger.info("发送带附件邮件成功");
         } catch (MessagingException e) {
@@ -103,7 +124,8 @@ public class MailService {
             helper.setSubject(subject);
             helper.setText(content, true);
             FileSystemResource res = new FileSystemResource(new File(rscPath));
-            helper.addInline(rscId, res);//重复使用添加多个图片
+            //重复使用添加多个图片
+            helper.addInline(rscId, res);
             mailSender.send(message);
             logger.info("发送带图片邮件成功");
         } catch (Exception e) {

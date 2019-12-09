@@ -1,20 +1,19 @@
 package xyz.zinglizingli.books.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.Charsets;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.utils.DateUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
-import org.springframework.web.client.RestTemplate;
 import tk.mybatis.orderbyhelper.OrderByHelper;
 import xyz.zinglizingli.books.constant.CacheKeyConstans;
 import xyz.zinglizingli.books.mapper.*;
@@ -23,33 +22,31 @@ import xyz.zinglizingli.books.util.UUIDUtils;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
+/**
+ * @author XXY
+ */
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class BookService {
 
-    @Autowired
-    private BookMapper bookMapper;
+    private final BookMapper bookMapper;
 
-    @Autowired
-    private BookIndexMapper bookIndexMapper;
+    private final BookIndexMapper bookIndexMapper;
 
-    @Autowired
-    private BookContentMapper bookContentMapper;
+    private final BookContentMapper bookContentMapper;
 
-    @Autowired
-    private ScreenBulletMapper screenBulletMapper;
+    private final ScreenBulletMapper screenBulletMapper;
 
-    @Autowired
-    private UserRefBookMapper userRefBookMapper;
+    private final UserRefBookMapper userRefBookMapper;
 
-    @Autowired
-    private CommonCacheUtil cacheUtil;
-
-    RestTemplate isoRestTemplate = RestTemplateUtil.getInstance("iso-8859-1");
+    private final CommonCacheUtil cacheUtil;
 
     @Value("${pic.save.type}")
     private Byte picSaveType;
@@ -58,16 +55,11 @@ public class BookService {
     private String picSavePath;
 
 
-    private Logger log = LoggerFactory.getLogger(BookService.class);
 
-
-
+    /**
+     * 保存章节目录和内容
+     * */
     public void saveBookAndIndexAndContent(Book book, List<BookIndex> bookIndex, List<BookContent> bookContent){
-        //一次最多只允许插入20条记录,否则影响服务器响应,如果没有插入所有更新，则更新时间设为昨天
-        /*if(bookIndex.size()>100){
-            book.setUpdateTime(new Date(book.getUpdateTime().getTime()-1000*60*60*24));
-        }
-*/
 
         boolean isUpdate = false;
         Long bookId = -1L;
@@ -81,12 +73,12 @@ public class BookService {
             bookId = books.get(0).getId();
             book.setId(bookId);
             String picSrc = book.getPicUrl();
-            if(picSaveType == 2 && org.apache.commons.lang3.StringUtils.isNotBlank(picSrc)){
+            if(picSaveType == 2 && StringUtils.isNotBlank(picSrc)){
                 try {
                     HttpHeaders headers = new HttpHeaders();
                     HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
-                    ResponseEntity<Resource> resEntity = isoRestTemplate.exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
-                    InputStream input = resEntity.getBody().getInputStream();
+                    ResponseEntity<Resource> resEntity = RestTemplateUtil.getInstance(Charsets.ISO_8859_1).exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
+                    InputStream input = Objects.requireNonNull(resEntity.getBody()).getInputStream();
                     Date currentDate = new Date();
                     picSrc = "/localPic/" + DateUtils.formatDate(currentDate, "yyyy") + "/" + DateUtils.formatDate(currentDate, "MM") + "/" + DateUtils.formatDate(currentDate, "dd")
                             + UUIDUtils.getUUID32()
@@ -127,12 +119,7 @@ public class BookService {
         }
 
         if (bookId >= 0) {
-            //查询目录已存在数量
-           /* BookIndexExample bookIndexExample = new BookIndexExample();
-            bookIndexExample.createCriteria().andBookIdEqualTo(bookId);
-            int indexCount = bookIndexMapper.countByExample(bookIndexExample);*/
 
-            BookIndex lastIndex = null;
             List<BookIndex> newBookIndexList = new ArrayList<>();
             List<BookContent> newContentList = new ArrayList<>();
             for (int i = 0; i < bookIndex.size(); i++) {
@@ -141,11 +128,9 @@ public class BookService {
                     BookIndex bookIndexItem = bookIndex.get(i);
                     bookIndexItem.setBookId(bookId);
                     bookContentItem.setBookId(bookId);
-                    //bookContentItem.setIndexId(bookIndexItem.getId());暂时使用bookId和IndexNum查询content
                     bookContentItem.setIndexNum(bookIndexItem.getIndexNum());
                     newBookIndexList.add(bookIndexItem);
                     newContentList.add(bookContentItem);
-                    lastIndex = bookIndexItem;
                 }
                 //一次最多只允许插入20条记录,否则影响服务器响应
                 if (isUpdate && i % 20 == 0 && newBookIndexList.size() > 0) {
@@ -174,15 +159,21 @@ public class BookService {
 
     }
 
-    @Transactional
+    /**
+     * 批量插入章节目录表和章节内容表
+     * */
+    @Transactional(rollbackFor = Exception.class)
     public void insertIndexListAndContentList(List<BookIndex> newBookIndexList, List<BookContent> newContentList) {
         bookIndexMapper.insertBatch(newBookIndexList);
         bookContentMapper.insertBatch(newContentList);
     }
 
 
+    /**
+     * 生成随机访问次数
+     * */
     private Long generateVisiteCount(Float score) {
-        int baseNum = (int) (Math.pow(score * 10, (int) (score - 5)) / 2);
+        int baseNum = (int)(score * 100);
         return Long.parseLong(baseNum + new Random().nextInt(1000) + "");
     }
 
@@ -202,12 +193,13 @@ public class BookService {
             OrderByHelper.orderBy(sortBy + " " + sort);
         }
 
-        List<Book> books = bookMapper.search(userId, ids, keyword, catId, softCat, softTag, bookStatus);
-
-        return books;
+        return bookMapper.search(userId, ids, keyword, catId, softCat, softTag, bookStatus);
 
     }
 
+    /**
+     * 获取分类名
+     * */
     public String getCatNameById(Integer catid) {
         String catName = "其他";
 
@@ -257,11 +249,17 @@ public class BookService {
         return catName;
     }
 
+    /**
+     * 查询书籍的基础数据
+     * */
     public Book queryBaseInfo(Long bookId) {
 
         return bookMapper.selectByPrimaryKey(bookId);
     }
 
+    /**
+     * 查询最新更新的书籍列表
+     * */
     public List<BookIndex> queryNewIndexList(Long bookId) {
         PageHelper.startPage(1, 15);
         BookIndexExample example = new BookIndexExample();
@@ -271,6 +269,9 @@ public class BookService {
 
     }
 
+    /**
+     * 查询书籍目录列表
+     * */
     public List<BookIndex> queryAllIndexList(Long bookId) {
         BookIndexExample example = new BookIndexExample();
         example.createCriteria().andBookIdEqualTo(bookId);
@@ -278,6 +279,9 @@ public class BookService {
         return bookIndexMapper.selectByExample(example);
     }
 
+    /**
+     * 查询书籍章节内容
+     * */
     public BookContent queryBookContent(Long bookId, Integer indexNum) {
         BookContent content = (BookContent) cacheUtil.getObject(CacheKeyConstans.BOOK_CONTENT_KEY_PREFIX + "_" + bookId + "_" + indexNum);
         if (content == null) {
@@ -285,11 +289,6 @@ public class BookService {
             example.createCriteria().andBookIdEqualTo(bookId).andIndexNumEqualTo(indexNum);
             List<BookContent> bookContents = bookContentMapper.selectByExample(example);
             content = bookContents.size() > 0 ? bookContents.get(0) : null;
-            /*try {
-                content.setContent(chargeBookContent(content.getContent()));
-            } catch (IOException e) {
-                log.error(e.getMessage(), e);
-            }*/
             cacheUtil.setObject(CacheKeyConstans.BOOK_CONTENT_KEY_PREFIX + "_" + bookId + "_" + indexNum, content, 60 * 60 * 24);
         }
 
@@ -297,6 +296,9 @@ public class BookService {
     }
 
 
+    /**
+     * 增加访问次数
+     * */
     public void addVisitCount(Long bookId, String userId, Integer indexNum) {
 
         bookMapper.addVisitCount(bookId);
@@ -307,13 +309,23 @@ public class BookService {
 
     }
 
+    /**
+     * 查询章节名
+     * */
     public String queryIndexNameByBookIdAndIndexNum(Long bookId, Integer indexNum) {
 
         BookIndexExample example = new BookIndexExample();
         example.createCriteria().andBookIdEqualTo(bookId).andIndexNumEqualTo(indexNum);
-        return bookIndexMapper.selectByExample(example).get(0).getIndexName();
+        List<BookIndex> indexList = bookIndexMapper.selectByExample(example);
+        if(indexList != null && indexList.size() > 0 ) {
+            return indexList.get(0).getIndexName();
+        }
+        return null;
     }
 
+    /**
+     * 查询最大和最小章节号
+     * */
     public List<Integer> queryMaxAndMinIndexNum(Long bookId) {
         List<Integer> result = new ArrayList<>();
         BookIndexExample example = new BookIndexExample();
@@ -330,7 +342,7 @@ public class BookService {
     /**
      * 查询该书籍目录数量
      */
-    public List<Integer> queryIndexCountByBookNameAndBAuthor(String bookName, String author) {
+    public List<Integer> queryIndexCountByBookNameAndAuthor(String bookName, String author) {
         List<Integer> result = new ArrayList<>();
         BookExample example = new BookExample();
         example.createCriteria().andBookNameEqualTo(bookName).andAuthorEqualTo(author);
@@ -353,33 +365,11 @@ public class BookService {
 
     }
 
-    public Book queryRandomBook() {
 
-        return bookMapper.queryRandomBook();
-    }
 
-    public Map<String, Object> queryNewstBook() {
-        final String SENDIDS = "sendWeiboIds";
-        Set<Long> sendIds = (Set<Long>) cacheUtil.getObject(SENDIDS);
-        if (sendIds == null) {
-            sendIds = new HashSet<>();
-        }
-        String newstIndexName = null;
-        Book book = null;
-        book = bookMapper.queryNewstBook(sendIds);
-        Map<String, Object> data = new HashMap<>();
-        if (book != null && book.getId() != null) {
-            newstIndexName = bookIndexMapper.queryNewstIndexName(book.getId());
-            if (!StringUtils.isEmpty(newstIndexName)) {
-                sendIds.add(book.getId());
-                cacheUtil.setObject(SENDIDS, sendIds, 60 * 60 * 24 * 2);
-                data.put("book", book);
-                data.put("newstIndexName", newstIndexName);
-            }
-        }
-        return data;
-    }
-
+    /**
+     * 查询轻小说分类名
+     * */
     public String getSoftCatNameById(Integer softCat) {
         String catName = "其他";
 
@@ -434,6 +424,9 @@ public class BookService {
 
     }
 
+    /**
+     * 查询漫画分类名
+     * */
     public String getMhCatNameById(Integer softCat) {
         String catName = "其他";
 
@@ -456,6 +449,9 @@ public class BookService {
 
     }
 
+    /**
+     * 保存弹幕
+     * */
     public void sendBullet(Long contentId, String bullet) {
 
         ScreenBullet screenBullet = new ScreenBullet();
@@ -466,6 +462,9 @@ public class BookService {
         screenBulletMapper.insertSelective(screenBullet);
     }
 
+    /**
+     * 查询弹幕
+     * */
     public List<ScreenBullet> queryBullet(Long contentId) {
 
         ScreenBulletExample example = new ScreenBulletExample();
@@ -475,19 +474,19 @@ public class BookService {
         return screenBulletMapper.selectByExample(example);
     }
 
-    public String queryIndexList(Long bookId, int count) {
 
-        BookIndexExample example = new BookIndexExample();
-        example.createCriteria().andBookIdEqualTo(bookId).andIndexNumEqualTo(count);
-        return bookIndexMapper.selectByExample(example).get(0).getIndexName();
-    }
-
+    /**
+     * 查询章节内容
+     * */
     public String queryContentList(Long bookId, int count) {
         BookContentExample example = new BookContentExample();
         example.createCriteria().andBookIdEqualTo(bookId).andIndexNumEqualTo(count);
         return bookContentMapper.selectByExample(example).get(0).getContent();
     }
 
+    /**
+     * 查询章节数
+     * */
     public int countIndex(Long bookId) {
         BookIndexExample example = new BookIndexExample();
         example.createCriteria().andBookIdEqualTo(bookId);
@@ -495,6 +494,9 @@ public class BookService {
     }
 
 
+    /**
+     * 查询完本书籍
+     * */
     public List<String> queryEndBookIdList() {
         return bookMapper.queryEndBookIdList();
     }
@@ -503,6 +505,9 @@ public class BookService {
 
 
 
+    /**
+     * 查询前一章节和后一章节号
+     * */
     public List<Integer> queryPreAndNextIndexNum(Long bookId, Integer indexNum) {
         List<Integer> result = new ArrayList<>();
         BookIndexExample example = new BookIndexExample();

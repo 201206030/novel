@@ -1,7 +1,7 @@
 package xyz.zinglizingli.books.service;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import xyz.zinglizingli.books.mapper.UserMapper;
 import xyz.zinglizingli.books.mapper.UserRefBookMapper;
@@ -13,27 +13,38 @@ import xyz.zinglizingli.books.util.MD5Util;
 
 import java.util.List;
 
+/**
+ * @author XXY
+ */
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
 
-    @Autowired
-    private UserRefBookMapper userRefBookMapper;
+    private final UserRefBookMapper userRefBookMapper;
 
 
+    /**
+     * 判断登录名是否存在
+     * */
     public boolean isExistLoginName(String loginName) {
         UserExample example = new UserExample();
         example.createCriteria().andLoginNameEqualTo(loginName);
-        return userMapper.countByExample(example)>0?true:false;
+        return userMapper.countByExample(example)>0;
     }
 
+    /**
+     * 注册
+     * */
     public void regist(User user) {
         user.setPassword(MD5Util.MD5Encode(user.getPassword(),"utf-8"));
         userMapper.insertSelective(user);
     }
 
+    /**
+     * 登陆
+     * */
     public void login(User user) {
         UserExample example = new UserExample();
         example.createCriteria().andLoginNameEqualTo(user.getLoginName())
@@ -48,6 +59,9 @@ public class UserService {
 
     }
 
+    /**
+     * 加入书架
+     * */
     public void addToCollect(Long bookId, long userId) {
         UserRefBook userRefBook = new UserRefBook();
         userRefBook.setBookId(bookId);
@@ -59,20 +73,29 @@ public class UserService {
 
     }
 
+    /**
+     * 判断是否加入书架
+     * */
     public boolean isCollect(Long bookId, long userId) {
 
         UserRefBookExample example = new UserRefBookExample();
         example.createCriteria().andBookIdEqualTo(bookId).andUserIdEqualTo(userId);
-        return userRefBookMapper.countByExample(example)>0?true:false;
+        return userRefBookMapper.countByExample(example)>0;
 
     }
 
+    /**
+     * 取消加入书架
+     * */
     public void cancelToCollect(Long bookId, long userId) {
         UserRefBookExample example = new UserRefBookExample();
         example.createCriteria().andBookIdEqualTo(bookId).andUserIdEqualTo(userId);
         userRefBookMapper.deleteByExample(example);
     }
 
+    /**
+     * 加入或取消书架
+     * */
     public void collectOrCancelBook(Long userid, Long bookId) {
 
         boolean collect = isCollect(bookId, userid);
@@ -84,6 +107,9 @@ public class UserService {
         }
     }
 
+    /**
+     * 查询用户章节阅读记录
+     * */
     public Integer queryBookIndexNumber(String userId, Long bookId) {
         return userRefBookMapper.queryBookIndexNumber(userId,bookId);
     }

@@ -35,11 +35,6 @@ public interface BookMapper {
 
     void addVisitCount(@Param("bookId") Long bookId);
 
-    Book queryRandomBook();
-
-    Book queryNewstBook(Set<Long> sendIds);
-
-    List<String> queryNewstBookIdList();
 
     List<String> queryEndBookIdList();
 
