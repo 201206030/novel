@@ -2,11 +2,10 @@ package xyz.zinglizingli.common.web;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import xyz.zinglizingli.books.constant.CacheKeyConstans;
+import xyz.zinglizingli.common.constant.CacheKeyConstans;
 import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;

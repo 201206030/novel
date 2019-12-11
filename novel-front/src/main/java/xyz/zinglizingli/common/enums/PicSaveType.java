@@ -1,4 +1,4 @@
-package xyz.zinglizingli.books.enums;
+package xyz.zinglizingli.common.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

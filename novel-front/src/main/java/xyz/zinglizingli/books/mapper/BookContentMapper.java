@@ -30,4 +30,9 @@ public interface BookContentMapper {
     int updateByPrimaryKey(BookContent record);
 
     void insertBatch(List<BookContent> bookContent);
+
+    /**
+     * 清除无效内容
+     * */
+    void clearInvilidContent();
 }

@@ -213,11 +213,13 @@
     </insert>
 
 
-    <select id="queryNewstIndexName" parameterType="long" resultType="string">
+    <delete id="clearInvilidIndex">
+        delete t1 from book_index t1 left join book_content t2
+        on t1.book_id = t2.book_id and t1.index_num = t2.index_num
+        left join book t3 on t1.book_id = t3.id
+        where t2.id is null or t3.id is null
 
-        select index_name from book_index where book_id = #{bookId,jdbcType=BIGINT} order by index_num desc limit 1
-    </select>
-
+    </delete>
 
 
 </mapper>

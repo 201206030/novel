@@ -225,4 +225,12 @@
             </trim>
         </foreach>
     </insert>
+
+    <delete id="clearInvilidContent">
+        delete t1 from book_content t1 left join book_index t2
+        on t1.book_id = t2.book_id and t1.index_num = t2.index_num
+        left join book t3 on t1.book_id = t3.id
+        where t2.id is null or t3.id is null
+
+    </delete>
 </mapper>

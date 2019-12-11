@@ -15,11 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.orderbyhelper.OrderByHelper;
-import xyz.zinglizingli.books.constant.CacheKeyConstans;
-import xyz.zinglizingli.books.enums.PicSaveType;
+import xyz.zinglizingli.common.constant.CacheKeyConstans;
+import xyz.zinglizingli.common.enums.PicSaveType;
 import xyz.zinglizingli.books.mapper.*;
 import xyz.zinglizingli.books.po.*;
-import xyz.zinglizingli.books.util.UUIDUtils;
+import xyz.zinglizingli.common.utils.UUIDUtils;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
@@ -535,5 +535,20 @@ public class BookService {
      * */
     public List<Book> queryRecBooks(List<Map<String, String>> configMap) {
         return bookMapper.queryRecBooks(configMap);
+    }
+
+    /**
+     * 清理数据库中无效数据
+     * */
+    public void clearInvilidData() {
+
+        //清除无效内容
+        bookContentMapper.clearInvilidContent();
+
+        //清除无效章节
+        bookIndexMapper.clearInvilidIndex();
+
+        //清楚无效书籍
+        bookMapper.clearInvilidBook();
     }
 }

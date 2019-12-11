@@ -1,4 +1,4 @@
-package xyz.zinglizingli.books.util;
+package xyz.zinglizingli.common.utils;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

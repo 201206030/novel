@@ -1,4 +1,4 @@
-package xyz.zinglizingli.books.constant;
+package xyz.zinglizingli.common.constant;
 
 public class CacheKeyConstans {
     public static final String HOT_BOOK_LIST_KEY = "hotBookListKey";

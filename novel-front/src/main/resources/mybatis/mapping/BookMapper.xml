@@ -388,4 +388,11 @@
         </where>
         limit 3
     </select>
+
+
+    <delete id="clearInvilidBook">
+        delete from book
+        where id not in (select book_id from book_index)
+        and update_time <![CDATA[ <= ]]> DATE_SUB(curdate(),INTERVAL 10 DAY)
+    </delete>
 </mapper>

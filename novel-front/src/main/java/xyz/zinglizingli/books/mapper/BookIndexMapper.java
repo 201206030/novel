@@ -33,7 +33,10 @@ public interface BookIndexMapper {
 
     void insertBatch(List<BookIndex> bookIndex);
 
-    String queryNewstIndexName(@Param("bookId") Long bookId);
 
 
+    /**
+     * 清除无效章节
+     * */
+    void clearInvilidIndex();
 }

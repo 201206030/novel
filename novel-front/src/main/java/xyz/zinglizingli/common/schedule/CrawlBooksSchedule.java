@@ -13,7 +13,7 @@ import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.po.BookContent;
 import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.service.BookService;
-import xyz.zinglizingli.books.util.ExcutorUtils;
+import xyz.zinglizingli.common.utils.ExcutorUtils;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
 import java.text.SimpleDateFormat;
@@ -88,7 +88,6 @@ public class CrawlBooksSchedule {
             Pattern pattern = compile("value=\"(\\d+)/(\\d+)\"");
             Matcher matcher = pattern.matcher(forObject);
             boolean isFind = matcher.find();
-            System.out.println("匹配分页数" + isFind);
             if (isFind) {
                 //解析第一页书籍的数据
                 Pattern bookPatten = compile("href=\"/(\\d+_\\d+)/\"");
@@ -283,7 +282,6 @@ public class CrawlBooksSchedule {
             Pattern pattern = compile("value=\"(\\d+)/(\\d+)\"");
             Matcher matcher = pattern.matcher(forObject);
             boolean isFind = matcher.find();
-            System.out.println("匹配分页数" + isFind);
             if (isFind) {
                 //解析第一页书籍的数据
                 Pattern bookPatten = compile("href=\"/(bqge\\d+)/\"");

@@ -9,7 +9,7 @@ import xyz.zinglizingli.books.po.User;
 import xyz.zinglizingli.books.po.UserExample;
 import xyz.zinglizingli.books.po.UserRefBook;
 import xyz.zinglizingli.books.po.UserRefBookExample;
-import xyz.zinglizingli.books.util.MD5Util;
+import xyz.zinglizingli.common.utils.MD5Util;
 
 import java.util.List;
 

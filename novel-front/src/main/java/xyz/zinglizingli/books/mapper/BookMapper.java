@@ -36,10 +36,14 @@ public interface BookMapper {
     void addVisitCount(@Param("bookId") Long bookId);
 
 
-    List<String> queryEndBookIdList();
 
     /**
      * 查询推荐书籍数据
      * */
     List<Book> queryRecBooks(List<Map<String, String>> configMap);
+
+    /**
+     * 清理无效书籍(1个月前更新的无章节书籍)
+     * */
+    void clearInvilidBook();
 }
