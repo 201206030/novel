@@ -46,10 +46,6 @@ public class CrawlBooksSchedule {
     @Value("${crawl.website.type}")
     private Byte websiteType;
 
-
-    @Value("${pic.save.type}")
-    private Byte picSaveType;
-
     @Value("${pic.save.path}")
     private String picSavePath;
 
@@ -96,7 +92,7 @@ public class CrawlBooksSchedule {
             if (isFind) {
                 //解析第一页书籍的数据
                 Pattern bookPatten = compile("href=\"/(\\d+_\\d+)/\"");
-                parseBiquTaBook(bookPatten, forObject, bookClass, baseUrl);
+                parseBiquTaBook(bookPatten, forObject, baseUrl);
             }
         }
     }
@@ -104,7 +100,7 @@ public class CrawlBooksSchedule {
     /**
      * 解析笔趣塔数据
      */
-    private void parseBiquTaBook(Pattern bookPatten, String forObject, int catNum, String baseUrl) {
+    private void parseBiquTaBook(Pattern bookPatten, String forObject, String baseUrl) {
         Matcher bookMatcher = bookPatten.matcher(forObject);
 
         boolean isFind = bookMatcher.find();
@@ -142,108 +138,112 @@ public class CrawlBooksSchedule {
                         if (statusMatch.find()) {
                             String status = statusMatch.group(1);
 
-                            Pattern updateTimePatten = compile("更新：(\\d+-\\d+-\\d+\\s\\d+:\\d+:\\d+)</a>");
-                            Matcher updateTimeMatch = updateTimePatten.matcher(body);
-                            if (updateTimeMatch.find()) {
-                                String updateTimeStr = updateTimeMatch.group(1);
-                                SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-                                Date updateTime = format.parse(updateTimeStr);
-                                Pattern picPatten = compile("<img src=\"([^>]+)\"\\s+onerror=\"this.src=");
-                                Matcher picMather = picPatten.matcher(body);
-                                if (picMather.find()) {
-                                    String picSrc = picMather.group(1);
+                            Pattern catPatten = compile("类别：([^/]+)</li>");
+                            Matcher catMatch = catPatten.matcher(body);
+                            if (catMatch.find()) {
+                                String catName = catMatch.group(1);
+                                int catNum = getCatNum(catName);
 
 
-                                    Pattern descPatten = compile("class=\"review\">([^<]+)</p>");
-                                    Matcher descMatch = descPatten.matcher(body);
-                                    if (descMatch.find()) {
-                                        String desc = descMatch.group(1);
+                                Pattern updateTimePatten = compile("更新：(\\d+-\\d+-\\d+\\s\\d+:\\d+:\\d+)</a>");
+                                Matcher updateTimeMatch = updateTimePatten.matcher(body);
+                                if (updateTimeMatch.find()) {
+                                    String updateTimeStr = updateTimeMatch.group(1);
+                                    SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+                                    Date updateTime = format.parse(updateTimeStr);
+                                    Pattern picPatten = compile("<img src=\"([^>]+)\"\\s+onerror=\"this.src=");
+                                    Matcher picMather = picPatten.matcher(body);
+                                    if (picMather.find()) {
+                                        String picSrc = picMather.group(1);
 
 
-                                        Book book = new Book();
-                                        book.setAuthor(author);
-                                        book.setCatid(catNum);
-                                        book.setBookDesc(desc);
-                                        book.setBookName(bookName);
-                                        book.setScore(score > 10 ? 8.0f : score);
-                                        book.setPicUrl(picSrc);
-                                        book.setBookStatus(status);
-                                        book.setUpdateTime(updateTime);
-
-                                        List<BookIndex> indexList = new ArrayList<>();
-                                        List<BookContent> contentList = new ArrayList<>();
-
-                                        //读取目录
-                                        Pattern indexPatten = compile("<a\\s+href=\"(/du/\\d+_\\d+/)\">查看完整目录</a>");
-                                        Matcher indexMatch = indexPatten.matcher(body);
-                                        if (indexMatch.find()) {
-                                            String indexUrl = baseUrl + indexMatch.group(1);
-                                            String body2 = getByRestTemplate(indexUrl);
-                                            if (body2 != null) {
-                                                Pattern indexListPatten = compile("<a\\s+style=\"\"\\s+href=\"(/\\d+_\\d+/\\d+\\.html)\">([^/]+)</a>");
-                                                Matcher indexListMatch = indexListPatten.matcher(body2);
-
-                                                boolean isFindIndex = indexListMatch.find();
-
-                                                int indexNum = 0;
-
-                                                //查询该书籍已存在目录号
-                                                List<Integer> hasIndexNum = bookService.queryIndexCountByBookNameAndAuthor(bookName, author);
-                                                //更新和插入分别开，插入只在凌晨做一次
-                                                if (hasIndexNum.size() > 0) {
-                                                    while (isFindIndex) {
-                                                        if (!hasIndexNum.contains(indexNum)) {
-
-                                                            String contentUrl = baseUrl + indexListMatch.group(1);
-                                                            String indexName = indexListMatch.group(2);
+                                        Pattern descPatten = compile("class=\"review\">([^<]+)</p>");
+                                        Matcher descMatch = descPatten.matcher(body);
+                                        if (descMatch.find()) {
+                                            String desc = descMatch.group(1);
 
 
-                                                            //查询章节内容
-                                                            String body3 = getByRestTemplate(contentUrl);
-                                                            if (body3 != null) {
-                                                                String start = "『章节错误,点此举报』";
-                                                                String end = "『加入书签，方便阅读』";
-                                                                String content = body3.substring(body3.indexOf(start) + start.length(), body3.indexOf(end));
-                                                                //TODO插入章节目录和章节内容
-                                                                BookIndex bookIndex = new BookIndex();
-                                                                bookIndex.setIndexName(indexName);
-                                                                bookIndex.setIndexNum(indexNum);
-                                                                indexList.add(bookIndex);
-                                                                BookContent bookContent = new BookContent();
-                                                                bookContent.setContent(content);
-                                                                bookContent.setIndexNum(indexNum);
-                                                                contentList.add(bookContent);
+                                            Book book = new Book();
+                                            book.setAuthor(author);
+                                            book.setCatid(catNum);
+                                            book.setBookDesc(desc);
+                                            book.setBookName(bookName);
+                                            book.setScore(score > 10 ? 8.0f : score);
+                                            book.setPicUrl(picSrc);
+                                            book.setBookStatus(status);
+                                            book.setUpdateTime(updateTime);
+
+                                            List<BookIndex> indexList = new ArrayList<>();
+                                            List<BookContent> contentList = new ArrayList<>();
+
+                                            //读取目录
+                                            Pattern indexPatten = compile("<a\\s+href=\"(/du/\\d+_\\d+/)\">查看完整目录</a>");
+                                            Matcher indexMatch = indexPatten.matcher(body);
+                                            if (indexMatch.find()) {
+                                                String indexUrl = baseUrl + indexMatch.group(1);
+                                                String body2 = getByRestTemplate(indexUrl);
+                                                if (body2 != null) {
+                                                    Pattern indexListPatten = compile("<a\\s+style=\"\"\\s+href=\"(/\\d+_\\d+/\\d+\\.html)\">([^/]+)</a>");
+                                                    Matcher indexListMatch = indexListPatten.matcher(body2);
+
+                                                    boolean isFindIndex = indexListMatch.find();
+
+                                                    int indexNum = 0;
+
+                                                    //查询该书籍已存在目录号
+                                                    List<Integer> hasIndexNum = bookService.queryIndexNumByBookNameAndAuthor(bookName, author);
+                                                    //更新和插入分别开，插入只在凌晨做一次
+                                                    if (hasIndexNum.size() > 0) {
+                                                        while (isFindIndex) {
+                                                            if (!hasIndexNum.contains(indexNum)) {
+
+                                                                String contentUrl = baseUrl + indexListMatch.group(1);
+                                                                String indexName = indexListMatch.group(2);
 
 
-                                                            } else {
-                                                                break;
+                                                                //查询章节内容
+                                                                String body3 = getByRestTemplate(contentUrl);
+                                                                if (body3 != null) {
+                                                                    String start = "『章节错误,点此举报』";
+                                                                    String end = "『加入书签，方便阅读』";
+                                                                    String content = body3.substring(body3.indexOf(start) + start.length(), body3.indexOf(end));
+                                                                    //TODO插入章节目录和章节内容
+                                                                    BookIndex bookIndex = new BookIndex();
+                                                                    bookIndex.setIndexName(indexName);
+                                                                    bookIndex.setIndexNum(indexNum);
+                                                                    indexList.add(bookIndex);
+                                                                    BookContent bookContent = new BookContent();
+                                                                    bookContent.setContent(content);
+                                                                    bookContent.setIndexNum(indexNum);
+                                                                    contentList.add(bookContent);
+
+
+                                                                } else {
+                                                                    break;
+                                                                }
+
+
                                                             }
+                                                            indexNum++;
+                                                            isFindIndex = indexListMatch.find();
+                                                        }
 
+                                                        if (indexList.size() == contentList.size() && indexList.size() > 0) {
+                                                            ExcutorUtils.excuteFixedTask(() ->
+                                                                    bookService.saveBookAndIndexAndContent(book, indexList, contentList)
+                                                            );
 
                                                         }
-                                                        indexNum++;
-                                                        isFindIndex = indexListMatch.find();
-                                                    }
-
-                                                    if (indexList.size() == contentList.size() && indexList.size() > 0) {
-                                                        ExcutorUtils.excuteFixedTask(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                bookService.saveBookAndIndexAndContent(book, indexList, contentList);
-                                                            }
-                                                        });
-
                                                     }
                                                 }
+
+
                                             }
 
 
                                         }
 
-
                                     }
-
-
                                 }
                             }
                         }
@@ -340,37 +340,7 @@ public class CrawlBooksSchedule {
                             Matcher catMatch = catPatten.matcher(body);
                             if (catMatch.find()) {
                                 String catName = catMatch.group(1);
-                                int catNum;
-                                switch (catName) {
-                                    case "武侠仙侠": {
-                                        catNum = 2;
-                                        break;
-                                    }
-                                    case "都市言情": {
-                                        catNum = 3;
-                                        break;
-                                    }
-                                    case "历史军事": {
-                                        catNum = 4;
-                                        break;
-                                    }
-                                    case "科幻灵异": {
-                                        catNum = 5;
-                                        break;
-                                    }
-                                    case "网游竞技": {
-                                        catNum = 6;
-                                        break;
-                                    }
-                                    case "女生频道": {
-                                        catNum = 7;
-                                        break;
-                                    }
-                                    default: {
-                                        catNum = 1;
-                                        break;
-                                    }
-                                }
+                                int catNum = getCatNum(catName);
                                 Pattern updateTimePatten = compile("更新：(\\d+-\\d+-\\d+\\s\\d+:\\d+:\\d+)</a>");
                                 Matcher updateTimeMatch = updateTimePatten.matcher(body);
                                 if (updateTimeMatch.find()) {
@@ -417,8 +387,8 @@ public class CrawlBooksSchedule {
                                                     int indexNum = 0;
 
                                                     //查询该书籍已存在目录号
-                                                    List<Integer> hasIndexNum = bookService.queryIndexCountByBookNameAndAuthor(bookName, author);
-                                                    //更新和插入分别开，插入只在凌晨做一次
+                                                    List<Integer> hasIndexNum = bookService.queryIndexNumByBookNameAndAuthor(bookName, author);
+                                                    //只更新已存在的书籍
                                                     if (hasIndexNum.size() > 0) {
                                                         while (isFindIndex) {
                                                             if (!hasIndexNum.contains(indexNum)) {
@@ -493,6 +463,41 @@ public class CrawlBooksSchedule {
 
         }
 
+    }
+
+    private int getCatNum(String catName) {
+        int catNum;
+        switch (catName) {
+            case "武侠仙侠": {
+                catNum = 2;
+                break;
+            }
+            case "都市言情": {
+                catNum = 3;
+                break;
+            }
+            case "历史军事": {
+                catNum = 4;
+                break;
+            }
+            case "科幻灵异": {
+                catNum = 5;
+                break;
+            }
+            case "网游竞技": {
+                catNum = 6;
+                break;
+            }
+            case "女生频道": {
+                catNum = 7;
+                break;
+            }
+            default: {
+                catNum = 1;
+                break;
+            }
+        }
+        return catNum;
     }
 
     private String getByRestTemplate(String url) {

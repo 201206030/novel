@@ -7,44 +7,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 
+/**
+ * @author 11797
+ */
 @Service
-public class EHCacheUtil implements CommonCacheUtil {
+public class EhCacheUtil implements CommonCacheUtil {
 	
 	@Autowired
 	private  CacheManager cacheManager ;
  
-	private static final String CACHE_NAME = "utilCache";
+	private static final String CACHE_NAME = "util_cache";
  
 	
 	/**
 	 * 获得一个Cache，没有则创建一个。
-	 * @param cacheName
 	 * @return
 	 */
 	private Cache getCache(){
 	
-		/*Cache cache = cacheManager.getCache(cacheName);
-		if (cache == null){
-			cacheManager.addCache(cacheName);
-			cache = cacheManager.getCache(cacheName);
-			CacheConfiguration config = cache.getCacheConfiguration();
-			config.setEternal(false);
-			config.internalSetTimeToIdle(0);
-			config.internalSetTimeToIdle(0);
-		}*/
-		Cache cache = cacheManager.getCache("util_cache");
+		Cache cache = cacheManager.getCache(CACHE_NAME);
 		return cache;
 	}
 	
- 
-	public  CacheManager getCacheManager() {
-		return cacheManager;
-	}
+
 	
-	
-
-
-
 	@Override
 	public String get(String key) {
 		Element element = getCache().get(key);
@@ -55,7 +41,8 @@ public class EHCacheUtil implements CommonCacheUtil {
 	public void set(String key, String value) {
 		Element element = new Element(key, value);
 		Cache cache = getCache();
-		cache.getCacheConfiguration().setEternal(true);//不过期
+		//不过期
+		cache.getCacheConfiguration().setEternal(true);
 		cache.put(element);
 
 	}
@@ -106,13 +93,13 @@ public class EHCacheUtil implements CommonCacheUtil {
 
 	/**
 	 * 设置Object类型的缓存
-	 * @param <T>
 	 */
 	@Override
 	public void setObject(String key, Object value) {
 		Element element = new Element(key, value);
 		Cache cache = getCache();
-		cache.getCacheConfiguration().setEternal(true);//不过期
+		//不过期
+		cache.getCacheConfiguration().setEternal(true);
 		cache.put(element);
 		
 	}
@@ -131,6 +118,9 @@ public class EHCacheUtil implements CommonCacheUtil {
 	}
 
 
+	/**
+	 * 刷新过期时间
+	 * */
 	@Override
 	public void refresh(String key) {
 		Element element = getCache().get(key);

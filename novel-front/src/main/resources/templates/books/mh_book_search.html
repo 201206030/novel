@@ -89,21 +89,21 @@
 <input type="hidden" id="softCat" th:value="${softCat}"/>
 
 <ul class="layui-nav"  lay-filter="" style="padding:0 20px;text-align: center" >
-    <li id="menunew" class="layui-nav-item"><a href="/book/searchMhBook.html">最新</a></li>
-    <li id="menu21" class="layui-nav-item"><a href="/book/searchMhBook.html?softCat=3262">少年漫</a></li>
-    <li id="menu22" class="layui-nav-item"><a href="/book/searchMhBook.html?softCat=3263">少女漫</a></li>
+    <li id="menunew" class="layui-nav-item"><a href="/book/searchSoftBook.html?catId=9">最新</a></li>
+    <li id="menu21" class="layui-nav-item"><a href="/book/searchSoftBook.html?catId=9&softCat=3262">少年漫</a></li>
+    <li id="menu22" class="layui-nav-item"><a href="/book/searchSoftBook.html?catId=9&softCat=3263">少女漫</a></li>
     <li id="menucomplete" class="layui-nav-item"><a >完本</a>
         <dl class="layui-nav-child"> <!-- 二级菜单 -->
-            <dd><a href="/book/searchMhBook.html?bookStatus=已完成">全部</a></dd>
-            <dd><a href="/book/searchMhBook.html?bookStatus=已完成&softCat=3262">少年漫</a></dd>
-            <dd><a href="/book/searchMhBook.html?bookStatus=已完成&softCat=3263">少女漫</a></dd>
+            <dd><a href="/book/searchSoftBook.html?catId=9&bookStatus=已完成">全部</a></dd>
+            <dd><a href="/book/searchSoftBook.html?catId=9&bookStatus=已完成&softCat=3262">少年漫</a></dd>
+            <dd><a href="/book/searchSoftBook.html?catId=9&bookStatus=已完成&softCat=3263">少女漫</a></dd>
         </dl>
     </li>
     <li id="menuhot" class="layui-nav-item"><a >排行</a>
         <dl class="layui-nav-child"> <!-- 二级菜单 -->
-            <dd><a href="/book/searchMhBook.html?sortBy=score">全部</a></dd>
-            <dd><a href="/book/searchMhBook.html?sortBy=score&softCat=3262">少年漫</a></dd>
-            <dd><a href="/book/searchMhBook.html?bookStatus=已完成&softCat=3263">少女漫</a></dd>
+            <dd><a href="/book/searchSoftBook.html?catId=9&sortBy=score">全部</a></dd>
+            <dd><a href="/book/searchSoftBook.html?catId=9&sortBy=score&softCat=3262">少年漫</a></dd>
+            <dd><a href="/book/searchSoftBook.html?catId=9&bookStatus=已完成&softCat=3263">少女漫</a></dd>
         </dl>
     </li>
 
@@ -139,7 +139,7 @@
                  th:text="${book.bookName}"></div>
         </a>
         <div style=";color: #4c6978;float: right;"><i style="color: red" th:text="${book.score} + '分'"></i></div>
-        <a th:href="'/book/searchMhBook.html?keyword='+ ${book.author}">
+        <a th:href="'/book/searchSoftBook.html?catId=9&keyword='+ ${book.author}">
             <div style=";color: #4c6978;" class="line-limit-length" th:text="'作者：'+ ${book.author}"></div>
         </a>
         <div style="margin-top: 5px;color: #4c6978;" th:text="'类别：'+ ${book.cateName}"></div>
@@ -201,7 +201,7 @@
     });
 
     function searchByAllCondition(curr,limit,newKeyword){
-        var toUrl = "/book/searchMhBook.html?curr=" + curr + "&limit=" + limit;
+        var toUrl = "/book/searchSoftBook.html?catId=9&curr=" + curr + "&limit=" + limit;
         var ids = $("#ids").val();
         if(ids){
             toUrl += ("&historyBookIds=" + ids);

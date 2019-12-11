@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.orderbyhelper.OrderByHelper;
 import xyz.zinglizingli.books.constant.CacheKeyConstans;
+import xyz.zinglizingli.books.enums.PicSaveType;
 import xyz.zinglizingli.books.mapper.*;
 import xyz.zinglizingli.books.po.*;
 import xyz.zinglizingli.books.util.UUIDUtils;
@@ -27,6 +28,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author XXY
@@ -49,7 +51,7 @@ public class BookService {
     private final CommonCacheUtil cacheUtil;
 
     @Value("${pic.save.type}")
-    private Byte picSaveType;
+    private Integer picSaveType;
 
     @Value("${pic.save.path}")
     private String picSavePath;
@@ -71,45 +73,15 @@ public class BookService {
         if (books.size() > 0) {
             //更新
             bookId = books.get(0).getId();
-            book.setId(bookId);
-            String picSrc = book.getPicUrl();
-            if(picSaveType == 2 && StringUtils.isNotBlank(picSrc)){
-                try {
-                    HttpHeaders headers = new HttpHeaders();
-                    HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
-                    ResponseEntity<Resource> resEntity = RestTemplateUtil.getInstance(Charsets.ISO_8859_1).exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
-                    InputStream input = Objects.requireNonNull(resEntity.getBody()).getInputStream();
-                    Date currentDate = new Date();
-                    picSrc = "/localPic/" + DateUtils.formatDate(currentDate, "yyyy") + "/" + DateUtils.formatDate(currentDate, "MM") + "/" + DateUtils.formatDate(currentDate, "dd")
-                            + UUIDUtils.getUUID32()
-                            + picSrc.substring(picSrc.lastIndexOf("."));
-                    File picFile = new File(picSavePath + picSrc);
-                    File parentFile = picFile.getParentFile();
-                    if (!parentFile.exists()) {
-                        parentFile.mkdirs();
-                    }
-                    OutputStream out = new FileOutputStream(picFile);
-                    byte[] b = new byte[4096];
-                    for (int n; (n = input.read(b)) != -1; ) {
-                        out.write(b, 0, n);
-                    }
-                    out.close();
-                    input.close();
-                    book.setPicUrl(picSrc);
-                }catch (Exception e){
-                    log.error(e.getMessage(),e);
-                }
-
-            }
-            bookMapper.updateByPrimaryKeySelective(book);
+            updateBook(book, bookId);
             isUpdate = true;
 
         } else {
+            //插入
             if (book.getVisitCount() == null) {
-                Long visitCount = generateVisiteCount(book.getScore());
+                Long visitCount = generateVisitCount(book.getScore());
                 book.setVisitCount(visitCount);
             }
-            //插入
             int rows = bookMapper.insertSelective(book);
             if (rows > 0) {
                 bookId = book.getId();
@@ -160,6 +132,44 @@ public class BookService {
     }
 
     /**
+     * 更新书籍
+     * */
+    private void updateBook(Book book, Long bookId) {
+        book.setId(bookId);
+        String picSrc = book.getPicUrl();
+        if(picSaveType == PicSaveType.LOCAL.getValue() && StringUtils.isNotBlank(picSrc)){
+            try {
+                //本地图片保存
+                HttpHeaders headers = new HttpHeaders();
+                HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+                ResponseEntity<Resource> resEntity = RestTemplateUtil.getInstance(Charsets.ISO_8859_1).exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
+                InputStream input = Objects.requireNonNull(resEntity.getBody()).getInputStream();
+                Date currentDate = new Date();
+                picSrc = "/localPic/" + DateUtils.formatDate(currentDate, "yyyy") + "/" + DateUtils.formatDate(currentDate, "MM") + "/" + DateUtils.formatDate(currentDate, "dd")
+                        + UUIDUtils.getUUID32()
+                        + picSrc.substring(picSrc.lastIndexOf("."));
+                File picFile = new File(picSavePath + picSrc);
+                File parentFile = picFile.getParentFile();
+                if (!parentFile.exists()) {
+                    parentFile.mkdirs();
+                }
+                OutputStream out = new FileOutputStream(picFile);
+                byte[] b = new byte[4096];
+                for (int n; (n = input.read(b)) != -1; ) {
+                    out.write(b, 0, n);
+                }
+                out.close();
+                input.close();
+                book.setPicUrl(picSrc);
+            }catch (Exception e){
+                log.error(e.getMessage(),e);
+            }
+
+        }
+        bookMapper.updateByPrimaryKeySelective(book);
+    }
+
+    /**
      * 批量插入章节目录表和章节内容表
      * */
     @Transactional(rollbackFor = Exception.class)
@@ -172,7 +182,7 @@ public class BookService {
     /**
      * 生成随机访问次数
      * */
-    private Long generateVisiteCount(Float score) {
+    private Long generateVisitCount(Float score) {
         int baseNum = (int)(score * 100);
         return Long.parseLong(baseNum + new Random().nextInt(1000) + "");
     }
@@ -340,10 +350,9 @@ public class BookService {
     }
 
     /**
-     * 查询该书籍目录数量
+     * 查询该书籍已存在目录号
      */
-    public List<Integer> queryIndexCountByBookNameAndAuthor(String bookName, String author) {
-        List<Integer> result = new ArrayList<>();
+    public List<Integer> queryIndexNumByBookNameAndAuthor(String bookName, String author) {
         BookExample example = new BookExample();
         example.createCriteria().andBookNameEqualTo(bookName).andAuthorEqualTo(author);
         List<Book> books = bookMapper.selectByExample(example);
@@ -353,15 +362,13 @@ public class BookService {
             BookIndexExample bookIndexExample = new BookIndexExample();
             bookIndexExample.createCriteria().andBookIdEqualTo(bookId);
             List<BookIndex> bookIndices = bookIndexMapper.selectByExample(bookIndexExample);
-            if (bookIndices != null && bookIndices.size() > 0) {
-                for (BookIndex bookIndex : bookIndices) {
-                    result.add(bookIndex.getIndexNum());
-                }
+            if(bookIndices.size()>0) {
+                return bookIndices.stream().map(BookIndex::getIndexNum).collect(Collectors.toList());
             }
 
         }
 
-        return result;
+        return new ArrayList<>(0);
 
     }
 
@@ -492,15 +499,6 @@ public class BookService {
         example.createCriteria().andBookIdEqualTo(bookId);
         return bookIndexMapper.countByExample(example);
     }
-
-
-    /**
-     * 查询完本书籍
-     * */
-    public List<String> queryEndBookIdList() {
-        return bookMapper.queryEndBookIdList();
-    }
-
 
 
 

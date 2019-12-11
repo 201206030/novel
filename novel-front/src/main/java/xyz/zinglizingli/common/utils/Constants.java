@@ -51,4 +51,38 @@ public class Constants {
     public static final String CRAWL_CARTOON_STATIC_URL_PREFIX = "https://static.dmzj.com/";
 
 
+    /**
+     * 最大的小说分类ID
+     * */
+    public static final Integer MAX_NOVEL_CAT = 7;
+
+    /**
+     * 小说是否正在下载的key
+     * */
+    public static final String NOVEL_IS_DOWNLOADING_KEY = "isDownloading";
+
+    /**
+     * 轻小说分类ID
+     * */
+    public static final int SOFT_NOVEL_CAT = 8;
+
+    /**
+     * 漫画分类ID
+     * */
+    public static final int MH_NOVEL_CAT = 9;
+
+    /**
+     * 小说排行字段名
+     * */
+    public static final String NOVEL_TOP_FIELD = "score";
+
+    /**
+     * 完本小说标识名
+     * */
+    public static final String NOVEL_END_TAG = "完成";
+
+    /**
+     * 多本书籍ID分隔符
+     * */
+    public static final String BOOK_ID_SEPARATOR = "-";
 }
