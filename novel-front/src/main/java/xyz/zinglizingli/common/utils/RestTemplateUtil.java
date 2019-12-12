@@ -54,9 +54,9 @@ public class RestTemplateUtil {
                     .build();
             PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager(registry);
 
-            //连接池大小
+            //连接池的最大连接数，0代表不限；如果取0，需要考虑连接泄露导致系统崩溃的后果
             connectionManager.setMaxTotal(1000);
-            //最大并发连接
+            //每个路由的最大连接数,如果只调用一个地址,可以将其设置为最大连接数
             connectionManager.setDefaultMaxPerRoute(300);
 
             CloseableHttpClient httpClient = HttpClients.custom()
@@ -69,8 +69,11 @@ public class RestTemplateUtil {
 
             requestFactory.setHttpClient(httpClient);
 
+             //从连接池获取连接的timeout,不宜过大,ms
             requestFactory.setConnectionRequestTimeout(3000);
+            //指客户端和服务器建立连接的超时时间,ms , 最大约21秒,因为内部tcp在进行三次握手建立连接时,默认tcp超时时间是20秒
             requestFactory.setConnectTimeout(3000);
+            // 指客户端从服务器读取数据包的间隔超时时间,不是总读取时间,也就是socket timeout,ms
             requestFactory.setReadTimeout(10000);
             restTemplate = new RestTemplate(requestFactory);
             List<HttpMessageConverter<?>> list = restTemplate.getMessageConverters();
