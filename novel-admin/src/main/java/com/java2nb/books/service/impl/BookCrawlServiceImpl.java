@@ -565,11 +565,12 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
 
                                                     //查询章节内容
-                                                    String body3 = getByHttpClient(contentUrl);
+                                                    String body3 = getByHttpClient(contentUrl.replace("//m.","//www."));
                                                     if (body3 != null) {
-                                                        String start = "『章节错误,点此举报』";
-                                                        String end = "『加入书签，方便阅读』";
-                                                        String content = body3.substring(body3.indexOf(start) + start.length(), body3.indexOf(end));
+                                                        String start = "id=\"content\">";
+                                                        String end = "<script>";
+                                                        String content = body3.substring(body3.indexOf(start) + start.length());
+                                                        content = "<div class=\"article-content font16\" id=\"ChapterBody\" data-class=\"font16\">"+content.substring(0,content.indexOf(end))+"</div>";
                                                         //TODO插入章节目录和章节内容
                                                         BookIndexDO bookIndex = new BookIndexDO();
                                                         bookIndex.setIndexName(indexName);

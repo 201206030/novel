@@ -9,6 +9,6 @@ mybatis:
 mysql: {charset: utf8mb4}
 books: {lowestScore: '8.5'}
 crawl:
-  website: {type: '1'}
-  soft-novel: '1'
+  website: {type: '2'}
+  soft-novel: '0'
   manhua: '0'
