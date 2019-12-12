@@ -23,18 +23,19 @@ public class StartListener implements ApplicationListener<ContextRefreshedEvent>
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         log.info("程序启动");
-        crawlBook();
+        new Thread(()->{
+            while (true) {
+                try {
+                    log.info("crawlBooks执行中。。。。。。。。。。。。");
+                    crawlSource.parse();
+                    Thread.sleep(1000 * 60 * 5);
+                } catch (Exception e) {
+                    log.error(e.getMessage(), e);
+                }
+
+            }
+        }).start();
     }
 
-    private void crawlBook() {
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                log.debug("crawlBooks执行中。。。。。。。。。。。。");
-                crawlSource.parse();
-                crawlBook();
-            }
-        },1000*60*5);
-    }
 
 }
