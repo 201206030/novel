@@ -1,5 +1,9 @@
 package xyz.zinglizingli.common.utils;
 
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.Charsets;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -10,6 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author 11797
+ */
+@Slf4j
 public class RestTemplateUtil {
 
     private static Map<String,RestTemplate> restTemplateMap = new HashMap<>();
@@ -33,6 +41,20 @@ public class RestTemplateUtil {
             restTemplateMap.put(charset.name(),restTemplate);
         }
         return restTemplate;
+    }
+
+    public static String getBodyByUtf8(String url) {
+        try {
+            ResponseEntity<String> forEntity = getInstance(Charsets.UTF_8).getForEntity(url, String.class);
+            if (forEntity.getStatusCode() == HttpStatus.OK) {
+                return forEntity.getBody();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
     }
 
 }

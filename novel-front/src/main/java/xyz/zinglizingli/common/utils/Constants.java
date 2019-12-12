@@ -85,4 +85,9 @@ public class Constants {
      * 多本书籍ID分隔符
      * */
     public static final String BOOK_ID_SEPARATOR = "-";
+
+    /**
+     * 没有内容的描述
+     * */
+    public static final String NO_CONTENT_DESC = "正在手打中，请稍等片刻，内容更新后，需要重新刷新页面，才能获取最新更新";
 }

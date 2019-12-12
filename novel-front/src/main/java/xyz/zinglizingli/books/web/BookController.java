@@ -20,6 +20,7 @@ import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.service.UserService;
 import xyz.zinglizingli.books.vo.BookVO;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
+import xyz.zinglizingli.common.utils.CatUtil;
 import xyz.zinglizingli.common.utils.Constants;
 
 import javax.servlet.http.HttpServletResponse;
@@ -62,7 +63,7 @@ public class BookController {
         String userId = null;
         String titleType = "最近更新";
         if (catId != null) {
-            titleType = bookService.getCatNameById(catId) + "分类频道";
+            titleType = CatUtil.getCatNameById(catId) + "分类频道";
         } else if (Constants.NOVEL_TOP_FIELD.equals(sortBy)) {
             titleType = "小说排行";
         } else if (ids != null) {
@@ -84,7 +85,7 @@ public class BookController {
             for (Book book : books) {
                 BookVO bookvo = new BookVO();
                 BeanUtils.copyProperties(book, bookvo);
-                bookvo.setCateName(bookService.getCatNameById(bookvo.getCatid()));
+                bookvo.setCateName(CatUtil.getCatNameById(bookvo.getCatid()));
                 bookVoList.add(bookvo);
             }
 
@@ -97,7 +98,7 @@ public class BookController {
                     int index = idsArr.indexOf(book.getId() + "");
                     BookVO bookvo = new BookVO();
                     BeanUtils.copyProperties(book, bookvo);
-                    bookvo.setCateName(bookService.getCatNameById(bookvo.getCatid()));
+                    bookvo.setCateName(CatUtil.getCatNameById(bookvo.getCatid()));
                     bookVoArr[books.size() - index - 1] = bookvo;
                 }
                 bookVoList = Arrays.asList(bookVoArr);
@@ -144,10 +145,10 @@ public class BookController {
             BeanUtils.copyProperties(book, bookvo);
             if(catId == Constants.SOFT_NOVEL_CAT) {
                 //轻小说
-                bookvo.setCateName(bookService.getSoftCatNameById(bookvo.getSoftCat()));
+                bookvo.setCateName(CatUtil.getSoftCatNameById(bookvo.getSoftCat()));
             }else if(catId == Constants.MH_NOVEL_CAT){
                 //漫画
-                bookvo.setCateName(bookService.getMhCatNameById(bookvo.getSoftCat()));
+                bookvo.setCateName(CatUtil.getMhCatNameById(bookvo.getSoftCat()));
             }
             bookVoList.add(bookvo);
         }
@@ -204,7 +205,7 @@ public class BookController {
 
         BookVO bookvo = new BookVO();
         BeanUtils.copyProperties(book, bookvo);
-        bookvo.setCateName(bookService.getCatNameById(bookvo.getCatid()));
+        bookvo.setCateName(CatUtil.getCatNameById(bookvo.getCatid()));
 
         modelMap.put("bookId", bookId);
         modelMap.put("book", bookvo);
@@ -243,7 +244,7 @@ public class BookController {
             bookContent.setId(-1L);
             bookContent.setBookId(bookId);
             bookContent.setIndexNum(indexNum);
-            bookContent.setContent("正在手打中，请稍等片刻，内容更新后，需要重新刷新页面，才能获取最新更新");
+            bookContent.setContent(Constants.NO_CONTENT_DESC);
             indexName = "更新中。。。";
         } else {
             indexName = bookService.queryIndexNameByBookIdAndIndexNum(bookId, indexNum);

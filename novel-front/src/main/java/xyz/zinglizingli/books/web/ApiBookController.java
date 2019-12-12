@@ -15,6 +15,8 @@ import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.vo.BookVO;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
+import xyz.zinglizingli.common.utils.CatUtil;
+import xyz.zinglizingli.common.utils.Constants;
 
 import java.util.*;
 
@@ -71,7 +73,7 @@ public class ApiBookController {
         String userId = null;
         String titleType = "最近更新";
         if (catId != null) {
-            titleType = bookService.getCatNameById(catId);
+            titleType = CatUtil.getCatNameById(catId);
         } else if (keyword != null) {
             titleType = "搜索";
         } else if ("score".equals(sortBy)) {
@@ -90,7 +92,7 @@ public class ApiBookController {
             for (Book book : books) {
                 BookVO bookvo = new BookVO();
                 BeanUtils.copyProperties(book, bookvo);
-                bookvo.setCateName(bookService.getCatNameById(bookvo.getCatid()));
+                bookvo.setCateName(CatUtil.getCatNameById(bookvo.getCatid()));
                 bookVOList.add(bookvo);
             }
 
@@ -103,7 +105,7 @@ public class ApiBookController {
                     int index = idsArr.indexOf(book.getId() + "");
                     BookVO bookvo = new BookVO();
                     BeanUtils.copyProperties(book, bookvo);
-                    bookvo.setCateName(bookService.getCatNameById(bookvo.getCatid()));
+                    bookvo.setCateName(CatUtil.getCatNameById(bookvo.getCatid()));
                     bookVOArr[length - index - 1] = bookvo;
                 }
                 bookVOList = Arrays.asList(bookVOArr);
@@ -139,7 +141,7 @@ public class ApiBookController {
 
         BookVO bookvo = new BookVO();
         BeanUtils.copyProperties(book, bookvo);
-        bookvo.setCateName(bookService.getCatNameById(bookvo.getCatid()));
+        bookvo.setCateName(CatUtil.getCatNameById(bookvo.getCatid()));
         modelMap.put("bookId", bookId);
         modelMap.put("book", bookvo);
         modelMap.put("indexList", indexList);
@@ -185,7 +187,7 @@ public class ApiBookController {
             bookContent.setId(-1L);
             bookContent.setBookId(bookId);
             bookContent.setIndexNum(indexNum);
-            bookContent.setContent("正在手打中，请稍等片刻，内容更新后，需要重新刷新页面，才能获取最新更新");
+            bookContent.setContent(Constants.NO_CONTENT_DESC);
             indexName="？";
         }else{
             indexName = bookService.queryIndexNameByBookIdAndIndexNum(bookId, indexNum);

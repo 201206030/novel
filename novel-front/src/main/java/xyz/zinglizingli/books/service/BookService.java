@@ -19,6 +19,7 @@ import xyz.zinglizingli.common.constant.CacheKeyConstans;
 import xyz.zinglizingli.common.enums.PicSaveType;
 import xyz.zinglizingli.books.mapper.*;
 import xyz.zinglizingli.books.po.*;
+import xyz.zinglizingli.common.utils.Constants;
 import xyz.zinglizingli.common.utils.UUIDUtils;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
@@ -96,7 +97,7 @@ public class BookService {
             List<BookContent> newContentList = new ArrayList<>();
             for (int i = 0; i < bookIndex.size(); i++) {
                 BookContent bookContentItem = bookContent.get(i);
-                if (!bookContentItem.getContent().contains("正在手打中，请稍等片刻，内容更新后，需要重新刷新页面，才能获取最新更新")) {
+                if (!bookContentItem.getContent().contains(Constants.NO_CONTENT_DESC)) {
                     BookIndex bookIndexItem = bookIndex.get(i);
                     bookIndexItem.setBookId(bookId);
                     bookContentItem.setBookId(bookId);
@@ -207,57 +208,7 @@ public class BookService {
 
     }
 
-    /**
-     * 获取分类名
-     * */
-    public String getCatNameById(Integer catid) {
-        String catName = "其他";
 
-        switch (catid) {
-            case 1: {
-                catName = "玄幻奇幻";
-                break;
-            }
-            case 2: {
-                catName = "武侠仙侠";
-                break;
-            }
-            case 3: {
-                catName = "都市言情";
-                break;
-            }
-            case 4: {
-                catName = "历史军事";
-                break;
-            }
-            case 5: {
-                catName = "科幻灵异";
-                break;
-            }
-            case 6: {
-                catName = "网游竞技";
-                break;
-            }
-            case 7: {
-                catName = "女生频道";
-                break;
-            }
-            case 8: {
-                catName = "轻小说";
-                break;
-            }
-            case 9: {
-                catName = "漫画";
-                break;
-            }
-            default: {
-                break;
-            }
-
-
-        }
-        return catName;
-    }
 
     /**
      * 查询书籍的基础数据
@@ -374,87 +325,6 @@ public class BookService {
 
 
 
-    /**
-     * 查询轻小说分类名
-     * */
-    public String getSoftCatNameById(Integer softCat) {
-        String catName = "其他";
-
-        switch (softCat) {
-            case 21: {
-                catName = "魔幻";
-                break;
-            }
-            case 22: {
-                catName = "玄幻";
-                break;
-            }
-            case 23: {
-                catName = "古风";
-                break;
-            }
-            case 24: {
-                catName = "科幻";
-                break;
-            }
-            case 25: {
-                catName = "校园";
-                break;
-            }
-            case 26: {
-                catName = "都市";
-                break;
-            }
-            case 27: {
-                catName = "游戏";
-                break;
-            }
-            case 28: {
-                catName = "同人";
-                break;
-            }
-            case 29: {
-                catName = "悬疑";
-                break;
-            }
-            case 0: {
-                catName = "动漫";
-                break;
-            }
-            default: {
-                break;
-            }
-
-
-        }
-        return catName;
-
-    }
-
-    /**
-     * 查询漫画分类名
-     * */
-    public String getMhCatNameById(Integer softCat) {
-        String catName = "其他";
-
-        switch (softCat) {
-            case 3262: {
-                catName = "少年漫";
-                break;
-            }
-            case 3263: {
-                catName = "少女漫";
-                break;
-            }
-            default: {
-                break;
-            }
-
-
-        }
-        return catName;
-
-    }
 
     /**
      * 保存弹幕
