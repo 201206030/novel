@@ -166,7 +166,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
             }
         }
 
-        new Thread(() -> {
+        /*new Thread(() -> {
             for (int j = 21; j <= 29; j++) {
 
 
@@ -402,7 +402,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
 
             }
-        }).start();
+        }).start();*/
 
     }
 
@@ -567,7 +567,6 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                                                     //查询章节内容
                                                     String body3 = getByHttpClient(contentUrl);
                                                     if (body3 != null) {
-                                                        Pattern contentPattten = Pattern.compile("章节错误,点此举报(.*)加入书签，方便阅读");
                                                         String start = "『章节错误,点此举报』";
                                                         String end = "『加入书签，方便阅读』";
                                                         String content = body3.substring(body3.indexOf(start) + start.length(), body3.indexOf(end));
@@ -580,11 +579,8 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                                                         bookContent.setContent(content);
                                                         bookContent.setIndexNum(indexNum);
                                                         contentList.add(bookContent);
-                                                        //System.out.println(indexName);
 
 
-                                                    } else {
-                                                        break;
                                                     }
                                                 }
                                                 indexNum++;
@@ -616,7 +612,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
             } finally {
                 matcher2.find();
-                isFind = matcher2.find();//需要找两次，应为有两个一样的路径匹配
+                isFind = matcher2.find();
                 scoreFind = scoreMatch.find();
                 isBookNameMatch = bookNameMatch.find();
                 isFindAuthor = authoreMatch.find();

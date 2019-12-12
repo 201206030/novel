@@ -67,7 +67,7 @@
     <insert id="save" parameterType="com.java2nb.books.domain.BookDO" useGeneratedKeys="true" keyProperty="id">
 		insert into book
 		(
-			`id`, 
+
 			`catId`, 
 			`pic_url`, 
 			`book_name`, 
@@ -82,7 +82,7 @@
 		)
 		values
 		(
-			#{id}, 
+
 			#{catid}, 
 			#{picUrl}, 
 			#{bookName}, 
