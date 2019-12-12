@@ -965,7 +965,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
             Long bookId = books.get(0).getId();
             Map<String, Object> bookIndexExample = new HashMap<>();
-            bookExample.put("bookId", bookId);
+            bookIndexExample.put("bookId", bookId);
             List<BookIndexDO> bookIndices = bookIndexDao.list(bookIndexExample);
             if (bookIndices != null && bookIndices.size() > 0) {
                 for (BookIndexDO bookIndex : bookIndices) {
