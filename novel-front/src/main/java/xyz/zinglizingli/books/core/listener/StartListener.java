@@ -1,18 +1,15 @@
-package xyz.zinglizingli.common.listener;
+package xyz.zinglizingli.books.core.listener;
 
-import com.sun.javafx.tk.Toolkit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.config.Task;
 import org.springframework.stereotype.Component;
-import xyz.zinglizingli.common.crawl.BaseCrawlSource;
+import xyz.zinglizingli.books.core.crawl.BaseCrawlSource;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
+/**
+ * @author 11797
+ */
 @Component
 @Slf4j
 @RequiredArgsConstructor

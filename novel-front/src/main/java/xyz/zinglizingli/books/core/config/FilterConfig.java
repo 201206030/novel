@@ -1,10 +1,10 @@
-package xyz.zinglizingli.common.config;
+package xyz.zinglizingli.books.core.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import xyz.zinglizingli.common.filter.BookFilter;
+import xyz.zinglizingli.books.core.filter.BookFilter;
 
 @Configuration
 public class FilterConfig{

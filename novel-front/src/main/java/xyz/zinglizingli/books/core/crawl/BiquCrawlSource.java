@@ -1,13 +1,12 @@
-package xyz.zinglizingli.common.crawl;
+package xyz.zinglizingli.books.core.crawl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.po.BookContent;
 import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.service.BookService;
-import xyz.zinglizingli.common.utils.CatUtil;
+import xyz.zinglizingli.books.core.utils.CatUtil;
 import xyz.zinglizingli.common.utils.ExcutorUtils;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 

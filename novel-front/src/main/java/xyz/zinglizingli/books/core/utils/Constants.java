@@ -1,4 +1,4 @@
-package xyz.zinglizingli.common.utils;
+package xyz.zinglizingli.books.core.utils;
 
 /**
  * @author XXY

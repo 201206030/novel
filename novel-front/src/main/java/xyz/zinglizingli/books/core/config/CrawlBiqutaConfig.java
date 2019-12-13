@@ -1,4 +1,4 @@
-package xyz.zinglizingli.common.config;
+package xyz.zinglizingli.books.core.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import xyz.zinglizingli.common.crawl.BaseHtmlCrawlSource;
-import xyz.zinglizingli.common.crawl.BiquCrawlSource;
+import xyz.zinglizingli.books.core.crawl.BaseHtmlCrawlSource;
+import xyz.zinglizingli.books.core.crawl.BiquCrawlSource;
 
 /**
  * @author 11797

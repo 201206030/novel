@@ -15,8 +15,8 @@ import xyz.zinglizingli.books.po.BookIndex;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.vo.BookVO;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
-import xyz.zinglizingli.common.utils.CatUtil;
-import xyz.zinglizingli.common.utils.Constants;
+import xyz.zinglizingli.books.core.utils.CatUtil;
+import xyz.zinglizingli.books.core.utils.Constants;
 
 import java.util.*;
 

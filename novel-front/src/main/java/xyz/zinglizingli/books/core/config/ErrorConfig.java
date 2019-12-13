@@ -1,11 +1,11 @@
-package xyz.zinglizingli.common.config;
+package xyz.zinglizingli.books.core.config;
 
 import org.springframework.boot.web.server.ErrorPage;
 import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.boot.web.server.ErrorPageRegistry;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import xyz.zinglizingli.common.utils.Constants;
+import xyz.zinglizingli.books.core.utils.Constants;
 
 /**
  *定义配置类

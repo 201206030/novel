@@ -1,4 +1,4 @@
-package xyz.zinglizingli.common.crawl;
+package xyz.zinglizingli.books.core.crawl;
 
 /**
  * Json爬虫源

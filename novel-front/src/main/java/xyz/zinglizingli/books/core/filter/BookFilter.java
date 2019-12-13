@@ -1,4 +1,4 @@
-package xyz.zinglizingli.common.filter;
+package xyz.zinglizingli.books.core.filter;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +9,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-import xyz.zinglizingli.common.utils.Constants;
+import xyz.zinglizingli.books.core.utils.Constants;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
 import javax.servlet.*;

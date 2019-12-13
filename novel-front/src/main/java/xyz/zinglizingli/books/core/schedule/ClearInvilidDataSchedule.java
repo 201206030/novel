@@ -1,4 +1,4 @@
-package xyz.zinglizingli.common.schedule;
+package xyz.zinglizingli.books.core.schedule;
 
 
 import lombok.RequiredArgsConstructor;

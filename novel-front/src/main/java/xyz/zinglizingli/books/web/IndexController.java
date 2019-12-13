@@ -1,15 +1,15 @@
-package xyz.zinglizingli.common.web;
+package xyz.zinglizingli.books.web;
 
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import xyz.zinglizingli.common.constant.CacheKeyConstans;
+import xyz.zinglizingli.books.core.constant.CacheKeyConstans;
 import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
-import xyz.zinglizingli.common.config.IndexRecBooksConfig;
+import xyz.zinglizingli.books.core.config.IndexRecBooksConfig;
 
 import java.util.List;
 import java.util.Map;
