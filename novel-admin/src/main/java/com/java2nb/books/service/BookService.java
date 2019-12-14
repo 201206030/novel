@@ -45,4 +45,6 @@ public interface BookService {
 	int indexRemove(Long id, Long bookId);
 
 	int batchIndexRemove(Long[] ids, Long[] bookIds);
+
+	void saveBookAndIndexAndContent(BookDO book, List<BookIndexDO> bookIndex, List<BookContentDO> bookContent);
 }

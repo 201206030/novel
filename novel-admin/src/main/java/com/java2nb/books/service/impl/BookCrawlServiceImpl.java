@@ -7,6 +7,7 @@ import com.java2nb.books.dao.BookIndexDao;
 import com.java2nb.books.domain.BookContentDO;
 import com.java2nb.books.domain.BookDO;
 import com.java2nb.books.domain.BookIndexDO;
+import com.java2nb.books.service.BookService;
 import com.java2nb.books.util.RestTemplateUtil;
 import com.java2nb.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
     private BookIndexDao bookIndexDao;
 
     @Autowired
-    private BookContentDao bookContentDao;
+    private BookService bookService;
 
     @Override
     public BookCrawlDO get(Long id) {
@@ -592,7 +593,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                                             }
 
                                             if (indexList.size() == contentList.size() && indexList.size() > 0) {
-                                                saveBookAndIndexAndContent(book, indexList, contentList);
+                                                bookService.saveBookAndIndexAndContent(book, indexList, contentList);
                                             }
                                         }
 
@@ -820,7 +821,7 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                                             }
 
                                             if (indexList.size() == contentList.size() && indexList.size() > 0) {
-                                                saveBookAndIndexAndContent(book, indexList, contentList);
+                                                bookService.saveBookAndIndexAndContent(book, indexList, contentList);
                                             }
                                         }
 
@@ -855,70 +856,9 @@ public class BookCrawlServiceImpl implements BookCrawlService {
 
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public void saveBookAndIndexAndContent(BookDO book, List<BookIndexDO> bookIndex, List<BookContentDO> bookContent) {
-        Long bookId = -1L;
-        book.setBookName(book.getBookName().trim());
-        book.setAuthor(book.getAuthor().trim());
-        Map<String, Object> bookExample = new HashMap<>();
-        bookExample.put("bookName", book.getBookName());
-        bookExample.put("author", book.getAuthor());
-        List<BookDO> books = bookDao.list(bookExample);
-        if (books.size() > 0) {
-            //更新
-            bookId = books.get(0).getId();
-            book.setId(bookId);
-            bookDao.update(book);
-
-        } else {
-            if (book.getVisitCount() == null) {
-                Long visitCount = generateVisiteCount(book.getScore());
-                book.setVisitCount(visitCount);
-            }
-            //插入
-            int rows = bookDao.save(book);
-            if (rows > 0) {
-                bookId = book.getId();
-            }
 
 
-        }
 
-        if (bookId >= 0) {
-
-
-            List<BookIndexDO> newBookIndexList = new ArrayList<>();
-            List<BookContentDO> newContentList = new ArrayList<>();
-            for (int i = 0; i < bookIndex.size(); i++) {
-                BookContentDO bookContentItem = bookContent.get(i);
-                if (!bookContentItem.getContent().contains("正在手打中，请稍等片刻，内容更新后，需要重新刷新页面，才能获取最新更新")) {
-
-
-                    BookIndexDO bookIndexItem = bookIndex.get(i);
-                    bookIndexItem.setBookId(bookId);
-                    bookContentItem.setBookId(bookId);
-                    bookContentItem.setIndexNum(bookIndexItem.getIndexNum());
-
-                    newBookIndexList.add(bookIndexItem);
-                    newContentList.add(bookContentItem);
-                }
-            }
-
-            if (newBookIndexList.size() > 0) {
-                bookIndexDao.insertBatch(newBookIndexList);
-
-                bookContentDao.insertBatch(newContentList);
-            }
-
-
-        }
-
-
-    }
-
-    private Long generateVisiteCount(Float score) {
-        return Long.parseLong((int)(score*10000) + new Random().nextInt(1000) + "");
-    }
 
     private String getByTemplate(String catBookListUrl) {
         try {

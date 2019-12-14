@@ -20,6 +20,7 @@ import xyz.zinglizingli.books.core.enums.PicSaveType;
 import xyz.zinglizingli.books.mapper.*;
 import xyz.zinglizingli.books.po.*;
 import xyz.zinglizingli.books.core.utils.Constants;
+import xyz.zinglizingli.common.utils.SpringUtil;
 import xyz.zinglizingli.common.utils.UUIDUtils;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
@@ -51,6 +52,7 @@ public class BookService {
 
     private final CommonCacheUtil cacheUtil;
 
+
     @Value("${pic.save.type}")
     private Integer picSaveType;
 
@@ -63,6 +65,8 @@ public class BookService {
      * 保存章节目录和内容
      * */
     public void saveBookAndIndexAndContent(Book book, List<BookIndex> bookIndex, List<BookContent> bookContent){
+        //解决内部调用事物不生效的问题
+        BookService bookService = SpringUtil.getBean(BookService.class);
 
         boolean isUpdate = false;
         Long bookId = -1L;
@@ -107,7 +111,7 @@ public class BookService {
                 }
                 //一次最多只允许插入20条记录,否则影响服务器响应
                 if (isUpdate && i % 20 == 0 && newBookIndexList.size() > 0) {
-                    insertIndexListAndContentList(newBookIndexList, newContentList);
+                    bookService.insertIndexListAndContentList(newBookIndexList, newContentList);
                     newBookIndexList = new ArrayList<>();
                     newContentList = new ArrayList<>();
                     try {
@@ -121,7 +125,7 @@ public class BookService {
 
 
             if (newBookIndexList.size() > 0) {
-                insertIndexListAndContentList(newBookIndexList, newContentList);
+                bookService.insertIndexListAndContentList(newBookIndexList, newContentList);
             }
 
             cacheUtil.del(CacheKeyConstans.NEWST_BOOK_LIST_KEY);
