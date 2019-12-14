@@ -104,8 +104,9 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 数据库安装：
 
 1. 安装MySQL软件。
-2. 新建数据库books:create database books default character set utf8mb4 collate utf8mb4_general_ci 。
-3. 执行sql/books.sql文件。
+2. 修改MySQL`max_allowed_packet `配置（建议100M）。
+3. 新建数据库books:create database books default character set utf8mb4 collate utf8mb4_general_ci 。
+4. 执行sql/books.sql文件。
 
 小说数据爬取的两种方式 ：
 
