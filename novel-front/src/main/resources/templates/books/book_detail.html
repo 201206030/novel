@@ -101,6 +101,16 @@
             color: #f90;
         }
 
+        .line-limit-length {
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+
+        }
+
     </style>
 
     <script>
@@ -192,10 +202,10 @@
                 更新： <i th:text="${#dates.format(book.updateTime, 'yy-MM-dd HH:mm:ss')}"></i>
             </span>
         </h2>
-        <div class="layui-colla-content layui-show indexP">
+        <div class="layui-colla-content layui-show indexP layui-row">
 
 
-            <p style="height: 30px;line-height: 30px;padding: 10px" th:each="index : ${indexList}"><a th:href="'/book/'+${index.bookId}+'/'+${index.indexNum}+'.html'" th:text="${index.indexName}"></a></p>
+            <p class="line-limit-length layui-col-xs12 layui-col-sm4 layui-col-md3 layui-col-lg2" style="padding-left:10px;height: 50px;line-height: 50px;" th:each="index : ${indexList}"><a th:href="'/book/'+${index.bookId}+'/'+${index.indexNum}+'.html'" th:text="${index.indexName}"></a></p>
 
         </div>
     </div>
