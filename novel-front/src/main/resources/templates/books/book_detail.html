@@ -114,6 +114,7 @@
     </style>
 
     <script>
+
         var _hmt = _hmt || [];
         (function() {
             var hm = document.createElement("script");
@@ -140,6 +141,7 @@
 
 </head>
 <body>
+<div id="content">
 
 <ul class="tag-list clearfix" id="tagLi">
 
@@ -179,7 +181,6 @@
 
         </div>
     </div>
-</div>
 
 
 
@@ -218,6 +219,7 @@
 <!--
 <div style="position: fixed;top:0px;left:0px;z-index:-100;opacity: 0" th:utext="${attacDivForSearch}"></div>
 -->
+</div>
 
 <div th:replace="common/footer :: footer">
 </div>
@@ -228,6 +230,7 @@
 <div th:replace="common/js :: js">
 </div>
 <script>
+    $("#content").css("min-height",($(window).height()-60)+"px");
 
     function downloadFile() {
         var fileUrl = '/book/download?bookId='+$("#bookIdHidden").val()+'&bookName='+$("#bookNamedHidden").val();

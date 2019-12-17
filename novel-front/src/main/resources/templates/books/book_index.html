@@ -64,7 +64,7 @@
 </head>
 <body>
 
-
+<div id="content">
 <input type="hidden" id="bookIdHidden" th:value="${bookId}"/>
 <div style="height: 50px;line-height: 50px;text-align: center" class="layui-header header header-doc  layui-bg-cyan">
 
@@ -95,7 +95,7 @@
 
 
 </div>
-
+</div>
 <div th:replace="common/footer :: footer">
 </div>
 
@@ -104,6 +104,7 @@
 <div th:replace="common/js :: js">
 </div>
 <script>
+    $("#content").css("min-height",($(window).height()-60)+"px");
     $.get("/book/addVisit",{"bookId":$("#bookIdHidden").val()},function(){});
     function toMyCollect(){
         var token = localStorage.getItem("token");
