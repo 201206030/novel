@@ -141,7 +141,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
 
                                                                     //查询章节内容
-                                                                    String body3 = RestTemplateUtil.getBodyByUtf8(contentUrl.replace("//m.","//www."));
+                                                                    String body3 = RestTemplateUtil.getBodyByUtf8(contentUrl.replace("//m.","//www.").replace("//wap.","//www."));
                                                                     if (body3 != null) {
                                                                         String start = "id=\"content\">";
                                                                         String end = "<script>";

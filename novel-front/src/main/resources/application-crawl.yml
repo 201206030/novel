@@ -1,4 +1,4 @@
-#爬取的网站名称类型 1：笔趣岛 ，2：笔趣塔  更多网站解析中，敬请期待
+#爬取的网站名称类型 1：笔趣岛 ，2：笔趣塔, 3:顶点  更多网站解析中，敬请期待
 biquta:
   crawlsource:
     enabled: true  #是否开启此爬虫源
@@ -31,3 +31,20 @@ biqudao:
     intro-pattern: class="review">([^<]+)</p>
     catalog-url-pattern: <a\s+href="(/bqge\d+/all\.html)">查看完整目录</a>
     catalog-pattern: <a[^/]+style[^/]+href="(/bqge\d+/\d+\.html)">([^/]+)</a>
+
+dingdian:
+  crawlsource:
+    enabled: true  #是否开启此爬虫源
+    index-url: https://wap.dingdiann.com
+    list-page-url: https://wap.dingdiann.com/sort/{0}/{1}.html
+    book-url-pattern: href="/(ddk\d+)/"
+    score-pattern: <div\s+class="score">(\d+\.\d+)分</div>
+    book-name-pattern: <p class="title">([^/]+)</p>
+    author-pattern: 作者：([^/]+)<
+    status-pattern: 状态：([^/]+)</li>
+    cat-pattern: 类别：([^/]+)</li>
+    update-time-pattern: 更新：(\d+-\d+-\d+\s\d+:\d+:\d+)</a>
+    pic-pattern: <img src="([^>]+)"\s+onerror="this.src=
+    intro-pattern: class="review">([^<]+)</p>
+    catalog-url-pattern: <a\s+href="(/ddk\d+/all.html)">查看完整目录</a>
+    catalog-pattern: <a\s+style=""\s+href="(/ddk\d+/\d+\.html)">([^/]+)</a>
