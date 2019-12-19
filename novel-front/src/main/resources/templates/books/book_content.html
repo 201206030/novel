@@ -208,6 +208,10 @@
             var bullet = $("#screenBulletText").val();
             var contentId = $("#contentIdHidden").val();
             if (bullet && contentId) {
+                if(bullet.length > 100){
+                    layer.alert("发送内容过长");
+                    return;
+                }
                 $.ajax({
                     type: "POST",
                     url: "/book/sendBullet",
