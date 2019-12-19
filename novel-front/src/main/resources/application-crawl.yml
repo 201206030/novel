@@ -45,6 +45,6 @@ dingdian:
     cat-pattern: 类别：([^/]+)</li>
     update-time-pattern: 更新：(\d+-\d+-\d+\s\d+:\d+:\d+)</a>
     pic-pattern: <img src="([^>]+)"\s+onerror="this.src=
-    intro-pattern: class="review">([^<]+)</p>
+    intro-pattern: class="review">([^/]+)</p>
     catalog-url-pattern: <a\s+href="(/ddk\d+/all.html)">查看完整目录</a>
     catalog-pattern: <a\s+style=""\s+href="(/ddk\d+/\d+\.html)">([^/]+)</a>

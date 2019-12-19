@@ -522,88 +522,85 @@ public class BookCrawlServiceImpl implements BookCrawlService {
                             if (picMather.find()) {
                                 String picSrc = picMather.group(1);
 
-                                Pattern descPatten = compile("class=\"review\">([^<]+)</p>");
-                                Matcher descMatch = descPatten.matcher(body);
-                                if (descMatch.find()) {
-                                    String desc = descMatch.group(1);
+                                String desc = body.substring(body.indexOf("<p class=\"review\">") + "<p class=\"review\">".length());
+                                desc = desc.substring(0, desc.indexOf("</p>"));
 
 
-                                    BookDO book = new BookDO();
-                                    book.setAuthor(author);
-                                    book.setCatid(catNum);
-                                    book.setBookDesc(desc);
-                                    book.setBookName(bookName);
-                                    book.setScore(score > 10 ? 8.0f : score);
-                                    book.setPicUrl(picSrc);
-                                    book.setBookStatus(status);
-                                    book.setUpdateTime(updateTime);
+                                BookDO book = new BookDO();
+                                book.setAuthor(author);
+                                book.setCatid(catNum);
+                                book.setBookDesc(desc);
+                                book.setBookName(bookName);
+                                book.setScore(score > 10 ? 8.0f : score);
+                                book.setPicUrl(picSrc);
+                                book.setBookStatus(status);
+                                book.setUpdateTime(updateTime);
 
-                                    List<BookIndexDO> indexList = new ArrayList<>();
-                                    List<BookContentDO> contentList = new ArrayList<>();
+                                List<BookIndexDO> indexList = new ArrayList<>();
+                                List<BookContentDO> contentList = new ArrayList<>();
 
-                                    //读取目录
-                                    Pattern indexPatten = compile("<a\\s+href=\"(/du/\\d+_\\d+/)\">查看完整目录</a>");
-                                    Matcher indexMatch = indexPatten.matcher(body);
-                                    if (indexMatch.find()) {
-                                        String indexUrl = baseUrl + indexMatch.group(1);
-                                        String body2 = getByTemplate(indexUrl);
-                                        if (body2 != null) {
-                                            Pattern indexListPatten = compile("<a\\s+style=\"\"\\s+href=\"(/\\d+_\\d+/\\d+\\.html)\">([^/]+)</a>");
-                                            Matcher indexListMatch = indexListPatten.matcher(body2);
+                                //读取目录
+                                Pattern indexPatten = compile("<a\\s+href=\"(/du/\\d+_\\d+/)\">查看完整目录</a>");
+                                Matcher indexMatch = indexPatten.matcher(body);
+                                if (indexMatch.find()) {
+                                    String indexUrl = baseUrl + indexMatch.group(1);
+                                    String body2 = getByTemplate(indexUrl);
+                                    if (body2 != null) {
+                                        Pattern indexListPatten = compile("<a\\s+style=\"\"\\s+href=\"(/\\d+_\\d+/\\d+\\.html)\">([^/]+)</a>");
+                                        Matcher indexListMatch = indexListPatten.matcher(body2);
 
-                                            boolean isFindIndex = indexListMatch.find();
+                                        boolean isFindIndex = indexListMatch.find();
 
-                                            int indexNum = 0;
-                                            //查询该书籍已存在目录号
-                                            List<Integer> hasIndexNum = queryIndexCountByBookNameAndBAuthor(bookName, author);
+                                        int indexNum = 0;
+                                        //查询该书籍已存在目录号
+                                        List<Integer> hasIndexNum = queryIndexCountByBookNameAndBAuthor(bookName, author);
 
-                                            while (isFindIndex) {
-                                                if (isInteruptBiquTaCrawl) {
-                                                    return;
-                                                }
-
-                                                if (!hasIndexNum.contains(indexNum)) {
-
-                                                    String contentUrl = baseUrl + indexListMatch.group(1);
-                                                    String indexName = indexListMatch.group(2);
-
-
-                                                    //查询章节内容
-                                                    String body3 = getByTemplate(contentUrl.replace("//m.","//www."));
-                                                    if (body3 != null) {
-                                                        String start = "id=\"content\">";
-                                                        String end = "<script>";
-                                                        String content = body3.substring(body3.indexOf(start) + start.length());
-                                                        content = "<div class=\"article-content font16\" id=\"ChapterBody\" data-class=\"font16\">"+content.substring(0,content.indexOf(end))+"</div>";
-                                                        //TODO插入章节目录和章节内容
-                                                        BookIndexDO bookIndex = new BookIndexDO();
-                                                        bookIndex.setIndexName(indexName);
-                                                        bookIndex.setIndexNum(indexNum);
-                                                        indexList.add(bookIndex);
-                                                        BookContentDO bookContent = new BookContentDO();
-                                                        bookContent.setContent(content);
-                                                        bookContent.setIndexNum(indexNum);
-                                                        contentList.add(bookContent);
-
-
-                                                    }
-                                                }
-                                                indexNum++;
-                                                isFindIndex = indexListMatch.find();
+                                        while (isFindIndex) {
+                                            if (isInteruptBiquTaCrawl) {
+                                                return;
                                             }
 
-                                            if (indexList.size() == contentList.size() && indexList.size() > 0) {
-                                                bookService.saveBookAndIndexAndContent(book, indexList, contentList);
+                                            if (!hasIndexNum.contains(indexNum)) {
+
+                                                String contentUrl = baseUrl + indexListMatch.group(1);
+                                                String indexName = indexListMatch.group(2);
+
+
+                                                //查询章节内容
+                                                String body3 = getByTemplate(contentUrl.replace("//m.", "//www."));
+                                                if (body3 != null) {
+                                                    String start = "id=\"content\">";
+                                                    String end = "<script>";
+                                                    String content = body3.substring(body3.indexOf(start) + start.length());
+                                                    content = "<div class=\"article-content font16\" id=\"ChapterBody\" data-class=\"font16\">" + content.substring(0, content.indexOf(end)) + "</div>";
+                                                    //TODO插入章节目录和章节内容
+                                                    BookIndexDO bookIndex = new BookIndexDO();
+                                                    bookIndex.setIndexName(indexName);
+                                                    bookIndex.setIndexNum(indexNum);
+                                                    indexList.add(bookIndex);
+                                                    BookContentDO bookContent = new BookContentDO();
+                                                    bookContent.setContent(content);
+                                                    bookContent.setIndexNum(indexNum);
+                                                    contentList.add(bookContent);
+
+
+                                                }
                                             }
+                                            indexNum++;
+                                            isFindIndex = indexListMatch.find();
                                         }
 
+                                        if (indexList.size() == contentList.size() && indexList.size() > 0) {
+                                            bookService.saveBookAndIndexAndContent(book, indexList, contentList);
+                                        }
                                     }
-
 
                                 }
 
 
                             }
+
+
                         }
 
 
@@ -855,9 +852,6 @@ public class BookCrawlServiceImpl implements BookCrawlService {
         }
 
     }
-
-
-
 
 
     private String getByTemplate(String catBookListUrl) {

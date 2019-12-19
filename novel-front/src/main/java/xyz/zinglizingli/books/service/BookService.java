@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -109,13 +110,13 @@ public class BookService {
                     newBookIndexList.add(bookIndexItem);
                     newContentList.add(bookContentItem);
                 }
-                //一次最多只允许插入20条记录,否则影响服务器响应
-                if (isUpdate && i % 20 == 0 && newBookIndexList.size() > 0) {
+                //一次最多只允许插入100条记录,否则影响服务器响应
+                if (isUpdate && i % 100 == 0 && newBookIndexList.size() > 0) {
                     bookService.insertIndexListAndContentList(newBookIndexList, newContentList);
                     newBookIndexList = new ArrayList<>();
                     newContentList = new ArrayList<>();
                     try {
-                        Thread.sleep(1000 * 60 * 5);
+                        Thread.sleep(1000 * 60 * 1);
                     } catch (InterruptedException e) {
                         log.error(e.getMessage(), e);
                         throw new RuntimeException(e.getMessage());
@@ -175,12 +176,27 @@ public class BookService {
     }
 
     /**
-     * 批量插入章节目录表和章节内容表
+     * 批量插入章节目录表和章节内容表（自动修复错误章节）
      * */
     @Transactional(rollbackFor = Exception.class)
     public void insertIndexListAndContentList(List<BookIndex> newBookIndexList, List<BookContent> newContentList) {
-        bookIndexMapper.insertBatch(newBookIndexList);
-        bookContentMapper.insertBatch(newContentList);
+        long start = System.currentTimeMillis();
+        if(newBookIndexList.size() > 0) {
+            //删除已存在的错误章节
+            List<Integer> indexNumberList = newBookIndexList.stream().map(BookIndex::getIndexNum).collect(Collectors.toList());
+            Long bookId = newBookIndexList.get(0).getBookId();
+            BookIndexExample bookIndexExample = new BookIndexExample();
+            bookIndexExample.createCriteria().andBookIdEqualTo(bookId).andIndexNumIn(indexNumberList);
+            bookIndexMapper.deleteByExample(bookIndexExample);
+            BookContentExample bookContentExample = new BookContentExample();
+            bookContentExample.createCriteria().andBookIdEqualTo(bookId).andIndexNumIn(indexNumberList);
+            bookContentMapper.deleteByExample(bookContentExample);
+
+            //插入新的章节
+            bookIndexMapper.insertBatch(newBookIndexList);
+            bookContentMapper.insertBatch(newContentList);
+        }
+        log.info("更新章节耗时："+(System.currentTimeMillis()-start));
     }
 
 
@@ -307,7 +323,7 @@ public class BookService {
     /**
      * 查询该书籍已存在目录号
      */
-    public List<Integer> queryIndexNumByBookNameAndAuthor(String bookName, String author) {
+    public Map<Integer,BookIndex> queryIndexByBookNameAndAuthor(String bookName, String author) {
         BookExample example = new BookExample();
         example.createCriteria().andBookNameEqualTo(bookName).andAuthorEqualTo(author);
         List<Book> books = bookMapper.selectByExample(example);
@@ -317,13 +333,13 @@ public class BookService {
             BookIndexExample bookIndexExample = new BookIndexExample();
             bookIndexExample.createCriteria().andBookIdEqualTo(bookId);
             List<BookIndex> bookIndices = bookIndexMapper.selectByExample(bookIndexExample);
-            if(bookIndices.size()>0) {
-                return bookIndices.stream().map(BookIndex::getIndexNum).collect(Collectors.toList());
+            if(bookIndices.size() > 0) {
+                return bookIndices.stream().collect(Collectors.toMap(BookIndex::getIndexNum, Function.identity()));
             }
 
         }
 
-        return new ArrayList<>(0);
+        return new HashMap<>(0);
 
     }
 
