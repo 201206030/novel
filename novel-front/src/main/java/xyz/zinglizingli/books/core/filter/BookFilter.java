@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLDecoder;
 import java.util.*;
 
 /**
@@ -53,6 +54,7 @@ public class BookFilter implements Filter {
         String requestUrl = req.getRequestURL().toString();
         String requestUri = req.getRequestURI();
 
+
         String forObject;
 
         try {
@@ -76,6 +78,9 @@ public class BookFilter implements Filter {
                 filterChain.doFilter(req, resp);
                 return;
             }
+
+            requestUrl = URLDecoder.decode(requestUrl,"utf-8");
+            requestUri = URLDecoder.decode(requestUri,"utf-8");
 
 
             String method = req.getMethod();
