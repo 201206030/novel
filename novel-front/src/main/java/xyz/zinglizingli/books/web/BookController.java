@@ -252,7 +252,7 @@ public class BookController {
         List<Integer> preAndNextIndexNum = bookService.queryPreAndNextIndexNum(bookId, indexNum);
         modelMap.put("nextIndexNum", preAndNextIndexNum.get(0));
         modelMap.put("preIndexNum", preAndNextIndexNum.get(1));
-        bookContent.setContent(bookContent.getContent().replaceAll("<div[^>]+app\\.html[^>]+>\\s*<div[^>]+>\\s*<div[^>]+>[^<]+</div>\\s*<div[^>]+>[^<]+<span[^>]+>>>[^<]+<<</span>\\s*</div>\\s*</div>\\s*</div>", ""));
+        bookContent.setContent(bookContent.getContent().replaceAll(Constants.CONTENT_AD_PATTERN, ""));
         modelMap.put("bookContent", bookContent);
         modelMap.put("indexName", indexName);
         Book basicBook = bookService.queryBaseInfo(bookId);
@@ -343,7 +343,8 @@ public class BookController {
                         String content = bookService.queryContentList(bookId, i);
                         out.write(index.getBytes(StandardCharsets.UTF_8));
                         out.write("\n".getBytes(StandardCharsets.UTF_8));
-                        content = content.replaceAll("<br\\s*/*>", "\r\n")
+                        content = content.replaceAll(Constants.CONTENT_AD_PATTERN, "")
+                                .replaceAll("<br\\s*/*>", "\r\n")
                                 .replaceAll("&nbsp;", " ")
                                 .replaceAll("<a[^>]*>", "")
                                 .replaceAll("</a>", "")

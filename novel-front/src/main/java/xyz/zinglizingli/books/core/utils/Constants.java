@@ -90,4 +90,9 @@ public class Constants {
      * 没有内容的描述
      * */
     public static final String NO_CONTENT_DESC = "正在手打中，请稍等片刻，内容更新后，需要重新刷新页面，才能获取最新更新";
+
+    /**
+     * 书籍内容页的广告pattern
+     * */
+    public static final String CONTENT_AD_PATTERN = "<div[^>]+app\\.html[^>]+>\\s*<div[^>]+>\\s*<div[^>]+>[^<]+</div>\\s*<div[^>]+>[^<]+<span[^>]+>>>[^<]+<<</span>\\s*</div>\\s*</div>\\s*</div>";
 }
