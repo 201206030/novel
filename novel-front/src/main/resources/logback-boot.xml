@@ -24,7 +24,7 @@
 	<!-- RollingFileAppender：滚动记录文件，先将日志记录到指定文件，当符合某个条件时，将日志记录到其他文件 -->
 	<!-- 以下的大概意思是：1.先按日期存日志，日期变了，将前一天的日志文件名重命名为XXX%日期%索引，新的日志仍然是demo.log -->
 	<!-- 2.如果日期没有发生变化，但是当前日志的文件大小超过1KB时，对当前日志进行分割 重命名 -->
-	<appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
 		<File>logs/debug.log</File>
 		<!-- rollingPolicy:当发生滚动时，决定 RollingFileAppender 的行为，涉及文件移动和重命名。 -->
@@ -52,11 +52,13 @@
 	<!-- 控制台输出日志级别 -->
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</root>
 	<!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
 	<!-- com.maijinjie.springboot 为根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG -->
 	<!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE -->
 	<logger name="xyz.zinglizingli" level="INFO">
-		<appender-ref ref="debug" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
 	</logger>
 </configuration>
