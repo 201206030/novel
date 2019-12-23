@@ -1,7 +1,15 @@
+#是否抓取新书，true：抓
+crawl:
+  book:
+    new:
+      enabled: false
+      #抓取频率
+      period: 2000
+
 #爬取的网站名称类型 1：笔趣岛 ，2：笔趣塔, 3:顶点  更多网站解析中，敬请期待
 biquta:
   crawlsource:
-    enabled: true  #是否开启此爬虫源
+    enabled: false  #是否开启此爬虫源
     index-url: https://m.biquta.la
     list-page-url: https://m.biquta.la/class/{0}/{1}.html
     book-url-pattern: href="/(\d+_\d+)/"
@@ -17,7 +25,7 @@ biquta:
     catalog-pattern: <a\s+style=""\s+href="(/\d+_\d+/\d+\.html)">([^/]+)</a>
 biqudao:
   crawlsource:
-    enabled: true  #是否开启此爬虫源
+    enabled: false  #是否开启此爬虫源
     index-url: https://m.biqudao.com
     list-page-url: https://m.biqudao.com/bqgeclass/{0}/{1}.html
     book-url-pattern: href="/(bqge\d+)/"
@@ -34,7 +42,7 @@ biqudao:
 
 dingdian:
   crawlsource:
-    enabled: true  #是否开启此爬虫源
+    enabled: false  #是否开启此爬虫源
     index-url: https://wap.dingdiann.com
     list-page-url: https://wap.dingdiann.com/sort/{0}/{1}.html
     book-url-pattern: href="/(ddk\d+)/"
@@ -48,3 +56,20 @@ dingdian:
     intro-pattern: class="review">([^/]+)</p>
     catalog-url-pattern: <a\s+href="(/ddk\d+/all.html)">查看完整目录</a>
     catalog-pattern: <a\s+style=""\s+href="(/ddk\d+/\d+\.html)">([^/]+)</a>
+
+biquge:
+  crawlsource:
+    enabled: true  #是否开启此爬虫源
+    index-url: http://m.biquge.info
+    list-page-url: http://m.biquge.info/paihangbang_lastupdate/{0}.html
+    book-url-pattern: href="/(\d+_\d+)/"
+    score-pattern: <i>(\d+)</i>
+    book-name-pattern: <a\s+href="/(\d+_\d+)/">([^<]+)</a>
+    author-pattern: 作者：([^<]+)<
+    status-pattern: <p>状态：([^<]+)</p>
+    cat-pattern: <a\s+href="/list/\d+_\d+\.html">([^<]+)</a>
+    update-time-pattern: <p>更新：(\d+-\d+-\d+T\d+:\d+:\d+)</p>
+    pic-pattern: <div\s+class="block_img2">\s*<img\s+src="([^"]+)"
+    intro-pattern: class="review">([^/]+)</p>
+    catalog-url-pattern: <a\s+href="(/ddk\d+/all.html)">查看完整目录</a>
+    catalog-pattern: <dd>\s*<a\s+href="(\d+\.html)"\s+title="([^"]+)">([^<]+)</a>\s*</dd>

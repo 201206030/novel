@@ -95,4 +95,9 @@ public class Constants {
      * 书籍内容页的广告pattern
      * */
     public static final String CONTENT_AD_PATTERN = "<div[^>]+app\\.html[^>]+>\\s*<div[^>]+>\\s*<div[^>]+>[^<]+</div>\\s*<div[^>]+>[^<]+<span[^>]+>>>[^<]+<<</span>\\s*</div>\\s*</div>\\s*</div>";
+
+    /**
+     * 是否开启抓取新书
+     * */
+    public static final String ENABLE_NEW_BOOK = "true";
 }
