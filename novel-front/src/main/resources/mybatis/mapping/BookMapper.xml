@@ -395,4 +395,11 @@
         where id not in (select book_id from book_index)
         and update_time <![CDATA[ <= ]]> DATE_SUB(curdate(),INTERVAL 10 DAY)
     </delete>
+
+    <select id="queryNetworkPicBooks" resultMap="BaseResultMap">
+        select
+        id,pic_url from book
+        where pic_url like 'http://%' or pic_url like 'https://%'
+        limit #{offset},#{limit}
+    </select>
 </mapper>

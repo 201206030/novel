@@ -46,4 +46,11 @@ public interface BookMapper {
      * 清理无效书籍(1个月前更新的无章节书籍)
      * */
     void clearInvilidBook();
+
+    /**
+     * 查询网络图片的小说
+     *
+     * @param limit
+     * @param offset*/
+    List<Book> queryNetworkPicBooks(@Param("limit") Integer limit,@Param("offset") Integer offset);
 }

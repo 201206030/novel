@@ -20,15 +20,13 @@ import xyz.zinglizingli.books.core.enums.PicSaveType;
 import xyz.zinglizingli.books.mapper.*;
 import xyz.zinglizingli.books.po.*;
 import xyz.zinglizingli.books.core.utils.Constants;
+import xyz.zinglizingli.common.utils.FileUtil;
 import xyz.zinglizingli.common.utils.SpringUtil;
 import xyz.zinglizingli.common.utils.UUIDUtils;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -140,32 +138,12 @@ public class BookService {
     /**
      * 更新书籍
      * */
-    private void updateBook(Book book, Long bookId) {
+    public void updateBook(Book book, Long bookId) {
         book.setId(bookId);
         String picSrc = book.getPicUrl();
         if(picSaveType == PicSaveType.LOCAL.getValue() && StringUtils.isNotBlank(picSrc)){
             try {
-                //本地图片保存
-                HttpHeaders headers = new HttpHeaders();
-                HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
-                ResponseEntity<Resource> resEntity = RestTemplateUtil.getInstance(Charsets.ISO_8859_1).exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
-                InputStream input = Objects.requireNonNull(resEntity.getBody()).getInputStream();
-                Date currentDate = new Date();
-                picSrc = "/localPic/" + DateUtils.formatDate(currentDate, "yyyy") + "/" + DateUtils.formatDate(currentDate, "MM") + "/" + DateUtils.formatDate(currentDate, "dd")
-                        + UUIDUtils.getUUID32()
-                        + picSrc.substring(picSrc.lastIndexOf("."));
-                File picFile = new File(picSavePath + picSrc);
-                File parentFile = picFile.getParentFile();
-                if (!parentFile.exists()) {
-                    parentFile.mkdirs();
-                }
-                OutputStream out = new FileOutputStream(picFile);
-                byte[] b = new byte[4096];
-                for (int n; (n = input.read(b)) != -1; ) {
-                    out.write(b, 0, n);
-                }
-                out.close();
-                input.close();
+                picSrc = FileUtil.network2Local(picSrc,picSavePath);
                 book.setPicUrl(picSrc);
             }catch (Exception e){
                 log.error(e.getMessage(),e);
@@ -174,6 +152,8 @@ public class BookService {
         }
         bookMapper.updateByPrimaryKeySelective(book);
     }
+
+
 
     /**
      * 批量插入章节目录表和章节内容表（自动修复错误章节）
@@ -440,5 +420,14 @@ public class BookService {
 
         //清楚无效书籍
         bookMapper.clearInvilidBook();
+    }
+
+    /**
+     * 查询网络图片的小说
+     *
+     * @param limit
+     * @param offset*/
+    public List<Book> queryNetworkPicBooks(Integer limit, Integer offset) {
+        return bookMapper.queryNetworkPicBooks(limit,offset);
     }
 }
