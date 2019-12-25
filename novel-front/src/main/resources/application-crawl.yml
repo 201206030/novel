@@ -9,7 +9,6 @@ crawl:
 #爬取的网站名称类型 1：笔趣岛 ，2：笔趣塔, 3:顶点，默认顶点  更多网站解析中，敬请期待
 biquta:
   crawlsource:
-    enabled: true  #是否开启此爬虫源
     index-url: https://m.biquta.la
     list-page-url: https://m.biquta.la/class/{0}/{1}.html
     book-url-pattern: href="/(\d+_\d+)/"
@@ -25,9 +24,8 @@ biquta:
     catalog-pattern: <a\s+style=""\s+href="(/\d+_\d+/\d+\.html)">([^/]+)</a>
 biqudao:
   crawlsource:
-    enabled: true  #是否开启此爬虫源
-    index-url: https://m.biqudao.com
-    list-page-url: https://m.biqudao.com/bqgeclass/{0}/{1}.html
+    index-url: https://m.biqudao.net
+    list-page-url: https://m.biqudao.net/bqgeclass/{0}/{1}.html
     book-url-pattern: href="/(bqge\d+)/"
     score-pattern: <div\s+class="score">(\d+\.\d+)分</div>
     book-name-pattern: <p class="title">([^/]+)</p>
@@ -42,9 +40,8 @@ biqudao:
 
 dingdian:
   crawlsource:
-    enabled: true  #是否开启此爬虫源
-    index-url: https://wap.dingdiann.com
-    list-page-url: https://wap.dingdiann.com/sort/{0}/{1}.html
+    index-url: http://m.xdingdiann.com
+    list-page-url: http://m.xdingdiann.com/sort/{0}/{1}.html
     book-url-pattern: href="/(ddk\d+)/"
     score-pattern: <div\s+class="score">(\d+\.\d+)分</div>
     book-name-pattern: <p class="title">([^/]+)</p>
@@ -59,7 +56,6 @@ dingdian:
 
 biquge:
   crawlsource:
-    enabled: true  #是否开启此爬虫源
     index-url: http://m.biquge.info
     list-page-url: http://m.biquge.info/paihangbang_lastupdate/{0}.html
     book-url-pattern: href="/(\d+_\d+)/"

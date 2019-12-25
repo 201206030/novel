@@ -18,7 +18,7 @@ public class CrawlBiqutaConfig {
 
     @Bean
     @ConfigurationProperties(prefix = "biquta.crawlsource") // prefix值必须是application.yml中对应属性的前缀
-    @ConditionalOnProperty(prefix = "biquta.crawlsource",name = "enabled",havingValue = "true")
+    @ConditionalOnProperty(prefix = "crawl.website",name = "type",havingValue = "2")
     public BaseHtmlCrawlSource biqutaCrawlSource() {
         return new BiquCrawlSource();
     }

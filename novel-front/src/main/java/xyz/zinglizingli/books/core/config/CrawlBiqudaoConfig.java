@@ -18,7 +18,7 @@ public class CrawlBiqudaoConfig {
 
     @Bean
     @ConfigurationProperties(prefix = "biqudao.crawlsource") // prefix值必须是application.yml中对应属性的前缀
-    @ConditionalOnProperty(prefix = "biqudao.crawlsource",name = "enabled",havingValue = "true")
+    @ConditionalOnProperty(prefix = "crawl.website",name = "type",havingValue = "1")
     public BaseHtmlCrawlSource biqudaoCrawlSource() {
         return new BiquCrawlSource();
     }
