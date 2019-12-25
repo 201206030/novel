@@ -124,7 +124,7 @@
                     <a th:href="'/book/' + ${recBook.id} + '.html'">
                         <div style="padding: 1%" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4">
                             <img style=" width:80%; height:auto; max-width:100%; max-height:100%;"
-                                 th:src="${recBook.picUrl}"/>
+                                  class="lazyload" th:attr="data-src=${recBook.picUrl}" />
                             <br/>
                             <span th:text="${recBook.bookName}"></span>
 
@@ -146,7 +146,7 @@
                         <a th:href="'/book/' + ${hotBook.id} + '.html'">
                             <div class="layui-col-xs5 layui-col-sm4 layui-col-md4 layui-col-lg4">
                                 <img style=" width:100px; height:125px;"
-                                     th:src="${hotBook.picUrl}"/>
+                                     class="lazyload" th:attr="data-src=${hotBook.picUrl}"/>
                             </div>
                             <div class="layui-col-xs5 layui-col-sm6 layui-col-md6 layui-col-lg6">
                                 <ul>
@@ -239,9 +239,11 @@
 </div>
 <div th:replace="common/js :: js">
 </div>
+<script src="/js/lazyload.js"></script>
 
 <script src="/js/wap_collect.js"></script>
 <script>
+    lazyload();
     (function () {
         var bp = document.createElement('script');
         var curProtocol = window.location.protocol.split(':')[0];

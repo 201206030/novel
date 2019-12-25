@@ -115,7 +115,7 @@
     <a th:href="'/book/'+ ${book.id} + '.html'+ ${token!=null?'?token='+token:''}">
     <div class="layui-col-xs6 layui-col-sm3 layui-col-md2 layui-col-lg2" style="text-align: center">
         <img align="center"
-             th:src="${book.picUrl}"/>
+              class="lazyload" th:attr="data-src=${book.picUrl}"/>
     </div>
     </a>
     <div style="padding: 20px" class="layui-col-xs6 layui-col-sm8 layui-col-md8 layui-col-lg8">
@@ -156,8 +156,10 @@
 </body>
 
 <div th:replace="common/js :: js"></div>
+<script src="/js/lazyload.js"></script>
 
 <script>
+    lazyload();
     layui.use('laypage', function () {
         var laypage = layui.laypage;
 
