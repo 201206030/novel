@@ -6,9 +6,13 @@
 
  非JAVA开发参考安装文档：[点击前往]( https://my.oschina.net/java2nb/blog/3145593 )
 
+[![index](./assets/640x100.jpg)](https://www.aliyun.com/minisite/goods?userCode=uf4nasee )
+
 #### 项目介绍
 
 小说精品屋是一个多平台（web、安卓app、微信小程序）、功能完善的小说弹幕网站，包含精品小说专区、轻小说专区和漫画专区。包括小说/漫画分类、小说/漫画搜索、小说/漫画排行、完本小说/漫画、小说/漫画评分、小说/漫画在线阅读、小说/漫画书架、小说/漫画阅读记录、小说下载、小说弹幕、小说/漫画自动爬取、小说内容自动分享到微博、邮件自动推广、链接自动推送到百度搜索引擎等功能。包含电脑端、移动端、微信小程序等多个平台，现已开源web端、安卓端、小程序端源码。 
+
+[![index](./assets/热门云产品1040.100.jpg)](https://cloud.tencent.com/act/cps/redirect?redirect=1052&cps_key=736e609d66e0ac4e57813316cec6fd0b&from=console)
 
 #### 目录结构
 
