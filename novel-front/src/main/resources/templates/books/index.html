@@ -111,7 +111,7 @@
     </div>
 
 </div>
-<div class="layui-collapse">
+<div style="height: 1px" class="layui-col-lg1"></div><div class="layui-collapse layui-col-lg10">
     <div class="layui-colla-item">
         <h2 class="layui-colla-title">本站推荐</h2>
         <div class="layui-colla-content layui-show">
@@ -196,7 +196,9 @@
     </div>
 </div>
 </div>
-<div class="layui-colla-item"><a href="javascript:moreNewBooks()">
+<div style="clear: both"></div>
+<div style="height: 1px" class="layui-col-lg1"></div>
+    <div class="layui-colla-item layui-col-lg10" style="border-width: 1px;border-style: solid;border-radius: 2px;border-top-width: 0px"><a href="javascript:moreNewBooks()">
     <h2 class="layui-colla-title">最近更新小说
         <div style="float: right; margin-right: 20px"><i style="font-size: 14px;"
                                                          class="layui-icon">更多&#xe65b;</i>
@@ -235,6 +237,7 @@
     </div>
 </div>
 </div>
+<div style="clear: both"></div>
 <div th:replace="common/footer :: footer">
 </div>
 <div th:replace="common/js :: js">
