@@ -3,7 +3,6 @@ package xyz.zinglizingli.books.core.listener;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.configuration.PropertiesConfiguration;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -30,9 +29,6 @@ public class StartListener implements ApplicationListener<ContextRefreshedEvent>
     @SneakyThrows
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        PropertiesConfiguration conf = new PropertiesConfiguration("messages.properties");
-        conf.setProperty("website.name", webSiteName);
-        conf.save();
         if (!Constants.ENABLE_NEW_BOOK.equals(crawlEnable.trim())) {
             log.info("程序启动");
             new Thread(() -> {

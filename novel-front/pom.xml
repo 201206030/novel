@@ -88,11 +88,6 @@
             <version>4.5.6</version>
         </dependency>
 
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>1.10</version>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -104,6 +99,7 @@
             <artifactId>commons-text</artifactId>
             <version>1.4</version>
         </dependency>
+
 
     </dependencies>
 
