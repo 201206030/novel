@@ -23,9 +23,6 @@ public class StartListener implements ApplicationListener<ContextRefreshedEvent>
     @Value("${crawl.book.new.enabled}")
     private String crawlEnable;
 
-    @Value("${website.name}")
-    private String webSiteName;
-
     @SneakyThrows
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
