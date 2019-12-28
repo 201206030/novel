@@ -4,15 +4,16 @@
     <meta charset="utf-8">
     <meta th:if="${catId == 9}" name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=1">
     <meta th:if="${catId != 9}" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title th:text="${bookName}+${indexName}"></title>
+    <title th:text="${application.seoConfig.page['content.title']}"></title>
 
-    <meta name="keywords" th:attr="content=${bookName}+','+${indexName}">
+    <meta name="keywords" th:content="${application.seoConfig.page['content.keyword']}">
+
     <meta name="description"
-          th:attr="content=${bookName}+${indexName}+'最新更新章节免费在线阅读TXT下载'">
+          th:content="${application.seoConfig.page['content.description']}">
 
     <meta property="og:type" content="novel_content"/>
-    <meta property="og:title" th:attr="content=${bookName}+${indexName}"/>
-    <meta property="og:description" th:attr="content=${bookName}+${indexName}+'最新更新章节免费在线阅读TXT下载'"/>
+    <meta property="og:title" th:attr="content=${application.seoConfig.page['content.title']}"/>
+    <meta property="og:description" th:attr="content=${application.seoConfig.page['content.description']}"/>
 
 
     <div th:include="common/css :: css"></div>

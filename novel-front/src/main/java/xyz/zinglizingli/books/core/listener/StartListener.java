@@ -3,9 +3,11 @@ package xyz.zinglizingli.books.core.listener;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import xyz.zinglizingli.books.core.config.SeoConfig;
 import xyz.zinglizingli.books.core.crawl.BaseCrawlSource;
 import xyz.zinglizingli.books.core.utils.Constants;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -23,13 +25,22 @@ public class StartListener implements ServletContextListener {
     @Value("${crawl.book.new.enabled}")
     private String crawlEnable;
 
-    @Value("${website.name}")
-    private String webSiteName;
+    @Value("${website.page.index.title}")
+    private String title;
+
+    @Value("${website.domain}")
+    private String webSiteDomain;
+
+    private final SeoConfig seoConfig;
+
 
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        servletContextEvent.getServletContext().setAttribute("websiteName",webSiteName);
+        ServletContext application = servletContextEvent.getServletContext();
+
+        application.setAttribute("webSiteDomain",webSiteDomain);
+        application.setAttribute(Constants.SEO_CONFIG_KEY,seoConfig);
         if (!Constants.ENABLE_NEW_BOOK.equals(crawlEnable.trim())) {
             log.info("程序启动");
             new Thread(() -> {

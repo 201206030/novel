@@ -1,0 +1,43 @@
+#网站配置
+website:
+  #网站名
+  name: 笔趣阁新书门
+  #域名
+  domain: https://www.xinshumen.com
+  #页面配置
+  page:
+    #首页配置
+    index:
+      title: ${website.name}
+      keyword: ${website.name},精品小说,弹幕网站,弹幕,弹幕小说网站,免费小说,小说阅读,小说排行,轻小说,txt小说下载,电子书下载,动漫轻小说,日本轻小说
+      description: ${website.name}是国内优秀的小说弹幕网站,${website.name}提供海量热门网络小说,日本轻小说,国产轻小说,动漫小说,轻小说在线阅读和TXT小说下载,致力于网络精品小说的收集,智能计算小说评分,打造小说精品排行榜,致力于无广告无弹窗的小说阅读环境。
+    #小说列表页配置
+    book-search:
+      title: ${website.name}_列表
+      keyword: ${website.name},精品小说,弹幕网站,弹幕,弹幕小说网站,免费小说,小说阅读,小说排行,轻小说,txt小说下载,电子书下载,动漫轻小说,日本轻小说
+      description: ${website.name}是国内优秀的小说弹幕网站,${website.name}提供海量热门网络小说,日本轻小说,国产轻小说,动漫小说,轻小说在线阅读和TXT小说下载,致力于网络精品小说的收集,智能计算小说评分,打造小说精品排行榜,致力于无广告无弹窗的小说阅读环境。
+    #轻小说列表页配置
+    soft-search:
+      title: ${website.name}_轻小说专区
+      keyword: ${website.name},精品小说,弹幕网站,弹幕,弹幕小说网站,免费小说,小说阅读,小说排行,轻小说,txt小说下载,电子书下载,动漫轻小说,日本轻小说
+      description: ${website.name}是国内优秀的小说弹幕网站,${website.name}提供海量热门网络小说,日本轻小说,国产轻小说,动漫小说,轻小说在线阅读和TXT小说下载,致力于网络精品小说的收集,智能计算小说评分,打造小说精品排行榜,致力于无广告无弹窗的小说阅读环境。
+    #漫画列表页配置
+    mh-search:
+      title: ${website.name}_漫画专区
+      keyword: ${website.name},精品小说,弹幕网站,弹幕,弹幕小说网站,免费小说,小说阅读,小说排行,轻小说,txt小说下载,电子书下载,动漫轻小说,日本轻小说
+      description: ${website.name}是国内优秀的小说弹幕网站,${website.name}提供海量热门网络小说,日本轻小说,国产轻小说,动漫小说,轻小说在线阅读和TXT小说下载,致力于网络精品小说的收集,智能计算小说评分,打造小说精品排行榜,致力于无广告无弹窗的小说阅读环境。
+    #目录页配置
+    catalog:
+      title: <bookName>最新免费章节目录列表
+      keyword: <bookName>,<bookName>最新章节
+      description: <bookName>最新章节列表,<bookName>最新更新章节免费无广告无弹窗在线阅读TXT下载。
+    #书籍详情页配置
+    detail:
+      title: <bookName>小说最新章节免费阅读和下载
+      keyword: <bookName>,<bookName>最新章节,<bookName>免费阅读,<bookName>TXT下载
+      description: <bookName>最新章节列表,<bookName>最新更新章节免费无广告无弹窗在线阅读,<bookName>小说TXT免费下载。
+    #书籍内容页配置
+    content:
+      title: <bookName><indexName>
+      keyword: <bookName>,<indexName>
+      description: <bookName><indexName>最新更新章节免费在线阅读TXT下载

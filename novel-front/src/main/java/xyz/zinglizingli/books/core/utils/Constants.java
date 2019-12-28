@@ -100,4 +100,9 @@ public class Constants {
      * 是否开启抓取新书
      * */
     public static final String ENABLE_NEW_BOOK = "true";
+
+    /**
+     * SEO配置保存的key
+     * */
+    public static final String SEO_CONFIG_KEY = "seoConfig";
 }

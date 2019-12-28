@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import xyz.zinglizingli.books.core.config.SeoConfig;
 import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.po.BookContent;
 import xyz.zinglizingli.books.po.BookIndex;
@@ -23,6 +24,7 @@ import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.books.core.utils.CatUtil;
 import xyz.zinglizingli.books.core.utils.Constants;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
@@ -46,6 +48,7 @@ public class BookController {
     private final UserService userService;
 
     private final CommonCacheUtil commonCacheUtil;
+
 
 
     /**
@@ -180,7 +183,7 @@ public class BookController {
      * 书籍详情页
      */
     @RequestMapping("{bookId}.html")
-    public String detail(@PathVariable("bookId") Long bookId, @RequestParam(value = "token", required = false) String token, ModelMap modelMap) {
+    public String detail(@PathVariable("bookId") Long bookId, @RequestParam(value = "token", required = false) String token, HttpServletRequest req, ModelMap modelMap) {
         String userId = commonCacheUtil.get(token);
         if (org.apache.commons.lang3.StringUtils.isNotBlank(userId)) {
             Integer indexNumber = userService.queryBookIndexNumber(userId, bookId);
@@ -215,6 +218,12 @@ public class BookController {
             modelMap.put("lastIndexName", indexList.get(0).getIndexName());
             modelMap.put("lastIndexNum", indexList.get(0).getIndexNum());
         }
+        SeoConfig seoConfig = (SeoConfig) req.getServletContext().getAttribute(Constants.SEO_CONFIG_KEY);
+        Map<String,String> page = seoConfig.getPage();
+        page.put("detail.title",page.get("detail.title").replaceAll("<bookName>",book.getBookName()));
+        page.put("detail.keyword",page.get("detail.keyword").replaceAll("<bookName>",book.getBookName()));
+        page.put("detail.description",page.get("detail.description").replaceAll("<bookName>",book.getBookName()));
+
         return "books/book_detail";
     }
 
@@ -222,12 +231,17 @@ public class BookController {
      * 书籍目录页
      */
     @RequestMapping("{bookId}/index.html")
-    public String bookIndex(@PathVariable("bookId") Long bookId, ModelMap modelMap) {
+    public String bookIndex(@PathVariable("bookId") Long bookId,HttpServletRequest req, ModelMap modelMap) {
         List<BookIndex> indexList = bookService.queryAllIndexList(bookId);
         String bookName = bookService.queryBaseInfo(bookId).getBookName();
         modelMap.put("indexList", indexList);
         modelMap.put("bookName", bookName);
         modelMap.put("bookId", bookId);
+        SeoConfig seoConfig = (SeoConfig) req.getServletContext().getAttribute(Constants.SEO_CONFIG_KEY);
+        Map<String,String> page = seoConfig.getPage();
+        page.put("catalog.title",page.get("catalog.title").replaceAll("<bookName>",bookName));
+        page.put("catalog.keyword",page.get("catalog.keyword").replaceAll("<bookName>",bookName));
+        page.put("catalog.description",page.get("catalog.description").replaceAll("<bookName>",bookName));
         return "books/book_index";
     }
 
@@ -236,7 +250,7 @@ public class BookController {
      * 书籍内容页
      */
     @RequestMapping("{bookId}/{indexNum}.html")
-    public String bookContent(@PathVariable("bookId") Long bookId, @PathVariable("indexNum") Integer indexNum, ModelMap modelMap) {
+    public String bookContent(@PathVariable("bookId") Long bookId, @PathVariable("indexNum") Integer indexNum,HttpServletRequest req, ModelMap modelMap) {
         BookContent bookContent = bookService.queryBookContent(bookId, indexNum);
         String indexName;
         if (bookContent == null) {
@@ -263,6 +277,11 @@ public class BookController {
         Integer catId = basicBook.getCatid();
         modelMap.put("bookName", bookName);
         modelMap.put("catId", catId);
+        SeoConfig seoConfig = (SeoConfig) req.getServletContext().getAttribute(Constants.SEO_CONFIG_KEY);
+        Map<String,String> page = seoConfig.getPage();
+        page.put("content.title",page.get("content.title").replaceAll("<bookName>",bookName).replaceAll("<indexName>",indexName));
+        page.put("content.keyword",page.get("content.keyword").replaceAll("<bookName>",bookName).replaceAll("<indexName>",indexName));
+        page.put("content.description",page.get("content.description").replaceAll("<bookName>",bookName).replaceAll("<indexName>",indexName));
         return "books/book_content";
     }
 

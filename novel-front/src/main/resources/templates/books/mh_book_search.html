@@ -5,18 +5,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title th:text="${application.websiteName}+'_漫画专区'"></title>
+    <title th:text="${application.seoConfig.page['mh-search.title']}"></title>
 
-    <meta name="keywords" th:content="${application.websiteName}+',精品小说,弹幕网站,弹幕,弹幕小说网站,免费小说,小说阅读,小说排行,轻小说,txt小说下载,电子书下载,动漫轻小说,日本轻小说'">
+    <meta name="keywords" th:content="${application.seoConfig.page['mh-search.keyword']}">
 
     <meta name="description"
-          th:content="${application.websiteName}+'是国内优秀的小说弹幕网站,'+${application.websiteName}+'提供海量热门网络小说,日本轻小说,国产轻小说,动漫小说,轻小说在线阅读和TXT小说下载,致力于网络精品小说的收集,智能计算小说评分,打造小说精品排行榜,致力于无广告无弹窗的小说阅读环境。'">
-
-    <meta property="og:type" content="mh_novel_index"/>
-    <meta property="og:title" th:content="${application.websiteName}+'_漫画专区'"/>
-    <meta property="og:description"
-          th:content="${application.websiteName}+'是国内优秀的小说弹幕网站,'+${application.websiteName}+'提供海量热门网络小说,日本轻小说,国产轻小说,动漫小说,轻小说在线阅读和TXT小说下载,致力于网络精品小说的收集,智能计算小说评分,打造小说精品排行榜,致力于无广告无弹窗的小说阅读环境。'"/>
-
+          th:content="${application.seoConfig.page['mh-search.description']}">
 
     <div th:include="common/css :: css"></div>
 

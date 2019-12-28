@@ -5,14 +5,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title th:text="${bookName}+'最新免费章节目录列表'"></title>
-    <meta name="keywords" th:attr="content=${bookName}+','+${bookName}+'最新章节'">
+    <title th:text="${application.seoConfig.page['catalog.title']}"></title>
+
+    <meta name="keywords" th:content="${application.seoConfig.page['catalog.keyword']}">
+
     <meta name="description"
-          th:attr="content=${bookName}+'最新章节列表,'+${bookName}+'最新更新章节免费无广告无弹窗在线阅读TXT下载'">
+          th:content="${application.seoConfig.page['catalog.description']}">
 
     <meta property="og:type" content="novel_chapter"/>
-    <meta property="og:title" th:attr="content=${bookName}+'最新免费章节目录列表'"/>
-    <meta property="og:description" th:attr="content=${bookName}+'最新章节列表,'+${bookName}+'最新更新章节免费无广告无弹窗在线阅读TXT下载'"/>
+    <meta property="og:title" th:attr="content=${application.seoConfig.page['catalog.title']}"/>
+    <meta property="og:description" th:attr="content=${application.seoConfig.page['catalog.description']}"/>
 
     </div>
 

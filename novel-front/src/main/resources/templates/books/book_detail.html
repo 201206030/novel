@@ -3,24 +3,26 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title th:text="${book.bookName}+'小说最新章节免费阅读和下载'"></title>
-    <meta name="keywords" th:attr="content=${book.bookName}+','+${book.bookName}+'最新章节,'+${book.bookName}+'免费阅读,'+${book.bookName}+'TXT下载'">
+    <title th:text="${application.seoConfig.page['detail.title']}"></title>
+
+    <meta name="keywords" th:content="${application.seoConfig.page['detail.keyword']}">
+
     <meta name="description"
-          th:attr="content=${book.bookName}+'最新章节列表,'+${book.bookName}+'最新更新章节免费无广告无弹窗在线阅读,'+${book.bookName}+'小说TXT免费下载'">
+          th:content="${application.seoConfig.page['detail.description']}">
 
     <meta property="og:type" content="novel"/>
-    <meta property="og:title" th:attr="content=${book.bookName}+'小说最新章节免费阅读和下载'"/>
+    <meta property="og:title" th:attr="content=${application.seoConfig.page['detail.title']}"/>
     <meta property="og:description" th:attr="content=${book.bookDesc}"/>
-    <meta property="og:image" th:attr="content=${book.picUrl}"/>
+    <meta property="og:image" th:attr="content=${application.webSiteDomain}+${book.picUrl}"/>
     <meta property="og:novel:category" th:attr="content=${book.cateName}"/>
     <meta property="og:novel:author" th:attr="content=${book.author}"/>
     <meta property="og:novel:book_name" th:attr="content=${book.bookName}"/>
-    <meta property="og:novel:read_url"  th:attr="content='https://www.zinglizingli.xyz/book/'+${book.id}+'.html'"/>
-    <meta property="og:url" th:attr="content='https://www.zinglizingli.xyz/book/'+${book.id}+'.html'"/>
+    <meta property="og:novel:read_url"  th:attr="content=${application.webSiteDomain}+'/book/'+${book.id}+'.html'"/>
+    <meta property="og:url" th:attr="content=${application.webSiteDomain}+'/book/'+${book.id}+'.html'"/>
     <meta property="og:novel:status" th:attr="content=${book.bookStatus}"/>
     <meta property="og:novel:update_time" th:attr="content=${#dates.format(book.updateTime, 'yy-MM-dd')}"/>
     <meta property="og:novel:latest_chapter_name" th:attr="content=${lastIndexName}"/>
-    <meta property="og:novel:latest_chapter_url" th:attr="content='https://www.zinglizingli.xyz/book/'+${bookId}+'/'+${lastIndexNum}+'.html'"/>
+    <meta property="og:novel:latest_chapter_url" th:attr="content=${application.webSiteDomain}+'/book/'+${bookId}+'/'+${lastIndexNum}+'.html'"/>
 
 
 

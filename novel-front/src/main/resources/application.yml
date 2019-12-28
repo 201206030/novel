@@ -1,6 +1,3 @@
-website:
-  name: 笔趣阁新书门
-
 server:
   port: 8080
 
@@ -43,7 +40,7 @@ spring:
           class: javax.net.ssl.SSLSocketFactory
           fallback: false
   profiles:
-    include: crawl
+    include: crawl,website
 
 
 
