@@ -7,25 +7,35 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 import xyz.zinglizingli.books.core.crawl.BaseCrawlSource;
 import xyz.zinglizingli.books.core.utils.Constants;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 /**
  * @author 11797
  */
-@Component
+@WebListener
 @Slf4j
 @RequiredArgsConstructor
-public class StartListener implements ApplicationListener<ContextRefreshedEvent> {
+public class StartListener implements ServletContextListener {
 
     private final BaseCrawlSource crawlSource;
 
     @Value("${crawl.book.new.enabled}")
     private String crawlEnable;
 
-    @SneakyThrows
+    @Value("${website.name}")
+    private String webSiteName;
+
+
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void contextInitialized(ServletContextEvent servletContextEvent) {
+        servletContextEvent.getServletContext().setAttribute("websiteName",webSiteName);
         if (!Constants.ENABLE_NEW_BOOK.equals(crawlEnable.trim())) {
             log.info("程序启动");
             new Thread(() -> {
@@ -45,4 +55,8 @@ public class StartListener implements ApplicationListener<ContextRefreshedEvent>
         }
     }
 
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+
+    }
 }

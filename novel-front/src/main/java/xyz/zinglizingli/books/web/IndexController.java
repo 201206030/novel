@@ -2,6 +2,7 @@ package xyz.zinglizingli.books.web;
 
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,8 @@ import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.books.core.config.IndexRecBooksConfig;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +24,7 @@ import java.util.Map;
 @Controller
 @RequestMapping
 @RequiredArgsConstructor
+@Slf4j
 public class IndexController {
 
 
