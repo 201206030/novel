@@ -1,14 +1,8 @@
 package xyz.zinglizingli.books.core.listener;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import xyz.zinglizingli.books.core.crawl.BaseCrawlSource;
 import xyz.zinglizingli.books.core.utils.Constants;
 
