@@ -1,3 +1,6 @@
+website:
+  name: 笔趣阁新书门
+
 server:
   port: 8080
 
