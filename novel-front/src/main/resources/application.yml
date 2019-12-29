@@ -5,7 +5,7 @@ spring:
   datasource:
       url: jdbc:mysql://127.0.0.1:3306/books?useUnicode=true&characterEncoding=utf-8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
       username: root
-      password: test123456
+      password:
 #      url: jdbc:mysql://127.0.0.1:3306/books?useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
 #      username: root
 #      password: test123456
@@ -54,6 +54,7 @@ mybatis:
 
 #首页本站推荐小说配置
 index:
+  template: v2
   recBooks:
     - {bookName: 惊悚乐园,bookAuthor: 三天两觉}
     - {bookName: 最强装逼打脸系统,bookAuthor: 太上布衣}

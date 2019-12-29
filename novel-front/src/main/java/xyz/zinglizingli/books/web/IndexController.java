@@ -3,6 +3,7 @@ package xyz.zinglizingli.books.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 public class IndexController {
+
+    @Value("${index.template}")
+    private String indexTemplate;
 
 
     private final BookService bookService;
@@ -66,6 +70,6 @@ public class IndexController {
         modelMap.put("hotBooks", hotBooks);
         modelMap.put("newBooks", newBooks);
 
-        return "books/index";
+        return "books/index_"+indexTemplate;
     }
 }
