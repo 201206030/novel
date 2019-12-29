@@ -114,9 +114,11 @@
 
 <div th:each="book : ${books}" class="layui-row" style="margin-bottom:10px;padding:10px;background: #f2f2f2">
     <a th:href="'/book/'+ ${book.id} + '.html'+ ${token!=null?'?token='+token:''}">
-    <div class="layui-col-xs6 layui-col-sm3 layui-col-md2 layui-col-lg2" style="text-align: center">
-        <img align="center"
-              class="lazyload" th:attr="data-src=${book.picUrl}"/>
+    <div class="layui-col-xs6 layui-col-sm3 layui-col-md2 layui-col-lg2" style="text-align: center" th:switch = "${application.noLazy}">
+        <img th:case="'1'" align="center"
+               th:src="${book.picUrl}"/>
+        <img th:case="*" align="center"
+             class="lazyload" th:attr="data-src=${book.picUrl}"/>
     </div>
     </a>
     <div style="padding: 20px" class="layui-col-xs6 layui-col-sm8 layui-col-md8 layui-col-lg8">

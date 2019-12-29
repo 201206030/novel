@@ -3,10 +3,12 @@ package xyz.zinglizingli.books.web;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import xyz.zinglizingli.books.core.constant.CacheKeyConstans;
 import xyz.zinglizingli.books.po.Book;
 import xyz.zinglizingli.books.service.BookService;
@@ -42,7 +44,7 @@ public class IndexController {
 
 
     @RequestMapping(value = {"/index.html","/","/books","/book","/book/index.html"})
-    public String index(ModelMap modelMap){
+    public String index(@RequestParam(value = "noLazy", defaultValue = "0") String noLazy,HttpServletRequest req,ModelMap modelMap){
         List<Book> recBooks = (List<Book>) commonCacheUtil.getObject(CacheKeyConstans.REC_BOOK_LIST_KEY);
         if (!indexRecBooksConfig.isRead() || recBooks == null) {
             List<Map<String,String>> configMap = indexRecBooksConfig.getRecBooks();
@@ -69,7 +71,10 @@ public class IndexController {
         modelMap.put("recBooks", recBooks);
         modelMap.put("hotBooks", hotBooks);
         modelMap.put("newBooks", newBooks);
-
+        ServletContext application = req.getServletContext();
+        if(!"1".equals(application.getAttribute("noLazy"))) {
+            application.setAttribute("noLazy", noLazy);
+        }
         return "books/index_"+indexTemplate;
     }
 }

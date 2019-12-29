@@ -162,8 +162,10 @@
                 <div class="layui-row" style="text-align: center">
                     <span th:each="recBook : ${recBooks}">
                     <a th:href="'/book/' + ${recBook.id} + '.html'">
-                        <div style="padding: 1%" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4">
-                            <img style=" width:80%; height:auto; max-width:100%; max-height:100%;"
+                        <div style="padding: 1%" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4" th:switch = "${application.noLazy}">
+                            <img th:case="'1'" style=" width:80%; height:auto; max-width:100%; max-height:100%;"
+                                  th:src="${recBook.picUrl}"/>
+                            <img th:case="*" style=" width:80%; height:auto; max-width:100%; max-height:100%;"
                                  class="lazyload" th:attr="data-src=${recBook.picUrl}"/>
                             <br/>
                             <span th:text="${recBook.bookName}"></span>
@@ -184,8 +186,10 @@
                     <div style="margin-bottom: 5px" class="layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg4"
                          th:each="hotBook : ${hotBooks}">
                         <a th:href="'/book/' + ${hotBook.id} + '.html'">
-                            <div class="layui-col-xs5 layui-col-sm4 layui-col-md4 layui-col-lg4">
-                                <img style=" width:100px; height:125px;"
+                            <div class="layui-col-xs5 layui-col-sm4 layui-col-md4 layui-col-lg4"  th:switch = "${application.noLazy}" >
+                                <img th:case="'1'" style=" width:100px; height:125px;"
+                                      th:src="${hotBook.picUrl}"/>
+                                <img th:case="*" style=" width:100px; height:125px;"
                                      class="lazyload" th:attr="data-src=${hotBook.picUrl}"/>
                             </div>
                             <div class="layui-col-xs5 layui-col-sm6 layui-col-md6 layui-col-lg6">
