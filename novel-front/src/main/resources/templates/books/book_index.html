@@ -5,16 +5,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title th:text="${application.seoConfig.page['catalog.title']}"></title>
+    <title th:text="${title}"></title>
 
-    <meta name="keywords" th:content="${application.seoConfig.page['catalog.keyword']}">
+    <meta name="keywords" th:content="${keyword}">
 
     <meta name="description"
-          th:content="${application.seoConfig.page['catalog.description']}">
+          th:content="${description}">
 
     <meta property="og:type" content="novel_chapter"/>
-    <meta property="og:title" th:attr="content=${application.seoConfig.page['catalog.title']}"/>
-    <meta property="og:description" th:attr="content=${application.seoConfig.page['catalog.description']}"/>
+    <meta property="og:title" th:attr="content=${title}"/>
+    <meta property="og:description" th:attr="content=${description}"/>
 
     </div>
 

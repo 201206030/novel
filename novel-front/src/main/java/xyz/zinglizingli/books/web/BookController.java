@@ -220,9 +220,9 @@ public class BookController {
         }
         SeoConfig seoConfig = (SeoConfig) req.getServletContext().getAttribute(Constants.SEO_CONFIG_KEY);
         Map<String,String> page = seoConfig.getPage();
-        page.put("detail.title",page.get("detail.title").replaceAll("<bookName>",book.getBookName()));
-        page.put("detail.keyword",page.get("detail.keyword").replaceAll("<bookName>",book.getBookName()));
-        page.put("detail.description",page.get("detail.description").replaceAll("<bookName>",book.getBookName()));
+        modelMap.put("title",page.get("detail.title").replaceAll("<bookName>",book.getBookName()));
+        modelMap.put("keyword",page.get("detail.keyword").replaceAll("<bookName>",book.getBookName()));
+        modelMap.put("description",page.get("detail.description").replaceAll("<bookName>",book.getBookName()));
 
         return "books/book_detail";
     }
@@ -239,9 +239,9 @@ public class BookController {
         modelMap.put("bookId", bookId);
         SeoConfig seoConfig = (SeoConfig) req.getServletContext().getAttribute(Constants.SEO_CONFIG_KEY);
         Map<String,String> page = seoConfig.getPage();
-        page.put("catalog.title",page.get("catalog.title").replaceAll("<bookName>",bookName));
-        page.put("catalog.keyword",page.get("catalog.keyword").replaceAll("<bookName>",bookName));
-        page.put("catalog.description",page.get("catalog.description").replaceAll("<bookName>",bookName));
+        modelMap.put("title",page.get("catalog.title").replaceAll("<bookName>",bookName));
+        modelMap.put("keyword",page.get("catalog.keyword").replaceAll("<bookName>",bookName));
+        modelMap.put("description",page.get("catalog.description").replaceAll("<bookName>",bookName));
         return "books/book_index";
     }
 
@@ -279,9 +279,9 @@ public class BookController {
         modelMap.put("catId", catId);
         SeoConfig seoConfig = (SeoConfig) req.getServletContext().getAttribute(Constants.SEO_CONFIG_KEY);
         Map<String,String> page = seoConfig.getPage();
-        page.put("content.title",page.get("content.title").replaceAll("<bookName>",bookName).replaceAll("<indexName>",indexName));
-        page.put("content.keyword",page.get("content.keyword").replaceAll("<bookName>",bookName).replaceAll("<indexName>",indexName));
-        page.put("content.description",page.get("content.description").replaceAll("<bookName>",bookName).replaceAll("<indexName>",indexName));
+        modelMap.put("title",page.get("content.title").replaceAll("<bookName>",bookName).replaceAll("<indexName>",indexName));
+        modelMap.put("keyword",page.get("content.keyword").replaceAll("<bookName>",bookName).replaceAll("<indexName>",indexName));
+        modelMap.put("description",page.get("content.description").replaceAll("<bookName>",bookName).replaceAll("<indexName>",indexName));
         return "books/book_content";
     }
 

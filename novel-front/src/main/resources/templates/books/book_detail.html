@@ -3,15 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title th:text="${application.seoConfig.page['detail.title']}"></title>
+    <title th:text="${title}"></title>
 
-    <meta name="keywords" th:content="${application.seoConfig.page['detail.keyword']}">
+    <meta name="keywords" th:content="${keyword}">
 
     <meta name="description"
-          th:content="${application.seoConfig.page['detail.description']}">
+          th:content="${description}">
 
     <meta property="og:type" content="novel"/>
-    <meta property="og:title" th:attr="content=${application.seoConfig.page['detail.title']}"/>
+    <meta property="og:title" th:attr="content=${title}"/>
     <meta property="og:description" th:attr="content=${book.bookDesc}"/>
     <meta property="og:image" th:attr="content=${application.webSiteDomain}+${book.picUrl}"/>
     <meta property="og:novel:category" th:attr="content=${book.cateName}"/>
