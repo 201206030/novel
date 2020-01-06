@@ -3,6 +3,7 @@ package xyz.zinglizingli.books.core.schedule;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import xyz.zinglizingli.books.service.BookService;
@@ -18,6 +19,9 @@ public class ClearInvilidDataSchedule {
 
     private final BookService bookService;
 
+    @Value("${pic.save.path}")
+    private String picSavePath;
+
     /**
      * 每天凌晨两点清理一次
      */
@@ -27,6 +31,8 @@ public class ClearInvilidDataSchedule {
         log.debug("ClearInvilidDataSchedule。。。。。。。。。。。。");
 
         bookService.clearInvilidData();
+
+
 
 
     }

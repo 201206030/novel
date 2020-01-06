@@ -7,6 +7,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import xyz.zinglizingli.books.core.utils.Constants;
 
 import java.io.*;
 import java.util.Date;
@@ -28,7 +29,7 @@ public class FileUtil {
         ResponseEntity<Resource> resEntity = RestTemplateUtil.getInstance(Charsets.ISO_8859_1).exchange(picSrc, HttpMethod.GET, requestEntity, Resource.class);
         InputStream input = Objects.requireNonNull(resEntity.getBody()).getInputStream();
         Date currentDate = new Date();
-        picSrc = "/localPic/" + DateUtils.formatDate(currentDate, "yyyy") + "/" + DateUtils.formatDate(currentDate, "MM") + "/" + DateUtils.formatDate(currentDate, "dd")
+        picSrc = Constants.LOCAL_PIC_PREFIX  + DateUtils.formatDate(currentDate, "yyyy") + "/" + DateUtils.formatDate(currentDate, "MM") + "/" + DateUtils.formatDate(currentDate, "dd")
                 + UUIDUtils.getUUID32()
                 + picSrc.substring(picSrc.lastIndexOf("."));
         File picFile = new File(picSavePath + picSrc);

@@ -77,6 +77,9 @@ public class BookService {
         if (books.size() > 0) {
             //更新
             bookId = books.get(0).getId();
+            if(picSaveType == PicSaveType.LOCAL.getValue() && books.get(0).getPicUrl().startsWith(Constants.LOCAL_PIC_PREFIX)){
+                book.setPicUrl(null);
+            }
             updateBook(book, bookId);
             isUpdate = true;
 
