@@ -433,4 +433,13 @@ public class BookService {
     public List<Book> queryNetworkPicBooks(Integer limit, Integer offset) {
         return bookMapper.queryNetworkPicBooks(limit,offset);
     }
+
+    /**
+     * 通过图片名查询小说数量
+     * */
+    public int countByPicName(String fileName) {
+        BookExample bookExample = new BookExample();
+        bookExample.createCriteria().andPicUrlLike('%'+fileName+'%');
+        return bookMapper.countByExample(bookExample);
+    }
 }
