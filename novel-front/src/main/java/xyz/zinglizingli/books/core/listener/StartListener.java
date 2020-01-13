@@ -47,10 +47,24 @@ public class StartListener implements ServletContextListener {
                 while (true) {
                     try {
 
-                        log.info("crawlBooks执行中。。。。。。。。。。。。");
+                        log.info("parseBooks执行中。。。。。。。。。。。。");
                         crawlSource.parse();
 
                         Thread.sleep(1000 * 60 * 5);
+                    } catch (Exception e) {
+                        log.error(e.getMessage(), e);
+                    }
+
+                }
+            }).start();
+
+            new Thread(() -> {
+                while (true) {
+                    try {
+
+                        log.info("updateBooks执行中。。。。。。。。。。。。");
+                        crawlSource.update();
+                        Thread.sleep(1000 * 60 * 10);
                     } catch (Exception e) {
                         log.error(e.getMessage(), e);
                     }
