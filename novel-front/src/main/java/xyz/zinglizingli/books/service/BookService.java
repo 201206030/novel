@@ -482,4 +482,13 @@ public class BookService {
             bookParseLogMapper.deleteByExample(example);
         }
     }
+
+    /**
+     * 查询书籍是否存在
+     * */
+    public Boolean hasBook(String bookName, String author) {
+        BookExample example = new BookExample();
+        example.createCriteria().andBookNameEqualTo(bookName).andAuthorEqualTo(author);
+        return bookMapper.countByExample(example)>0;
+    }
 }

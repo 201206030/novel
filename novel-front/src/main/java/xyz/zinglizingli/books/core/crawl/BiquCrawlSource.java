@@ -55,9 +55,13 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                 Matcher bookNameMatch = bookNamePatten.matcher(forObject);
 
+                Pattern authorPatten = compile(getAuthorPattern());
+
+                Matcher authorMatch = authorPatten.matcher(forObject);
+
                 boolean isBookNameMatch = bookNameMatch.find();
 
-                while (isFind && scoreFind && isBookNameMatch) {
+                while (isFind && scoreFind && isBookNameMatch && authorMatch.find()) {
 
                     try {
                         Float score = Float.parseFloat(scoreMatch.group(1));
@@ -71,7 +75,14 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                         String bookName = bookNameMatch.group(1);
 
-                        bookService.addBookParseLog(bookUrl, bookName, score);
+                        String author = authorMatch.group(1);
+
+                        Boolean hasBook = bookService.hasBook(bookName, author);
+
+                        if(hasBook) {
+
+                            bookService.addBookParseLog(bookUrl, bookName, score);
+                        }
 
 
                     } catch (Exception e) {
