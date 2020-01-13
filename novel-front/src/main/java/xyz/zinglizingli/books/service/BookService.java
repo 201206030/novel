@@ -49,6 +49,8 @@ public class BookService {
 
     private final UserRefBookMapper userRefBookMapper;
 
+    private final BookParseLogMapper bookParseLogMapper;
+
     private final CommonCacheUtil cacheUtil;
 
 
@@ -111,13 +113,13 @@ public class BookService {
                     newBookIndexList.add(bookIndexItem);
                     newContentList.add(bookContentItem);
                 }
-                //一次最多只允许插入100条记录,否则影响服务器响应
-                if (isUpdate && i % 100 == 0 && newBookIndexList.size() > 0) {
+                //一次最多只允许插入50条记录,否则影响服务器响应
+                if (isUpdate && i % 50 == 0 && newBookIndexList.size() > 0) {
                     bookService.insertIndexListAndContentList(newBookIndexList, newContentList);
                     newBookIndexList = new ArrayList<>();
                     newContentList = new ArrayList<>();
                     try {
-                        Thread.sleep(1000 * 60 * 1);
+                        Thread.sleep(1000 * 30);
                     } catch (InterruptedException e) {
                         log.error(e.getMessage(), e);
                         throw new RuntimeException(e.getMessage());
@@ -441,5 +443,43 @@ public class BookService {
         BookExample bookExample = new BookExample();
         bookExample.createCriteria().andPicUrlLike('%'+fileName+'%');
         return bookMapper.countByExample(bookExample);
+    }
+
+    /**
+     * 添加解析日志
+     * */
+    public void addBookParseLog(String bookUrl, String bookName, Float score) {
+        BookParseLogExample example = new BookParseLogExample();
+        example.createCriteria().andBookUrlEqualTo(bookUrl);
+        if(bookParseLogMapper.countByExample(example)==0) {
+            BookParseLog bookParseLog = new BookParseLog();
+            bookParseLog.setBookUrl(bookUrl);
+            bookParseLog.setBookName(bookName);
+            bookParseLog.setScore(score);
+            bookParseLog.setCreateTime(new Date());
+            bookParseLogMapper.insertSelective(bookParseLog);
+        }
+    }
+
+    /**
+     * 查询解析日志
+     * */
+    public List<BookParseLog> queryBookParseLogs() {
+        PageHelper.startPage(1,100);
+        BookParseLogExample  example = new BookParseLogExample();
+        example.setOrderByClause("create_time desc");
+        List<BookParseLog> logs = bookParseLogMapper.selectByExample(example);
+        return logs;
+    }
+
+    /**
+     * 删除已经成功更新的解析日志
+     * */
+    public void deleteBookParseLogs(List<Long> successLogIds) {
+        if(successLogIds.size()>0) {
+            BookParseLogExample example = new BookParseLogExample();
+            example.createCriteria().andIdIn(successLogIds);
+            bookParseLogMapper.deleteByExample(example);
+        }
     }
 }

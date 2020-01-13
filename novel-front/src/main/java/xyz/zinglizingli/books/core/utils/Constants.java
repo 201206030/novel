@@ -105,4 +105,9 @@ public class Constants {
      * SEO配置保存的key
      * */
     public static final String SEO_CONFIG_KEY = "seoConfig";
+
+    /**
+     * 每次更新抓取的页数
+     */
+    public static final int UPDATE_PAGES_ONCE = 10;
 }

@@ -66,7 +66,7 @@ public class IndexController {
         if (newBooks == null) {
             //查询最近更新数据
             newBooks = bookService.search(1, 20, null, null, null, null, null, null, null, "update_time", "DESC");
-            commonCacheUtil.setObject(CacheKeyConstans.NEWST_BOOK_LIST_KEY, newBooks, 60 * 30);
+            commonCacheUtil.setObject(CacheKeyConstans.NEWST_BOOK_LIST_KEY, newBooks, 60 * 10);
         }
         modelMap.put("recBooks", recBooks);
         modelMap.put("hotBooks", hotBooks);

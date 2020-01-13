@@ -17,4 +17,10 @@ public abstract class BaseCrawlSource {
      * 解析数据
      * */
     public abstract void parse();
+
+
+    /**
+     * 更新书籍
+     * */
+    public abstract void update();
 }
