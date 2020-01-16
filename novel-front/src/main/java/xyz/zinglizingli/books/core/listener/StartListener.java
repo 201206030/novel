@@ -31,6 +31,9 @@ public class StartListener implements ServletContextListener {
     @Value("${website.domain}")
     private String webSiteDomain;
 
+    @Value("${books.updatePeriod}")
+    private float bookUpdatePeriod;
+
     private final SeoConfig seoConfig;
 
 
@@ -49,8 +52,7 @@ public class StartListener implements ServletContextListener {
 
                         log.info("parseBooks执行中。。。。。。。。。。。。");
                         crawlSource.parse();
-
-                        Thread.sleep(1000 * 60 * 5);
+                        Thread.sleep(new Float(1000 * 60 * bookUpdatePeriod).longValue());
                     } catch (Exception e) {
                         log.error(e.getMessage(), e);
                     }

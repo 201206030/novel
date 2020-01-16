@@ -65,9 +65,11 @@ index:
 mysql:
   charset: utf8mb4
 
-#爬取小说数据的最低评分
 books:
+  #爬取小说数据的最低评分
   lowestScore: 6.0
+  #小说的更新间隔（分）
+  updatePeriod: 5
 
 #爬取的网站名称类型 1：笔趣岛 ，2：笔趣塔,3:顶点小说  更多网站解析中，敬请期待
 crawl:
