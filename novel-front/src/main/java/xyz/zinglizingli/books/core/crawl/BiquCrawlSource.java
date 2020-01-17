@@ -38,7 +38,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
             Date updateTime = lastUpdateTime;
             int page = 1;
             do{
-                String catBookListUrl = getListPageUrl().replace("{0}", "0").replace("{1}", page + "");
+                String catBookListUrl = getListPageUrl().replace("{0}", i+"").replace("{1}", page + "");
                 page++;
                 String forObject = RestTemplateUtil.getBodyByUtf8(catBookListUrl);
                 if (forObject != null) {
