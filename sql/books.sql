@@ -1040,3 +1040,5 @@ INSERT INTO `book_update_time_log` VALUES ('4', '4', NOW());
 INSERT INTO `book_update_time_log` VALUES ('5', '5', NOW());
 INSERT INTO `book_update_time_log` VALUES ('6', '6', NOW());
 INSERT INTO `book_update_time_log` VALUES ('7', '7', NOW());
+
+ALTER  TABLE  book_parse_log  drop  INDEX  uq_key_bookurl;
