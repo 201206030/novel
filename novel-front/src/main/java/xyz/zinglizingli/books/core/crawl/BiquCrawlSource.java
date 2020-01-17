@@ -5,20 +5,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import xyz.zinglizingli.books.core.utils.Constants;
 import xyz.zinglizingli.books.mapper.BookParseLogMapper;
-import xyz.zinglizingli.books.po.Book;
-import xyz.zinglizingli.books.po.BookContent;
-import xyz.zinglizingli.books.po.BookIndex;
-import xyz.zinglizingli.books.po.BookParseLog;
+import xyz.zinglizingli.books.po.*;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.core.utils.CatUtil;
 import xyz.zinglizingli.common.utils.ExcutorUtils;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,69 +31,94 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
     @Override
     public void parse() {
 
-        for(int page = 1; page<= Constants.UPDATE_PAGES_ONCE; page++) {
-            String catBookListUrl = getListPageUrl().replace("{0}", "0").replace("{1}", page+"");
-            String forObject = RestTemplateUtil.getBodyByUtf8(catBookListUrl);
-            if (forObject != null) {
-                //解析第一页书籍的数据
-                Pattern bookPatten = compile(getBookUrlPattern());
+        Map<Integer,Date> cat2Date = bookService.queryLastUpdateTime();
+        Map<Integer,Date> newCat2Date = new HashMap<>();
+        for(int i=1;i<=7;i++) {
+            Date lastUpdateTime = cat2Date.get(i);
+            Date updateTime = lastUpdateTime;
+            int page = 1;
+            do{
+                String catBookListUrl = getListPageUrl().replace("{0}", "0").replace("{1}", page + "");
+                page++;
+                String forObject = RestTemplateUtil.getBodyByUtf8(catBookListUrl);
+                if (forObject != null) {
+                    //解析第一页书籍的数据
+                    Pattern bookPatten = compile(getBookUrlPattern());
 
-                Matcher bookMatcher = bookPatten.matcher(forObject);
+                    Matcher bookMatcher = bookPatten.matcher(forObject);
 
-                boolean isFind = bookMatcher.find();
-                Pattern scorePatten = compile(getScorePattern());
-                Matcher scoreMatch = scorePatten.matcher(forObject);
-                boolean scoreFind = scoreMatch.find();
+                    boolean isFind = bookMatcher.find();
+                    Pattern scorePatten = compile(getScorePattern());
+                    Matcher scoreMatch = scorePatten.matcher(forObject);
+                    boolean scoreFind = scoreMatch.find();
 
-                Pattern bookNamePatten = compile(getBookNamePattern());
+                    Pattern bookNamePatten = compile(getBookNamePattern());
 
-                Matcher bookNameMatch = bookNamePatten.matcher(forObject);
+                    Matcher bookNameMatch = bookNamePatten.matcher(forObject);
 
-                Pattern authorPatten = compile(getAuthorPattern());
+                    Pattern authorPatten = compile(getAuthorPattern());
 
-                Matcher authorMatch = authorPatten.matcher(forObject);
+                    Matcher authorMatch = authorPatten.matcher(forObject);
 
-                boolean isBookNameMatch = bookNameMatch.find();
+                    boolean isBookNameMatch = bookNameMatch.find();
 
-                while (isFind && scoreFind && isBookNameMatch && authorMatch.find()) {
+                    while (isFind && scoreFind && isBookNameMatch && authorMatch.find() && updateTime.getTime()>=lastUpdateTime.getTime()) {
 
-                    try {
-                        Float score = Float.parseFloat(scoreMatch.group(1));
+                        try {
+                            Float score = Float.parseFloat(scoreMatch.group(1));
 
-                        if (score < getLowestScore()) {
-                            continue;
+                            if (score < getLowestScore()) {
+                                continue;
+                            }
+
+                            String bokNum = bookMatcher.group(1);
+                            String bookUrl = getIndexUrl() + "/" + bokNum + "/";
+
+                            String bookName = bookNameMatch.group(1);
+
+                            String author = authorMatch.group(1);
+
+                            Boolean hasBook = bookService.hasBook(bookName, author);
+
+                            if (hasBook) {
+
+                                bookService.addBookParseLog(bookUrl, bookName, score);
+                            }
+
+                            String body = RestTemplateUtil.getBodyByUtf8(bookUrl);
+                            if (body != null) {
+                                Pattern updateTimePatten = compile(getUpdateTimePattern());
+                                Matcher updateTimeMatch = updateTimePatten.matcher(body);
+                                if (updateTimeMatch.find()) {
+                                    String updateTimeStr = updateTimeMatch.group(1);
+                                    SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+                                    updateTime = format.parse(updateTimeStr);
+                                    if(!newCat2Date.containsKey(i)) {
+                                        newCat2Date.put(i, updateTime);
+                                    }
+
+
+                                }
+                            }
+
+
+                        } catch (Exception e) {
+
+                            log.error(e.getMessage(), e);
+
+                        } finally {
+                            bookMatcher.find();
+                            isFind = bookMatcher.find();
+                            scoreFind = scoreMatch.find();
+                            isBookNameMatch = bookNameMatch.find();
                         }
 
-                        String bokNum = bookMatcher.group(1);
-                        String bookUrl = getIndexUrl() + "/" + bokNum + "/";
 
-                        String bookName = bookNameMatch.group(1);
-
-                        String author = authorMatch.group(1);
-
-                        Boolean hasBook = bookService.hasBook(bookName, author);
-
-                        if(hasBook) {
-
-                            bookService.addBookParseLog(bookUrl, bookName, score);
-                        }
-
-
-                    } catch (Exception e) {
-
-                        log.error(e.getMessage(), e);
-
-                    } finally {
-                        bookMatcher.find();
-                        isFind = bookMatcher.find();
-                        scoreFind = scoreMatch.find();
-                        isBookNameMatch = bookNameMatch.find();
                     }
-
-
                 }
-            }
+            }while (updateTime.getTime()>=lastUpdateTime.getTime());
         }
+        bookService.updateBookUpdateTimeLog(newCat2Date);
 
     }
 

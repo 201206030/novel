@@ -3,30 +3,20 @@ package xyz.zinglizingli.books.service;
 import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.Charsets;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.orderbyhelper.OrderByHelper;
 import xyz.zinglizingli.books.core.constant.CacheKeyConstans;
 import xyz.zinglizingli.books.core.enums.PicSaveType;
+import xyz.zinglizingli.books.core.utils.Constants;
 import xyz.zinglizingli.books.mapper.*;
 import xyz.zinglizingli.books.po.*;
-import xyz.zinglizingli.books.core.utils.Constants;
+import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.common.utils.FileUtil;
 import xyz.zinglizingli.common.utils.SpringUtil;
-import xyz.zinglizingli.common.utils.UUIDUtils;
-import xyz.zinglizingli.common.cache.CommonCacheUtil;
-import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
-import java.io.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -50,6 +40,8 @@ public class BookService {
     private final UserRefBookMapper userRefBookMapper;
 
     private final BookParseLogMapper bookParseLogMapper;
+
+    private final BookUpdateTimeLogMapper bookUpdateTimeLogMapper;
 
     private final CommonCacheUtil cacheUtil;
 
@@ -490,5 +482,32 @@ public class BookService {
         BookExample example = new BookExample();
         example.createCriteria().andBookNameEqualTo(bookName).andAuthorEqualTo(author);
         return bookMapper.countByExample(example)>0;
+    }
+
+    /**
+     * 查询分类更新时间映射信息
+     * */
+    public Map<Integer, Date> queryLastUpdateTime() {
+        List<BookUpdateTimeLog> list = bookUpdateTimeLogMapper.selectByExample(new BookUpdateTimeLogExample());
+
+        return list.stream().collect(Collectors.toMap(BookUpdateTimeLog::getBookCatId, BookUpdateTimeLog::getLastUpdateTime,(key1, key2) -> key2));
+
+    }
+
+    /**
+     * 更新分类时间日志
+     * */
+    public void updateBookUpdateTimeLog(Map<Integer, Date> cat2Date) {
+        if(cat2Date.size()>0) {
+            Set<Map.Entry<Integer, Date>> entries = cat2Date.entrySet();
+            for(Map.Entry<Integer, Date> entry : entries){
+                BookUpdateTimeLogExample example = new BookUpdateTimeLogExample();
+                example.createCriteria().andBookCatIdEqualTo(entry.getKey());
+                BookUpdateTimeLog entity = new BookUpdateTimeLog();
+                entity.setLastUpdateTime(entry.getValue());
+                bookUpdateTimeLogMapper.updateByExampleSelective(entity,example);
+
+            }
+        }
     }
 }
