@@ -442,7 +442,7 @@ public class BookService {
      * */
     public void addBookParseLog(String bookUrl, String bookName, Float score) {
         BookParseLogExample example = new BookParseLogExample();
-        example.createCriteria().andBookUrlEqualTo(bookUrl);
+        example.createCriteria().andBookUrlEqualTo(bookUrl).andCreateTimeGreaterThan(new Date(System.currentTimeMillis()-1000*60*60));
         if(bookParseLogMapper.countByExample(example)==0) {
             BookParseLog bookParseLog = new BookParseLog();
             bookParseLog.setBookUrl(bookUrl);
