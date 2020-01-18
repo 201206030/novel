@@ -62,7 +62,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                     boolean isBookNameMatch = bookNameMatch.find();
 
-                    while (isFind && scoreFind && isBookNameMatch && authorMatch.find() && updateTime.getTime()>=lastUpdateTime.getTime()) {
+                    while (isFind && scoreFind && isBookNameMatch && authorMatch.find() && updateTime.getTime()>lastUpdateTime.getTime()) {
 
                         try {
                             Float score = Float.parseFloat(scoreMatch.group(1));
@@ -116,7 +116,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                     }
                 }
-            }while (updateTime.getTime()>=lastUpdateTime.getTime());
+            }while (updateTime.getTime()>lastUpdateTime.getTime());
         }
         bookService.updateBookUpdateTimeLog(newCat2Date);
 
