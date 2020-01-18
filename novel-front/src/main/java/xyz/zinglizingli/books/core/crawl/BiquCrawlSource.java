@@ -125,7 +125,6 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
     @Override
     public void update() {
         List<BookParseLog> logs = bookService.queryBookParseLogs();
-        List<Long> successLogIds = new ArrayList<>();
         for (BookParseLog bookParseLog : logs) {
             try {
 
@@ -241,7 +240,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                                                     }
                                                 }
-                                                successLogIds.add(bookParseLog.getId());
+                                                bookService.deleteBookParseLog(bookParseLog.getId());
                                             }
 
 
@@ -266,7 +265,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
             }
         }
 
-        bookService.deleteBookParseLogs(successLogIds);
+
 
     }
 

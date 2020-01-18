@@ -510,4 +510,12 @@ public class BookService {
             }
         }
     }
+
+    /**
+     * 删除已经成功更新的解析日志
+     * */
+    public void deleteBookParseLog(Long id) {
+        bookParseLogMapper.deleteByPrimaryKey(id);
+
+    }
 }
