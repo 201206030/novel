@@ -45,6 +45,19 @@ spring:
 
 
 
+
+
+  resources:
+    cache:
+      # 资源缓存时间，单位秒
+      period: 604800
+    # 开启gzip压缩
+    chain:
+      gzipped: true
+      # 启用缓存
+      cache: true
+
+
 #  mvc:
 #    static-path-pattern: /static/** #设定静态文件路径，js,css等
 mybatis:
