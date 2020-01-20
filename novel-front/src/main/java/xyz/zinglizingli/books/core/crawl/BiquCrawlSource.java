@@ -35,7 +35,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
         Map<Integer,Date> newCat2Date = new HashMap<>();
         for(int i=1;i<=7;i++) {
             Date lastUpdateTime = cat2Date.get(i);
-            Date updateTime = lastUpdateTime;
+            Date updateTime = null;
             int page = 1;
             do{
                 String catBookListUrl = getListPageUrl().replace("{0}", i+"").replace("{1}", page + "");
@@ -62,7 +62,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                     boolean isBookNameMatch = bookNameMatch.find();
 
-                    while (isFind && scoreFind && isBookNameMatch && authorMatch.find() && updateTime.getTime()>lastUpdateTime.getTime()) {
+                    while (isFind && scoreFind && isBookNameMatch && authorMatch.find() && (updateTime==null || updateTime.getTime()>lastUpdateTime.getTime())) {
 
                         try {
                             Float score = Float.parseFloat(scoreMatch.group(1));
@@ -116,7 +116,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                     }
                 }
-            }while (updateTime.getTime()>lastUpdateTime.getTime());
+            }while (updateTime == null || updateTime.getTime()>lastUpdateTime.getTime());
         }
         bookService.updateBookUpdateTimeLog(newCat2Date);
 
