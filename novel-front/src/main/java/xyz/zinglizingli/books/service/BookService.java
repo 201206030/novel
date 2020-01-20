@@ -124,7 +124,6 @@ public class BookService {
                 bookService.insertIndexListAndContentList(newBookIndexList, newContentList);
             }
 
-            cacheUtil.del(CacheKeyConstans.NEWST_BOOK_LIST_KEY);
 
 
         }
