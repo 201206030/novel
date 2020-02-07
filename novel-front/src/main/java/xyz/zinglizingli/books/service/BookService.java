@@ -246,7 +246,7 @@ public class BookService {
             example.createCriteria().andBookIdEqualTo(bookId).andIndexNumEqualTo(indexNum);
             List<BookContent> bookContents = bookContentMapper.selectByExample(example);
             content = bookContents.size() > 0 ? bookContents.get(0) : null;
-            cacheUtil.setObject(CacheKeyConstans.BOOK_CONTENT_KEY_PREFIX + "_" + bookId + "_" + indexNum, content, 60 * 60 * 24);
+            cacheUtil.setObject(CacheKeyConstans.BOOK_CONTENT_KEY_PREFIX + "_" + bookId + "_" + indexNum, content, 60 * 10);
         }
 
         return content;
