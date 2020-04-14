@@ -91,7 +91,13 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
                                 Matcher updateTimeMatch = updateTimePatten.matcher(body);
                                 if (updateTimeMatch.find()) {
                                     String updateTimeStr = updateTimeMatch.group(1);
-                                    SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+                                    SimpleDateFormat format ;
+                                    if(updateTimeStr.length()>10){
+
+                                        format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+                                    }else{
+                                        format = new SimpleDateFormat("yy-MM-dd");
+                                    }
                                     updateTime = format.parse(updateTimeStr);
                                     if(!newCat2Date.containsKey(i)) {
                                         newCat2Date.put(i, updateTime);
@@ -159,7 +165,13 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
                                 Matcher updateTimeMatch = updateTimePatten.matcher(body);
                                 if (updateTimeMatch.find()) {
                                     String updateTimeStr = updateTimeMatch.group(1);
-                                    SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+                                    SimpleDateFormat format ;
+                                    if(updateTimeStr.length()>10){
+
+                                        format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
+                                    }else{
+                                        format = new SimpleDateFormat("yy-MM-dd");
+                                    }
                                     Date updateTime = format.parse(updateTimeStr);
                                     Pattern picPatten = compile(getPicPattern());
                                     Matcher picMather = picPatten.matcher(body);
