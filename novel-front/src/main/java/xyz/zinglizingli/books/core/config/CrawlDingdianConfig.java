@@ -18,7 +18,6 @@ public class CrawlDingdianConfig {
 
 
     @Bean
-    @Primary //必须加此注解，不然报错，下一个类则不需要添加
     @ConfigurationProperties(prefix = "dingdian.crawlsource") // prefix值必须是application.yml中对应属性的前缀
     @ConditionalOnProperty(prefix = "crawl.website",name = "type",havingValue = "3")
     public BaseHtmlCrawlSource dingdianCrawlSource() {
