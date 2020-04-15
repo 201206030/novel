@@ -31,100 +31,58 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
     @Override
     public void parse() {
 
-        Map<Integer,Date> cat2Date = bookService.queryLastUpdateTime();
-        Map<Integer,Date> newCat2Date = new HashMap<>();
-        for(int i=1;i<=7;i++) {
-            Date lastUpdateTime = cat2Date.get(i);
-            Date updateTime = null;
-            int page = 1;
-            do{
-                String catBookListUrl = getListPageUrl().replace("{0}", i+"").replace("{1}", page + "");
-                page++;
-                String forObject = RestTemplateUtil.getBodyByUtf8(catBookListUrl);
-                if (forObject != null) {
-                    //解析第一页书籍的数据
-                    Pattern bookPatten = compile(getBookUrlPattern());
+        for(int page = 1; page<= Constants.UPDATE_PAGES_ONCE; page++) {
+            String catBookListUrl = getListPageUrl().replace("{0}", "0").replace("{1}", page+"");
+            String forObject = RestTemplateUtil.getBodyByUtf8(catBookListUrl);
+            if (forObject != null) {
+                //解析第一页书籍的数据
+                Pattern bookPatten = compile(getBookUrlPattern());
 
-                    Matcher bookMatcher = bookPatten.matcher(forObject);
+                Matcher bookMatcher = bookPatten.matcher(forObject);
 
-                    boolean isFind = bookMatcher.find();
-                    Pattern scorePatten = compile(getScorePattern());
-                    Matcher scoreMatch = scorePatten.matcher(forObject);
-                    boolean scoreFind = scoreMatch.find();
+                boolean isFind = bookMatcher.find();
+                Pattern scorePatten = compile(getScorePattern());
+                Matcher scoreMatch = scorePatten.matcher(forObject);
+                boolean scoreFind = scoreMatch.find();
 
-                    Pattern bookNamePatten = compile(getBookNamePattern());
+                Pattern bookNamePatten = compile(getBookNamePattern());
 
-                    Matcher bookNameMatch = bookNamePatten.matcher(forObject);
+                Matcher bookNameMatch = bookNamePatten.matcher(forObject);
 
-                    Pattern authorPatten = compile(getAuthorPattern());
+                boolean isBookNameMatch = bookNameMatch.find();
 
-                    Matcher authorMatch = authorPatten.matcher(forObject);
+                while (isFind && scoreFind && isBookNameMatch) {
 
-                    boolean isBookNameMatch = bookNameMatch.find();
+                    try {
+                        Float score = Float.parseFloat(scoreMatch.group(1));
 
-                    while (isFind && scoreFind && isBookNameMatch && authorMatch.find() && (updateTime==null || updateTime.getTime()>lastUpdateTime.getTime())) {
-
-                        try {
-                            Float score = Float.parseFloat(scoreMatch.group(1));
-
-                            if (score < getLowestScore()) {
-                                continue;
-                            }
-
-                            String bokNum = bookMatcher.group(1);
-                            String bookUrl = getIndexUrl() + "/" + bokNum + "/";
-
-                            String bookName = bookNameMatch.group(1);
-
-                            String author = authorMatch.group(1);
-
-                            Boolean hasBook = bookService.hasBook(bookName, author);
-
-                            if (hasBook) {
-
-                                bookService.addBookParseLog(bookUrl, bookName, score);
-                            }
-
-                            String body = RestTemplateUtil.getBodyByUtf8(bookUrl);
-                            if (body != null) {
-                                Pattern updateTimePatten = compile(getUpdateTimePattern());
-                                Matcher updateTimeMatch = updateTimePatten.matcher(body);
-                                if (updateTimeMatch.find()) {
-                                    String updateTimeStr = updateTimeMatch.group(1);
-                                    SimpleDateFormat format ;
-                                    if(updateTimeStr.length()>10){
-
-                                        format = new SimpleDateFormat("yy-MM-dd HH:mm:ss");
-                                    }else{
-                                        format = new SimpleDateFormat("yy-MM-dd");
-                                    }
-                                    updateTime = format.parse(updateTimeStr);
-                                    if(!newCat2Date.containsKey(i)) {
-                                        newCat2Date.put(i, updateTime);
-                                    }
-
-
-                                }
-                            }
-
-
-                        } catch (Exception e) {
-
-                            log.error(e.getMessage(), e);
-
-                        } finally {
-                            bookMatcher.find();
-                            isFind = bookMatcher.find();
-                            scoreFind = scoreMatch.find();
-                            isBookNameMatch = bookNameMatch.find();
+                        if (score < getLowestScore()) {
+                            continue;
                         }
 
+                        String bokNum = bookMatcher.group(1);
+                        String bookUrl = getIndexUrl() + "/" + bokNum + "/";
 
+                        String bookName = bookNameMatch.group(1);
+
+                        bookService.addBookParseLog(bookUrl, bookName, score);
+
+
+                    } catch (Exception e) {
+
+                        log.error(e.getMessage(), e);
+
+                    } finally {
+                        bookMatcher.find();
+                        isFind = bookMatcher.find();
+                        scoreFind = scoreMatch.find();
+                        isBookNameMatch = bookNameMatch.find();
                     }
+
+
                 }
-            }while (updateTime == null || updateTime.getTime()>lastUpdateTime.getTime());
+            }
         }
-        bookService.updateBookUpdateTimeLog(newCat2Date);
 
     }
 
@@ -163,7 +121,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                                 Pattern updateTimePatten = compile(getUpdateTimePattern());
                                 Matcher updateTimeMatch = updateTimePatten.matcher(body);
-                                if (updateTimeMatch.find()) {
+                                /*if (updateTimeMatch.find()) {
                                     String updateTimeStr = updateTimeMatch.group(1);
                                     SimpleDateFormat format ;
                                     if(updateTimeStr.length()>10){
@@ -172,7 +130,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
                                     }else{
                                         format = new SimpleDateFormat("yy-MM-dd");
                                     }
-                                    Date updateTime = format.parse(updateTimeStr);
+                                    Date updateTime = format.parse(updateTimeStr);*/
                                     Pattern picPatten = compile(getPicPattern());
                                     Matcher picMather = picPatten.matcher(body);
                                     if (picMather.find()) {
@@ -189,7 +147,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
                                         book.setScore(score > 10 ? 8.0f : score);
                                         book.setPicUrl(picSrc);
                                         book.setBookStatus(status);
-                                        book.setUpdateTime(updateTime);
+                                        book.setUpdateTime(new Date());
 
                                         List<BookIndex> indexList = new ArrayList<>();
                                         List<BookContent> contentList = new ArrayList<>();
@@ -261,7 +219,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                                     }
 
-                                }
+                                //}
                             }
                         }
 
