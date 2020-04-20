@@ -517,4 +517,17 @@ public class BookService {
         bookParseLogMapper.deleteByPrimaryKey(id);
 
     }
+
+    /**
+     * 查询数据库书籍数量
+     * */
+    public int queryBookNumber() {
+
+        Integer bookNumber = (Integer) cacheUtil.getObject(CacheKeyConstans.BOOK_NUMBER_KEY);
+        if(bookNumber == null){
+            bookNumber = bookMapper.countByExample(new BookExample());
+            cacheUtil.setObject(CacheKeyConstans.BOOK_NUMBER_KEY,bookNumber,60*5);
+        }
+        return bookNumber;
+    }
 }

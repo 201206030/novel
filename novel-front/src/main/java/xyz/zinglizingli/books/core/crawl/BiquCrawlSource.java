@@ -3,11 +3,13 @@ package xyz.zinglizingli.books.core.crawl;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import xyz.zinglizingli.books.core.utils.Constants;
 import xyz.zinglizingli.books.mapper.BookParseLogMapper;
 import xyz.zinglizingli.books.po.*;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.core.utils.CatUtil;
+import xyz.zinglizingli.common.cache.CommonCacheUtil;
 import xyz.zinglizingli.common.utils.ExcutorUtils;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
@@ -27,6 +29,12 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private CommonCacheUtil cacheUtil;
+
+    @Value("${books.maxNum}")
+    private Integer maxNumBooks;
 
     @Override
     public void parse() {
@@ -168,8 +176,11 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                                                 //查询该书籍已存在目录号
                                                 Map<Integer, BookIndex> hasIndexs = bookService.queryIndexByBookNameAndAuthor(bookName, author);
+                                                //查询数据库书籍数量
+                                                long bookNumber = bookService.queryBookNumber();
+
                                                 //更新和插入分别开，此处只做更新
-                                                if (hasIndexs.size() > 0) {
+                                                if (hasIndexs.size() > 0 || bookNumber < maxNumBooks) {
                                                     while (isFindIndex) {
                                                         BookIndex hasIndex = hasIndexs.get(indexNum);
                                                         String indexName = indexListMatch.group(2);

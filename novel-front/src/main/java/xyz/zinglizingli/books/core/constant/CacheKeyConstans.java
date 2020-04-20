@@ -7,4 +7,5 @@ public class CacheKeyConstans {
     public static final String EMAIL_URL_PREFIX_KEY = "emailUrlPrefixKey";
     public static final String RANDOM_NEWS_CONTENT_KEY = "randomNewsContentKey";
     public static final String REC_BOOK_LIST_KEY = "recBookListKey";
+    public static final String BOOK_NUMBER_KEY= "bookNumberKey";
 }
