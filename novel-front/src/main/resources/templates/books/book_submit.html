@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>小说提交</title>
+
+    <div th:include="common/css :: css"></div>
+
+
+
+</head>
+<body id="read" >
+
+</div>
+
+<div style="height: 50px;line-height: 50px;text-align: center" class="layui-header header header-doc  layui-bg-cyan">
+
+    <div style="float: left;margin-left: 10px">
+        <a href="javascript:history.go(-1)">
+            <i style="font-size: 20px;color: #92B8B1;" class="layui-icon">&#xe65c;</i></a>
+    </div>
+    <b class="layui-icon">单本小说提交</b>
+    <div style="float: right;margin-right: 10px"><a href="/">
+        <i style="font-size: 20px;color: #92B8B1;" class="layui-icon">&#xe68e;</i>
+    </a>
+    </div>
+</div>
+<div style="height: 800px;padding: 20px;border: 1px solid #eee;">
+<form  class="layui-form" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">详情页Url:</label>
+        <div class="layui-col-xs7 layui-col-sm6 layui-col-md3 layui-col-lg1" >
+            <input type="text" id="bookUrl" name="bookUrl" required  lay-verify="required" placeholder="请输入源站小说详情页Url" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">小说名:</label>
+        <div class="layui-col-xs7 layui-col-sm6 layui-col-md3 layui-col-lg1" >
+            <input type="text" id="bookName" name="bookName" required  lay-verify="required" placeholder="请输入小说名" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">小说评分:</label>
+        <div class="layui-col-xs7 layui-col-sm6 layui-col-md3 layui-col-lg1">
+            <input type="number" id="score" name="score" required  lay-verify="required" placeholder="请输入小说评分" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</div>
+
+<div th:replace="common/footer :: footer">
+</div>
+
+<a name="buttom"></a>
+</body>
+<div th:replace="common/js :: js"></div>
+
+
+<script>
+    //Demo
+    layui.use('form', function(){
+        var form = layui.form;
+
+        //监听提交
+        form.on('submit(formDemo)', function(){
+            $.post("/book/submit",{"bookUrl":$("#bookUrl").val(),"bookName":$("#bookName").val(),"score":$("#score").val()},function (data) {
+                if(data.code == 1 ){
+                    layer.alert("提交成功，任务排队中，请过一段时间后再搜索查看");
+                }else{
+                    layer.alert("提交失败");
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+
+</html>

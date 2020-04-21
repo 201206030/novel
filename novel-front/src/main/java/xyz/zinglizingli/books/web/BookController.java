@@ -8,15 +8,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import xyz.zinglizingli.books.core.config.SeoConfig;
-import xyz.zinglizingli.books.po.Book;
-import xyz.zinglizingli.books.po.BookContent;
-import xyz.zinglizingli.books.po.BookIndex;
-import xyz.zinglizingli.books.po.ScreenBullet;
+import xyz.zinglizingli.books.po.*;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.service.UserService;
 import xyz.zinglizingli.books.vo.BookVO;
@@ -48,6 +42,27 @@ public class BookController {
     private final UserService userService;
 
     private final CommonCacheUtil commonCacheUtil;
+
+
+    /**
+     * 单本小说提交页
+     * */
+    @RequestMapping("submit.html")
+    public String bookSubmitPage(){
+        return "books/book_submit";
+    }
+
+    /**
+     * 单本小说提交
+     * */
+    @RequestMapping(method = RequestMethod.POST,value = "submit")
+    @ResponseBody
+    public Map<String, Object> bookSubmit(String bookUrl, String bookName, Float score){
+        Map<String, Object> result = new HashMap<>(2);
+        bookService.addBookParseLog(bookUrl, bookName, score);
+        result.put("code", 1);
+        return result;
+    }
 
 
 
