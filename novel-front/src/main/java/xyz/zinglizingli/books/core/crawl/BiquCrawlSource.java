@@ -5,15 +5,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import xyz.zinglizingli.books.core.utils.Constants;
-import xyz.zinglizingli.books.mapper.BookParseLogMapper;
 import xyz.zinglizingli.books.po.*;
 import xyz.zinglizingli.books.service.BookService;
 import xyz.zinglizingli.books.core.utils.CatUtil;
 import xyz.zinglizingli.common.cache.CommonCacheUtil;
-import xyz.zinglizingli.common.utils.ExcutorUtils;
 import xyz.zinglizingli.common.utils.RestTemplateUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -73,7 +70,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                         String bookName = bookNameMatch.group(1);
 
-                        bookService.addBookParseLog(bookUrl, bookName, score);
+                        bookService.addBookParseLog(bookUrl, bookName, score, (byte) 10);
 
 
                     } catch (Exception e) {

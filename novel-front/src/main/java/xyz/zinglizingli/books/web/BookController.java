@@ -59,7 +59,7 @@ public class BookController {
     @ResponseBody
     public Map<String, Object> bookSubmit(String bookUrl, String bookName, Float score){
         Map<String, Object> result = new HashMap<>(2);
-        bookService.addBookParseLog(bookUrl, bookName, score);
+        bookService.addBookParseLog(bookUrl, bookName, score, (byte) 5);
         result.put("code", 1);
         return result;
     }

@@ -42,7 +42,7 @@
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 
-		<table  tableName="book_update_time_log"/>
+		<table  tableName="book_parse_log"/>
 		
 		<!-- 指定数据库表 -->
 		<!--<table schema="jly" tableName="job_position" domainObjectName="JobPositionTest"/>-->

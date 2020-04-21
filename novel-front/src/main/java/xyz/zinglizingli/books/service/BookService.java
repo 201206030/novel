@@ -439,7 +439,7 @@ public class BookService {
     /**
      * 添加解析日志
      * */
-    public void addBookParseLog(String bookUrl, String bookName, Float score) {
+    public void addBookParseLog(String bookUrl, String bookName, Float score, Byte priority) {
         BookParseLogExample example = new BookParseLogExample();
         example.createCriteria().andBookUrlEqualTo(bookUrl).andCreateTimeGreaterThan(new Date(System.currentTimeMillis()-1000*60*60));
         if(bookParseLogMapper.countByExample(example)==0) {
@@ -447,6 +447,7 @@ public class BookService {
             bookParseLog.setBookUrl(bookUrl);
             bookParseLog.setBookName(bookName);
             bookParseLog.setScore(score);
+            bookParseLog.setPriority(priority);
             bookParseLog.setCreateTime(new Date());
             bookParseLogMapper.insertSelective(bookParseLog);
         }
@@ -458,7 +459,7 @@ public class BookService {
     public List<BookParseLog> queryBookParseLogs() {
         PageHelper.startPage(1,100);
         BookParseLogExample  example = new BookParseLogExample();
-        example.setOrderByClause("create_time desc");
+        example.setOrderByClause("priority asc,create_time desc");
         List<BookParseLog> logs = bookParseLogMapper.selectByExample(example);
         return logs;
     }

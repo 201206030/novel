@@ -1042,3 +1042,5 @@ INSERT INTO `book_update_time_log` VALUES ('6', '6', NOW());
 INSERT INTO `book_update_time_log` VALUES ('7', '7', NOW());
 
 ALTER  TABLE  book_parse_log  drop  INDEX  uq_key_bookurl;
+
+alter table book_parse_log add column `priority` TINYINT(2) not null default 10 ;
