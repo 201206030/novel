@@ -15,6 +15,8 @@ public class BookParseLog {
 
     private Byte priority;
 
+    private Byte updateCount;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class BookParseLog {
 
     public void setPriority(Byte priority) {
         this.priority = priority;
+    }
+
+    public Byte getUpdateCount() {
+        return updateCount;
+    }
+
+    public void setUpdateCount(Byte updateCount) {
+        this.updateCount = updateCount;
     }
 }

@@ -484,6 +484,66 @@ public class BookParseLogExample {
             addCriterion("priority not between", value1, value2, "priority");
             return (Criteria) this;
         }
+
+        public Criteria andUpdateCountIsNull() {
+            addCriterion("update_count is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountIsNotNull() {
+            addCriterion("update_count is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountEqualTo(Byte value) {
+            addCriterion("update_count =", value, "updateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountNotEqualTo(Byte value) {
+            addCriterion("update_count <>", value, "updateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountGreaterThan(Byte value) {
+            addCriterion("update_count >", value, "updateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountGreaterThanOrEqualTo(Byte value) {
+            addCriterion("update_count >=", value, "updateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountLessThan(Byte value) {
+            addCriterion("update_count <", value, "updateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountLessThanOrEqualTo(Byte value) {
+            addCriterion("update_count <=", value, "updateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountIn(List<Byte> values) {
+            addCriterion("update_count in", values, "updateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountNotIn(List<Byte> values) {
+            addCriterion("update_count not in", values, "updateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountBetween(Byte value1, Byte value2) {
+            addCriterion("update_count between", value1, value2, "updateCount");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateCountNotBetween(Byte value1, Byte value2) {
+            addCriterion("update_count not between", value1, value2, "updateCount");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

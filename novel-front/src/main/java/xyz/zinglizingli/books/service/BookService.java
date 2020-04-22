@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.orderbyhelper.OrderByHelper;
@@ -457,11 +458,17 @@ public class BookService {
      * 查询解析日志
      * */
     public List<BookParseLog> queryBookParseLogs() {
-        PageHelper.startPage(1,100);
-        BookParseLogExample  example = new BookParseLogExample();
-        example.setOrderByClause("priority asc,create_time desc");
-        List<BookParseLog> logs = bookParseLogMapper.selectByExample(example);
+        List<BookParseLog> logs = bookParseLogMapper.queryBookParseLogs();
+        SpringUtil.getBean(BookService.class).addBookUpdateCount(logs);
         return logs;
+    }
+
+    /**
+     * 增加小说更新次数
+     * */
+    @Async
+    public void addBookUpdateCount(List<BookParseLog> logs) {
+        bookParseLogMapper.addBookUpdateCount(logs);
     }
 
     /**

@@ -27,4 +27,15 @@ public interface BookParseLogMapper {
     int updateByPrimaryKeySelective(BookParseLog record);
 
     int updateByPrimaryKey(BookParseLog record);
+
+    /**
+     * 增加小说更新次数
+     *
+     * @param logs*/
+    void addBookUpdateCount(List<BookParseLog> logs);
+
+    /**
+     * 查询解析日志
+     * */
+    List<BookParseLog> queryBookParseLogs();
 }
