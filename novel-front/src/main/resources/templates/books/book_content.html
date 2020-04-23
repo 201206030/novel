@@ -195,7 +195,7 @@
         }
         //发送弹幕
         function sendBullet(){
-            var bullet = $("#screenBulletText").val();
+            var bullet = $("#screenBulletText").val().replace(/</g, "&lt;").replace(/>/g, "&gt;");
             var contentId = $("#contentIdHidden").val();
             if (bullet && contentId) {
                 if(bullet.length > 100){

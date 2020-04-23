@@ -321,7 +321,7 @@ public class BookController {
     @ResponseBody
     public Map<String, Object> sendBullet(@RequestParam("contentId") Long contentId, @RequestParam("bullet") String bullet) {
         Map<String, Object> result = new HashMap<>(2);
-        bookService.sendBullet(contentId, bullet);
+        bookService.sendBullet(contentId, bullet.replaceAll("<", "&lt;").replaceAll(">", "&gt;"));
         result.put("code", 1);
         result.put("desc", "ok");
         return result;

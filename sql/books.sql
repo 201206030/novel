@@ -1,23 +1,4 @@
-/*
-Navicat MySQL Data Transfer
 
-Source Server         : aliyun_books
-Source Server Version : 80018
-Source Host           : 47.106.243.172:3306
-Source Database       : books
-
-Target Server Type    : MYSQL
-Target Server Version : 80018
-File Encoding         : 65001
-
-Date: 2019-11-15 06:10:36
-*/
-
-
-
--- ----------------------------
--- Table structure for `book`
--- ----------------------------
 DROP TABLE IF EXISTS `book`;
 CREATE TABLE `book` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -1044,3 +1025,6 @@ INSERT INTO `book_update_time_log` VALUES ('7', '7', NOW());
 ALTER  TABLE  book_parse_log  drop  INDEX  uq_key_bookurl;
 
 alter table book_parse_log add column `priority` TINYINT(2) not null default 10 ;
+
+alter table book_parse_log add column `update_count` TINYINT(2) not null default 0 ;
+
