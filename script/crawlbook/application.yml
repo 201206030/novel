@@ -9,7 +9,7 @@ mybatis:
 mysql: {charset: utf8mb4}
 books: {lowestScore: 6.0}
 crawl:
-  website: {type: '5'}
+  website: {type: '4'}
   soft-novel: 0
   manhua: 0
 logging: {config: 'classpath:logback-boot.xml'}
