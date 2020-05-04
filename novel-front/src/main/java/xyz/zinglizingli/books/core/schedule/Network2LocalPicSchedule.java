@@ -43,15 +43,7 @@ public class Network2LocalPicSchedule {
         log.info("Network2LocalPicSchedule。。。。。。。。。。。。");
 
 
-        Integer offset = 0, limit = 100;
-        List<Book> networkPicBooks;
-        do {
-            networkPicBooks = bookService.queryNetworkPicBooks(limit, offset);
-            for (Book book : networkPicBooks) {
-                bookService.updateBook(book, book.getId());
-            }
-            offset += limit;
-        } while (networkPicBooks.size() > 0);
+        bookService.networkPicToLocal();
 
 
     }
