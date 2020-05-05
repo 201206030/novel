@@ -150,22 +150,16 @@ public class BookService {
 
     /**
      * 网络图片转本地
+     *
+     * @param book
      */
-    public void networkPicToLocal() {
-        Integer offset = 0, limit = 100;
-        List<Book> networkPicBooks;
-        do {
-            networkPicBooks = queryNetworkPicBooks(limit, offset);
-            for (Book book : networkPicBooks) {
-                try {
-                    book.setPicUrl(FileUtil.network2Local(book.getPicUrl(), picSavePath));
-                    bookMapper.updateByPrimaryKeySelective(book);
-                } catch (Exception e) {
-                    log.error(e.getMessage(), e);
-                }
-            }
-            offset += limit;
-        } while (networkPicBooks.size() > 0);
+    public void networkPicToLocal(Book book) {
+        try {
+            book.setPicUrl(FileUtil.network2Local(book.getPicUrl(), picSavePath));
+            bookMapper.updateByPrimaryKeySelective(book);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
 
     }
 
