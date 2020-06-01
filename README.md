@@ -1,4 +1,4 @@
-[![index](./assets/热门云产品1040.100.jpg)](https://cloud.tencent.com/act/cps/redirect?redirect=1052&cps_key=736e609d66e0ac4e57813316cec6fd0b&from=console)
+[![index]( http://chuantu.xyz/t6/737/1591001390x992248267.png )](https://cloud.tencent.com/act/cps/redirect?redirect=1052&cps_key=736e609d66e0ac4e57813316cec6fd0b&from=console)
 
 # 小说精品屋
 
@@ -247,4 +247,4 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
 精品小说屋所有相关项目均已在开源中国公开，感兴趣的可进入[开源中国](https://www.oschina.net/p/fiction_house)按关键字`精品小说屋`搜索。
 
-[![index](./assets/120060.jpg)](https://www.aliyun.com/minisite/goods?userCode=uf4nasee )
+[![index]( http://chuantu.xyz/t6/737/1591001390x992248267.png )](https://www.aliyun.com/minisite/goods?userCode=uf4nasee )
