@@ -467,7 +467,9 @@ public class BookService {
      */
     public List<BookParseLog> queryBookParseLogs() {
         List<BookParseLog> logs = bookParseLogMapper.queryBookParseLogs();
-        SpringUtil.getBean(BookService.class).addBookUpdateCount(logs);
+        if(logs.size()>0) {
+            SpringUtil.getBean(BookService.class).addBookUpdateCount(logs);
+        }
         return logs;
     }
 

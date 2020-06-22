@@ -66,6 +66,7 @@ public class StartListener implements ServletContextListener {
 
                         log.info("updateBooks执行中。。。。。。。。。。。。");
                         crawlSource.update();
+                        Thread.sleep(2000);
                     } catch (Exception e) {
                         log.error(e.getMessage(), e);
                     }
