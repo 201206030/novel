@@ -9,8 +9,8 @@ mybatis:
 mysql: {charset: utf8mb4}
 books: {lowestScore: 6.0}
 crawl:
-  patten: 3
-  website: {type: 3}
-  soft-novel: '1'
-  manhua: '1'
+  patten: '1'
+  website: {type: 6}
+  soft-novel: '0'
+  manhua: '0'
 logging: {config: 'classpath:logback-boot.xml'}

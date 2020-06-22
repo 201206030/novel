@@ -86,3 +86,20 @@ biquge:
     intro-pattern: class="review">([^/]+)</p>
     catalog-url-pattern: <a\s+href="(/ddk\d+/all.html)">查看完整目录</a>
     catalog-pattern: <dd>\s*<a\s+href="(\d+\.html)"\s+title="([^"]+)">([^<]+)</a>\s*</dd>
+
+
+biquwo:
+  crawlsource:
+    index-url: http://m.biquwo.net
+    list-page-url: http://m.biquwo.net/sort{0}/0/{1}.html
+    book-url-pattern: href="/(dudu/\d+/\d+)/"
+    score-pattern: <div\s+class="score">(\d+\.\d+)分</div>
+    book-name-pattern: <p class="title">([^/]+)</p>
+    author-pattern: 作者：([^/]+)<
+    status-pattern: 状态：([^/]+)</li>
+    cat-pattern: 类别：([^/]+)</li>
+    update-time-pattern: 更新：(\d+-\d+-\d+\s\d+:\d+:\d+)</a>
+    pic-pattern: <img src="([^>]+)"\s+onerror="this.src=
+    intro-pattern: class="review">([^<]+)</p>
+    catalog-url-pattern: <a\s+href="(/dudu/\d+/\d+/all\.html)">查看完整目录</a>
+    catalog-pattern: <a\s+style=""\s+href="(/dudu/\d+/\d+/\d+\.html)">([^/]+)</a>
