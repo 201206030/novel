@@ -67,6 +67,7 @@ mybatis:
 
 #首页本站推荐小说配置
 index:
+  pageLocation: /www/novel-front #首页静态化保存路径
   template: v2
   recBooks:
     - {bookName: 惊悚乐园,bookAuthor: 三天两觉}
