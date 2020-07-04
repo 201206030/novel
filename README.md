@@ -1,4 +1,4 @@
-[![index]( https://s1.ax1x.com/2020/06/22/NG6N2n.png )](https://cloud.tencent.com/act/cps/redirect?redirect=1052&cps_key=736e609d66e0ac4e57813316cec6fd0b&from=console)
+[![index]( https://s1.ax1x.com/2020/07/03/NOSA5q.jpg )](https://cloud.tencent.com/act/cps/redirect?redirect=1052&cps_key=736e609d66e0ac4e57813316cec6fd0b&from=console)
 
 # 小说精品屋
 
@@ -247,4 +247,4 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
 精品小说屋所有相关项目均已在开源中国公开，感兴趣的可进入[开源中国](https://www.oschina.net/p/fiction_house)按关键字`精品小说屋`搜索。
 
-[![index]( https://s1.ax1x.com/2020/06/22/NG6N2n.png)](https://www.aliyun.com/minisite/goods?userCode=uf4nasee )
+[![index]( https://s1.ax1x.com/2020/07/03/NOSA5q.jpg)](https://www.aliyun.com/minisite/goods?userCode=uf4nasee )
