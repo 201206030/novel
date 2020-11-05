@@ -53,6 +53,8 @@ public class BookService {
     @Value("${pic.save.path}")
     private String picSavePath;
 
+    @Value("#{'${orderBy.columns.search}'.split(',')}")
+    private List<String> searchOrderByColumns;
 
     /**
      * 保存章节目录和内容
@@ -209,7 +211,7 @@ public class BookService {
         }
         PageHelper.startPage(page, pageSize);
         // 排序设置[注意orderby 紧跟分页后面]
-        if (!StringUtils.isEmpty(sortBy)) {
+        if (!StringUtils.isEmpty(sortBy) && searchOrderByColumns.contains(sortBy)) {
             OrderByHelper.orderBy(sortBy + " " + sort);
         }
 

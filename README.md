@@ -51,41 +51,36 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
 1. 电脑端（首页）
 
-   ![index](./assets/%E7%B2%BE%E5%93%81%E5%B0%8F%E8%AF%B4%E6%A5%BC.png)
-
-   
+   ![index](https://static.oschina.net/uploads/img/202006/24151811_wIus.png)
 
 2. 移动端（首页）
 
-   ![index](./assets/QQ%E5%9B%BE%E7%89%8720191018162208.jpg)
+   ![index](https://static.oschina.net/uploads/img/202006/24151812_OOob.jpg)
 
 3. 移动端（轻小说专区）
 
-   ![index](./assets/QQ%E5%9B%BE%E7%89%8720191018161330.jpg)
+   ![index](https://static.oschina.net/uploads/img/202006/24151812_X6vD.jpg)
 
 4. 移动端（动漫专区）
 
-   ![index](./assets/mh_index.png)
+   ![index](https://static.oschina.net/uploads/img/202006/24151812_HK99.png)
 
 5. 移动端（小说详情页）
 
-   ![微信图片_20190904181558](./assets/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20190904181558.png)
-
-   
+   ![微信图片_20190904181558](https://static.oschina.net/uploads/img/202006/24151812_ZosF.png)
 
 6. 移动端（目录页）
 
-   ![QQ图片20191018161901](./assets/QQ%E5%9B%BE%E7%89%8720191108022250.png)
+   ![QQ图片20191018161901](https://static.oschina.net/uploads/img/202006/24151812_Krva.png)
 
 7. 移动端（小说阅读页）
 
-   ![QQ图片20191018161901](./assets/QQ%E5%9B%BE%E7%89%8720191018161901.png)
+   ![QQ图片20191018161901](https://static.oschina.net/uploads/img/202006/24151813_fDgT.png)
 
    8.电脑端（漫画阅读页）
 
-   ![index](./assets/mh_content.png)
+   ![index](https://oscimg.oschina.net/oscnet/up-66339ecf71dd1db7745e3350170a46ca070.png)
 
-   
 
 #### 后台管理系统截图
 
@@ -121,13 +116,13 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
 #### 微信小程序截图
 
-![mini4](./assets/mini4.png)
+![mini4](https://static.oschina.net/uploads/img/202006/24151814_fVcW.png)
 
 
 
 #### 安卓App截图
 
-![mini4](./assets/android_index.png)
+![mini4](https://static.oschina.net/uploads/img/202006/24151814_Vvwg.png)
 
 #### 安装说明
 
@@ -191,7 +186,7 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
 **喜欢此项目的可以给我的GitHub和Gitee加个Star支持一下 。**
 
-#### 演示地址
+#### 演示地址（服务器成本过高，暂停演示地址）
 
 [点击前往](http://47.106.243.172:8888)（前台）
 
@@ -209,19 +204,15 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
  GitHub仓库地址：  https://github.com/201206030/fiction_house 
 
-#### 文档地址
-
- http://www.java2nb.com/article/5.html 
-
 #### QQ交流群
 
-![mini-code](./assets/qq_group.png)
+![mini-code](https://s1.ax1x.com/2020/10/31/BUQVeI.png)
 
 #### 捐赠支持
 
-开源项目不易，若此项目能得到你的青睐，可以捐赠支持作者持续开发与维护。 
+开源项目不易，若此项目能得到你的青睐，可以捐赠服务器费用及支持作者持续开发与维护。 
 
-![mini-code](./assets/jk.png)
+![mini-code](https://s1.ax1x.com/2020/10/31/BUQJwq.png)
 
 ##### 捐赠名单 
 
@@ -250,3 +241,5 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 精品小说屋所有相关项目均已在开源中国公开，感兴趣的可进入[开源中国](https://www.oschina.net/p/fiction_house)按关键字`精品小说屋`搜索。
 
 [![index]( https://s1.ax1x.com/2020/07/03/NOSuMF.jpg)](https://www.aliyun.com/minisite/goods?userCode=uf4nasee )
+
+# 部分截图在github上可能无法正常显示，请下载到本地查看。
