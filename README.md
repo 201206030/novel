@@ -51,7 +51,7 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
 1. 电脑端（首页）
 
-   ![index](https://static.oschina.net/uploads/img/202006/24151811_wIus.png)
+   ![index](https://s1.ax1x.com/2020/11/08/BokZAP.png)
 
 2. 移动端（首页）
 
