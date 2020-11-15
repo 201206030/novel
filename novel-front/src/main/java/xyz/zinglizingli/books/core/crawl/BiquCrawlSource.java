@@ -38,53 +38,49 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
         for(int page = 1; page<= Constants.UPDATE_PAGES_ONCE; page++) {
             String catBookListUrl = getListPageUrl().replace("{0}", "0").replace("{1}", page+"");
-            String forObject = RestTemplateUtil.getBodyByUtf8(catBookListUrl);
-            if (forObject != null) {
-                //解析第一页书籍的数据
-                Pattern bookPatten = compile(getBookUrlPattern());
+            String bookListHtml = RestTemplateUtil.getBodyByUtf8(catBookListUrl);
+            if (bookListHtml != null) {
+                //解析第一页小说的数据
+                //小说页URI正则匹配
+                Pattern bookUriPatten = compile(getBookUrlPattern());
+                Matcher bookUriMatcher = bookUriPatten.matcher(bookListHtml);
+                boolean bookUriFind = bookUriMatcher.find();
 
-                Matcher bookMatcher = bookPatten.matcher(forObject);
-
-                boolean isFind = bookMatcher.find();
+                //小说评分正则匹配
                 Pattern scorePatten = compile(getScorePattern());
-                Matcher scoreMatch = scorePatten.matcher(forObject);
+                Matcher scoreMatch = scorePatten.matcher(bookListHtml);
                 boolean scoreFind = scoreMatch.find();
 
+                //小说名正则匹配
                 Pattern bookNamePatten = compile(getBookNamePattern());
+                Matcher bookNameMatch = bookNamePatten.matcher(bookListHtml);
+                boolean bookNameFind = bookNameMatch.find();
 
-                Matcher bookNameMatch = bookNamePatten.matcher(forObject);
-
-                boolean isBookNameMatch = bookNameMatch.find();
-
-                while (isFind && scoreFind && isBookNameMatch) {
-
+                while (bookUriFind && scoreFind && bookNameFind) {
                     try {
+                        //小说基础信息能够匹配到
                         Float score = Float.parseFloat(scoreMatch.group(1));
-
                         if (score < getLowestScore()) {
+                            //只采集指定评分以上的小说
                             continue;
                         }
 
-                        String bokNum = bookMatcher.group(1);
-                        String bookUrl = getIndexUrl() + "/" + bokNum + "/";
-
+                        //获取小说基础信息，生成采集日志
+                        String bookUri = bookUriMatcher.group(1);
+                        String bookUrl = getIndexUrl() + "/" + bookUri + "/";
                         String bookName = bookNameMatch.group(1);
-
                         bookService.addBookParseLog(bookUrl, bookName, score, (byte) 10);
 
-
                     } catch (Exception e) {
-
+                        //小说解析出现异常，不做处理，继续下一本小说的解析
                         log.error(e.getMessage(), e);
-
                     } finally {
-                        bookMatcher.find();
-                        isFind = bookMatcher.find();
+                        //跳到下一本小说的解析
+                        bookUriMatcher.find();
+                        bookUriFind = bookUriMatcher.find();
                         scoreFind = scoreMatch.find();
-                        isBookNameMatch = bookNameMatch.find();
+                        bookNameFind = bookNameMatch.find();
                     }
-
-
                 }
             }
         }
