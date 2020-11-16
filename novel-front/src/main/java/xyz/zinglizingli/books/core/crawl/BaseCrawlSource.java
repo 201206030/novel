@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Value;
 @Data
 public abstract class BaseCrawlSource {
 
+    /**
+     * 采集的小说最低评分配置
+     * */
     @Value("${books.lowestScore}")
     private Float lowestScore;
 

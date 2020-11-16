@@ -10,6 +10,7 @@ import xyz.zinglizingli.books.core.crawl.BaseHtmlCrawlSource;
 import xyz.zinglizingli.books.core.crawl.BiquCrawlSource;
 
 /**
+ * 爬虫源配置类
  * @author 11797
  */
 @Slf4j
@@ -17,9 +18,13 @@ import xyz.zinglizingli.books.core.crawl.BiquCrawlSource;
 public class CrawlBaishuzhaiConfig {
 
 
+    /**
+     * 必须加此@Primary注解，不然报错，表示有多个爬虫源配置类被加载时默认加载此配置类
+     * 下一个爬虫源配置类则不需要添加
+     * */
     @Bean
-    @Primary //必须加此注解，不然报错，下一个类则不需要添加
-    @ConfigurationProperties(prefix = "baishuzhai.crawlsource") // prefix值必须是application.yml中对应属性的前缀
+    @Primary
+    @ConfigurationProperties(prefix = "baishuzhai.crawlsource")
     @ConditionalOnProperty(prefix = "crawl.website",name = "type",havingValue = "4")
     public BaseHtmlCrawlSource dingdianCrawlSource() {
         return new BiquCrawlSource();
