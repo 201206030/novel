@@ -1,5 +1,8 @@
-/novel-front/novel-front.iml
-/.idea
+**/logs
+**/.idea
+**/cachedata
+**/target
+**/*.iml
 /novel-front/src/main/java/xyz/zinglizingli/books/core/crawl/BiqugeCrawlSource.java
 /novel-front/src/main/java/xyz/zinglizingli/books/core/config/CrawlBiqugeConfig.java
 /novel-front/src/main/java/xyz/zinglizingli/books/core/schedule/CrawlBookSchedule.java
