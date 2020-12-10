@@ -11,6 +11,6 @@ books: {lowestScore: 6.0}
 crawl:
   patten: '1'
   website: {type: 6}
-  soft-novel: '0'
-  manhua: '0'
+  soft-novel: '1'
+  manhua: '1'
 logging: {config: 'classpath:logback-boot.xml'}
