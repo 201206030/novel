@@ -12,8 +12,7 @@ import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -91,6 +90,25 @@ public class RestTemplateUtil {
     public static String getBodyByUtf8(String url) {
         try {
             ResponseEntity<String> forEntity = getInstance(Charsets.UTF_8).getForEntity(url, String.class);
+            if (forEntity.getStatusCode() == HttpStatus.OK) {
+                return forEntity.getBody();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public static String getBodyByUtf8WithChrome(String url) {
+        try {
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("user-agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36");
+            HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
+            ResponseEntity<String> forEntity = getInstance(Charsets.UTF_8).exchange(url.toString(), HttpMethod.GET, requestEntity, String.class);
+
             if (forEntity.getStatusCode() == HttpStatus.OK) {
                 return forEntity.getBody();
             } else {

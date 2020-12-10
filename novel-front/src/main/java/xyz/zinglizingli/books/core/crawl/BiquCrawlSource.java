@@ -38,7 +38,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
         for(int page = 1; page<= Constants.UPDATE_PAGES_ONCE; page++) {
             String catBookListUrl = getListPageUrl().replace("{0}", "0").replace("{1}", page+"");
-            String bookListHtml = RestTemplateUtil.getBodyByUtf8(catBookListUrl);
+            String bookListHtml = RestTemplateUtil.getBodyByUtf8WithChrome(catBookListUrl);
             if (bookListHtml != null) {
                 //解析第一页小说的数据
                 //小说页URI正则匹配
@@ -99,7 +99,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
 
                 String bookName = bookParseLog.getBookName();
 
-                String body = RestTemplateUtil.getBodyByUtf8(bookUrl);
+                String body = RestTemplateUtil.getBodyByUtf8WithChrome(bookUrl);
                 if (body != null) {
 
 
@@ -158,7 +158,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
                                         Matcher indexMatch = indexPatten.matcher(body);
                                         if (indexMatch.find()) {
                                             String indexUrl = getIndexUrl() + indexMatch.group(1);
-                                            String body2 = RestTemplateUtil.getBodyByUtf8(indexUrl);
+                                            String body2 = RestTemplateUtil.getBodyByUtf8WithChrome(indexUrl);
                                             if (body2 != null) {
                                                 Pattern indexListPatten = compile(getCatalogPattern());
                                                 Matcher indexListMatch = indexListPatten.matcher(body2);
@@ -182,7 +182,7 @@ public class BiquCrawlSource extends BaseHtmlCrawlSource {
                                                             String contentUrl = getIndexUrl() + indexListMatch.group(1);
 
                                                             //查询章节内容
-                                                            String body3 = RestTemplateUtil.getBodyByUtf8(contentUrl.replace("//m.", "//www.").replace("//wap.", "//www."));
+                                                            String body3 = RestTemplateUtil.getBodyByUtf8WithChrome(contentUrl.replace("//m.", "//www.").replace("//wap.", "//www."));
                                                             if (body3 != null) {
                                                                 String start = "id=\"content\">";
                                                                 String end = "<script>";
