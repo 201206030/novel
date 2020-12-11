@@ -1,6 +1,6 @@
 [![index]( https://s1.ax1x.com/2020/07/03/NOSA5q.jpg )](https://cloud.tencent.com/act/cps/redirect?redirect=1052&cps_key=736e609d66e0ac4e57813316cec6fd0b&from=console)
 
-# 小说精品屋（初始建站于2017年，2019年开源，这个代码比较老了，建站的话比较稳定，没啥问题，如果是学习的话，建议看下面的小说精品屋-plus）
+# 小说精品屋（初始建站于2017年，2019年开源，代码比较老，建站的话比较稳定，没啥问题，如果是学习的话，建议看下面的小说精品屋-plus）
 
 #### 新项目：小说精品屋-plus（推荐）
 
