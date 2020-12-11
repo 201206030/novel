@@ -8,17 +8,17 @@
 
 小说精品屋-plus致力于打造一个完整的可商用、可学习的小说门户平台。小说精品屋-plus是在小说精品屋的基础上，重新进行了数据库设计、代码重构和功能增强，提升了程序整体的可读性和性能，增加了很多商用特性。 
 
-Gitee仓库地址： https://gitee.com/xiongxyang/novel-plus
-
 GitHub仓库地址： https://github.com/201206030/novel-plus
+
+Gitee仓库地址： https://gitee.com/novel_dev_team/novel-plus
 
 #### 新项目：小说精品屋-微服务版（推荐）
 
 基于小说精品屋-plus构建的Spring Cloud 微服务小说门户平台，可用于学习和商用。
 
-Gitee仓库地址： https://gitee.com/xiongxyang/novel-cloud
-
 GitHub仓库地址： https://github.com/201206030/novel-cloud
+
+Gitee仓库地址： https://gitee.com/novel_dev_team/novel-cloud
 
 #### 前言
 
@@ -200,9 +200,9 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
 #### 代码仓库
 
- Gitee仓库地址：  https://gitee.com/xiongxyang/fiction_house 
-
  GitHub仓库地址：  https://github.com/201206030/fiction_house 
+
+ Gitee仓库地址：  https://gitee.com/novel_dev_team/fiction_house
 
 #### QQ交流群
 
