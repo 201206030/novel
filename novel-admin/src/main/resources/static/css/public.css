@@ -1,9 +1,0 @@
-body {margin:15px 15px 15px 15px;background:#f2f2f2;}
-.layuimini-container {border:1px solid #f2f2f2;border-radius:5px;background-color:#ffffff}
-.layuimini-main {margin:10px 10px 10px 10px;}
-
-/**必填红点 */
-.layuimini-form>.layui-form-item>.required:after {content:'*';color:red;position:absolute;margin-left:4px;font-weight:bold;line-height:1.8em;top:6px;right:5px;}
-.layuimini-form>.layui-form-item>.layui-form-label {width:120px !important;}
-.layuimini-form>.layui-form-item>.layui-input-block {margin-left:150px !important;}
-.layuimini-form>.layui-form-item>.layui-input-block >tip {display:inline-block;margin-top:10px;line-height:10px;font-size:10px;color:#a29c9c;}
