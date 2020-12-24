@@ -1,6 +1,6 @@
 [![index]( https://s1.ax1x.com/2020/07/03/NOSA5q.jpg )](https://cloud.tencent.com/act/cps/redirect?redirect=1052&cps_key=736e609d66e0ac4e57813316cec6fd0b&from=console)
 
-# 小说精品屋（老项目，已停止更新和维护，目前只读状态，请使用下面推荐的新项目来替代）
+# 小说精品屋（老项目，已停止更新和维护，请使用下面推荐的新项目来替代）
 
 #### 官网
 
