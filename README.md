@@ -2,6 +2,11 @@
 
 # 小说精品屋（老项目，已停止更新和维护，请使用下面推荐的新项目来替代）
 
+[![Github stars](https://img.shields.io/github/stars/201206030/fiction_house?logo=github)](https://github.com/201206030/fiction_house)
+[![Github forks](https://img.shields.io/github/forks/201206030/fiction_house?logo=github)](https://github.com/201206030/fiction_house)
+[![Gitee star](https://gitee.com/novel_dev_team/fiction_house/badge/star.svg?theme=gitee)](https://gitee.com/novel_dev_team/fiction_house)
+[![Gitee fork](https://gitee.com/novel_dev_team/fiction_house/badge/fork.svg?theme=gitee)](https://gitee.com/novel_dev_team/fiction_house)
+
 #### 官网
 
 https://xiongxyang.gitee.io/home/
