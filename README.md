@@ -9,7 +9,7 @@
 
 #### 官网
 
-https://xiongxyang.gitee.io/home/
+https://xiongxyang.gitee.io
 
 #### 新项目：小说精品屋-plus（增强版，建站/学习推荐使用这个）
 
