@@ -215,7 +215,7 @@ novel-admin ：平台后台管理系统源码（独立项目，按需安装）
 
 #### QQ交流群
 
-[点击前往官网查看](https://xiongxyang.gitee.io/home/service.htm)
+[点击前往官网查看](https://xiongxyang.gitee.io/service.htm)
 
 #### 微信公众号（发布最新更新资讯）
 
