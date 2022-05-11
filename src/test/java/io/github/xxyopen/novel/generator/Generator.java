@@ -2,12 +2,8 @@ package io.github.xxyopen.novel.generator;
 
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
-import com.baomidou.mybatisplus.generator.config.rules.DateType;
-import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -39,16 +35,19 @@ public class Generator {
     private static final String DATABASE_USERNAME = "root";
     private static final String DATABASE_PASSWORD = "test123456";
 
-    /**
-     * 生成的表名，多个用英文逗号分隔，所有用 all 表示
-     */
-    private static final String GEN_TABLES = "all";
+
+    public static void main(String[] args) {
+
+        // 传入需要生成的表名，多个用英文逗号分隔，所有用 all 表示
+        genCode("all");
+
+    }
 
 
     /**
-     * 执行 run
+     * 代码生成
      */
-    public static void main(String[] args) throws SQLException {
+    private static void genCode(String tables) {
 
         FastAutoGenerator.create(String.format("jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai", DATABASE_IP, DATABASE_PORT, DATABASE_NAME), DATABASE_USERNAME, DATABASE_PASSWORD)
                 .globalConfig(builder -> {
@@ -68,7 +67,7 @@ public class Generator {
                         .mapper("dao.mapper")
                         .controller("controller.front")
                         .pathInfo(Collections.singletonMap(OutputFile.mapperXml, PROJECT_PATH + RESOURCE_PATH + "/mapper")))
-                .strategyConfig(builder -> builder.addInclude(getTables(GEN_TABLES)) // 设置需要生成的表名
+                .strategyConfig(builder -> builder.addInclude(getTables(tables)) // 设置需要生成的表名
                         .controllerBuilder()
                         .enableRestStyle()
                         .serviceBuilder()
@@ -79,7 +78,9 @@ public class Generator {
 
     }
 
-    // 处理 all 情况
+    /**
+     * 处理 all 和多表情况
+     */
     protected static List<String> getTables(String tables) {
         return "all".equals(tables) ? Collections.emptyList() : Arrays.asList(tables.split(","));
     }
