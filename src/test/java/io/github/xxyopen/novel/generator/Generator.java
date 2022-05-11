@@ -3,6 +3,7 @@ package io.github.xxyopen.novel.generator;
 
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.TemplateType;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,7 +40,7 @@ public class Generator {
     public static void main(String[] args) {
 
         // 传入需要生成的表名，多个用英文逗号分隔，所有用 all 表示
-        genCode("all");
+        genCode("sys_user");
 
     }
 
@@ -49,6 +50,7 @@ public class Generator {
      */
     private static void genCode(String tables) {
 
+        // 全局配置
         FastAutoGenerator.create(String.format("jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai", DATABASE_IP, DATABASE_PORT, DATABASE_NAME), DATABASE_USERNAME, DATABASE_PASSWORD)
                 .globalConfig(builder -> {
                     builder.author(USERNAME) // 设置作者
@@ -58,8 +60,8 @@ public class Generator {
                             .fileOverride() // 覆盖已生成文件
                             .commentDate("yyyy/MM/dd")
                             .outputDir(PROJECT_PATH + JAVA_PATH); // 指定输出目录
-
                 })
+                // 包配置
                 .packageConfig(builder -> builder.parent(BASE_PACKAGE) // 设置父包名
                         .entity("dao.entity")
                         .service("service")
@@ -67,6 +69,11 @@ public class Generator {
                         .mapper("dao.mapper")
                         .controller("controller.front")
                         .pathInfo(Collections.singletonMap(OutputFile.mapperXml, PROJECT_PATH + RESOURCE_PATH + "/mapper")))
+                // 模版配置
+                .templateConfig(builder -> builder.disable(TemplateType.SERVICE)
+                        .disable(TemplateType.SERVICEIMPL)
+                        .disable(TemplateType.CONTROLLER))
+                // 策略配置
                 .strategyConfig(builder -> builder.addInclude(getTables(tables)) // 设置需要生成的表名
                         .controllerBuilder()
                         .enableRestStyle()
