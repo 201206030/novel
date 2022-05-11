@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.util.Objects;
 
 /**
- * Http Rest 响应数据格式封装
+ * Http Rest 响应工具及数据格式封装
  *
  * @author xiongxiaoyang
  * @date 2022/5/11
@@ -78,4 +78,5 @@ public class RestResp<T> {
     public boolean isOk() {
         return Objects.equals(this.code, ErrorCodeEnum.OK.getCode());
     }
+
 }

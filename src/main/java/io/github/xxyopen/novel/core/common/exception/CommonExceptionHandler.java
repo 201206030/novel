@@ -35,7 +35,6 @@ public class CommonExceptionHandler {
         return RestResp.fail(e.getErrorCodeEnum());
     }
 
-
     /**
      * 处理系统异常
      * */

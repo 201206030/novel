@@ -27,5 +27,4 @@ public class PageReqDto {
      * */
     private boolean fetchAll = false;
 
-
 }
