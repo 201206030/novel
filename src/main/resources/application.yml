@@ -3,3 +3,10 @@ spring:
     url: jdbc:mysql://localhost:3306/novel?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: test123456
+  profiles:
+    active: dev
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+
