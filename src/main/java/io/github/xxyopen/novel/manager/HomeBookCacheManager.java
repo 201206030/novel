@@ -12,7 +12,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +39,9 @@ public class HomeBookCacheManager {
             , value = CacheConsts.HOME_BOOK_CACHE_NAME)
     public List<HomeBookRespDto> listHomeBooks() {
         // 从首页小说推荐表中查询出需要推荐的小说
-        List<HomeBook> homeBooks = homeBookMapper.selectList(null);
+        QueryWrapper<HomeBook> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByAsc("sort");
+        List<HomeBook> homeBooks = homeBookMapper.selectList(queryWrapper);
 
         // 获取推荐小说ID列表
         if (!CollectionUtils.isEmpty(homeBooks)) {
@@ -60,6 +61,7 @@ public class HomeBookCacheManager {
                 return homeBooks.stream().map(v -> {
                     BookInfo bookInfo = bookInfoMap.get(v.getBookId());
                     HomeBookRespDto bookRespDto = new HomeBookRespDto();
+                    bookRespDto.setType(v.getType());
                     bookRespDto.setBookId(v.getBookId());
                     bookRespDto.setBookName(bookInfo.getBookName());
                     bookRespDto.setPicUrl(bookInfo.getPicUrl());
