@@ -6,7 +6,7 @@ package io.github.xxyopen.novel.core.common.constant;
  * @author xiongxiaoyang
  * @date 2022/5/12
  */
-public class ApiRouterConsts {
+public interface ApiRouterConsts {
 
     /**
      * API请求路径前缀
