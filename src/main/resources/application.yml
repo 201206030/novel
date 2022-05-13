@@ -1,7 +1,8 @@
 spring:
   profiles:
     active: dev
-
+server:
+  port: 8888
 
 ---
 spring:

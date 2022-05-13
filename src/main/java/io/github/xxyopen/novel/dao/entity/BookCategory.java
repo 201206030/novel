@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author xiongxiaoyang
- * @date 2022/05/11
+ * @date 2022/05/12
  */
 @TableName("book_category")
 public class BookCategory implements Serializable {
