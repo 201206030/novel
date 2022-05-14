@@ -30,19 +30,47 @@ public class CacheConsts {
     public static final String HOME_BOOK_CACHE_NAME = "homeBookCache";
 
     /**
+     * 最新新闻缓存
+     * */
+    public static final String LATEST_NEWS_CACHE_NAME = "latestNewsCache";
+
+    /**
+     * 小说点击榜缓存
+     * */
+    public static final String BOOK_VISIT_RANK_CACHE_NAME = "bookVisitRankCache";
+
+    /**
+     * 小说新书榜缓存
+     * */
+    public static final String BOOK_NEWEST_RANK_CACHE_NAME = "bookNewestRankCache";
+
+    /**
+     * 小说更新榜缓存
+     * */
+    public static final String BOOK_UPDATE_RANK_CACHE_NAME = "bookUpdateRankCache";
+
+    /**
      * 首页友情链接缓存
      * */
     public static final String HOME_FRIEND_LINK_CACHE_NAME = "homeFriendLinkCache";
+
 
     /**
      * 缓存配置常量
      */
     public enum CacheEnum {
 
-        HOME_BOOK_CACHE(1,HOME_BOOK_CACHE_NAME,0,1),
+        HOME_BOOK_CACHE(0,HOME_BOOK_CACHE_NAME,60 * 60 * 24,1),
 
-        HOME_FRIEND_LINK_CACHE(2,HOME_FRIEND_LINK_CACHE_NAME,1000,1)
+        LATEST_NEWS_CACHE(0,LATEST_NEWS_CACHE_NAME,60 * 10,1),
 
+        BOOK_VISIT_RANK_CACHE(2,BOOK_VISIT_RANK_CACHE_NAME,60 * 60 * 6,1),
+
+        BOOK_NEWEST_RANK_CACHE(0,BOOK_NEWEST_RANK_CACHE_NAME,60 * 30,1),
+
+        BOOK_UPDATE_RANK_CACHE(0,BOOK_UPDATE_RANK_CACHE_NAME,60,1),
+
+        HOME_FRIEND_LINK_CACHE(2,HOME_FRIEND_LINK_CACHE_NAME,0,1)
         ;
 
         /**

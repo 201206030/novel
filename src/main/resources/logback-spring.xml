@@ -15,9 +15,6 @@
     <!-- ConsoleAppender：把日志输出到控制台 -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <!--
-            <pattern>%d %p (%file:%line\)- %m%n</pattern>
-             -->
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
             <!-- 控制台也要使用UTF-8，不要使用GBK，否则会中文乱码 -->
             <charset>UTF-8</charset>
