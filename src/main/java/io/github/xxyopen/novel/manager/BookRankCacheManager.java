@@ -67,6 +67,7 @@ public class BookRankCacheManager {
             respDto.setCategoryId(v.getCategoryId());
             respDto.setCategoryName(v.getCategoryName());
             respDto.setBookName(v.getBookName());
+            respDto.setAuthorName(v.getAuthorName());
             respDto.setPicUrl(v.getPicUrl());
             respDto.setBookDesc(v.getBookDesc());
             respDto.setLastChapterName(v.getLastChapterName());
