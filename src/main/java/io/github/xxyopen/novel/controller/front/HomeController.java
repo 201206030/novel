@@ -3,6 +3,7 @@ package io.github.xxyopen.novel.controller.front;
 import io.github.xxyopen.novel.core.common.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.resp.HomeBookRespDto;
+import io.github.xxyopen.novel.dto.resp.HomeFriendLinkRespDto;
 import io.github.xxyopen.novel.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,4 +32,13 @@ public class HomeController {
     public RestResp<List<HomeBookRespDto>> listHomeBooks(){
         return homeService.listHomeBooks();
     }
+
+    /**
+     * 首页友情链接列表查询接口
+     * */
+    @GetMapping("friendLinks")
+    public RestResp<List<HomeFriendLinkRespDto>> listHomeFriendLinks(){
+        return homeService.listHomeFriendLinks();
+    }
+
 }
