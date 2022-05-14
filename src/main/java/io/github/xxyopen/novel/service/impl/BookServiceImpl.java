@@ -1,7 +1,9 @@
 package io.github.xxyopen.novel.service.impl;
 
 import io.github.xxyopen.novel.core.common.resp.RestResp;
+import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
+import io.github.xxyopen.novel.manager.BookInfoCacheManager;
 import io.github.xxyopen.novel.manager.BookRankCacheManager;
 import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,8 @@ public class BookServiceImpl implements BookService {
 
     private final BookRankCacheManager bookRankCacheManager;
 
+    private final BookInfoCacheManager bookInfoCacheManager;
+
     @Override
     public RestResp<List<BookRankRespDto>> listVisitRankBooks() {
         return RestResp.ok(bookRankCacheManager.listVisitRankBooks());
@@ -34,5 +38,10 @@ public class BookServiceImpl implements BookService {
     @Override
     public RestResp<List<BookRankRespDto>> listUpdateRankBooks() {
         return RestResp.ok(bookRankCacheManager.listUpdateRankBooks());
+    }
+
+    @Override
+    public RestResp<BookInfoRespDto> getById(Long bookId) {
+        return RestResp.ok(bookInfoCacheManager.getBookInfo(bookId));
     }
 }

@@ -2,10 +2,12 @@ package io.github.xxyopen.novel.controller.front;
 
 import io.github.xxyopen.novel.core.common.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
+import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
 import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +25,14 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+
+    /**
+     * 小说信息查询接口
+     * */
+    @GetMapping("{bookId}")
+    public RestResp<BookInfoRespDto> getById(@PathVariable("bookId") Long bookId){
+        return bookService.getById(bookId);
+    }
 
     /**
      * 小说点击榜查询接口

@@ -1,6 +1,7 @@
 package io.github.xxyopen.novel.service;
 
 import io.github.xxyopen.novel.core.common.resp.RestResp;
+import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
 
 import java.util.List;
@@ -27,4 +28,9 @@ public interface BookService {
      * 小说更新榜查询
      * */
     RestResp<List<BookRankRespDto>> listUpdateRankBooks();
+
+    /**
+     * 小说信息查询
+     * */
+    RestResp<BookInfoRespDto> getById(Long bookId);
 }

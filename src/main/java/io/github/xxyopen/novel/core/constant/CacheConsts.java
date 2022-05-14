@@ -54,6 +54,9 @@ public class CacheConsts {
      * */
     public static final String HOME_FRIEND_LINK_CACHE_NAME = "homeFriendLinkCache";
 
+    /**小说信息缓存*/
+    public static final String BOOK_INFO_CACHE_NAME = "bookInfoCache";
+
 
     /**
      * 缓存配置常量
@@ -70,7 +73,9 @@ public class CacheConsts {
 
         BOOK_UPDATE_RANK_CACHE(0,BOOK_UPDATE_RANK_CACHE_NAME,60,1),
 
-        HOME_FRIEND_LINK_CACHE(2,HOME_FRIEND_LINK_CACHE_NAME,0,1)
+        HOME_FRIEND_LINK_CACHE(2,HOME_FRIEND_LINK_CACHE_NAME,0,1),
+
+        BOOK_INFO_CACHE(0,BOOK_INFO_CACHE_NAME,60 * 60 * 18, 500)
         ;
 
         /**
