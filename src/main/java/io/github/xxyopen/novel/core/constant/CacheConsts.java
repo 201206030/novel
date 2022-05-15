@@ -69,6 +69,11 @@ public class CacheConsts {
      */
     public static final String BOOK_CONTENT_CACHE_NAME = "bookContentCache";
 
+    /**
+     * 最近更新小说ID列表缓存
+     * */
+    public static final String LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME = "lastUpdateBookIdListCache";
+
 
     /**
      * 缓存配置常量
@@ -91,7 +96,9 @@ public class CacheConsts {
 
         BOOK_CHAPTER_CACHE(0,BOOK_CHAPTER_CACHE_NAME,60 * 60 * 6,5000),
 
-        BOOK_CONTENT_CACHE(2, BOOK_CONTENT_CACHE_NAME, 60 * 60 * 12, 3000);
+        BOOK_CONTENT_CACHE(2, BOOK_CONTENT_CACHE_NAME, 60 * 60 * 12, 3000),
+
+        LAST_UPDATE_BOOK_ID_LIST_CACHE(0,LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME,60 * 60, 10);
 
         /**
          * 缓存类型 0-本地 1-本地和远程 2-远程

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
@@ -42,6 +43,14 @@ public class BookController {
     @GetMapping("lastChapterAbout")
     public RestResp<BookChapterAboutRespDto> getLastChapterAbout(Long bookId){
         return bookService.getLastChapterAbout(bookId);
+    }
+
+    /**
+     * 小说推荐列表查询接口
+     * */
+    @GetMapping("recList")
+    public RestResp<List<BookInfoRespDto>> listRecBooks(Long bookId) throws NoSuchAlgorithmException {
+        return bookService.listRecBooks(bookId);
     }
 
     /**

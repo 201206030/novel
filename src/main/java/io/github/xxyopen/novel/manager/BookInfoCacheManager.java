@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * 小说信息 缓存管理类
  *
@@ -59,5 +61,17 @@ public class BookInfoCacheManager {
                 .build();
     }
 
+    /**
+     * 查询每个类别下最新更新的 500 个小说ID列表，并放入缓存中 1 个小时
+     */
+    @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER
+            , value = CacheConsts.LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME)
+    public List<Long> getLastUpdateIdList(Long categoryId) {
+        QueryWrapper<BookInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("category_id", categoryId)
+                .orderByDesc("last_chapter_update_time")
+                .last("limit 500");
+        return bookInfoMapper.selectList(queryWrapper).stream().map(BookInfo::getId).toList();
+    }
 
 }

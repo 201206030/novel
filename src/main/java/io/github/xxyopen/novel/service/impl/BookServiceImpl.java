@@ -11,9 +11,14 @@ import io.github.xxyopen.novel.manager.BookInfoCacheManager;
 import io.github.xxyopen.novel.manager.BookRankCacheManager;
 import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * 小说模块 服务实现类
@@ -23,6 +28,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookServiceImpl implements BookService {
 
     private final BookRankCacheManager bookRankCacheManager;
@@ -34,6 +40,8 @@ public class BookServiceImpl implements BookService {
     private final BookContentCacheManager bookContentCacheManager;
 
     private final BookChapterMapper bookChapterMapper;
+
+    private static final Integer REC_BOOK_COUNT = 4;
 
     @Override
     public RestResp<List<BookRankRespDto>> listVisitRankBooks() {
@@ -77,6 +85,27 @@ public class BookServiceImpl implements BookService {
                 .chapterTotal(chapterTotal)
                 .contentSummary(content.substring(0, 30))
                 .build());
+    }
+
+    @Override
+    public RestResp<List<BookInfoRespDto>> listRecBooks(Long bookId) throws NoSuchAlgorithmException {
+        Long categoryId = bookInfoCacheManager.getBookInfo(bookId).getCategoryId();
+        List<Long> lastUpdateIdList = bookInfoCacheManager.getLastUpdateIdList(categoryId);
+        List<BookInfoRespDto> respDtoList = new ArrayList<>();
+        List<Integer> recIdIndexList = new ArrayList<>();
+        int count = 0;
+        Random rand = SecureRandom.getInstanceStrong();
+        while (count < REC_BOOK_COUNT){
+            int recIdIndex = rand.nextInt(lastUpdateIdList.size());
+            if (!recIdIndexList.contains(recIdIndex)) {
+                recIdIndexList.add(recIdIndex);
+                bookId = lastUpdateIdList.get(recIdIndex);
+                BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(bookId);
+                respDtoList.add(bookInfo);
+                count ++ ;
+            }
+        }
+        return RestResp.ok(respDtoList);
     }
 
     @Override
