@@ -56,4 +56,14 @@ public interface BookService {
      * 增加小说点击量
      * */
     RestResp<Void> addVisitCount(Long bookId);
+
+    /**
+     * 获取上一章节ID
+     * */
+    RestResp<Long> getPreChapterId(Long chapterId);
+
+    /**
+     * 获取下一章节ID
+     * */
+    RestResp<Long> nextChapterId(Long chapterId);
 }

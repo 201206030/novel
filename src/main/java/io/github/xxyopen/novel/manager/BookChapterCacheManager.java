@@ -30,6 +30,7 @@ public class BookChapterCacheManager {
         return BookChapterRespDto.builder()
                 .id(chapterId)
                 .bookId(bookChapter.getBookId())
+                .chapterNum(bookChapter.getChapterNum())
                 .chapterName(bookChapter.getChapterName())
                 .chapterWordCount(bookChapter.getWordCount())
                 .chapterUpdateTime(bookChapter.getUpdateTime())

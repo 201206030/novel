@@ -2,6 +2,7 @@ package io.github.xxyopen.novel.manager;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.xxyopen.novel.core.constant.CacheConsts;
+import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.BookInfo;
 import io.github.xxyopen.novel.dao.entity.HomeBook;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
@@ -40,7 +41,7 @@ public class HomeBookCacheManager {
     public List<HomeBookRespDto> listHomeBooks() {
         // 从首页小说推荐表中查询出需要推荐的小说
         QueryWrapper<HomeBook> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.orderByAsc(DatabaseConsts.CommonColumnEnum.SORT.getName());
         List<HomeBook> homeBooks = homeBookMapper.selectList(queryWrapper);
 
         // 获取推荐小说ID列表
@@ -51,7 +52,7 @@ public class HomeBookCacheManager {
 
             // 根据小说ID列表查询相关的小说信息列表
             QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
-            bookInfoQueryWrapper.in("id", bookIds);
+            bookInfoQueryWrapper.in(DatabaseConsts.CommonColumnEnum.ID.getName(), bookIds);
             List<BookInfo> bookInfos = bookInfoMapper.selectList(bookInfoQueryWrapper);
 
             // 组装 HomeBookRespDto 列表数据并返回

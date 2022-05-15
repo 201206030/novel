@@ -2,6 +2,7 @@ package io.github.xxyopen.novel.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
+import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.BookChapter;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
@@ -19,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -79,7 +81,7 @@ public class BookServiceImpl implements BookService {
 
         // 查询章节总数
         QueryWrapper<BookChapter> chapterQueryWrapper = new QueryWrapper<>();
-        chapterQueryWrapper.eq("book_id", bookId);
+        chapterQueryWrapper.eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), bookId);
         Long chapterTotal = bookChapterMapper.selectCount(chapterQueryWrapper);
 
         // 组装数据并返回
@@ -98,14 +100,14 @@ public class BookServiceImpl implements BookService {
         List<Integer> recIdIndexList = new ArrayList<>();
         int count = 0;
         Random rand = SecureRandom.getInstanceStrong();
-        while (count < REC_BOOK_COUNT){
+        while (count < REC_BOOK_COUNT) {
             int recIdIndex = rand.nextInt(lastUpdateIdList.size());
             if (!recIdIndexList.contains(recIdIndex)) {
                 recIdIndexList.add(recIdIndex);
                 bookId = lastUpdateIdList.get(recIdIndex);
                 BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(bookId);
                 respDtoList.add(bookInfo);
-                count ++ ;
+                count++;
             }
         }
         return RestResp.ok(respDtoList);
@@ -115,6 +117,46 @@ public class BookServiceImpl implements BookService {
     public RestResp<Void> addVisitCount(Long bookId) {
         bookInfoMapper.addVisitCount(bookId);
         return RestResp.ok();
+    }
+
+    @Override
+    public RestResp<Long> getPreChapterId(Long chapterId) {
+        // 查询小说ID 和 章节号
+        BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
+        Long bookId = chapter.getBookId();
+        Integer chapterNum = chapter.getChapterNum();
+
+        // 查询上一章信息并返回章节ID
+        QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), bookId)
+                .lt(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName(), chapterNum)
+                .orderByDesc(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName())
+                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+        return RestResp.ok(
+                Optional.ofNullable(bookChapterMapper.selectOne(queryWrapper))
+                        .map(BookChapter::getId)
+                        .orElse(null)
+        );
+    }
+
+    @Override
+    public RestResp<Long> nextChapterId(Long chapterId) {
+        // 查询小说ID 和 章节号
+        BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
+        Long bookId = chapter.getBookId();
+        Integer chapterNum = chapter.getChapterNum();
+
+        // 查询下一章信息并返回章节ID
+        QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), bookId)
+                .gt(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName(), chapterNum)
+                .orderByAsc(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName())
+                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+        return RestResp.ok(
+                Optional.ofNullable(bookChapterMapper.selectOne(queryWrapper))
+                        .map(BookChapter::getId)
+                        .orElse(null)
+        );
     }
 
     @Override

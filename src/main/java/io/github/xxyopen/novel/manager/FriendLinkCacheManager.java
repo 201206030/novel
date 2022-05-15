@@ -2,6 +2,7 @@ package io.github.xxyopen.novel.manager;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.xxyopen.novel.core.constant.CacheConsts;
+import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.HomeFriendLink;
 import io.github.xxyopen.novel.dao.mapper.HomeFriendLinkMapper;
 import io.github.xxyopen.novel.dto.resp.HomeFriendLinkRespDto;
@@ -31,7 +32,7 @@ public class FriendLinkCacheManager {
     public List<HomeFriendLinkRespDto> listFriendLinks() {
         // 从友情链接表中查询出友情链接列表
         QueryWrapper<HomeFriendLink> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.orderByAsc(DatabaseConsts.CommonColumnEnum.SORT.getName());
         return friendLinkMapper.selectList(queryWrapper).stream().map(v -> {
             HomeFriendLinkRespDto respDto = new HomeFriendLinkRespDto();
             respDto.setLinkName(v.getLinkName());

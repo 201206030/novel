@@ -32,6 +32,11 @@ public class BookChapterRespDto implements Serializable {
     private Long bookId;
 
     /**
+     * 章节号
+     */
+    private Integer chapterNum;
+
+    /**
      * 章节名
      */
     private String chapterName;

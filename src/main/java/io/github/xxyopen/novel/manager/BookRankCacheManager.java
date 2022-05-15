@@ -2,6 +2,7 @@ package io.github.xxyopen.novel.manager;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.xxyopen.novel.core.constant.CacheConsts;
+import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.BookInfo;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
@@ -31,7 +32,7 @@ public class BookRankCacheManager {
     public List<BookRankRespDto> listVisitRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper
-                .orderByDesc("visit_count");
+                .orderByDesc(DatabaseConsts.BookTable.ColumnEnum.VISIT_COUNT.getName());
         return getBookRankRespDtos(bookInfoQueryWrapper);
     }
 
@@ -43,7 +44,7 @@ public class BookRankCacheManager {
     public List<BookRankRespDto> listNewestRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper
-                .orderByDesc("create_time");
+                .orderByDesc(DatabaseConsts.CommonColumnEnum.CREATE_TIME.getName());
         return getBookRankRespDtos(bookInfoQueryWrapper);
     }
 
@@ -55,12 +56,12 @@ public class BookRankCacheManager {
     public List<BookRankRespDto> listUpdateRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper
-                .orderByDesc("update_time");
+                .orderByDesc(DatabaseConsts.CommonColumnEnum.UPDATE_TIME.getName());
         return getBookRankRespDtos(bookInfoQueryWrapper);
     }
 
     private List<BookRankRespDto> getBookRankRespDtos(QueryWrapper<BookInfo> bookInfoQueryWrapper) {
-        bookInfoQueryWrapper.last("limit 30");
+        bookInfoQueryWrapper.last(DatabaseConsts.SqlEnum.LIMIT_30.getSql());
         return bookInfoMapper.selectList(bookInfoQueryWrapper).stream().map(v -> {
             BookRankRespDto respDto = new BookRankRespDto();
             respDto.setId(v.getId());

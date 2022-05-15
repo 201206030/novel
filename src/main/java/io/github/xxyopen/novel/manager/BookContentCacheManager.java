@@ -2,6 +2,7 @@ package io.github.xxyopen.novel.manager;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.xxyopen.novel.core.constant.CacheConsts;
+import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.BookContent;
 import io.github.xxyopen.novel.dao.mapper.BookContentMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class BookContentCacheManager {
             , value = CacheConsts.BOOK_CONTENT_CACHE_NAME)
     public String getBookContent(Long chapterId) {
         QueryWrapper<BookContent> contentQueryWrapper = new QueryWrapper<>();
-        contentQueryWrapper.eq("chapter_id",chapterId).last("limit 1");
+        contentQueryWrapper.eq(DatabaseConsts.BookContentTable.ColumnEnum.CHAPTER_ID.getName(), chapterId).last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         BookContent bookContent = bookContentMapper.selectOne(contentQueryWrapper);
         return bookContent.getContent();
     }

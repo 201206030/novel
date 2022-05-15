@@ -67,6 +67,22 @@ public class BookController {
     }
 
     /**
+     * 获取上一章节ID接口
+     * */
+    @GetMapping("preChapterId/{chapterId}")
+    public RestResp<Long> getPreChapterId(@PathVariable("chapterId") Long chapterId){
+        return bookService.getPreChapterId(chapterId);
+    }
+
+    /**
+     * 获取下一章节ID接口
+     * */
+    @GetMapping("nextChapterId/{chapterId}")
+    public RestResp<Long> nextChapterId(@PathVariable("chapterId") Long chapterId){
+        return bookService.nextChapterId(chapterId);
+    }
+
+    /**
      * 小说点击榜查询接口
      * */
     @GetMapping("visitRank")

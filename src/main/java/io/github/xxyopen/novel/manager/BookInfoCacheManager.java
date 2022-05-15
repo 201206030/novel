@@ -2,6 +2,7 @@ package io.github.xxyopen.novel.manager;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.xxyopen.novel.core.constant.CacheConsts;
+import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.BookChapter;
 import io.github.xxyopen.novel.dao.entity.BookInfo;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
@@ -38,9 +39,9 @@ public class BookInfoCacheManager {
         // 查询首章ID
         QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
         queryWrapper
-                .eq("book_id", id)
-                .orderByAsc("chapter_num")
-                .last("limit 1");
+                .eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), id)
+                .orderByAsc(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName())
+                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         BookChapter firstBookChapter = bookChapterMapper.selectOne(queryWrapper);
         // 组装响应对象
         return BookInfoRespDto.builder()
@@ -68,9 +69,9 @@ public class BookInfoCacheManager {
             , value = CacheConsts.LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME)
     public List<Long> getLastUpdateIdList(Long categoryId) {
         QueryWrapper<BookInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("category_id", categoryId)
-                .orderByDesc("last_chapter_update_time")
-                .last("limit 500");
+        queryWrapper.eq(DatabaseConsts.BookTable.ColumnEnum.CATEGORY_ID.getName(), categoryId)
+                .orderByDesc(DatabaseConsts.BookTable.ColumnEnum.LAST_CHAPTER_UPDATE_TIME.getName())
+                .last(DatabaseConsts.SqlEnum.LIMIT_500.getSql());
         return bookInfoMapper.selectList(queryWrapper).stream().map(BookInfo::getId).toList();
     }
 
