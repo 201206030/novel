@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * 小说章节 响应DTO
+ *
  * @author xiongxiaoyang
  * @date 2022/5/15
  */
@@ -19,6 +20,11 @@ public class BookChapterRespDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 章节ID
+     * */
+    private Long id;
 
     /**
      * 小说ID
@@ -37,13 +43,8 @@ public class BookChapterRespDto implements Serializable {
 
     /**
      * 章节更新时间
-     * */
+     */
     @JsonFormat(pattern = "yyyy/MM/dd HH:dd")
     private LocalDateTime chapterUpdateTime;
-
-    /**
-     * 内容概要（20字）
-     */
-    private String contentSummary;
 
 }

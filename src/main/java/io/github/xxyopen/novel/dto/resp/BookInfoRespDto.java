@@ -5,6 +5,7 @@ import lombok.Data;
 
 /**
  * 小说信息 响应DTO
+ *
  * @author xiongxiaoyang
  * @date 2022/5/15
  */
@@ -74,7 +75,7 @@ public class BookInfoRespDto {
 
     /**
      * 首章节ID
-     * */
+     */
     private Long firstChapterId;
 
     /**

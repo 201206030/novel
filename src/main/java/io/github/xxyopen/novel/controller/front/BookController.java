@@ -2,7 +2,8 @@ package io.github.xxyopen.novel.controller.front;
 
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
-import io.github.xxyopen.novel.dto.resp.BookContentRespDto;
+import io.github.xxyopen.novel.dto.resp.BookChapterAboutRespDto;
+import io.github.xxyopen.novel.dto.resp.BookContentAboutRespDto;
 import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
 import io.github.xxyopen.novel.service.BookService;
@@ -36,11 +37,19 @@ public class BookController {
     }
 
     /**
-     * 小说章节内容查询接口
+     * 小说最新章节相关信息查询接口
+     * */
+    @GetMapping("lastChapterAbout")
+    public RestResp<BookChapterAboutRespDto> getLastChapterAbout(Long bookId){
+        return bookService.getLastChapterAbout(bookId);
+    }
+
+    /**
+     * 小说内容相关信息查询接口
      * */
     @GetMapping("content/{chapterId}")
-    public RestResp<BookContentRespDto> getBookContent(@PathVariable("chapterId") Long chapterId){
-        return bookService.getBookContent(chapterId);
+    public RestResp<BookContentAboutRespDto> getBookContentAbout(@PathVariable("chapterId") Long chapterId){
+        return bookService.getBookContentAbout(chapterId);
     }
 
     /**

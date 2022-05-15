@@ -28,6 +28,7 @@ public class BookChapterCacheManager {
     public BookChapterRespDto getChapter(Long chapterId) {
         BookChapter bookChapter = bookChapterMapper.selectById(chapterId);
         return BookChapterRespDto.builder()
+                .id(chapterId)
                 .bookId(bookChapter.getBookId())
                 .chapterName(bookChapter.getChapterName())
                 .chapterWordCount(bookChapter.getWordCount())
