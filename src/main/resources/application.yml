@@ -1,8 +1,18 @@
 spring:
   profiles:
     active: dev
+
+# 将所有数字转为 String 类型返回，避免前端数据精度丢失的问题
+  jackson:
+    generator:
+      write-numbers-as-strings: true
+
 server:
   port: 8888
+
+
+
+
 
 ---
 spring:
