@@ -1,6 +1,7 @@
 package io.github.xxyopen.novel.service;
 
 import io.github.xxyopen.novel.core.common.resp.RestResp;
+import io.github.xxyopen.novel.dto.resp.BookContentRespDto;
 import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
 
@@ -32,5 +33,10 @@ public interface BookService {
     /**
      * 小说信息查询
      * */
-    RestResp<BookInfoRespDto> getById(Long bookId);
+    RestResp<BookInfoRespDto> getBookById(Long bookId);
+
+    /**
+     * 小说章节内容查询
+     * */
+    RestResp<BookContentRespDto> getBookContent(Long chapterId);
 }

@@ -33,7 +33,7 @@ public class BookInfoCacheManager {
     public BookInfoRespDto getBookInfo(Long id) {
         // 查询基础信息
         BookInfo bookInfo = bookInfoMapper.selectById(id);
-        // 查询最新章节ID
+        // 查询首章ID
         QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
         queryWrapper
                 .eq("book_id", id)
@@ -52,6 +52,7 @@ public class BookInfoCacheManager {
                 .categoryName(bookInfo.getCategoryName())
                 .commentCount(bookInfo.getCommentCount())
                 .firstChapterId(firstBookChapter.getId())
+                .lastChapterId(bookInfo.getLastChapterId())
                 .picUrl(bookInfo.getPicUrl())
                 .visitCount(bookInfo.getVisitCount())
                 .wordCount(bookInfo.getWordCount())

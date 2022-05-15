@@ -2,6 +2,7 @@ package io.github.xxyopen.novel.controller.front;
 
 import io.github.xxyopen.novel.core.common.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
+import io.github.xxyopen.novel.dto.resp.BookContentRespDto;
 import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
 import io.github.xxyopen.novel.service.BookService;
@@ -30,8 +31,16 @@ public class BookController {
      * 小说信息查询接口
      * */
     @GetMapping("{bookId}")
-    public RestResp<BookInfoRespDto> getById(@PathVariable("bookId") Long bookId){
-        return bookService.getById(bookId);
+    public RestResp<BookInfoRespDto> getBookById(@PathVariable("bookId") Long bookId){
+        return bookService.getBookById(bookId);
+    }
+
+    /**
+     * 小说章节内容查询接口
+     * */
+    @GetMapping("content/{chapterId}")
+    public RestResp<BookContentRespDto> getBookContent(@PathVariable("chapterId") Long chapterId){
+        return bookService.getBookContent(chapterId);
     }
 
     /**

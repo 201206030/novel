@@ -77,5 +77,10 @@ public class BookInfoRespDto {
      * */
     private Long firstChapterId;
 
+    /**
+     * 最新章节ID
+     */
+    private Long lastChapterId;
+
 
 }
