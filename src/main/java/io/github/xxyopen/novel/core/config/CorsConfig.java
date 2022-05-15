@@ -1,4 +1,4 @@
-package io.github.xxyopen.novel.core.common.config;
+package io.github.xxyopen.novel.core.config;
 
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import org.springframework.context.annotation.Bean;

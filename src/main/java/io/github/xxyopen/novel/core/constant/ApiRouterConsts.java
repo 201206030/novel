@@ -1,4 +1,4 @@
-package io.github.xxyopen.novel.core.common.constant;
+package io.github.xxyopen.novel.core.constant;
 
 /**
  * API 路由常量

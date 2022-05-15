@@ -1,6 +1,6 @@
 package io.github.xxyopen.novel.controller.front;
 
-import io.github.xxyopen.novel.core.common.constant.ApiRouterConsts;
+import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.resp.NewsInfoRespDto;
 import io.github.xxyopen.novel.service.NewsService;
