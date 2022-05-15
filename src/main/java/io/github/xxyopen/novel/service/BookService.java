@@ -51,4 +51,9 @@ public interface BookService {
      * 小说推荐列表查询
      * */
     RestResp<List<BookInfoRespDto>> listRecBooks(Long bookId) throws NoSuchAlgorithmException;
+
+    /**
+     * 增加小说点击量
+     * */
+    RestResp<Void> addVisitCount(Long bookId);
 }

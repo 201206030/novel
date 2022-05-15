@@ -8,10 +8,7 @@ import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
 import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -35,6 +32,14 @@ public class BookController {
     @GetMapping("{bookId}")
     public RestResp<BookInfoRespDto> getBookById(@PathVariable("bookId") Long bookId){
         return bookService.getBookById(bookId);
+    }
+
+    /**
+     * 增加小说点击量接口
+     * */
+    @PostMapping("visit")
+    public RestResp<Void> addVisitCount(Long bookId){
+        return bookService.addVisitCount(bookId);
     }
 
     /**

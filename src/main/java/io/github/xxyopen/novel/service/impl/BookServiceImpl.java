@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dao.entity.BookChapter;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
+import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.manager.BookChapterCacheManager;
 import io.github.xxyopen.novel.manager.BookContentCacheManager;
@@ -38,6 +39,8 @@ public class BookServiceImpl implements BookService {
     private final BookChapterCacheManager bookChapterCacheManager;
 
     private final BookContentCacheManager bookContentCacheManager;
+
+    private final BookInfoMapper bookInfoMapper;
 
     private final BookChapterMapper bookChapterMapper;
 
@@ -106,6 +109,12 @@ public class BookServiceImpl implements BookService {
             }
         }
         return RestResp.ok(respDtoList);
+    }
+
+    @Override
+    public RestResp<Void> addVisitCount(Long bookId) {
+        bookInfoMapper.addVisitCount(bookId);
+        return RestResp.ok();
     }
 
     @Override
