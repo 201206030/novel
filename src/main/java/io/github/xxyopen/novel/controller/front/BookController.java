@@ -2,10 +2,7 @@ package io.github.xxyopen.novel.controller.front;
 
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
-import io.github.xxyopen.novel.dto.resp.BookChapterAboutRespDto;
-import io.github.xxyopen.novel.dto.resp.BookContentAboutRespDto;
-import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
-import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
+import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -56,6 +53,14 @@ public class BookController {
     @GetMapping("recList")
     public RestResp<List<BookInfoRespDto>> listRecBooks(Long bookId) throws NoSuchAlgorithmException {
         return bookService.listRecBooks(bookId);
+    }
+
+    /**
+     * 小说章节列表查询接口
+     * */
+    @GetMapping("chapterList")
+    public RestResp<List<BookChapterRespDto>> listChapters(Long bookId){
+        return bookService.listChapters(bookId);
     }
 
     /**

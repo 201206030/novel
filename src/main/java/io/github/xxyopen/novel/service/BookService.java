@@ -1,10 +1,7 @@
 package io.github.xxyopen.novel.service;
 
 import io.github.xxyopen.novel.core.common.resp.RestResp;
-import io.github.xxyopen.novel.dto.resp.BookChapterAboutRespDto;
-import io.github.xxyopen.novel.dto.resp.BookContentAboutRespDto;
-import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
-import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
+import io.github.xxyopen.novel.dto.resp.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -66,4 +63,9 @@ public interface BookService {
      * 获取下一章节ID
      * */
     RestResp<Long> nextChapterId(Long chapterId);
+
+    /**
+     * 小说章节列表查询
+     * */
+    RestResp<List<BookChapterRespDto>> listChapters(Long bookId);
 }

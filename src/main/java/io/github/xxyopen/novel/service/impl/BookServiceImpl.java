@@ -160,6 +160,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public RestResp<List<BookChapterRespDto>> listChapters(Long bookId) {
+        QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), bookId)
+                .orderByAsc(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName());
+        return RestResp.ok(bookChapterMapper.selectList(queryWrapper).stream().map(v -> BookChapterRespDto.builder()
+                .id(v.getId())
+                .chapterName(v.getChapterName())
+                .build()).toList());
+    }
+
+    @Override
     public RestResp<BookContentAboutRespDto> getBookContentAbout(Long chapterId) {
         // 查询章节信息
         BookChapterRespDto bookChapter = bookChapterCacheManager.getChapter(chapterId);
