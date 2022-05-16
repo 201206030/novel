@@ -92,6 +92,12 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- 请求参数校验相关 -->
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
