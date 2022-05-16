@@ -6,6 +6,7 @@ import io.github.xxyopen.novel.dto.resp.NewsInfoRespDto;
 import io.github.xxyopen.novel.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,9 +27,17 @@ public class NewsController {
 
     /**
      * 最新新闻列表查询接口
-     * */
+     */
     @GetMapping("latestList")
-    public RestResp<List<NewsInfoRespDto>> listLatestNews(){
+    public RestResp<List<NewsInfoRespDto>> listLatestNews() {
         return newsService.listLatestNews();
+    }
+
+    /**
+     * 新闻信息查询接口
+     */
+    @GetMapping("{id}")
+    public RestResp<NewsInfoRespDto> getNews(@PathVariable Long id) {
+        return newsService.getNews(id);
     }
 }

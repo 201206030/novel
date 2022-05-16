@@ -20,8 +20,7 @@ public class DatabaseConsts {
 
             CATEGORY_ID("category_id"),
             VISIT_COUNT("visit_count"),
-            LAST_CHAPTER_UPDATE_TIME("last_chapter_update_time")
-            ;
+            LAST_CHAPTER_UPDATE_TIME("last_chapter_update_time");
 
             private String name;
 
@@ -43,8 +42,7 @@ public class DatabaseConsts {
 
             BOOK_ID("book_id"),
             CHAPTER_NUM("chapter_num"),
-            LAST_CHAPTER_UPDATE_TIME("last_chapter_update_time")
-            ;
+            LAST_CHAPTER_UPDATE_TIME("last_chapter_update_time");
 
             private String name;
 
@@ -64,8 +62,27 @@ public class DatabaseConsts {
         @Getter
         public enum ColumnEnum {
 
-            CHAPTER_ID("chapter_id")
-            ;
+            CHAPTER_ID("chapter_id");
+
+            private String name;
+
+            ColumnEnum(String name) {
+                this.name = name;
+            }
+
+        }
+
+    }
+
+    /**
+     * 新闻内容表
+     */
+    public static class NewsContentTable {
+
+        @Getter
+        public enum ColumnEnum {
+
+            NEWS_ID("news_id");
 
             private String name;
 
@@ -79,9 +96,9 @@ public class DatabaseConsts {
 
     /**
      * 通用列枚举类
-     * */
+     */
     @Getter
-    public enum CommonColumnEnum{
+    public enum CommonColumnEnum {
 
         ID("id"),
         SORT("sort"),
@@ -90,7 +107,7 @@ public class DatabaseConsts {
 
         private String name;
 
-        CommonColumnEnum(String name){
+        CommonColumnEnum(String name) {
             this.name = name;
         }
 
@@ -99,15 +116,14 @@ public class DatabaseConsts {
 
     /**
      * SQL语句枚举类
-     * */
+     */
     @Getter
     public enum SqlEnum {
 
         LIMIT_1("limit 1"),
         LIMIT_2("limit 2"),
         LIMIT_30("limit 30"),
-        LIMIT_500("limit 500")
-        ;
+        LIMIT_500("limit 500");
 
         private String sql;
 

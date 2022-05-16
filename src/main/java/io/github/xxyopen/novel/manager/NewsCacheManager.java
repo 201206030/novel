@@ -34,16 +34,14 @@ public class NewsCacheManager {
         QueryWrapper<NewsInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc(DatabaseConsts.CommonColumnEnum.CREATE_TIME.getName())
                 .last(DatabaseConsts.SqlEnum.LIMIT_2.getSql());
-        return newsInfoMapper.selectList(queryWrapper).stream().map(v -> {
-            NewsInfoRespDto respDto = new NewsInfoRespDto();
-            respDto.setId(v.getId());
-            respDto.setCategoryId(v.getCategoryId());
-            respDto.setCategoryName(v.getCategoryName());
-            respDto.setTitle(v.getTitle());
-            respDto.setSourceName(v.getSourceName());
-            respDto.setUpdateTime(v.getUpdateTime());
-            return respDto;
-        }).toList();
+        return newsInfoMapper.selectList(queryWrapper).stream().map(v -> NewsInfoRespDto.builder()
+                .id(v.getId())
+                .categoryId(v.getCategoryId())
+                .categoryName(v.getCategoryName())
+                .title(v.getTitle())
+                .sourceName(v.getSourceName())
+                .updateTime(v.getUpdateTime())
+                .build()).toList();
     }
 
 }

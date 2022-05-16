@@ -1,6 +1,7 @@
 package io.github.xxyopen.novel.dto.resp;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
  * @date 2022/5/14
  */
 @Data
+@Builder
 public class NewsInfoRespDto {
 
     /**
@@ -44,6 +46,11 @@ public class NewsInfoRespDto {
      */
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime updateTime;
+
+    /**
+     * 新闻内容
+     * */
+    private String content;
 
 
 }
