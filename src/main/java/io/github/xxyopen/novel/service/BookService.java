@@ -96,4 +96,11 @@ public interface BookService {
      * @return 小说章节列表
      * */
     RestResp<List<BookChapterRespDto>> listChapters(Long bookId);
+
+    /**
+     * 小说分类列表查询
+     * @param workDirection 作品方向;0-男频 1-女频
+     * @return 分类列表
+     * */
+    RestResp<List<BookCategoryRespDto>> listCategory(Integer workDirection);
 }

@@ -13,25 +13,25 @@
             and work_direction = #{condition.workDirection}
         </if>
         <if test="condition.categoryId != null">
-            and condition.category_id = #{condition.categoryId}
+            and category_id = #{condition.categoryId}
         </if>
         <if test="condition.isVip != null">
-            and condition.is_vip = #{condition.isVip}
+            and is_vip = #{condition.isVip}
         </if>
         <if test="condition.bookStatus != null">
-            and condition.book_status = #{condition.bookStatus}
+            and book_status = #{condition.bookStatus}
         </if>
         <if test="condition.wordCountMin != null">
-            and condition.word_count >= #{condition.wordCountMin}
+            and word_count >= #{condition.wordCountMin}
         </if>
         <if test="condition.wordCountMax != null">
-            and condition.word_count <![CDATA[ < ]]> #{condition.wordCountMax}
+            and word_count <![CDATA[ < ]]> #{condition.wordCountMax}
         </if>
         <if test="condition.updateTimeMin != null">
-            and condition.last_chapter_update_time >= #{condition.updateTimeMin}
+            and last_chapter_update_time >= #{condition.updateTimeMin}
         </if>
 
-        order by #{condition.sort}
+        order by ${condition.sort}
     </select>
 
     <update id="addVisitCount">

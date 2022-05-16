@@ -11,6 +11,26 @@ import lombok.Getter;
 public class DatabaseConsts {
 
     /**
+     * 小说类别
+     */
+    public static class BookCategoryTable {
+
+        @Getter
+        public enum ColumnEnum {
+
+            WORK_DIRECTION("work_direction");
+
+            private String name;
+
+            ColumnEnum(String name) {
+                this.name = name;
+            }
+
+        }
+
+    }
+
+    /**
      * 小说表
      */
     public static class BookTable {

@@ -26,6 +26,14 @@ public class BookController {
     private final BookService bookService;
 
     /**
+     * 小说分类列表查询接口
+     */
+    @GetMapping("categoryList")
+    public RestResp<List<BookCategoryRespDto>> listCategory(Integer workDirection) {
+        return bookService.listCategory(workDirection);
+    }
+
+    /**
      * 小说搜索接口
      */
     @GetMapping("search")

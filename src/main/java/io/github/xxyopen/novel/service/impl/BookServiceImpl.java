@@ -11,10 +11,7 @@ import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
-import io.github.xxyopen.novel.manager.BookChapterCacheManager;
-import io.github.xxyopen.novel.manager.BookContentCacheManager;
-import io.github.xxyopen.novel.manager.BookInfoCacheManager;
-import io.github.xxyopen.novel.manager.BookRankCacheManager;
+import io.github.xxyopen.novel.manager.*;
 import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +34,8 @@ import java.util.Random;
 @RequiredArgsConstructor
 @Slf4j
 public class BookServiceImpl implements BookService {
+
+    private final BookCategoryCacheManager bookCategoryCacheManager;
 
     private final BookRankCacheManager bookRankCacheManager;
 
@@ -191,6 +190,11 @@ public class BookServiceImpl implements BookService {
                 .id(v.getId())
                 .chapterName(v.getChapterName())
                 .build()).toList());
+    }
+
+    @Override
+    public RestResp<List<BookCategoryRespDto>> listCategory(Integer workDirection) {
+        return RestResp.ok(bookCategoryCacheManager.listCategory(workDirection));
     }
 
     @Override
