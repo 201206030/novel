@@ -2,6 +2,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="io.github.xxyopen.novel.dao.mapper.BookInfoMapper">
 
+    <select id="searchBooks" resultType="io.github.xxyopen.novel.dao.entity.BookInfo">
+        select
+        id,category_id,category_name,book_name,author_id,author_name,word_count,last_chapter_name
+        from book_info where word_count > 0
+        <if test="condition.keyword != null and condition.keyword != ''">
+            and (book_name like concat('%',#{condition.keyword},'%') or author_name like concat('%',#{condition.keyword},'%'))
+        </if>
+        <if test="condition.workDirection != null">
+            and work_direction = #{condition.workDirection}
+        </if>
+        <if test="condition.categoryId != null">
+            and condition.category_id = #{condition.categoryId}
+        </if>
+        <if test="condition.isVip != null">
+            and condition.is_vip = #{condition.isVip}
+        </if>
+        <if test="condition.bookStatus != null">
+            and condition.book_status = #{condition.bookStatus}
+        </if>
+        <if test="condition.wordCountMin != null">
+            and condition.word_count >= #{condition.wordCountMin}
+        </if>
+        <if test="condition.wordCountMax != null">
+            and condition.word_count <![CDATA[ < ]]> #{condition.wordCountMax}
+        </if>
+        <if test="condition.updateTimeMin != null">
+            and condition.last_chapter_update_time >= #{condition.updateTimeMin}
+        </if>
+
+        order by #{condition.sort}
+    </select>
+
     <update id="addVisitCount">
         update book_info
         set visit_count = visit_count + 1

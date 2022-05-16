@@ -1,7 +1,9 @@
 package io.github.xxyopen.novel.controller.front;
 
+import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
+import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,14 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+
+    /**
+     * 小说搜索接口
+     * */
+    @GetMapping("search")
+    public RestResp<PageRespDto<BookInfoRespDto>> searchBooks(BookSearchReqDto condition){
+        return bookService.searchBooks(condition);
+    }
 
     /**
      * 小说信息查询接口

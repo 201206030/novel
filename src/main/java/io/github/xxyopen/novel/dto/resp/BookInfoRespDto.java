@@ -83,5 +83,10 @@ public class BookInfoRespDto {
      */
     private Long lastChapterId;
 
+    /**
+     * 最新章节名
+     */
+    private String lastChapterName;
+
 
 }

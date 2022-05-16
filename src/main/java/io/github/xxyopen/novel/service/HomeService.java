@@ -23,6 +23,7 @@ public interface HomeService {
 
     /**
      * 首页友情链接列表查询
+     * @return 友情链接列表
      * */
     RestResp<List<HomeFriendLinkRespDto>> listHomeFriendLinks();
 }

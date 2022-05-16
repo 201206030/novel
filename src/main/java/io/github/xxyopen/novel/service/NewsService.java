@@ -15,6 +15,7 @@ public interface NewsService {
 
     /**
      * 最新新闻列表查询
+     * @return 新闻列表
      * */
     RestResp<List<NewsInfoRespDto>> listLatestNews();
 }

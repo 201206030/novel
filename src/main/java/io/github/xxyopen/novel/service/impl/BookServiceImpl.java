@@ -1,11 +1,15 @@
 package io.github.xxyopen.novel.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.BookChapter;
+import io.github.xxyopen.novel.dao.entity.BookInfo;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
+import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.manager.BookChapterCacheManager;
 import io.github.xxyopen.novel.manager.BookContentCacheManager;
@@ -47,6 +51,25 @@ public class BookServiceImpl implements BookService {
     private final BookChapterMapper bookChapterMapper;
 
     private static final Integer REC_BOOK_COUNT = 4;
+
+    @Override
+    public RestResp<PageRespDto<BookInfoRespDto>> searchBooks(BookSearchReqDto condition) {
+        Page<BookInfoRespDto> page = new Page<>();
+        page.setCurrent(condition.getPageNum());
+        page.setSize(condition.getPageSize());
+        List<BookInfo> bookInfos = bookInfoMapper.searchBooks(page, condition);
+        return RestResp.ok(PageRespDto.of(condition.getPageNum(),condition.getPageSize(),page.getTotal()
+                ,bookInfos.stream().map(v -> BookInfoRespDto.builder()
+                        .id(v.getId())
+                        .bookName(v.getBookName())
+                        .categoryId(v.getCategoryId())
+                        .categoryName(v.getCategoryName())
+                        .authorId(v.getAuthorId())
+                        .authorName(v.getAuthorName())
+                        .wordCount(v.getWordCount())
+                        .lastChapterName(v.getLastChapterName())
+                        .build()).toList()));
+    }
 
     @Override
     public RestResp<List<BookRankRespDto>> listVisitRankBooks() {
