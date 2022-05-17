@@ -27,9 +27,4 @@ public class SystemConfigConsts {
      * */
     public static final String NOVEL_ADMIN_KEY = "admin";
 
-    /**
-     * 小说前台门户系统域
-     * */
-    public static final String NOVEL_FRONT_WEB_ORIGIN = "http://localhost:1024";
-
 }

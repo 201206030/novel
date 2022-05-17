@@ -42,6 +42,16 @@ spring:
   config:
     activate:
       on-profile: dev
-# JWT密钥
-jwt:
-  secret: E66559580A1ADF48CDD928516062F12E
+
+# 项目配置
+novel:
+  # 跨域配置
+  cors:
+    # 允许跨域的域名
+    allow-origins:
+      - http://localhost:1024
+      - http://localhost:8080
+  # JWT密钥
+  jwt:
+    secret: E66559580A1ADF48CDD928516062F12E
+

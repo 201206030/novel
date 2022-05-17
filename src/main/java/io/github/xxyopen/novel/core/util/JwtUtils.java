@@ -19,7 +19,7 @@ import java.util.Objects;
  * @author xiongxiaoyang
  * @date 2022/5/17
  */
-@ConditionalOnProperty("jwt.secret")
+@ConditionalOnProperty("novel.jwt.secret")
 @Component
 @Slf4j
 public class JwtUtils {
@@ -27,7 +27,7 @@ public class JwtUtils {
     /**
      * 注入JWT加密密钥
      */
-    @Value("${jwt.secret}")
+    @Value("${novel.jwt.secret}")
     private String secret;
 
     /**
