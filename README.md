@@ -1,4 +1,4 @@
-[![index]( https://s1.ax1x.com/2022/05/17/O5KOpR.png )]( https://curl.qcloud.com/kgMaOjoq )
+[![index]( https://s1.ax1x.com/2022/05/17/O5tgbR.png )]( https://curl.qcloud.com/kgMaOjoq )
 
 [![Github stars](https://img.shields.io/github/stars/201206030/novel?logo=github)](https://github.com/201206030/novel)
 [![Github forks](https://img.shields.io/github/forks/201206030/novel?logo=github)](https://github.com/201206030/novel)
