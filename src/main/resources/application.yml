@@ -54,4 +54,14 @@ novel:
   # JWT密钥
   jwt:
     secret: E66559580A1ADF48CDD928516062F12E
+  # XSS 过滤配置
+  xss:
+    # 过滤开关
+    enabled: true
+    # 排除链接
+    excludes:
+      - /system/notice/*
+
+
+
 
