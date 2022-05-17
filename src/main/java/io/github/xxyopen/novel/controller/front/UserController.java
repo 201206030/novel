@@ -1,7 +1,6 @@
 package io.github.xxyopen.novel.controller.front;
 
 import io.github.xxyopen.novel.core.common.resp.RestResp;
-import io.github.xxyopen.novel.core.common.util.IpUtils;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.core.util.JwtUtils;
@@ -10,7 +9,6 @@ import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -34,8 +32,7 @@ public class UserController {
      * 用户注册接口
      */
     @PostMapping("register")
-    public RestResp<String> register(@Valid UserRegisterReqDto dto, HttpServletRequest request) {
-        dto.setUserKey(IpUtils.getRealIp(request));
+    public RestResp<String> register(@Valid UserRegisterReqDto dto) {
         return userService.register(dto);
     }
 

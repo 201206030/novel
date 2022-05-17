@@ -53,9 +53,9 @@ public class ApiRouterConsts {
     public static final String USER_URL_PREFIX = "/user";
 
     /**
-     * 文件模块请求路径前缀
+     * 资源（图片/视频/文档）模块请求路径前缀
      * */
-    public static final String FILE_URL_PREFIX = "/file";
+    public static final String RESOURCE_URL_PREFIX = "/resource";
 
     /**
      * 前台门户首页API请求路径前缀
@@ -78,8 +78,8 @@ public class ApiRouterConsts {
     public static final String API_FRONT_USER_URL_PREFIX = API_FRONT_URL_PREFIX + USER_URL_PREFIX;
 
     /**
-     * 前台门户文件相关API请求路径前缀
+     * 前台门户资源（图片/视频/文档）相关API请求路径前缀
      */
-    public static final String API_FRONT_FILE_URL_PREFIX = API_FRONT_URL_PREFIX + FILE_URL_PREFIX;
+    public static final String API_FRONT_RESOURCE_URL_PREFIX = API_FRONT_URL_PREFIX + RESOURCE_URL_PREFIX;
 
 }

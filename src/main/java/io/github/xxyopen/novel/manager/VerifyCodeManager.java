@@ -27,10 +27,10 @@ public class VerifyCodeManager {
     /**
      * 生成图片验证码，并放入缓存中
      */
-    public String genImgVerifyCode(String userKey) throws IOException {
+    public String genImgVerifyCode(String sessionId) throws IOException {
         String verifyCode = ImgVerifyCodeUtils.getRandomVerifyCode(4);
         String img = ImgVerifyCodeUtils.genVerifyCodeImg(verifyCode);
-        stringRedisTemplate.opsForValue().set(CacheConsts.IMG_VERIFY_CODE_CACHE_KEY + userKey
+        stringRedisTemplate.opsForValue().set(CacheConsts.IMG_VERIFY_CODE_CACHE_KEY + sessionId
                 , verifyCode, Duration.ofMinutes(5));
         return img;
     }
@@ -38,10 +38,17 @@ public class VerifyCodeManager {
     /**
      * 校验图片验证码
      */
-    public boolean imgVerifyCodeOk(String userKey, String verifyCode) {
+    public boolean imgVerifyCodeOk(String sessionId, String verifyCode) {
         return Objects.equals(
-                stringRedisTemplate.opsForValue().get(CacheConsts.IMG_VERIFY_CODE_CACHE_KEY + userKey)
-                ,verifyCode);
+                stringRedisTemplate.opsForValue().get(CacheConsts.IMG_VERIFY_CODE_CACHE_KEY + sessionId)
+                , verifyCode);
+    }
+
+    /**
+     * 删除验证码
+     */
+    public void removeImgVerifyCode(String sessionId) {
+        stringRedisTemplate.delete(CacheConsts.IMG_VERIFY_CODE_CACHE_KEY + sessionId);
     }
 
 }

@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public RestResp<String> register(UserRegisterReqDto dto) {
         // 校验图形验证码是否正确
-        if (!verifyCodeManager.imgVerifyCodeOk(dto.getUserKey(), dto.getVelCode())) {
+        if (!verifyCodeManager.imgVerifyCodeOk(dto.getSessionId(), dto.getVelCode())) {
             // 图形验证码校验失败
             throw new BusinessException(ErrorCodeEnum.USER_VERIFY_CODE_ERROR);
         }
@@ -70,6 +70,9 @@ public class UserServiceImpl implements UserService {
         userInfo.setUpdateTime(LocalDateTime.now());
         userInfo.setSalt("0");
         userInfoMapper.insert(userInfo);
+
+        // 删除验证码
+        verifyCodeManager.removeImgVerifyCode(dto.getSessionId());
 
         // 生成JWT 并返回
         return RestResp.ok(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY));

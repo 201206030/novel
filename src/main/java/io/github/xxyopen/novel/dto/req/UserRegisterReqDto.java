@@ -3,6 +3,7 @@ package io.github.xxyopen.novel.dto.req;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 /**
  * 用户注册 请求DTO
@@ -25,8 +26,10 @@ public class UserRegisterReqDto {
     private String velCode;
 
     /**
-     * 请求用户标识，用来表明图形验证码属于哪个用户
+     * 请求会话标识，用来标识图形验证码属于哪个会话
      * */
-    private String userKey;
+    @NotBlank
+    @Length(min = 32,max = 32)
+    private String sessionId;
 
 }
