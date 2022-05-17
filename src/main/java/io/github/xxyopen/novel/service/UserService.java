@@ -1,6 +1,7 @@
 package io.github.xxyopen.novel.service;
 
 import io.github.xxyopen.novel.core.common.resp.RestResp;
+import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
@@ -34,4 +35,11 @@ public interface UserService {
      * @return void
      * */
     RestResp<Void> saveFeedBack(Long userId, String content);
+
+    /**
+     * 用户信息修改
+     * @param dto 用户信息
+     * @return void
+     * */
+    RestResp<Void> updateUserInfo(UserInfoUptReqDto dto);
 }

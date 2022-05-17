@@ -5,6 +5,7 @@ import io.github.xxyopen.novel.core.common.util.IpUtils;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.core.util.JwtUtils;
+import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
@@ -33,7 +34,7 @@ public class UserController {
      * 用户注册接口
      */
     @PostMapping("register")
-    public RestResp<String> register(@Valid UserRegisterReqDto dto, HttpServletRequest request)  {
+    public RestResp<String> register(@Valid UserRegisterReqDto dto, HttpServletRequest request) {
         dto.setUserKey(IpUtils.getRealIp(request));
         return userService.register(dto);
     }
@@ -42,16 +43,26 @@ public class UserController {
      * 用户登录接口
      */
     @PostMapping("login")
-    public RestResp<UserLoginRespDto> login(@Valid UserLoginReqDto dto)  {
+    public RestResp<UserLoginRespDto> login(@Valid UserLoginReqDto dto) {
         return userService.login(dto);
+    }
+
+
+    /**
+     * 用户信息修改接口
+     */
+    @PutMapping
+    public RestResp<Void> updateUserInfo(@Valid UserInfoUptReqDto dto, @RequestHeader("Authorization") String token) {
+        dto.setUserId(jwtUtils.parseToken(token, SystemConfigConsts.NOVEL_FRONT_KEY));
+        return userService.updateUserInfo(dto);
     }
 
     /**
      * 用户反馈
      */
     @PostMapping("feedBack")
-    public RestResp<Void> submitFeedBack(String content,@RequestHeader("Authorization") String token)  {
-        return userService.saveFeedBack(jwtUtils.parseToken(token, SystemConfigConsts.NOVEL_FRONT_KEY),content);
+    public RestResp<Void> submitFeedBack(String content, @RequestHeader("Authorization") String token) {
+        return userService.saveFeedBack(jwtUtils.parseToken(token, SystemConfigConsts.NOVEL_FRONT_KEY), content);
     }
 
 }

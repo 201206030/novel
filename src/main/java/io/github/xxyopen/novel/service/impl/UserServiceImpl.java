@@ -11,6 +11,7 @@ import io.github.xxyopen.novel.dao.entity.UserFeedback;
 import io.github.xxyopen.novel.dao.entity.UserInfo;
 import io.github.xxyopen.novel.dao.mapper.UserFeedbackMapper;
 import io.github.xxyopen.novel.dao.mapper.UserInfoMapper;
+import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
@@ -108,6 +109,17 @@ public class UserServiceImpl implements UserService {
         userFeedback.setCreateTime(LocalDateTime.now());
         userFeedback.setUpdateTime(LocalDateTime.now());
         userFeedbackMapper.insert(userFeedback);
+        return RestResp.ok();
+    }
+
+    @Override
+    public RestResp<Void> updateUserInfo(UserInfoUptReqDto dto) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(dto.getUserId());
+        userInfo.setNickName(dto.getNickName());
+        userInfo.setUserPhoto(dto.getUserPhoto());
+        userInfo.setUserSex(dto.getUserSex());
+        userInfoMapper.updateById(userInfo);
         return RestResp.ok();
     }
 }
