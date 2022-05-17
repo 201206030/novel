@@ -10,8 +10,29 @@ import lombok.Getter;
  */
 public class DatabaseConsts {
 
+
     /**
-     * 小说类别
+     * 用户信息表
+     */
+    public static class UserInfoTable {
+
+        @Getter
+        public enum ColumnEnum {
+
+            USERNAME("username");
+
+            private String name;
+
+            ColumnEnum(String name) {
+                this.name = name;
+            }
+
+        }
+
+    }
+
+    /**
+     * 小说类别表
      */
     public static class BookCategoryTable {
 

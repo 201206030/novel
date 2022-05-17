@@ -24,6 +24,9 @@ public class UserRegisterReqDto {
     @Pattern(regexp="^\\d{4}$",message="验证码格式不正确！")
     private String velCode;
 
-
+    /**
+     * 请求用户标识，用来表明图形验证码属于哪个用户
+     * */
+    private String userKey;
 
 }

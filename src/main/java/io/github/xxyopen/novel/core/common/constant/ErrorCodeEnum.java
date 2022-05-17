@@ -38,14 +38,24 @@ public enum ErrorCodeEnum {
     USER_REGISTER_ERROR("A0100","用户注册错误"),
 
     /**
-     * 二级宏观错误码，用户未同意隐私协议
+     * 用户未同意隐私协议
      * */
     USER_NO_AGREE_PRIVATE_ERROR("A0101","用户未同意隐私协议"),
 
     /**
-     * 二级宏观错误码，注册国家或地区受限
+     * 注册国家或地区受限
      * */
     USER_REGISTER_AREA_LIMIT_ERROR("A0102","注册国家或地区受限"),
+
+    /**
+     * 用户验证码错误
+     * */
+    USER_VERIFY_CODE_ERROR("A0240","用户验证码错误"),
+
+    /**
+     * 用户名已存在
+     * */
+    USER_NAME_EXIST("A0111","用户名已存在"),
 
     /**
      * 二级宏观错误码，用户请求参数错误
