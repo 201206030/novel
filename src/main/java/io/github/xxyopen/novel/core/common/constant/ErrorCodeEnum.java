@@ -58,6 +58,16 @@ public enum ErrorCodeEnum {
     USER_NAME_EXIST("A0111","用户名已存在"),
 
     /**
+     * 用户账号不存在
+     * */
+    USER_ACCOUNT_NOT_EXIST("A0201","用户账号不存在"),
+
+    /**
+     * 用户密码错误
+     * */
+    USER_PASSWORD_ERROR("A0210","用户密码错误"),
+
+    /**
      * 二级宏观错误码，用户请求参数错误
      * */
     USER_REQUEST_PARAM_ERROR("A0400","用户请求参数错误"),

@@ -9,7 +9,9 @@ import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.core.util.JwtUtils;
 import io.github.xxyopen.novel.dao.entity.UserInfo;
 import io.github.xxyopen.novel.dao.mapper.UserInfoMapper;
+import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
+import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.manager.VerifyCodeManager;
 import io.github.xxyopen.novel.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.util.DigestUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * 会员模块 服务实现类
@@ -36,7 +39,7 @@ public class UserServiceImpl implements UserService {
     private final JwtUtils jwtUtils;
 
     @Override
-    public RestResp<String> getImgVerifyCode(UserRegisterReqDto dto) {
+    public RestResp<String> register(UserRegisterReqDto dto) {
         // 校验图形验证码是否正确
         if (!verifyCodeManager.imgVerifyCodeOk(dto.getUserKey(), dto.getVelCode())) {
             // 图形验证码校验失败
@@ -65,5 +68,31 @@ public class UserServiceImpl implements UserService {
 
         // 生成JWT 并返回
         return RestResp.ok(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY));
+    }
+
+    @Override
+    public RestResp<UserLoginRespDto> login(UserLoginReqDto dto) {
+        // 查询用户信息
+        QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.UserInfoTable.ColumnEnum.USERNAME.getName()
+                        , dto.getUsername())
+                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+        UserInfo userInfo = userInfoMapper.selectOne(queryWrapper);
+        if (Objects.isNull(userInfo)) {
+            // 用户不存在
+            throw new BusinessException(ErrorCodeEnum.USER_ACCOUNT_NOT_EXIST);
+        }
+
+        // 判断密码是否正确
+        if (!Objects.equals(userInfo.getPassword()
+                , DigestUtils.md5DigestAsHex(dto.getPassword().getBytes(StandardCharsets.UTF_8)))) {
+            // 密码错误
+            throw new BusinessException(ErrorCodeEnum.USER_PASSWORD_ERROR);
+        }
+
+        // 登录成功，生成JWT并返回
+        return RestResp.ok(UserLoginRespDto.builder()
+                .jwt(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
+                .nickName(userInfo.getNickName()).build());
     }
 }

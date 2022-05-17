@@ -1,5 +1,6 @@
 package io.github.xxyopen.novel.dto.resp;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @date 2022/5/17
  */
 @Data
+@Builder
 public class UserLoginRespDto {
 
     private String nickName;
