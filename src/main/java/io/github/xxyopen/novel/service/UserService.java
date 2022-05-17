@@ -26,4 +26,12 @@ public interface UserService {
      * @return JWT + 昵称
      * */
     RestResp<UserLoginRespDto> login(UserLoginReqDto dto);
+
+    /**
+     * 用户反馈
+     * @param userId 反馈用户ID
+     * @param content 反馈内容
+     * @return void
+     * */
+    RestResp<Void> saveFeedBack(Long userId, String content);
 }

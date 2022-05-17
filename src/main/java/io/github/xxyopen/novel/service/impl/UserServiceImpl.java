@@ -7,7 +7,9 @@ import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.core.util.JwtUtils;
+import io.github.xxyopen.novel.dao.entity.UserFeedback;
 import io.github.xxyopen.novel.dao.entity.UserInfo;
+import io.github.xxyopen.novel.dao.mapper.UserFeedbackMapper;
 import io.github.xxyopen.novel.dao.mapper.UserInfoMapper;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
@@ -35,6 +37,8 @@ public class UserServiceImpl implements UserService {
     private final UserInfoMapper userInfoMapper;
 
     private final VerifyCodeManager verifyCodeManager;
+
+    private final UserFeedbackMapper userFeedbackMapper;
 
     private final JwtUtils jwtUtils;
 
@@ -94,5 +98,16 @@ public class UserServiceImpl implements UserService {
         return RestResp.ok(UserLoginRespDto.builder()
                 .jwt(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
                 .nickName(userInfo.getNickName()).build());
+    }
+
+    @Override
+    public RestResp<Void> saveFeedBack(Long userId, String content) {
+        UserFeedback userFeedback = new UserFeedback();
+        userFeedback.setUserId(userId);
+        userFeedback.setContent(content);
+        userFeedback.setCreateTime(LocalDateTime.now());
+        userFeedback.setUpdateTime(LocalDateTime.now());
+        userFeedbackMapper.insert(userFeedback);
+        return RestResp.ok();
     }
 }
