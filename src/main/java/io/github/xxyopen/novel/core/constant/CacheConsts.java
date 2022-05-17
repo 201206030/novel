@@ -79,6 +79,10 @@ public class CacheConsts {
      * */
     public static final String LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME = "lastUpdateBookIdListCache";
 
+    /**
+     * 图片验证码缓存 KEY
+     * */
+    public static final String IMG_VERIFY_CODE_CACHE_KEY = REDIS_CACHE_PREFIX + "imgVerifyCodeCache::";
 
     /**
      * 缓存配置常量
