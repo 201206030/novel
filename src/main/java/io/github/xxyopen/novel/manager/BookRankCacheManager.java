@@ -31,8 +31,7 @@ public class BookRankCacheManager {
             , value = CacheConsts.BOOK_VISIT_RANK_CACHE_NAME)
     public List<BookRankRespDto> listVisitRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
-        bookInfoQueryWrapper
-                .orderByDesc(DatabaseConsts.BookTable.ColumnEnum.VISIT_COUNT.getName());
+        bookInfoQueryWrapper.orderByDesc(DatabaseConsts.BookTable.COLUMN_VISIT_COUNT);
         return getBookRankRespDtos(bookInfoQueryWrapper);
     }
 

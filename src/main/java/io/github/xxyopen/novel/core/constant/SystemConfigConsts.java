@@ -9,7 +9,7 @@ package io.github.xxyopen.novel.core.constant;
 public class SystemConfigConsts {
 
     private SystemConfigConsts() {
-        throw new IllegalStateException("Constant class");
+        throw new IllegalStateException(CONST_INSTANCE_EXCEPTION_MSG);
     }
 
     /**
@@ -31,5 +31,10 @@ public class SystemConfigConsts {
      * 后台管理系统标识
      * */
     public static final String NOVEL_ADMIN_KEY = "admin";
+
+    /**
+     * 常量类实例化异常信息
+     * */
+    public static final String CONST_INSTANCE_EXCEPTION_MSG = "Constant class";
 
 }

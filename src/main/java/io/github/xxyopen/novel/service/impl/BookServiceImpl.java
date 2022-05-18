@@ -103,7 +103,7 @@ public class BookServiceImpl implements BookService {
 
         // 查询章节总数
         QueryWrapper<BookChapter> chapterQueryWrapper = new QueryWrapper<>();
-        chapterQueryWrapper.eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), bookId);
+        chapterQueryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID, bookId);
         Long chapterTotal = bookChapterMapper.selectCount(chapterQueryWrapper);
 
         // 组装数据并返回
@@ -150,9 +150,9 @@ public class BookServiceImpl implements BookService {
 
         // 查询上一章信息并返回章节ID
         QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), bookId)
-                .lt(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName(), chapterNum)
-                .orderByDesc(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName())
+        queryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID, bookId)
+                .lt(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM, chapterNum)
+                .orderByDesc(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM)
                 .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         return RestResp.ok(
                 Optional.ofNullable(bookChapterMapper.selectOne(queryWrapper))
@@ -170,9 +170,9 @@ public class BookServiceImpl implements BookService {
 
         // 查询下一章信息并返回章节ID
         QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), bookId)
-                .gt(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName(), chapterNum)
-                .orderByAsc(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName())
+        queryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID, bookId)
+                .gt(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM, chapterNum)
+                .orderByAsc(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM)
                 .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         return RestResp.ok(
                 Optional.ofNullable(bookChapterMapper.selectOne(queryWrapper))
@@ -184,8 +184,8 @@ public class BookServiceImpl implements BookService {
     @Override
     public RestResp<List<BookChapterRespDto>> listChapters(Long bookId) {
         QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), bookId)
-                .orderByAsc(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName());
+        queryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID, bookId)
+                .orderByAsc(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM);
         return RestResp.ok(bookChapterMapper.selectList(queryWrapper).stream().map(v -> BookChapterRespDto.builder()
                 .id(v.getId())
                 .chapterName(v.getChapterName())

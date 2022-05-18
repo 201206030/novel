@@ -40,7 +40,7 @@ public class NewsServiceImpl implements NewsService {
     public RestResp<NewsInfoRespDto> getNews(Long id) {
         NewsInfo newsInfo = newsInfoMapper.selectById(id);
         QueryWrapper<NewsContent> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(DatabaseConsts.NewsContentTable.ColumnEnum.NEWS_ID.getName(), id)
+        queryWrapper.eq(DatabaseConsts.NewsContentTable.COLUMN_NEWS_ID, id)
                 .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         NewsContent newsContent = newsContentMapper.selectOne(queryWrapper);
         return RestResp.ok(NewsInfoRespDto.builder()

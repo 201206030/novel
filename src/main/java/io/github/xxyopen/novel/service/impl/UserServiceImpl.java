@@ -53,8 +53,7 @@ public class UserServiceImpl implements UserService {
 
         // 校验手机号是否已注册
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(DatabaseConsts.UserInfoTable.ColumnEnum.USERNAME.getName()
-                        , dto.getUsername())
+        queryWrapper.eq(DatabaseConsts.UserInfoTable.COLUMN_USERNAME, dto.getUsername())
                 .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         if (userInfoMapper.selectCount(queryWrapper) > 0) {
             // 手机号已注册
@@ -82,8 +81,7 @@ public class UserServiceImpl implements UserService {
     public RestResp<UserLoginRespDto> login(UserLoginReqDto dto) {
         // 查询用户信息
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(DatabaseConsts.UserInfoTable.ColumnEnum.USERNAME.getName()
-                        , dto.getUsername())
+        queryWrapper.eq(DatabaseConsts.UserInfoTable.COLUMN_USERNAME, dto.getUsername())
                 .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         UserInfo userInfo = userInfoMapper.selectOne(queryWrapper);
         if (Objects.isNull(userInfo)) {

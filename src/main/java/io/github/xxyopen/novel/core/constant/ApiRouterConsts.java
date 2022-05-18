@@ -9,7 +9,7 @@ package io.github.xxyopen.novel.core.constant;
 public class ApiRouterConsts {
 
     private ApiRouterConsts() {
-        throw new IllegalStateException("Constant class");
+        throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
     }
 
     /**

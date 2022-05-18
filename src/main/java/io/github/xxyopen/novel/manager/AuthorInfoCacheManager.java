@@ -32,7 +32,7 @@ public class AuthorInfoCacheManager {
     public AuthorInfoDto getAuthor(Long userId) {
         QueryWrapper<AuthorInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper
-                .eq(DatabaseConsts.AuthorInfoTable.ColumnEnum.USER_ID.getName(), userId)
+                .eq(DatabaseConsts.AuthorInfoTable.COLUMN_USER_ID, userId)
                 .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         AuthorInfo authorInfo = authorInfoMapper.selectOne(queryWrapper);
         if (Objects.isNull(authorInfo)) {

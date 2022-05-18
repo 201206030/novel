@@ -31,7 +31,7 @@ public class BookCategoryCacheManager {
             , value = CacheConsts.BOOK_CATEGORY_LIST_CACHE_NAME)
     public List<BookCategoryRespDto> listCategory(Integer workDirection) {
         QueryWrapper<BookCategory> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(DatabaseConsts.BookCategoryTable.ColumnEnum.WORK_DIRECTION.getName(), workDirection);
+        queryWrapper.eq(DatabaseConsts.BookCategoryTable.COLUMN_WORK_DIRECTION, workDirection);
         return bookCategoryMapper.selectList(queryWrapper).stream().map(v ->
                 BookCategoryRespDto.builder()
                         .id(v.getId())

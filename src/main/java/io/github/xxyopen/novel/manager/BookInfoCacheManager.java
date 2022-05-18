@@ -39,8 +39,8 @@ public class BookInfoCacheManager {
         // 查询首章ID
         QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
         queryWrapper
-                .eq(DatabaseConsts.BookChapterTable.ColumnEnum.BOOK_ID.getName(), id)
-                .orderByAsc(DatabaseConsts.BookChapterTable.ColumnEnum.CHAPTER_NUM.getName())
+                .eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID, id)
+                .orderByAsc(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM)
                 .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         BookChapter firstBookChapter = bookChapterMapper.selectOne(queryWrapper);
         // 组装响应对象
@@ -69,8 +69,8 @@ public class BookInfoCacheManager {
             , value = CacheConsts.LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME)
     public List<Long> getLastUpdateIdList(Long categoryId) {
         QueryWrapper<BookInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(DatabaseConsts.BookTable.ColumnEnum.CATEGORY_ID.getName(), categoryId)
-                .orderByDesc(DatabaseConsts.BookTable.ColumnEnum.LAST_CHAPTER_UPDATE_TIME.getName())
+        queryWrapper.eq(DatabaseConsts.BookTable.COLUMN_CATEGORY_ID, categoryId)
+                .orderByDesc(DatabaseConsts.BookTable.COLUMN_LAST_CHAPTER_UPDATE_TIME)
                 .last(DatabaseConsts.SqlEnum.LIMIT_500.getSql());
         return bookInfoMapper.selectList(queryWrapper).stream().map(BookInfo::getId).toList();
     }

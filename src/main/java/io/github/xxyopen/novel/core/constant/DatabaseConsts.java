@@ -16,18 +16,11 @@ public class DatabaseConsts {
      */
     public static class UserInfoTable {
 
-        @Getter
-        public enum ColumnEnum {
-
-            USERNAME("username");
-
-            private String name;
-
-            ColumnEnum(String name) {
-                this.name = name;
-            }
-
+        private UserInfoTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
         }
+
+        public static final String COLUMN_USERNAME = "username";
 
     }
 
@@ -36,18 +29,11 @@ public class DatabaseConsts {
      */
     public static class AuthorInfoTable {
 
-        @Getter
-        public enum ColumnEnum {
-
-            USER_ID("user_id");
-
-            private String name;
-
-            ColumnEnum(String name) {
-                this.name = name;
-            }
-
+        private AuthorInfoTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
         }
+
+        public static final String COLUMN_USER_ID = "user_id";
 
     }
 
@@ -56,18 +42,11 @@ public class DatabaseConsts {
      */
     public static class BookCategoryTable {
 
-        @Getter
-        public enum ColumnEnum {
-
-            WORK_DIRECTION("work_direction");
-
-            private String name;
-
-            ColumnEnum(String name) {
-                this.name = name;
-            }
-
+        private BookCategoryTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
         }
+
+        public static final String COLUMN_WORK_DIRECTION = "work_direction";
 
     }
 
@@ -76,20 +55,15 @@ public class DatabaseConsts {
      */
     public static class BookTable {
 
-        @Getter
-        public enum ColumnEnum {
-
-            CATEGORY_ID("category_id"),
-            VISIT_COUNT("visit_count"),
-            LAST_CHAPTER_UPDATE_TIME("last_chapter_update_time");
-
-            private String name;
-
-            ColumnEnum(String name) {
-                this.name = name;
-            }
-
+        private BookTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
         }
+
+        public static final String COLUMN_CATEGORY_ID = "category_id";
+
+        public static final String COLUMN_VISIT_COUNT = "visit_count";
+
+        public static final String COLUMN_LAST_CHAPTER_UPDATE_TIME = "last_chapter_update_time";
 
     }
 
@@ -98,20 +72,15 @@ public class DatabaseConsts {
      */
     public static class BookChapterTable {
 
-        @Getter
-        public enum ColumnEnum {
-
-            BOOK_ID("book_id"),
-            CHAPTER_NUM("chapter_num"),
-            LAST_CHAPTER_UPDATE_TIME("last_chapter_update_time");
-
-            private String name;
-
-            ColumnEnum(String name) {
-                this.name = name;
-            }
-
+        private BookChapterTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
         }
+
+        public static final String COLUMN_BOOK_ID = "book_id";
+
+        public static final String COLUMN_CHAPTER_NUM = "chapter_num";
+
+        public static final String COLUMN_LAST_CHAPTER_UPDATE_TIME = "last_chapter_update_time";
 
     }
 
@@ -120,18 +89,11 @@ public class DatabaseConsts {
      */
     public static class BookContentTable {
 
-        @Getter
-        public enum ColumnEnum {
-
-            CHAPTER_ID("chapter_id");
-
-            private String name;
-
-            ColumnEnum(String name) {
-                this.name = name;
-            }
-
+        private BookContentTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
         }
+
+        public static final String COLUMN_CHAPTER_ID = "chapter_id";
 
     }
 
@@ -140,18 +102,11 @@ public class DatabaseConsts {
      */
     public static class NewsContentTable {
 
-        @Getter
-        public enum ColumnEnum {
-
-            NEWS_ID("news_id");
-
-            private String name;
-
-            ColumnEnum(String name) {
-                this.name = name;
-            }
-
+        private NewsContentTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
         }
+
+        public static final String COLUMN_NEWS_ID = "news_id";
 
     }
 
