@@ -13,6 +13,11 @@ public class SystemConfigConsts {
     }
 
     /**
+     * Http 请求认证 Header
+     * */
+    public static final String HTTP_AUTH_HEADER_NAME = "Authorization";
+
+    /**
      * 前台门户系统标识
      * */
     public static final String NOVEL_FRONT_KEY = "front";

@@ -73,6 +73,11 @@ public enum ErrorCodeEnum {
     USER_REQUEST_PARAM_ERROR("A0400","用户请求参数错误"),
 
     /**
+     * 用户登录已过期
+     * */
+    USER_LOGIN_EXPIRED("A0230","用户登录已过期"),
+
+    /**
      * 一级宏观错误码，系统执行出错
      * */
     SYSTEM_ERROR("B0001","系统执行出错"),
