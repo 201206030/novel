@@ -78,6 +78,11 @@ public enum ErrorCodeEnum {
     USER_LOGIN_EXPIRED("A0230","用户登录已过期"),
 
     /**
+     * 访问未授权
+     * */
+    USER_UN_AUTH("A0301","访问未授权"),
+
+    /**
      * 一级宏观错误码，系统执行出错
      * */
     SYSTEM_ERROR("B0001","系统执行出错"),

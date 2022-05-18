@@ -32,6 +32,26 @@ public class DatabaseConsts {
     }
 
     /**
+     * 作家信息表
+     */
+    public static class AuthorInfoTable {
+
+        @Getter
+        public enum ColumnEnum {
+
+            USER_ID("user_id");
+
+            private String name;
+
+            ColumnEnum(String name) {
+                this.name = name;
+            }
+
+        }
+
+    }
+
+    /**
      * 小说类别表
      */
     public static class BookCategoryTable {
