@@ -1,5 +1,6 @@
 package io.github.xxyopen.novel.controller.front;
 
+import io.github.xxyopen.novel.core.auth.UserHolder;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
@@ -9,6 +10,7 @@ import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -49,8 +51,8 @@ public class UserController {
      * 用户信息修改接口
      */
     @PutMapping
-    public RestResp<Void> updateUserInfo(@Valid UserInfoUptReqDto dto, @RequestHeader("Authorization") String token) {
-        dto.setUserId(jwtUtils.parseToken(token, SystemConfigConsts.NOVEL_FRONT_KEY));
+    public RestResp<Void> updateUserInfo(@Valid UserInfoUptReqDto dto) {
+        dto.setUserId(UserHolder.getUserId());
         return userService.updateUserInfo(dto);
     }
 
@@ -58,8 +60,8 @@ public class UserController {
      * 用户反馈
      */
     @PostMapping("feedBack")
-    public RestResp<Void> submitFeedBack(String content, @RequestHeader("Authorization") String token) {
-        return userService.saveFeedBack(jwtUtils.parseToken(token, SystemConfigConsts.NOVEL_FRONT_KEY), content);
+    public RestResp<Void> submitFeedBack(String content) {
+        return userService.saveFeedBack(UserHolder.getUserId(), content);
     }
 
 }

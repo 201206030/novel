@@ -2,6 +2,7 @@ package io.github.xxyopen.novel.core.intercepter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.xxyopen.novel.core.auth.AuthStrategy;
+import io.github.xxyopen.novel.core.auth.UserHolder;
 import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
@@ -10,9 +11,11 @@ import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -49,15 +52,21 @@ public class AuthInterceptor implements HandlerInterceptor {
         // 开始认证
         try {
             authStrategy.get(authStrategyName).auth(token);
+            return HandlerInterceptor.super.preHandle(request, response, handler);
         }catch (BusinessException exception){
             // 认证失败
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.getWriter().write(objectMapper.writeValueAsString(RestResp.fail(ErrorCodeEnum.USER_LOGIN_EXPIRED)));
+            response.getWriter().write(objectMapper.writeValueAsString(RestResp.fail(exception.getErrorCodeEnum())));
             return false;
         }
-        // 认证成功
-        return HandlerInterceptor.super.preHandle(request, response, handler);
+    }
 
+    @SuppressWarnings("NullableProblems")
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        // 清理当前线程保存的用户数据
+        UserHolder.clear();
+        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 }

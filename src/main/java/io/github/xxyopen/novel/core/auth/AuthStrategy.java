@@ -48,6 +48,9 @@ public interface AuthStrategy {
             // 用户不存在
             throw new BusinessException(ErrorCodeEnum.USER_ACCOUNT_NOT_EXIST);
         }
+        // 设置 userId 到当前线程
+        UserHolder.setUserId(userId);
+        // 返回 userId
         return userId;
     }
 }

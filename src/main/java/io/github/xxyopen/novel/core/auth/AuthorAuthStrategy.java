@@ -44,5 +44,8 @@ public class AuthorAuthStrategy implements AuthStrategy {
             // 作家账号不存在，无权访问作家专区
             throw new BusinessException(ErrorCodeEnum.USER_UN_AUTH);
         }
+
+        // 设置作家ID到当前线程
+        UserHolder.setAuthorId(authorInfo.getId());
     }
 }
