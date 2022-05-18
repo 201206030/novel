@@ -4,8 +4,8 @@ import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.core.util.JwtUtils;
-import io.github.xxyopen.novel.dao.entity.UserInfo;
-import io.github.xxyopen.novel.dao.mapper.UserInfoMapper;
+import io.github.xxyopen.novel.dto.UserInfoDto;
+import io.github.xxyopen.novel.manager.UserInfoCacheManager;
 
 import java.util.Objects;
 
@@ -19,6 +19,7 @@ public interface AuthStrategy {
 
     /**
      * 请求用户认证
+     * 如果后面需要扩展到对每一个URI都进行权限控制，那么此方法可以加一个参数来接收用户请求的URI
      *
      * @param token 登录 token
      * @throws BusinessException 认证失败则抛出义务异常
@@ -29,11 +30,11 @@ public interface AuthStrategy {
      * 前台多系统单点登录统一账号认证（门户系统、作家系统以及后面会扩展的漫画系统和视频系统等）
      *
      * @param jwtUtils       jwt 工具
-     * @param userInfoMapper 用户查询 Mapper
+     * @param userInfoCacheManager 用户缓存管理对象
      * @param token          token 登录 token
      * @return 用户ID
      */
-    default Long authSSO(JwtUtils jwtUtils, UserInfoMapper userInfoMapper, String token) {
+    default Long authSSO(JwtUtils jwtUtils, UserInfoCacheManager userInfoCacheManager, String token) {
         if (Objects.isNull(token)) {
             // token 为空
             throw new BusinessException(ErrorCodeEnum.USER_LOGIN_EXPIRED);
@@ -43,7 +44,7 @@ public interface AuthStrategy {
             // token 解析失败
             throw new BusinessException(ErrorCodeEnum.USER_LOGIN_EXPIRED);
         }
-        UserInfo userInfo = userInfoMapper.selectById(userId);
+        UserInfoDto userInfo = userInfoCacheManager.getUser(userId);
         if (Objects.isNull(userInfo)) {
             // 用户不存在
             throw new BusinessException(ErrorCodeEnum.USER_ACCOUNT_NOT_EXIST);

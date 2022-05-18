@@ -1,13 +1,11 @@
 package io.github.xxyopen.novel.core.auth;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
-import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.core.util.JwtUtils;
-import io.github.xxyopen.novel.dao.entity.AuthorInfo;
-import io.github.xxyopen.novel.dao.mapper.AuthorInfoMapper;
-import io.github.xxyopen.novel.dao.mapper.UserInfoMapper;
+import io.github.xxyopen.novel.dto.AuthorInfoDto;
+import io.github.xxyopen.novel.manager.AuthorInfoCacheManager;
+import io.github.xxyopen.novel.manager.UserInfoCacheManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -25,21 +23,17 @@ public class AuthorAuthStrategy implements AuthStrategy {
 
     private final JwtUtils jwtUtils;
 
-    private final UserInfoMapper userInfoMapper;
+    private final UserInfoCacheManager userInfoCacheManager;
 
-    private final AuthorInfoMapper authorInfoMapper;
+    private final AuthorInfoCacheManager authorInfoCacheManager;
 
     @Override
     public void auth(String token) throws BusinessException {
         // 统一账号认证
-        Long userId = authSSO(jwtUtils, userInfoMapper, token);
+        Long userId = authSSO(jwtUtils, userInfoCacheManager, token);
 
         // 作家权限认证
-        QueryWrapper<AuthorInfo> queryWrapper = new QueryWrapper<>();
-        queryWrapper
-                .eq(DatabaseConsts.AuthorInfoTable.ColumnEnum.USER_ID.getName(), userId)
-                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
-        AuthorInfo authorInfo = authorInfoMapper.selectOne(queryWrapper);
+        AuthorInfoDto authorInfo = authorInfoCacheManager.getAuthor(userId);
         if(Objects.isNull(authorInfo)){
             // 作家账号不存在，无权访问作家专区
             throw new BusinessException(ErrorCodeEnum.USER_UN_AUTH);

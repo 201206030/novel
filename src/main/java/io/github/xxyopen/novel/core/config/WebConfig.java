@@ -1,7 +1,7 @@
 package io.github.xxyopen.novel.core.config;
 
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
-import io.github.xxyopen.novel.core.intercepter.AuthInterceptor;
+import io.github.xxyopen.novel.core.interceptor.AuthInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

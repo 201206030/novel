@@ -85,6 +85,16 @@ public class CacheConsts {
     public static final String IMG_VERIFY_CODE_CACHE_KEY = REDIS_CACHE_PREFIX + "imgVerifyCodeCache::";
 
     /**
+     * 用户信息缓存
+     */
+    public static final String USER_INFO_CACHE_NAME = "userInfoCache";
+
+    /**
+     * 作家信息缓存
+     */
+    public static final String AUTHOR_INFO_CACHE_NAME = "authorInfoCache";
+
+    /**
      * 缓存配置常量
      */
     public enum CacheEnum {
@@ -109,7 +119,11 @@ public class CacheConsts {
 
         BOOK_CONTENT_CACHE(2, BOOK_CONTENT_CACHE_NAME, 60 * 60 * 12, 3000),
 
-        LAST_UPDATE_BOOK_ID_LIST_CACHE(0,LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME,60 * 60, 10);
+        LAST_UPDATE_BOOK_ID_LIST_CACHE(0,LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME,60 * 60, 10),
+
+        USER_INFO_CACHE(2,USER_INFO_CACHE_NAME,60 * 60 * 24, 10000),
+
+        AUTHOR_INFO_CACHE(2,AUTHOR_INFO_CACHE_NAME,60 * 60 * 48, 1000);
 
         /**
          * 缓存类型 0-本地 1-本地和远程 2-远程

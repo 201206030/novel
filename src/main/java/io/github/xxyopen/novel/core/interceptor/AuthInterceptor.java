@@ -1,9 +1,8 @@
-package io.github.xxyopen.novel.core.intercepter;
+package io.github.xxyopen.novel.core.interceptor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.xxyopen.novel.core.auth.AuthStrategy;
 import io.github.xxyopen.novel.core.auth.UserHolder;
-import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
@@ -11,7 +10,6 @@ import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

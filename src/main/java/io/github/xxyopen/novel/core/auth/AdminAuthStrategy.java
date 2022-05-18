@@ -1,8 +1,6 @@
 package io.github.xxyopen.novel.core.auth;
 
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
-import io.github.xxyopen.novel.core.util.JwtUtils;
-import io.github.xxyopen.novel.dao.mapper.UserInfoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class AdminAuthStrategy implements AuthStrategy {
-
-    private final JwtUtils jwtUtils;
-
-    private final UserInfoMapper userInfoMapper;
 
     @Override
     public void auth(String token) throws BusinessException {
