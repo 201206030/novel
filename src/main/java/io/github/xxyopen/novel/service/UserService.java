@@ -42,4 +42,12 @@ public interface UserService {
      * @return void
      * */
     RestResp<Void> updateUserInfo(UserInfoUptReqDto dto);
+
+    /**
+     * 用户反馈删除
+     * @param userId 用户ID
+     * @param id 反馈ID
+     * @return void
+     * */
+    RestResp<Void> deleteFeedBack(Long userId, Long id);
 }

@@ -123,4 +123,13 @@ public class UserServiceImpl implements UserService {
         userInfoMapper.updateById(userInfo);
         return RestResp.ok();
     }
+
+    @Override
+    public RestResp<Void> deleteFeedBack(Long userId, Long id) {
+        QueryWrapper<UserFeedback> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.CommonColumnEnum.ID.getName(), id)
+                .eq(DatabaseConsts.UserFeedBackTable.COLUMN_USER_ID,userId);
+        userFeedbackMapper.delete(queryWrapper);
+        return RestResp.ok();
+    }
 }

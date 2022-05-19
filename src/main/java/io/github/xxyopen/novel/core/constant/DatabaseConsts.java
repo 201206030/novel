@@ -25,6 +25,19 @@ public class DatabaseConsts {
     }
 
     /**
+     * 用户反馈表
+     */
+    public static class UserFeedBackTable {
+
+        private UserFeedBackTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
+        }
+
+        public static final String COLUMN_USER_ID = "user_id";
+
+    }
+
+    /**
      * 作家信息表
      */
     public static class AuthorInfoTable {
