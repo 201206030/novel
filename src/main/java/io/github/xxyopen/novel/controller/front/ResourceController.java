@@ -28,7 +28,7 @@ public class ResourceController {
      * 获取图片验证码接口
      * @return
      */
-    @GetMapping("imgVerifyCode")
+    @GetMapping("img_verify_code")
     public RestResp<ImgVerifyCodeRespDto> getImgVerifyCode() throws IOException {
         return resourceService.getImgVerifyCode();
     }

@@ -28,7 +28,7 @@ public class NewsController {
     /**
      * 最新新闻列表查询接口
      */
-    @GetMapping("latestList")
+    @GetMapping("latest_list")
     public RestResp<List<NewsInfoRespDto>> listLatestNews() {
         return newsService.listLatestNews();
     }

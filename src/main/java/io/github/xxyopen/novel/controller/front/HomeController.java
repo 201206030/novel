@@ -36,7 +36,7 @@ public class HomeController {
     /**
      * 首页友情链接列表查询接口
      */
-    @GetMapping("friendLinks")
+    @GetMapping("friend_Link/list")
     public RestResp<List<HomeFriendLinkRespDto>> listHomeFriendLinks() {
         return homeService.listHomeFriendLinks();
     }

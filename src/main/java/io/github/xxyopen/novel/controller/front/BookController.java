@@ -28,7 +28,7 @@ public class BookController {
     /**
      * 小说分类列表查询接口
      */
-    @GetMapping("categoryList")
+    @GetMapping("category/list")
     public RestResp<List<BookCategoryRespDto>> listCategory(Integer workDirection) {
         return bookService.listCategory(workDirection);
     }
@@ -36,7 +36,7 @@ public class BookController {
     /**
      * 小说搜索接口
      */
-    @GetMapping("search")
+    @GetMapping("search_list")
     public RestResp<PageRespDto<BookInfoRespDto>> searchBooks(BookSearchReqDto condition) {
         return bookService.searchBooks(condition);
     }
@@ -44,8 +44,8 @@ public class BookController {
     /**
      * 小说信息查询接口
      */
-    @GetMapping("{bookId}")
-    public RestResp<BookInfoRespDto> getBookById(@PathVariable("bookId") Long bookId) {
+    @GetMapping("{id}")
+    public RestResp<BookInfoRespDto> getBookById(@PathVariable("id") Long bookId) {
         return bookService.getBookById(bookId);
     }
 
@@ -60,7 +60,7 @@ public class BookController {
     /**
      * 小说最新章节相关信息查询接口
      */
-    @GetMapping("lastChapterAbout")
+    @GetMapping("last_chapter/about")
     public RestResp<BookChapterAboutRespDto> getLastChapterAbout(Long bookId) {
         return bookService.getLastChapterAbout(bookId);
     }
@@ -68,7 +68,7 @@ public class BookController {
     /**
      * 小说推荐列表查询接口
      */
-    @GetMapping("recList")
+    @GetMapping("rec_list")
     public RestResp<List<BookInfoRespDto>> listRecBooks(Long bookId) throws NoSuchAlgorithmException {
         return bookService.listRecBooks(bookId);
     }
@@ -76,7 +76,7 @@ public class BookController {
     /**
      * 小说章节列表查询接口
      */
-    @GetMapping("chapterList")
+    @GetMapping("chapter/list")
     public RestResp<List<BookChapterRespDto>> listChapters(Long bookId) {
         return bookService.listChapters(bookId);
     }
@@ -92,7 +92,7 @@ public class BookController {
     /**
      * 获取上一章节ID接口
      */
-    @GetMapping("preChapterId/{chapterId}")
+    @GetMapping("pre_chapter_id/{chapterId}")
     public RestResp<Long> getPreChapterId(@PathVariable("chapterId") Long chapterId) {
         return bookService.getPreChapterId(chapterId);
     }
@@ -100,7 +100,7 @@ public class BookController {
     /**
      * 获取下一章节ID接口
      */
-    @GetMapping("nextChapterId/{chapterId}")
+    @GetMapping("next_chapter_id/{chapterId}")
     public RestResp<Long> nextChapterId(@PathVariable("chapterId") Long chapterId) {
         return bookService.nextChapterId(chapterId);
     }
@@ -108,7 +108,7 @@ public class BookController {
     /**
      * 小说点击榜查询接口
      */
-    @GetMapping("visitRank")
+    @GetMapping("visit_rank")
     public RestResp<List<BookRankRespDto>> listVisitRankBooks() {
         return bookService.listVisitRankBooks();
     }
@@ -116,7 +116,7 @@ public class BookController {
     /**
      * 小说新书榜查询接口
      */
-    @GetMapping("newestRank")
+    @GetMapping("newest_rank")
     public RestResp<List<BookRankRespDto>> listNewestRankBooks() {
         return bookService.listNewestRankBooks();
     }
@@ -124,7 +124,7 @@ public class BookController {
     /**
      * 小说更新榜查询接口
      */
-    @GetMapping("updateRank")
+    @GetMapping("update_rank")
     public RestResp<List<BookRankRespDto>> listUpdateRankBooks() {
         return bookService.listUpdateRankBooks();
     }

@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RestResp<Void> saveFeedBack(Long userId, String content) {
+    public RestResp<Void> saveFeedback(Long userId, String content) {
         UserFeedback userFeedback = new UserFeedback();
         userFeedback.setUserId(userId);
         userFeedback.setContent(content);
@@ -125,7 +125,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public RestResp<Void> deleteFeedBack(Long userId, Long id) {
+    public RestResp<Void> deleteFeedback(Long userId, Long id) {
         QueryWrapper<UserFeedback> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.CommonColumnEnum.ID.getName(), id)
                 .eq(DatabaseConsts.UserFeedBackTable.COLUMN_USER_ID,userId);

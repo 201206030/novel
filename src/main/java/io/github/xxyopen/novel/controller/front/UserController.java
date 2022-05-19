@@ -57,17 +57,17 @@ public class UserController {
     /**
      * 用户反馈提交接口
      */
-    @PostMapping("feedBack")
-    public RestResp<Void> submitFeedBack(@RequestBody String content) {
-        return userService.saveFeedBack(UserHolder.getUserId(), content);
+    @PostMapping("feedback")
+    public RestResp<Void> submitFeedback(@RequestBody String content) {
+        return userService.saveFeedback(UserHolder.getUserId(), content);
     }
 
     /**
      * 用户反馈删除接口
      * */
-    @DeleteMapping("feedBack/{id}")
-    public RestResp<Void> deleteFeedBack(@PathVariable Long id) {
-        return userService.deleteFeedBack(UserHolder.getUserId(), id);
+    @DeleteMapping("feedback/{id}")
+    public RestResp<Void> deleteFeedback(@PathVariable Long id) {
+        return userService.deleteFeedback(UserHolder.getUserId(), id);
     }
 
 }

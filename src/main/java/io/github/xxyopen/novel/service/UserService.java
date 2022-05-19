@@ -34,7 +34,7 @@ public interface UserService {
      * @param content 反馈内容
      * @return void
      * */
-    RestResp<Void> saveFeedBack(Long userId, String content);
+    RestResp<Void> saveFeedback(Long userId, String content);
 
     /**
      * 用户信息修改
@@ -49,5 +49,5 @@ public interface UserService {
      * @param id 反馈ID
      * @return void
      * */
-    RestResp<Void> deleteFeedBack(Long userId, Long id);
+    RestResp<Void> deleteFeedback(Long userId, Long id);
 }
