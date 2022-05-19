@@ -38,6 +38,21 @@ public class DatabaseConsts {
     }
 
     /**
+     * 用户书架表
+     */
+    public static class UserBookshelfTable {
+
+        private UserBookshelfTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
+        }
+
+        public static final String COLUMN_USER_ID = "user_id";
+
+        public static final String COLUMN_BOOK_ID = "book_id";
+
+    }
+
+    /**
      * 作家信息表
      */
     public static class AuthorInfoTable {

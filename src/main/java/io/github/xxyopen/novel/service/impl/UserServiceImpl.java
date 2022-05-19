@@ -1,14 +1,17 @@
 package io.github.xxyopen.novel.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import io.github.xxyopen.novel.core.common.constant.CommonConsts;
 import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.core.util.JwtUtils;
+import io.github.xxyopen.novel.dao.entity.UserBookshelf;
 import io.github.xxyopen.novel.dao.entity.UserFeedback;
 import io.github.xxyopen.novel.dao.entity.UserInfo;
+import io.github.xxyopen.novel.dao.mapper.UserBookshelfMapper;
 import io.github.xxyopen.novel.dao.mapper.UserFeedbackMapper;
 import io.github.xxyopen.novel.dao.mapper.UserInfoMapper;
 import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
@@ -40,6 +43,8 @@ public class UserServiceImpl implements UserService {
     private final VerifyCodeManager verifyCodeManager;
 
     private final UserFeedbackMapper userFeedbackMapper;
+
+    private final UserBookshelfMapper userBookshelfMapper;
 
     private final JwtUtils jwtUtils;
 
@@ -128,8 +133,20 @@ public class UserServiceImpl implements UserService {
     public RestResp<Void> deleteFeedback(Long userId, Long id) {
         QueryWrapper<UserFeedback> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.CommonColumnEnum.ID.getName(), id)
-                .eq(DatabaseConsts.UserFeedBackTable.COLUMN_USER_ID,userId);
+                .eq(DatabaseConsts.UserFeedBackTable.COLUMN_USER_ID, userId);
         userFeedbackMapper.delete(queryWrapper);
         return RestResp.ok();
+    }
+
+    @Override
+    public RestResp<Integer> getBookshelfStatus(Long userId, String bookId) {
+        QueryWrapper<UserBookshelf> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.UserBookshelfTable.COLUMN_USER_ID, userId)
+                .eq(DatabaseConsts.UserBookshelfTable.COLUMN_BOOK_ID, bookId);
+        return RestResp.ok(
+                userBookshelfMapper.selectCount(queryWrapper) > 0
+                        ? CommonConsts.YES
+                        : CommonConsts.NO
+        );
     }
 }

@@ -80,4 +80,14 @@ public class UserController {
         return bookService.saveComment(dto);
     }
 
+    /**
+     * 查询书架状态接口
+     * 0-不在书架
+     * 1-已在书架
+     * */
+    @GetMapping("bookshelf_status")
+    public RestResp<Integer> getBookshelfStatus(@RequestBody String bookId) {
+        return userService.getBookshelfStatus(UserHolder.getUserId(),bookId);
+    }
+
 }
