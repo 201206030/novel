@@ -14,5 +14,5 @@ public class UserLoginRespDto {
 
     private String nickName;
 
-    private String jwt;
+    private String token;
 }

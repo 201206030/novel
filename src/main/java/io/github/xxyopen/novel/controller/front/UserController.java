@@ -11,10 +11,7 @@ import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 会员模块相关 控制器
@@ -35,7 +32,7 @@ public class UserController {
      * 用户注册接口
      */
     @PostMapping("register")
-    public RestResp<String> register(@Valid UserRegisterReqDto dto) {
+    public RestResp<String> register(@Valid @RequestBody UserRegisterReqDto dto) {
         return userService.register(dto);
     }
 
@@ -43,7 +40,7 @@ public class UserController {
      * 用户登录接口
      */
     @PostMapping("login")
-    public RestResp<UserLoginRespDto> login(@Valid UserLoginReqDto dto) {
+    public RestResp<UserLoginRespDto> login(@Valid @RequestBody UserLoginReqDto dto) {
         return userService.login(dto);
     }
 
@@ -52,7 +49,7 @@ public class UserController {
      * 用户信息修改接口
      */
     @PutMapping
-    public RestResp<Void> updateUserInfo(@Valid UserInfoUptReqDto dto) {
+    public RestResp<Void> updateUserInfo(@Valid @RequestBody UserInfoUptReqDto dto) {
         dto.setUserId(UserHolder.getUserId());
         return userService.updateUserInfo(dto);
     }
@@ -61,7 +58,7 @@ public class UserController {
      * 用户反馈
      */
     @PostMapping("feedBack")
-    public RestResp<Void> submitFeedBack(String content) {
+    public RestResp<Void> submitFeedBack(@RequestBody String content) {
         return userService.saveFeedBack(UserHolder.getUserId(), content);
     }
 

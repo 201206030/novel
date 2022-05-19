@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService {
 
         // 登录成功，生成JWT并返回
         return RestResp.ok(UserLoginRespDto.builder()
-                .jwt(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
+                .token(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
                 .nickName(userInfo.getNickName()).build());
     }
 
