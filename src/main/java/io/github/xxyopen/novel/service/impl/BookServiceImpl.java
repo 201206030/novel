@@ -6,10 +6,13 @@ import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.BookChapter;
+import io.github.xxyopen.novel.dao.entity.BookComment;
 import io.github.xxyopen.novel.dao.entity.BookInfo;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
+import io.github.xxyopen.novel.dao.mapper.BookCommentMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
+import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.manager.*;
 import io.github.xxyopen.novel.service.BookService;
@@ -19,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -48,6 +52,8 @@ public class BookServiceImpl implements BookService {
     private final BookInfoMapper bookInfoMapper;
 
     private final BookChapterMapper bookChapterMapper;
+
+    private final BookCommentMapper bookCommentMapper;
 
     private static final Integer REC_BOOK_COUNT = 4;
 
@@ -195,6 +201,18 @@ public class BookServiceImpl implements BookService {
     @Override
     public RestResp<List<BookCategoryRespDto>> listCategory(Integer workDirection) {
         return RestResp.ok(bookCategoryCacheManager.listCategory(workDirection));
+    }
+
+    @Override
+    public RestResp<Void> saveComment(UserCommentReqDto dto) {
+        BookComment bookComment = new BookComment();
+        bookComment.setBookId(dto.getBookId());
+        bookComment.setUserId(dto.getUserId());
+        bookComment.setCommentContent(dto.getCommentContent());
+        bookComment.setCreateTime(LocalDateTime.now());
+        bookComment.setUpdateTime(LocalDateTime.now());
+        bookCommentMapper.insert(bookComment);
+        return RestResp.ok();
     }
 
     @Override

@@ -3,11 +3,12 @@ package io.github.xxyopen.novel.controller.front;
 import io.github.xxyopen.novel.core.auth.UserHolder;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
-import io.github.xxyopen.novel.core.util.JwtUtils;
+import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
+import io.github.xxyopen.novel.service.BookService;
 import io.github.xxyopen.novel.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class UserController {
 
     private final UserService userService;
 
-    private final JwtUtils jwtUtils;
+    private final BookService bookService;
 
     /**
      * 用户注册接口
@@ -68,6 +69,15 @@ public class UserController {
     @DeleteMapping("feedback/{id}")
     public RestResp<Void> deleteFeedback(@PathVariable Long id) {
         return userService.deleteFeedback(UserHolder.getUserId(), id);
+    }
+
+    /**
+     * 发表评论接口
+     * */
+    @PostMapping("comment")
+    public RestResp<Void> comment(@RequestBody UserCommentReqDto dto) {
+        dto.setUserId(UserHolder.getUserId());
+        return bookService.saveComment(dto);
     }
 
 }

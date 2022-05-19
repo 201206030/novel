@@ -3,6 +3,7 @@ package io.github.xxyopen.novel.service;
 import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
+import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
 
 import java.security.NoSuchAlgorithmException;
@@ -103,4 +104,11 @@ public interface BookService {
      * @return 分类列表
      * */
     RestResp<List<BookCategoryRespDto>> listCategory(Integer workDirection);
+
+    /**
+     * 发表评论
+     * @param dto 评论相关 DTO
+     * @return void
+     * */
+    RestResp<Void> saveComment(UserCommentReqDto dto);
 }
