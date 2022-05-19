@@ -22,7 +22,7 @@ public interface AuthStrategy {
      * 如果后面需要扩展到对每一个URI都进行权限控制，那么此方法可以加一个参数来接收用户请求的URI
      *
      * @param token 登录 token
-     * @throws BusinessException 认证失败则抛出义务异常
+     * @throws BusinessException 认证失败则抛出业务异常
      */
     void auth(String token) throws BusinessException;
 

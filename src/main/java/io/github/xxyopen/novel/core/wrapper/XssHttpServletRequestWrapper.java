@@ -14,12 +14,15 @@ import java.util.Map;
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
-    private final Map<String,String> replaceRule = new HashMap<>();
+    private static final Map<String,String> REPLACE_RULE = new HashMap<>();
+
+    static {
+        REPLACE_RULE.put("<", "&lt;");
+        REPLACE_RULE.put(">", "&gt;");
+    }
 
     public XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
-        replaceRule.put("<", "&lt;");
-        replaceRule.put(">", "&gt;");
     }
 
     @Override
@@ -29,9 +32,9 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
             int length = values.length;
             String[] escapeValues = new String[length];
             for (int i = 0; i < length; i++) {
-                String raw = values[i];
+                escapeValues[i] = values[i];
                 int index = i;
-                replaceRule.forEach((k, v)-> escapeValues[index] = raw.replaceAll(k, v));
+                REPLACE_RULE.forEach((k, v)-> escapeValues[index] = escapeValues[index].replaceAll(k, v));
             }
             return escapeValues;
         }
