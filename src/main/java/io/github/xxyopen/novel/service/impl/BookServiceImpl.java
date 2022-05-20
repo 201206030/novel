@@ -2,6 +2,7 @@ package io.github.xxyopen.novel.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.DatabaseConsts;
@@ -206,6 +207,14 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public RestResp<Void> saveComment(UserCommentReqDto dto) {
+        // 校验用户是否已发表评论
+        QueryWrapper<BookComment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID,dto.getUserId())
+                .eq(DatabaseConsts.BookCommentTable.COLUMN_BOOK_ID,dto.getBookId());
+        if(bookCommentMapper.selectCount(queryWrapper) > 0){
+            // 用户已发表评论
+            return RestResp.fail(ErrorCodeEnum.USER_COMMENTED);
+        }
         BookComment bookComment = new BookComment();
         bookComment.setBookId(dto.getBookId());
         bookComment.setUserId(dto.getUserId());

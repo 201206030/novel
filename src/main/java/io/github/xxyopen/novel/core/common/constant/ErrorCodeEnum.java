@@ -83,6 +83,16 @@ public enum ErrorCodeEnum {
     USER_UN_AUTH("A0301","访问未授权"),
 
     /**
+     * 用户评论异常
+     * */
+    USER_COMMENT("A2000","用户评论异常"),
+
+    /**
+     * 用户评论异常
+     * */
+    USER_COMMENTED("A2001","用户已发表评论"),
+
+    /**
      * 一级宏观错误码，系统执行出错
      * */
     SYSTEM_ERROR("B0001","系统执行出错"),

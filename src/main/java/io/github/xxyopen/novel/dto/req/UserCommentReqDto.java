@@ -1,6 +1,7 @@
 package io.github.xxyopen.novel.dto.req;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
@@ -14,7 +15,7 @@ public class UserCommentReqDto {
 
     private Long userId;
 
-    @NotBlank(message="小说ID不能为空！")
+    @NotNull(message="小说ID不能为空！")
     private Long bookId;
 
     @NotBlank(message="评论不能为空！")

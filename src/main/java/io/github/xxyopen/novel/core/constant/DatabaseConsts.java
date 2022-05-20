@@ -136,6 +136,8 @@ public class DatabaseConsts {
 
         public static final String COLUMN_BOOK_ID = "book_id";
 
+        public static final String COLUMN_USER_ID = "user_id";
+
     }
 
     /**
