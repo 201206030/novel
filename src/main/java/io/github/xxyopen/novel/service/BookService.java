@@ -100,7 +100,7 @@ public interface BookService {
      * @param chapterId 章节ID
      * @return 下一章节ID
      */
-    RestResp<Long> nextChapterId(Long chapterId);
+    RestResp<Long> getNextChapterId(Long chapterId);
 
     /**
      * 小说章节列表查询
@@ -126,4 +126,11 @@ public interface BookService {
      */
     RestResp<Void> saveComment(UserCommentReqDto dto);
 
+    /**
+     * 小说最新评论查询
+     *
+     * @param bookId 小说ID
+     * @return 小说最新评论数据
+     */
+    RestResp<BookCommentRespDto> listNewestComments(Long bookId);
 }

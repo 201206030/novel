@@ -8,6 +8,7 @@ import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.BookChapter;
 import io.github.xxyopen.novel.dao.entity.BookComment;
 import io.github.xxyopen.novel.dao.entity.BookInfo;
+import io.github.xxyopen.novel.dao.entity.UserInfo;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookCommentMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
@@ -23,10 +24,8 @@ import org.springframework.stereotype.Service;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 小说模块 服务实现类
@@ -55,6 +54,8 @@ public class BookServiceImpl implements BookService {
 
     private final BookCommentMapper bookCommentMapper;
 
+    private final UserDaoManager userDaoManager;
+
     private static final Integer REC_BOOK_COUNT = 4;
 
     @Override
@@ -63,8 +64,8 @@ public class BookServiceImpl implements BookService {
         page.setCurrent(condition.getPageNum());
         page.setSize(condition.getPageSize());
         List<BookInfo> bookInfos = bookInfoMapper.searchBooks(page, condition);
-        return RestResp.ok(PageRespDto.of(condition.getPageNum(),condition.getPageSize(),page.getTotal()
-                ,bookInfos.stream().map(v -> BookInfoRespDto.builder()
+        return RestResp.ok(PageRespDto.of(condition.getPageNum(), condition.getPageSize(), page.getTotal()
+                , bookInfos.stream().map(v -> BookInfoRespDto.builder()
                         .id(v.getId())
                         .bookName(v.getBookName())
                         .categoryId(v.getCategoryId())
@@ -168,7 +169,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public RestResp<Long> nextChapterId(Long chapterId) {
+    public RestResp<Long> getNextChapterId(Long chapterId) {
         // 查询小说ID 和 章节号
         BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
         Long bookId = chapter.getBookId();
@@ -213,6 +214,38 @@ public class BookServiceImpl implements BookService {
         bookComment.setUpdateTime(LocalDateTime.now());
         bookCommentMapper.insert(bookComment);
         return RestResp.ok();
+    }
+
+    @Override
+    public RestResp<BookCommentRespDto> listNewestComments(Long bookId) {
+        // 查询评论总数
+        QueryWrapper<BookComment> commentCountQueryWrapper = new QueryWrapper<>();
+        commentCountQueryWrapper.eq(DatabaseConsts.BookCommentTable.COLUMN_BOOK_ID, bookId);
+        Long commentTotal = bookCommentMapper.selectCount(commentCountQueryWrapper);
+        BookCommentRespDto bookCommentRespDto = BookCommentRespDto.builder().commentTotal(commentTotal).build();
+        if (commentTotal > 0) {
+
+            // 查询最新的评论列表
+            QueryWrapper<BookComment> commentQueryWrapper = new QueryWrapper<>();
+            commentQueryWrapper.eq(DatabaseConsts.BookCommentTable.COLUMN_BOOK_ID, bookId)
+                    .orderByDesc(DatabaseConsts.CommonColumnEnum.CREATE_TIME.getName())
+                    .last(DatabaseConsts.SqlEnum.LIMIT_5.getSql());
+            List<BookComment> bookComments = bookCommentMapper.selectList(commentQueryWrapper);
+
+            // 查询评论用户信息，并设置需要返回的评论用户名
+            List<Long> userIds = bookComments.stream().map(BookComment::getUserId).toList();
+            List<UserInfo> userInfos = userDaoManager.listUsers(userIds);
+            Map<Long, String> userInfoMap = userInfos.stream().collect(Collectors.toMap(UserInfo::getId, UserInfo::getUsername));
+            List<BookCommentRespDto.CommentInfo> commentInfos = bookComments.stream()
+                    .map(v -> BookCommentRespDto.CommentInfo.builder()
+                            .commentUser(userInfoMap.get(v.getUserId()))
+                            .commentContent(v.getCommentContent())
+                            .commentTime(v.getCreateTime()).build()).toList();
+            bookCommentRespDto.setComments(commentInfos);
+        } else {
+            bookCommentRespDto.setComments(Collections.emptyList());
+        }
+        return RestResp.ok(bookCommentRespDto);
     }
 
     @Override

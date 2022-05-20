@@ -126,6 +126,19 @@ public class DatabaseConsts {
     }
 
     /**
+     * 小说评论表
+     */
+    public static class BookCommentTable {
+
+        private BookCommentTable() {
+            throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
+        }
+
+        public static final String COLUMN_BOOK_ID = "book_id";
+
+    }
+
+    /**
      * 新闻内容表
      */
     public static class NewsContentTable {
@@ -166,6 +179,7 @@ public class DatabaseConsts {
 
         LIMIT_1("limit 1"),
         LIMIT_2("limit 2"),
+        LIMIT_5("limit 5"),
         LIMIT_30("limit 30"),
         LIMIT_500("limit 500");
 

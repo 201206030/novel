@@ -101,8 +101,8 @@ public class BookController {
      * 获取下一章节ID接口
      */
     @GetMapping("next_chapter_id/{chapterId}")
-    public RestResp<Long> nextChapterId(@PathVariable("chapterId") Long chapterId) {
-        return bookService.nextChapterId(chapterId);
+    public RestResp<Long> getNextChapterId(@PathVariable("chapterId") Long chapterId) {
+        return bookService.getNextChapterId(chapterId);
     }
 
     /**
@@ -128,5 +128,14 @@ public class BookController {
     public RestResp<List<BookRankRespDto>> listUpdateRankBooks() {
         return bookService.listUpdateRankBooks();
     }
+
+    /**
+     * 小说最新评论查询接口
+     */
+    @GetMapping("comment/newest_list")
+    public RestResp<BookCommentRespDto> listNewestComments(Long bookId) {
+        return bookService.listNewestComments(bookId);
+    }
+
 
 }
