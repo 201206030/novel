@@ -75,7 +75,7 @@ public class UserController {
      * 发表评论接口
      * */
     @PostMapping("comment")
-    public RestResp<Void> comment(@RequestBody UserCommentReqDto dto) {
+    public RestResp<Void> comment(@Valid @RequestBody UserCommentReqDto dto) {
         dto.setUserId(UserHolder.getUserId());
         return bookService.saveComment(dto);
     }
