@@ -85,6 +85,7 @@ io
             |   +- constant -- 业务相关常量         
             |   +- filter -- 过滤器 
             |   +- interceptor -- 拦截器
+            |   +- json -- JSON 相关的包，包括序列化器和反序列化器
             |   +- task -- 定时任务
             |   +- util -- 业务相关工具 
             |   +- wrapper -- 装饰器
