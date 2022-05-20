@@ -27,6 +27,8 @@ public class BookCommentRespDto {
     @Builder
     public static class CommentInfo {
 
+        private Long id;
+
         private String commentContent;
 
         @JsonSerialize(using = UsernameSerializer.class)

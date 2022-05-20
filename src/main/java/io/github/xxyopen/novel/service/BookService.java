@@ -133,4 +133,12 @@ public interface BookService {
      * @return 小说最新评论数据
      */
     RestResp<BookCommentRespDto> listNewestComments(Long bookId);
+
+    /**
+     * 删除评论
+     * @param userId 评论用户ID
+     * @param commentId 评论ID
+     * @return void
+     * */
+    RestResp<Void> deleteComment(Long userId, Long commentId);
 }

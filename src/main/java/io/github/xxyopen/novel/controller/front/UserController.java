@@ -81,6 +81,14 @@ public class UserController {
     }
 
     /**
+     * 删除评论接口
+     * */
+    @DeleteMapping("comment/{id}")
+    public RestResp<Void> deleteComment(@PathVariable Long id) {
+        return bookService.deleteComment(UserHolder.getUserId(),id);
+    }
+
+    /**
      * 查询书架状态接口
      * 0-不在书架
      * 1-已在书架
