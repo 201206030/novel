@@ -8,6 +8,7 @@ import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
+import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
 import io.github.xxyopen.novel.service.BookService;
 import io.github.xxyopen.novel.service.UserService;
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class UserController {
      * 用户注册接口
      */
     @PostMapping("register")
-    public RestResp<String> register(@Valid @RequestBody UserRegisterReqDto dto) {
+    public RestResp<UserRegisterRespDto> register(@Valid @RequestBody UserRegisterReqDto dto) {
         return userService.register(dto);
     }
 
@@ -65,7 +66,7 @@ public class UserController {
 
     /**
      * 用户反馈删除接口
-     * */
+     */
     @DeleteMapping("feedback/{id}")
     public RestResp<Void> deleteFeedback(@PathVariable Long id) {
         return userService.deleteFeedback(UserHolder.getUserId(), id);
@@ -73,7 +74,7 @@ public class UserController {
 
     /**
      * 发表评论接口
-     * */
+     */
     @PostMapping("comment")
     public RestResp<Void> comment(@Valid @RequestBody UserCommentReqDto dto) {
         dto.setUserId(UserHolder.getUserId());
@@ -81,21 +82,29 @@ public class UserController {
     }
 
     /**
+     * 修改评论接口
+     */
+    @PutMapping("comment/{id}")
+    public RestResp<Void> updateComment(@PathVariable Long id, String content) {
+        return bookService.updateComment(UserHolder.getUserId(), id, content);
+    }
+
+    /**
      * 删除评论接口
-     * */
+     */
     @DeleteMapping("comment/{id}")
     public RestResp<Void> deleteComment(@PathVariable Long id) {
-        return bookService.deleteComment(UserHolder.getUserId(),id);
+        return bookService.deleteComment(UserHolder.getUserId(), id);
     }
 
     /**
      * 查询书架状态接口
      * 0-不在书架
      * 1-已在书架
-     * */
+     */
     @GetMapping("bookshelf_status")
     public RestResp<Integer> getBookshelfStatus(@RequestBody String bookId) {
-        return userService.getBookshelfStatus(UserHolder.getUserId(),bookId);
+        return userService.getBookshelfStatus(UserHolder.getUserId(), bookId);
     }
 
 }

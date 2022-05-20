@@ -5,6 +5,7 @@ import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
+import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
 
 /**
  * 会员模块 服务类
@@ -20,7 +21,7 @@ public interface UserService {
      * @param dto 注册参数
      * @return JWT
      */
-    RestResp<String> register(UserRegisterReqDto dto);
+    RestResp<UserRegisterRespDto> register(UserRegisterReqDto dto);
 
     /**
      * 用户登录

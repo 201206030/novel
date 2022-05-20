@@ -248,6 +248,7 @@ public class BookServiceImpl implements BookService {
             List<BookCommentRespDto.CommentInfo> commentInfos = bookComments.stream()
                     .map(v -> BookCommentRespDto.CommentInfo.builder()
                             .id(v.getId())
+                            .commentUserId(v.getUserId())
                             .commentUser(userInfoMap.get(v.getUserId()))
                             .commentContent(v.getCommentContent())
                             .commentTime(v.getCreateTime()).build()).toList();
@@ -264,6 +265,17 @@ public class BookServiceImpl implements BookService {
         queryWrapper.eq(DatabaseConsts.CommonColumnEnum.ID.getName(), commentId)
                 .eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID,userId);
          bookCommentMapper.delete(queryWrapper);
+        return RestResp.ok();
+    }
+
+    @Override
+    public RestResp<Void> updateComment(Long userId, Long id, String content) {
+        QueryWrapper<BookComment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.CommonColumnEnum.ID.getName(), id)
+                .eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID,userId);
+        BookComment bookComment = new BookComment();
+        bookComment.setCommentContent(content);
+        bookCommentMapper.update(bookComment,queryWrapper);
         return RestResp.ok();
     }
 

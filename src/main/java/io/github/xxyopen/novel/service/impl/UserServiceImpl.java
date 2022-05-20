@@ -18,6 +18,7 @@ import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
+import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
 import io.github.xxyopen.novel.manager.VerifyCodeManager;
 import io.github.xxyopen.novel.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +50,7 @@ public class UserServiceImpl implements UserService {
     private final JwtUtils jwtUtils;
 
     @Override
-    public RestResp<String> register(UserRegisterReqDto dto) {
+    public RestResp<UserRegisterRespDto> register(UserRegisterReqDto dto) {
         // 校验图形验证码是否正确
         if (!verifyCodeManager.imgVerifyCodeOk(dto.getSessionId(), dto.getVelCode())) {
             // 图形验证码校验失败
@@ -79,7 +80,13 @@ public class UserServiceImpl implements UserService {
         verifyCodeManager.removeImgVerifyCode(dto.getSessionId());
 
         // 生成JWT 并返回
-        return RestResp.ok(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY));
+        return RestResp.ok(
+                UserRegisterRespDto.builder()
+                        .token(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
+                        .uid(userInfo.getId())
+                        .build()
+        );
+
     }
 
     @Override
@@ -104,6 +111,7 @@ public class UserServiceImpl implements UserService {
         // 登录成功，生成JWT并返回
         return RestResp.ok(UserLoginRespDto.builder()
                 .token(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
+                .uid(userInfo.getId())
                 .nickName(userInfo.getNickName()).build());
     }
 

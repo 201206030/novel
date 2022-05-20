@@ -34,6 +34,8 @@ public class BookCommentRespDto {
         @JsonSerialize(using = UsernameSerializer.class)
         private String commentUser;
 
+        private Long commentUserId;
+
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime commentTime;
 
