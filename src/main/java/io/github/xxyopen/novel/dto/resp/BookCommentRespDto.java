@@ -18,7 +18,6 @@ import java.util.List;
 @Builder
 public class BookCommentRespDto {
 
-
     private Long commentTotal;
 
     private List<CommentInfo> comments;
@@ -40,7 +39,5 @@ public class BookCommentRespDto {
         private LocalDateTime commentTime;
 
     }
-
-
 
 }

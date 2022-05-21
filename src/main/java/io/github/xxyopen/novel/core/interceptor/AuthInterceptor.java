@@ -43,9 +43,9 @@ public class AuthInterceptor implements HandlerInterceptor {
         String requestUri = request.getRequestURI();
 
         // 根据请求的 URI 得到认证策略
-        String authStrategyName = requestUri.substring(ApiRouterConsts.API_URL_PREFIX.length() + 1);
-        authStrategyName = authStrategyName.substring(0,authStrategyName.indexOf("/"));
-        authStrategyName = String.format("%sAuthStrategy",authStrategyName);
+        String subUri = requestUri.substring(ApiRouterConsts.API_URL_PREFIX.length() + 1);
+        String systemName = subUri.substring(0,subUri.indexOf("/"));
+        String authStrategyName = String.format("%sAuthStrategy",systemName);
 
         // 开始认证
         try {
