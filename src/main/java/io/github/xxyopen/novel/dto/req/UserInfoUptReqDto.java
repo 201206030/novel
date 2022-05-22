@@ -19,7 +19,7 @@ public class UserInfoUptReqDto {
     @Length(min = 2,max = 10)
     private String nickName;
 
-    @Pattern(regexp="^/[^\s]{10,}\\.(png|jpg|jpeg|gif|bpm)$")
+    @Pattern(regexp="^/[^\s]{10,}\\.(png|PNG|jpg|JPG|jpeg|JPEG|gif|GIF|bpm|BPM)$")
     private String userPhoto;
 
     @Min(value = 0)
