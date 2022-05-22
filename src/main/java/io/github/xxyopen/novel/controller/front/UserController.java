@@ -7,6 +7,7 @@ import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
+import io.github.xxyopen.novel.dto.resp.UserInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
 import io.github.xxyopen.novel.service.BookService;
@@ -46,6 +47,13 @@ public class UserController {
         return userService.login(dto);
     }
 
+    /**
+     * 用户信息查询接口
+     */
+    @GetMapping
+    public RestResp<UserInfoRespDto> getUserInfo() {
+        return userService.getUserInfo(UserHolder.getUserId());
+    }
 
     /**
      * 用户信息修改接口

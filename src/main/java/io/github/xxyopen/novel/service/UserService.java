@@ -4,6 +4,7 @@ import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
+import io.github.xxyopen.novel.dto.resp.UserInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
 
@@ -65,4 +66,11 @@ public interface UserService {
      * @return 0-不在书架 1-已在书架
      */
     RestResp<Integer> getBookshelfStatus(Long userId, String bookId);
+
+    /**
+     * 用户信息查询
+     * @param userId 用户ID
+     * @return 用户信息
+     */
+    RestResp<UserInfoRespDto> getUserInfo(Long userId);
 }

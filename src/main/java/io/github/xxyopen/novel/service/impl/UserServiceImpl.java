@@ -17,6 +17,7 @@ import io.github.xxyopen.novel.dao.mapper.UserInfoMapper;
 import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
+import io.github.xxyopen.novel.dto.resp.UserInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
 import io.github.xxyopen.novel.manager.VerifyCodeManager;
@@ -156,5 +157,15 @@ public class UserServiceImpl implements UserService {
                         ? CommonConsts.YES
                         : CommonConsts.NO
         );
+    }
+
+    @Override
+    public RestResp<UserInfoRespDto> getUserInfo(Long userId) {
+        UserInfo userInfo = userInfoMapper.selectById(userId);
+        return RestResp.ok(UserInfoRespDto.builder()
+                .nickName(userInfo.getNickName())
+                .userSex(userInfo.getUserSex())
+                .userPhoto(userInfo.getUserPhoto())
+                .build());
     }
 }
