@@ -26,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -244,12 +245,13 @@ public class BookServiceImpl implements BookService {
             // 查询评论用户信息，并设置需要返回的评论用户名
             List<Long> userIds = bookComments.stream().map(BookComment::getUserId).toList();
             List<UserInfo> userInfos = userDaoManager.listUsers(userIds);
-            Map<Long, String> userInfoMap = userInfos.stream().collect(Collectors.toMap(UserInfo::getId, UserInfo::getUsername));
+            Map<Long, UserInfo> userInfoMap = userInfos.stream().collect(Collectors.toMap(UserInfo::getId, Function.identity()));
             List<BookCommentRespDto.CommentInfo> commentInfos = bookComments.stream()
                     .map(v -> BookCommentRespDto.CommentInfo.builder()
                             .id(v.getId())
                             .commentUserId(v.getUserId())
-                            .commentUser(userInfoMap.get(v.getUserId()))
+                            .commentUser(userInfoMap.get(v.getUserId()).getUsername())
+                            .commentUserPhoto(userInfoMap.get(v.getUserId()).getUserPhoto())
                             .commentContent(v.getCommentContent())
                             .commentTime(v.getCreateTime()).build()).toList();
             bookCommentRespDto.setComments(commentInfos);

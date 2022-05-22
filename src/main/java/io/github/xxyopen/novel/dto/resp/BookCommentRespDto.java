@@ -35,6 +35,8 @@ public class BookCommentRespDto {
 
         private Long commentUserId;
 
+        private String commentUserPhoto;
+
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         private LocalDateTime commentTime;
 
