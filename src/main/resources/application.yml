@@ -61,7 +61,11 @@ novel:
     # 排除链接
     excludes:
       - /system/notice/*
-
+  file:
+    # 文件上传配置
+    upload:
+      # 上传路径
+      path: /var/upload
 
 
 

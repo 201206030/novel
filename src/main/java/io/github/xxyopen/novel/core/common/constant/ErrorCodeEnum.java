@@ -93,6 +93,16 @@ public enum ErrorCodeEnum {
     USER_COMMENTED("A2001","用户已发表评论"),
 
     /**
+     * 用户上传文件异常
+     * */
+    USER_UPLOAD_FILE_ERROR("A0700","用户上传文件异常"),
+
+    /**
+     * 用户上传文件类型不匹配
+     * */
+    USER_UPLOAD_FILE_TYPE_NOT_MATCH("A0701","用户上传文件类型不匹配"),
+
+    /**
      * 一级宏观错误码，系统执行出错
      * */
     SYSTEM_ERROR("B0001","系统执行出错"),

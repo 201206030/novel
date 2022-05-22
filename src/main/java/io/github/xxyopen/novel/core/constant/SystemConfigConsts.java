@@ -33,6 +33,11 @@ public class SystemConfigConsts {
     public static final String NOVEL_ADMIN_KEY = "admin";
 
     /**
+     * 图片上传目录
+     * */
+    public static final String IMAGE_UPLOAD_DIRECTORY = "/image/";
+
+    /**
      * 常量类实例化异常信息
      * */
     public static final String CONST_INSTANCE_EXCEPTION_MSG = "Constant class";

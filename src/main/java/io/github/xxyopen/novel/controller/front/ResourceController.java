@@ -5,9 +5,8 @@ import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.dto.resp.ImgVerifyCodeRespDto;
 import io.github.xxyopen.novel.service.ResourceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -30,6 +29,14 @@ public class ResourceController {
     @GetMapping("img_verify_code")
     public RestResp<ImgVerifyCodeRespDto> getImgVerifyCode() throws IOException {
         return resourceService.getImgVerifyCode();
+    }
+
+    /**
+     * 图片上传接口
+     * */
+    @PostMapping("/image")
+    RestResp<String> uploadImage(@RequestParam("file") MultipartFile file) {
+        return resourceService.uploadImage(file);
     }
 
 }
