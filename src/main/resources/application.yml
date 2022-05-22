@@ -6,6 +6,12 @@ spring:
   jackson:
     generator:
       write-numbers-as-strings: true
+  servlet:
+    # 上传文件最大大小
+    multipart:
+      max-file-size: 5MB
+
+
 
 server:
   port: 8888

@@ -31,7 +31,7 @@ public class FileInterceptor implements HandlerInterceptor {
         String requestUri = request.getRequestURI();
         // 缓存10天
         response.setDateHeader("expires", System.currentTimeMillis() + 60 * 60 * 24 * 10 * 1000);
-        try (OutputStream out = response.getOutputStream();InputStream input = new FileInputStream(fileUploadPath + requestUri)) {
+        try (OutputStream out = response.getOutputStream(); InputStream input = new FileInputStream(fileUploadPath + requestUri)) {
             byte[] b = new byte[4096];
             for (int n; (n = input.read(b)) != -1; ) {
                 out.write(b, 0, n);
