@@ -1,0 +1,62 @@
+PUT /book
+{
+  "mappings" : {
+    "properties" : {
+      "id" : {
+        "type" : "long"
+      },
+      "authorId" : {
+        "type" : "long"
+      },
+      "authorName" : {
+        "type" : "text",
+        "analyzer": "ik_smart"
+      },
+      "bookName" : {
+        "type" : "text",
+        "analyzer": "ik_smart"
+      },
+      "bookDesc" : {
+        "type" : "text",
+        "analyzer": "ik_smart"
+      },
+      "bookStatus" : {
+        "type" : "short"
+      },
+      "categoryId" : {
+        "type" : "integer"
+      },
+      "categoryName" : {
+        "type" : "text",
+        "analyzer": "ik_smart"
+      },
+      "lastChapterId" : {
+        "type" : "long"
+      },
+      "lastChapterName" : {
+        "type" : "text",
+        "analyzer": "ik_smart"
+      },
+      "lastChapterUpdateTime" : {
+        "type": "keyword"
+      },
+      "picUrl" : {
+        "type" : "keyword",
+        "index" : false,
+        "doc_values" : false
+      },
+      "score" : {
+        "type" : "integer"
+      },
+      "wordCount" : {
+        "type" : "integer"
+      },
+      "workDirection" : {
+        "type" : "short"
+      },
+      "visitCount" : {
+        "type": "long"
+      }
+    }
+  }
+}

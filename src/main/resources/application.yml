@@ -41,7 +41,13 @@ spring:
   config:
     activate:
       on-profile: dev
-
+  elasticsearch:
+    # 是否开启 elasticsearch 搜索引擎功能：true-开启 false-不开启
+    enable: false
+    uris:
+      - https://my-deployment-ce7ca3.es.us-central1.gcp.cloud.es.io:9243
+    username: elastic
+    password: qTjgYVKSuExX6tWAsDuvuvwl
 
 ---
 spring:

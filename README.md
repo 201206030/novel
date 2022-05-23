@@ -175,7 +175,7 @@ git clone https://gitee.com/novel_dev_team/novel.git
 
     1. 新建数据库（建议 novel）
 
-    2. 解压后端源码`sql/novel.sql.zip`压缩包，得到数据库结构文件`novel_struc.sql`和数据库小说数据文件`novel_data.sql`
+    2. 解压后端源码`doc/sql/novel.sql.zip`压缩包，得到数据库结构文件`novel_struc.sql`和数据库小说数据文件`novel_data.sql`
 
     3. 导入`novel_struct.sql`数据库结构文件
 

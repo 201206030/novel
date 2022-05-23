@@ -9,12 +9,14 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.Map;
 
 @SpringBootApplication
 @MapperScan("io.github.xxyopen.novel.dao.mapper")
 @EnableCaching
+@EnableScheduling
 @Slf4j
 public class NovelApplication {
 
