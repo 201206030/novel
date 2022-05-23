@@ -38,7 +38,7 @@ PUT /book
         "analyzer": "ik_smart"
       },
       "lastChapterUpdateTime" : {
-        "type": "keyword"
+        "type": "long"
       },
       "picUrl" : {
         "type" : "keyword",

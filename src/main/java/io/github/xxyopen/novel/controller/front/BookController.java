@@ -6,6 +6,7 @@ import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.service.BookService;
+import io.github.xxyopen.novel.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,8 @@ public class BookController {
 
     private final BookService bookService;
 
+    private final SearchService searchService;
+
     /**
      * 小说分类列表查询接口
      */
@@ -38,7 +41,7 @@ public class BookController {
      */
     @GetMapping("search_list")
     public RestResp<PageRespDto<BookInfoRespDto>> searchBooks(BookSearchReqDto condition) {
-        return bookService.searchBooks(condition);
+        return searchService.searchBooks(condition);
     }
 
     /**

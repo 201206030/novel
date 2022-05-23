@@ -1,6 +1,7 @@
 package io.github.xxyopen.novel.core.task;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.Time;
 import co.elastic.clients.elasticsearch.core.BulkRequest;
 import co.elastic.clients.elasticsearch.core.BulkResponse;
 import co.elastic.clients.elasticsearch.core.bulk.BulkResponseItem;
@@ -17,6 +18,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.time.ZoneOffset;
 import java.util.List;
 
 /**
@@ -65,7 +67,7 @@ public class BookToEsTask {
                                 .id(book.getId().toString())
                                 .document(esBook)
                         )
-                );
+                ).timeout(Time.of(t -> t.time("10s")));
                 maxId = book.getId();
             }
 
@@ -103,7 +105,8 @@ public class BookToEsTask {
                 .workDirection(book.getWorkDirection())
                 .lastChapterId(book.getLastChapterId())
                 .lastChapterName(book.getLastChapterName())
-                .lastChapterUpdateTime(book.getLastChapterUpdateTime())
+                .lastChapterUpdateTime(book.getLastChapterUpdateTime()
+                        .toInstant(ZoneOffset.ofHours(8)).toEpochMilli())
                 .build();
     }
 }

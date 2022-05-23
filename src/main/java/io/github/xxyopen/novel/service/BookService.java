@@ -1,9 +1,7 @@
 package io.github.xxyopen.novel.service;
 
-import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
-import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
 import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
 import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
@@ -18,14 +16,6 @@ import java.util.List;
  * @date 2022/5/14
  */
 public interface BookService {
-
-    /**
-     * 小说搜索
-     *
-     * @param condition 搜索条件
-     * @return 搜索结果
-     */
-    RestResp<PageRespDto<BookInfoRespDto>> searchBooks(BookSearchReqDto condition);
 
     /**
      * 小说点击榜查询

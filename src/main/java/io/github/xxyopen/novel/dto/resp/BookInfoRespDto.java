@@ -1,7 +1,6 @@
 package io.github.xxyopen.novel.dto.resp;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 /**
  * 小说信息 响应DTO
@@ -10,6 +9,8 @@ import lombok.Data;
  * @date 2022/5/15
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class BookInfoRespDto {
 

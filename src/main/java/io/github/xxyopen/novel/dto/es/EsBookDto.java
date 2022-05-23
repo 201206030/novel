@@ -1,13 +1,9 @@
 package io.github.xxyopen.novel.dto.es;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
 /**
  * Elasticsearch 存储小说 DTO
@@ -15,6 +11,8 @@ import java.time.LocalDateTime;
  * @date 2022/5/23
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class EsBookDto {
 
@@ -96,9 +94,7 @@ public class EsBookDto {
     /**
      * 最新章节更新时间
      */
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime lastChapterUpdateTime;
+    private Long lastChapterUpdateTime;
 
     /**
      * 是否收费;1-收费 0-免费
