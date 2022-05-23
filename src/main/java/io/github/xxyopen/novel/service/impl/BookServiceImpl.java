@@ -10,10 +10,12 @@ import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.*;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookCommentMapper;
+import io.github.xxyopen.novel.dao.mapper.BookContentMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.AuthorInfoDto;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
+import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
 import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.manager.*;
@@ -21,6 +23,7 @@ import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -55,6 +58,8 @@ public class BookServiceImpl implements BookService {
     private final BookInfoMapper bookInfoMapper;
 
     private final BookChapterMapper bookChapterMapper;
+
+    private final BookContentMapper bookContentMapper;
 
     private final BookCommentMapper bookCommentMapper;
 
@@ -303,6 +308,55 @@ public class BookServiceImpl implements BookService {
         bookInfo.setUpdateTime(LocalDateTime.now());
         // 保存小说信息
         bookInfoMapper.insert(bookInfo);
+        return RestResp.ok();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public RestResp<Void> saveBookChapter(ChapterAddReqDto dto) {
+        // 1) 保存章节相关信息到小说章节表
+        //  a) 查询最新章节号
+        int chapterNum = 0;
+        QueryWrapper<BookChapter> chapterQueryWrapper = new QueryWrapper<>();
+        chapterQueryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID,dto.getBookId())
+                .orderByDesc(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM)
+                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+        BookChapter bookChapter = bookChapterMapper.selectOne(chapterQueryWrapper);
+        if(Objects.nonNull(bookChapter)){
+            chapterNum = bookChapter.getChapterNum() + 1;
+        }
+        //  b) 设置章节相关信息并保存
+        BookChapter newBookChapter = new BookChapter();
+        newBookChapter.setBookId(dto.getBookId());
+        newBookChapter.setChapterName(dto.getChapterName());
+        newBookChapter.setChapterNum(chapterNum);
+        newBookChapter.setWordCount(dto.getChapterContent().length());
+        newBookChapter.setIsVip(dto.getIsVip());
+        newBookChapter.setCreateTime(LocalDateTime.now());
+        newBookChapter.setUpdateTime(LocalDateTime.now());
+        bookChapterMapper.insert(newBookChapter);
+
+        // 2) 保存章节内容到小说内容表
+        BookContent bookContent = new BookContent();
+        bookContent.setContent(dto.getChapterContent());
+        bookContent.setChapterId(newBookChapter.getId());
+        bookContent.setCreateTime(LocalDateTime.now());
+        bookContent.setUpdateTime(LocalDateTime.now());
+        bookContentMapper.insert(bookContent);
+
+        // 3) 更新小说表最新章节信息和小说总字数信息
+        //  a) 更新小说表关于最新章节的信息
+        BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(dto.getBookId());
+        BookInfo newBookInfo = new BookInfo();
+        newBookInfo.setId(dto.getBookId());
+        newBookInfo.setLastChapterId(newBookChapter.getId());
+        newBookInfo.setLastChapterName(newBookChapter.getChapterName());
+        newBookInfo.setLastChapterUpdateTime(LocalDateTime.now());
+        newBookInfo.setWordCount(bookInfo.getWordCount() + newBookChapter.getWordCount());
+        newBookChapter.setUpdateTime(LocalDateTime.now());
+        bookInfoMapper.updateById(newBookInfo);
+        //  b) 刷新小说信息缓存
+        bookInfoCacheManager.cachePutBookInfo(dto.getBookId());
         return RestResp.ok();
     }
 

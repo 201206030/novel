@@ -4,6 +4,7 @@ import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
+import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
 import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
 
@@ -153,9 +154,16 @@ public interface BookService {
     RestResp<Void> updateComment(Long userId, Long id, String content);
 
     /**
-     * 小说发布
+     * 小说信息保存
      * @param dto 小说信息
      * @return void
      * */
     RestResp<Void> saveBook(BookAddReqDto dto);
+
+    /**
+     * 小说章节信息保存
+     * @param dto 章节信息
+     * @return void
+     * */
+    RestResp<Void> saveBookChapter(ChapterAddReqDto dto);
 }

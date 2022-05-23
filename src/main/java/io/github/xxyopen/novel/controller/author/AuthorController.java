@@ -5,6 +5,7 @@ import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.dto.req.AuthorRegisterReqDto;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
+import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
 import io.github.xxyopen.novel.service.AuthorService;
 import io.github.xxyopen.novel.service.BookService;
 import jakarta.validation.Valid;
@@ -43,6 +44,14 @@ public class AuthorController {
     @PostMapping("book")
     public RestResp<Void> publishBook(@Valid @RequestBody BookAddReqDto dto) {
         return bookService.saveBook(dto);
+    }
+
+    /**
+     * 小说章节发布接口
+     */
+    @PostMapping("book/chapter")
+    public RestResp<Void> publishBookChapter(@Valid @RequestBody ChapterAddReqDto dto) {
+        return bookService.saveBookChapter(dto);
     }
 
 }

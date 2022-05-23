@@ -9,6 +9,7 @@ import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -29,11 +30,20 @@ public class BookInfoCacheManager {
     private final BookChapterMapper bookChapterMapper;
 
     /**
-     * 查询小说信息，并放入缓存中
+     * 从缓存中查询小说信息（先判断缓存中是否已存在，存在则直接从缓存中取，否则执行方法体中的逻辑后缓存结果）
      */
     @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER
             , value = CacheConsts.BOOK_INFO_CACHE_NAME)
     public BookInfoRespDto getBookInfo(Long id) {
+        return cachePutBookInfo(id);
+    }
+
+    /**
+     * 缓存小说信息（不管缓存中是否存在都执行方法体中的逻辑，然后缓存起来）
+     * */
+    @CachePut(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER
+            , value = CacheConsts.BOOK_INFO_CACHE_NAME)
+    public BookInfoRespDto cachePutBookInfo(Long id) {
         // 查询基础信息
         BookInfo bookInfo = bookInfoMapper.selectById(id);
         // 查询首章ID
@@ -61,6 +71,8 @@ public class BookInfoCacheManager {
                 .wordCount(bookInfo.getWordCount())
                 .build();
     }
+
+
 
     /**
      * 查询每个类别下最新更新的 500 个小说ID列表，并放入缓存中 1 个小时
