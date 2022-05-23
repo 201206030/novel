@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
- * 小说模块 API 接口
+ * 前台门户-小说模块 API 控制器
  *
  * @author xiongxiaoyang
  * @date 2022/5/14

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 首页模块 API 接口
+ * 前台门户-首页模块 API 控制器
  *
  * @author xiongxiaoyang
  * @date 2022/5/12

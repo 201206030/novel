@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class AdminAuthStrategy implements AuthStrategy {
 
     @Override
-    public void auth(String token) throws BusinessException {
+    public void auth(String token, String requestUri) throws BusinessException {
         // TODO 平台后台 token 校验
     }
 }

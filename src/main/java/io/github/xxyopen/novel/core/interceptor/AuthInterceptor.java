@@ -49,7 +49,7 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         // 开始认证
         try {
-            authStrategy.get(authStrategyName).auth(token);
+            authStrategy.get(authStrategyName).auth(token,requestUri);
             return HandlerInterceptor.super.preHandle(request, response, handler);
         }catch (BusinessException exception){
             // 认证失败

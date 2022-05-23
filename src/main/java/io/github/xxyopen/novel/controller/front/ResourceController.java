@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 /**
- * 资源（图片/视频/文档）相关 控制器
+ * 前台门户-资源(图片/视频/文档)模块 API 控制器
  *
  * @author xiongxiaoyang
  * @date 2022/5/17

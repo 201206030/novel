@@ -20,12 +20,12 @@ public interface AuthStrategy {
 
     /**
      * 请求用户认证
-     * 如果后面需要扩展到对每一个URI都进行权限控制，那么此方法可以加一个参数来接收用户请求的URI
      *
      * @param token 登录 token
+     * @param requestUri 请求的 URI
      * @throws BusinessException 认证失败则抛出业务异常
      */
-    void auth(String token) throws BusinessException;
+    void auth(String token, String requestUri) throws BusinessException;
 
     /**
      * 前台多系统单点登录统一账号认证（门户系统、作家系统以及后面会扩展的漫画系统和视频系统等）
