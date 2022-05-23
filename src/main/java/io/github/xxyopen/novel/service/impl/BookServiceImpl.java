@@ -2,17 +2,17 @@ package io.github.xxyopen.novel.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.xxyopen.novel.core.auth.UserHolder;
 import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.DatabaseConsts;
-import io.github.xxyopen.novel.dao.entity.BookChapter;
-import io.github.xxyopen.novel.dao.entity.BookComment;
-import io.github.xxyopen.novel.dao.entity.BookInfo;
-import io.github.xxyopen.novel.dao.entity.UserInfo;
+import io.github.xxyopen.novel.dao.entity.*;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookCommentMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
+import io.github.xxyopen.novel.dto.AuthorInfoDto;
+import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
 import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
@@ -49,6 +49,8 @@ public class BookServiceImpl implements BookService {
     private final BookChapterCacheManager bookChapterCacheManager;
 
     private final BookContentCacheManager bookContentCacheManager;
+
+    private final AuthorInfoCacheManager authorInfoCacheManager;
 
     private final BookInfoMapper bookInfoMapper;
 
@@ -278,6 +280,29 @@ public class BookServiceImpl implements BookService {
         BookComment bookComment = new BookComment();
         bookComment.setCommentContent(content);
         bookCommentMapper.update(bookComment,queryWrapper);
+        return RestResp.ok();
+    }
+
+    @Override
+    public RestResp<Void> saveBook(BookAddReqDto dto) {
+        BookInfo bookInfo = new BookInfo();
+        // 设置作家信息
+        AuthorInfoDto author = authorInfoCacheManager.getAuthor(UserHolder.getUserId());
+        bookInfo.setAuthorId(author.getId());
+        bookInfo.setAuthorName(author.getPenName());
+        // 设置其他信息
+        bookInfo.setWorkDirection(dto.getWorkDirection());
+        bookInfo.setCategoryId(dto.getCategoryId());
+        bookInfo.setCategoryName(dto.getCategoryName());
+        bookInfo.setBookName(dto.getBookName());
+        bookInfo.setPicUrl(dto.getPicUrl());
+        bookInfo.setBookDesc(dto.getBookDesc());
+        bookInfo.setIsVip(dto.getIsVip());
+        bookInfo.setScore(0);
+        bookInfo.setCreateTime(LocalDateTime.now());
+        bookInfo.setUpdateTime(LocalDateTime.now());
+        // 保存小说信息
+        bookInfoMapper.insert(bookInfo);
         return RestResp.ok();
     }
 

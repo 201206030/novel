@@ -41,6 +41,7 @@ public class AuthorInfoCacheManager {
         }
         return AuthorInfoDto.builder()
                 .id(authorInfo.getId())
+                .penName(authorInfo.getPenName())
                 .status(authorInfo.getStatus()).build();
     }
 

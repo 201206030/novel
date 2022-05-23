@@ -21,6 +21,8 @@ public class AuthorInfoDto implements Serializable {
 
     private Long id;
 
+    private String penName;
+
     private Integer status;
 
 }
