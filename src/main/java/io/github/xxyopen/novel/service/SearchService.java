@@ -21,5 +21,4 @@ public interface SearchService {
      */
     RestResp<PageRespDto<BookInfoRespDto>> searchBooks(BookSearchReqDto condition);
 
-
 }

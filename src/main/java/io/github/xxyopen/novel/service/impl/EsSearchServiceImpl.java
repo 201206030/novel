@@ -2,8 +2,9 @@ package io.github.xxyopen.novel.service.impl;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.SortOrder;
-import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.BoolQuery;
 import co.elastic.clients.elasticsearch._types.query_dsl.RangeQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.TermQuery;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
 import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
@@ -49,14 +50,18 @@ public class EsSearchServiceImpl implements SearchService {
 
                     SearchRequest.Builder searchBuilder = s.index(EsConsts.IndexEnum.BOOK.getName());
                     buildSearchCondition(condition, searchBuilder);
-
-                    searchBuilder.sort(o ->
-                                    o.field(f -> f.field(StringUtils
-                                                    .underlineToCamel(condition.getSort().split(" ")[0]))
-                                            .order(SortOrder.Desc))
-                            )
-                            .from((condition.getPageNum() - 1) * condition.getPageSize())
+                    // 排序
+                    if (!StringUtils.isBlank(condition.getSort())) {
+                        searchBuilder.sort(o ->
+                                o.field(f -> f.field(StringUtils
+                                                .underlineToCamel(condition.getSort().split(" ")[0]))
+                                        .order(SortOrder.Desc))
+                        );
+                    }
+                    // 分页
+                    searchBuilder.from((condition.getPageNum() - 1) * condition.getPageSize())
                             .size(condition.getPageSize());
+
                     return searchBuilder;
                 },
                 EsBookDto.class
@@ -85,57 +90,60 @@ public class EsSearchServiceImpl implements SearchService {
     }
 
     private void buildSearchCondition(BookSearchReqDto condition, SearchRequest.Builder searchBuilder) {
-        if (!StringUtils.isBlank(condition.getKeyword())) {
-            searchBuilder.query(q -> q.match(t -> t
-                                    .field("bookName")
-                                    .query(condition.getKeyword())
-                                    .boost(2.0f)
-                                    .field("authorName")
-                                    .query(condition.getKeyword())
-                                    .boost(1.8f)
-                            //.field("categoryName")
-                            //.query(condition.getKeyword())
-                            //.boost(1.0f)
-                            //.field("bookDesc")
-                            //.query(condition.getKeyword())
-                            //.boost(0.1f)
-                    )
-            );
-        }
 
-        if (Objects.nonNull(condition.getWorkDirection())) {
-            searchBuilder.query(MatchQuery.of(m -> m
-                    .field("workDirection")
-                    .query(condition.getWorkDirection())
-            )._toQuery());
-        }
+        BoolQuery boolQuery = BoolQuery.of(b -> {
 
-        if (Objects.nonNull(condition.getCategoryId())) {
-            searchBuilder.query(MatchQuery.of(m -> m
-                    .field("categoryId")
-                    .query(condition.getCategoryId())
-            )._toQuery());
-        }
+            if (!StringUtils.isBlank(condition.getKeyword())) {
+                // 关键词匹配
+                b.must((q -> q.multiMatch(t -> t
+                        .fields("bookName^2","authorName^1.8","bookDesc^0.1")
+                        .query(condition.getKeyword())
+                )
+                ));
+            }
 
-        if (Objects.nonNull(condition.getWordCountMin())) {
-            searchBuilder.query(RangeQuery.of(m -> m
-                    .field("wordCount")
-                    .gte(JsonData.of(condition.getWordCountMin()))
-            )._toQuery());
-        }
+            // 精确查询
+            if (Objects.nonNull(condition.getWorkDirection())) {
+                b.must(TermQuery.of(m -> m
+                        .field("workDirection")
+                        .value(condition.getWorkDirection())
+                )._toQuery());
+            }
 
-        if (Objects.nonNull(condition.getWordCountMax())) {
-            searchBuilder.query(RangeQuery.of(m -> m
-                    .field("wordCount")
-                    .lt(JsonData.of(condition.getWordCountMax()))
-            )._toQuery());
-        }
+            if (Objects.nonNull(condition.getCategoryId())) {
+                b.must(TermQuery.of(m -> m
+                        .field("categoryId")
+                        .value(condition.getCategoryId())
+                )._toQuery());
+            }
 
-        if (Objects.nonNull(condition.getUpdateTimeMin())) {
-            searchBuilder.query(RangeQuery.of(m -> m
-                    .field("lastChapterUpdateTime")
-                    .gte(JsonData.of(condition.getUpdateTimeMin().getTime()))
-            )._toQuery());
-        }
+            // 范围查询
+            if (Objects.nonNull(condition.getWordCountMin())) {
+                b.must(RangeQuery.of(m -> m
+                        .field("wordCount")
+                        .gte(JsonData.of(condition.getWordCountMin()))
+                )._toQuery());
+            }
+
+            if (Objects.nonNull(condition.getWordCountMax())) {
+                b.must(RangeQuery.of(m -> m
+                        .field("wordCount")
+                        .lt(JsonData.of(condition.getWordCountMax()))
+                )._toQuery());
+            }
+
+            if (Objects.nonNull(condition.getUpdateTimeMin())) {
+                b.must(RangeQuery.of(m -> m
+                        .field("lastChapterUpdateTime")
+                        .gte(JsonData.of(condition.getUpdateTimeMin().getTime()))
+                )._toQuery());
+            }
+
+            return b;
+
+        });
+
+        searchBuilder.query(q -> q.bool(boolQuery));
+
     }
 }

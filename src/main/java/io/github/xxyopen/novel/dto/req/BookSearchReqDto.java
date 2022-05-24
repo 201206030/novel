@@ -24,7 +24,7 @@ public class BookSearchReqDto extends PageReqDto {
     /**
      * 作品方向
      */
-    private Byte workDirection;
+    private Integer workDirection;
 
     /**
      * 分类ID
@@ -34,12 +34,12 @@ public class BookSearchReqDto extends PageReqDto {
     /**
      * 是否收费，1：收费，0：免费
      */
-    private Byte isVip;
+    private Integer isVip;
 
     /**
      * 小说更新状态，0：连载中，1：已完结
      */
-    private Byte bookStatus;
+    private Integer bookStatus;
 
     /**
      * 字数最小值
@@ -64,5 +64,5 @@ public class BookSearchReqDto extends PageReqDto {
     /**
      * 排序字段
      */
-    private String sort = "last_chapter_update_time desc";
+    private String sort;
 }

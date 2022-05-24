@@ -7,7 +7,8 @@
         id,category_id,category_name,book_name,author_id,author_name,word_count,last_chapter_name
         from book_info where word_count > 0
         <if test="condition.keyword != null and condition.keyword != ''">
-            and (book_name like concat('%',#{condition.keyword},'%') or author_name like concat('%',#{condition.keyword},'%'))
+            and (book_name like concat('%',#{condition.keyword},'%') or author_name like
+            concat('%',#{condition.keyword},'%'))
         </if>
         <if test="condition.workDirection != null">
             and work_direction = #{condition.workDirection}
@@ -30,8 +31,9 @@
         <if test="condition.updateTimeMin != null">
             and last_chapter_update_time >= #{condition.updateTimeMin}
         </if>
-
-        order by ${condition.sort}
+        <if test="condition.sort != null">
+            order by ${condition.sort}
+        </if>
     </select>
 
     <update id="addVisitCount">
