@@ -42,7 +42,7 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
 | Docker        |       -        | 应用容器引擎              | https://www.docker.com/                 |                          -                          |
 | Jenkins       |       -        | 自动化部署工具             | https://github.com/jenkinsci/jenkins    |                          -                          |
 | Sonarqube     |       -        | 代码质量控制              | https://www.sonarqube.org/              |                          -                          |
-
+**注：更多热门新技术待集成。**
 <!--| SpringFox Swagger2 |  ?（不支持 Spring 6）  | Spring项目接口文档生成工具 | https://github.com/springfox/springfox  |                          -                          | -->
 ## 前端技术选型
 
