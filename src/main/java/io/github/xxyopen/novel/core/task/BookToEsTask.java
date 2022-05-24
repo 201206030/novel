@@ -63,7 +63,7 @@ public class BookToEsTask {
                 EsBookDto esBook = buildEsBook(book);
                 br.operations(op -> op
                         .index(idx -> idx
-                                .index(EsConsts.IndexEnum.BOOK.getName())
+                                .index(EsConsts.BookIndex.INDEX_NAME)
                                 .id(book.getId().toString())
                                 .document(esBook)
                         )

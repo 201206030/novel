@@ -10,6 +10,7 @@ import co.elastic.clients.elasticsearch.core.SearchResponse;
 import co.elastic.clients.elasticsearch.core.search.Hit;
 import co.elastic.clients.elasticsearch.core.search.TotalHits;
 import co.elastic.clients.json.JsonData;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
@@ -48,7 +49,8 @@ public class EsSearchServiceImpl implements SearchService {
 
         SearchResponse<EsBookDto> response = esClient.search(s -> {
 
-                    SearchRequest.Builder searchBuilder = s.index(EsConsts.IndexEnum.BOOK.getName());
+                    SearchRequest.Builder searchBuilder = s.index(EsConsts.BookIndex.INDEX_NAME);
+                    // 构建检索条件
                     buildSearchCondition(condition, searchBuilder);
                     // 排序
                     if (!StringUtils.isBlank(condition.getSort())) {
@@ -61,6 +63,11 @@ public class EsSearchServiceImpl implements SearchService {
                     // 分页
                     searchBuilder.from((condition.getPageNum() - 1) * condition.getPageSize())
                             .size(condition.getPageSize());
+                    // 设置高亮显示
+                    searchBuilder.highlight(h -> h.fields(EsConsts.BookIndex.FIELD_BOOK_NAME
+                                    , t -> t.preTags("<em style='color:red'>").postTags("</em>"))
+                            .fields(EsConsts.BookIndex.FIELD_AUTHOR_NAME
+                                    , t -> t.preTags("<em style='color:red'>").postTags("</em>")));
 
                     return searchBuilder;
                 },
@@ -74,6 +81,12 @@ public class EsSearchServiceImpl implements SearchService {
         for (Hit<EsBookDto> hit : hits) {
             EsBookDto book = hit.source();
             assert book != null;
+            if (!CollectionUtils.isEmpty(hit.highlight().get(EsConsts.BookIndex.FIELD_BOOK_NAME))) {
+                book.setBookName(hit.highlight().get(EsConsts.BookIndex.FIELD_BOOK_NAME).get(0));
+            }
+            if (!CollectionUtils.isEmpty(hit.highlight().get(EsConsts.BookIndex.FIELD_AUTHOR_NAME))) {
+                book.setAuthorName(hit.highlight().get(EsConsts.BookIndex.FIELD_AUTHOR_NAME).get(0));
+            }
             list.add(BookInfoRespDto.builder()
                     .id(book.getId())
                     .bookName(book.getBookName())
@@ -87,8 +100,12 @@ public class EsSearchServiceImpl implements SearchService {
         }
         assert total != null;
         return RestResp.ok(PageRespDto.of(condition.getPageNum(), condition.getPageSize(), total.value(), list));
+
     }
 
+    /**
+     * 构建检索条件
+     */
     private void buildSearchCondition(BookSearchReqDto condition, SearchRequest.Builder searchBuilder) {
 
         BoolQuery boolQuery = BoolQuery.of(b -> {
@@ -96,7 +113,9 @@ public class EsSearchServiceImpl implements SearchService {
             if (!StringUtils.isBlank(condition.getKeyword())) {
                 // 关键词匹配
                 b.must((q -> q.multiMatch(t -> t
-                        .fields("bookName^2","authorName^1.8","bookDesc^0.1")
+                        .fields(EsConsts.BookIndex.FIELD_BOOK_NAME + "^2"
+                                , EsConsts.BookIndex.FIELD_AUTHOR_NAME + "^1.8"
+                                , EsConsts.BookIndex.FIELD_BOOK_DESC + "^0.1")
                         .query(condition.getKeyword())
                 )
                 ));
@@ -105,14 +124,14 @@ public class EsSearchServiceImpl implements SearchService {
             // 精确查询
             if (Objects.nonNull(condition.getWorkDirection())) {
                 b.must(TermQuery.of(m -> m
-                        .field("workDirection")
+                        .field(EsConsts.BookIndex.FIELD_WORK_DIRECTION)
                         .value(condition.getWorkDirection())
                 )._toQuery());
             }
 
             if (Objects.nonNull(condition.getCategoryId())) {
                 b.must(TermQuery.of(m -> m
-                        .field("categoryId")
+                        .field(EsConsts.BookIndex.FIELD_CATEGORY_ID)
                         .value(condition.getCategoryId())
                 )._toQuery());
             }
@@ -120,21 +139,21 @@ public class EsSearchServiceImpl implements SearchService {
             // 范围查询
             if (Objects.nonNull(condition.getWordCountMin())) {
                 b.must(RangeQuery.of(m -> m
-                        .field("wordCount")
+                        .field(EsConsts.BookIndex.FIELD_WORD_COUNT)
                         .gte(JsonData.of(condition.getWordCountMin()))
                 )._toQuery());
             }
 
             if (Objects.nonNull(condition.getWordCountMax())) {
                 b.must(RangeQuery.of(m -> m
-                        .field("wordCount")
+                        .field(EsConsts.BookIndex.FIELD_WORD_COUNT)
                         .lt(JsonData.of(condition.getWordCountMax()))
                 )._toQuery());
             }
 
             if (Objects.nonNull(condition.getUpdateTimeMin())) {
                 b.must(RangeQuery.of(m -> m
-                        .field("lastChapterUpdateTime")
+                        .field(EsConsts.BookIndex.FIELD_LAST_CHAPTER_UPDATE_TIME)
                         .gte(JsonData.of(condition.getUpdateTimeMin().getTime()))
                 )._toQuery());
             }
