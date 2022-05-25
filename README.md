@@ -19,8 +19,8 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
 
 - MySQL 8.0
 - Redis 7.0
-- Elasticsearch 8.2.0 (可选)
-- RabbitMQ 3.10.2 (可选)
+- Elasticsearch 8.2.0（可选）
+- RabbitMQ 3.10.2（可选）
 - JDK 17
 - Maven 3.8
 - IntelliJ IDEA 2021.3（可选）
