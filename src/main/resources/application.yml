@@ -11,14 +11,8 @@ spring:
     multipart:
       max-file-size: 5MB
 
-
-
 server:
   port: 8888
-
-
-
-
 
 ---
 spring:
@@ -30,10 +24,9 @@ spring:
     activate:
       on-profile: dev
 
-
-
 ---
 spring:
+  # Redis 配置
   redis:
     host: 127.0.0.1
     port: 6379
@@ -41,6 +34,7 @@ spring:
   config:
     activate:
       on-profile: dev
+  # Elasticsearch 配置
   elasticsearch:
     # 是否开启 elasticsearch 搜索引擎功能：true-开启 false-不开启
     enable: false
@@ -48,6 +42,21 @@ spring:
       - https://my-deployment-ce7ca3.es.us-central1.gcp.cloud.es.io:9243
     username: elastic
     password: qTjgYVKSuExX6tWAsDuvuvwl
+  amqp:
+    # 是否开启 Spring AMQP：true-开启 false-不开启
+    enable: false
+  # RabbitMQ 配置
+  rabbitmq:
+    addresses: "amqp://guest:guest@47.106.243.172"
+    virtual-host: novel
+    template:
+      retry:
+        # 开启重试
+        enabled: true
+        # 最大重试次数
+        max-attempts: 3
+        # 第一次和第二次重试之间的持续时间
+        initial-interval: "3s"
 
 ---
 spring:

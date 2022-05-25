@@ -18,7 +18,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.time.ZoneOffset;
 import java.util.List;
 
 /**
@@ -60,12 +59,11 @@ public class BookToEsTask {
             BulkRequest.Builder br = new BulkRequest.Builder();
 
             for (BookInfo book : bookInfos) {
-                EsBookDto esBook = buildEsBook(book);
                 br.operations(op -> op
                         .index(idx -> idx
                                 .index(EsConsts.BookIndex.INDEX_NAME)
                                 .id(book.getId().toString())
-                                .document(esBook)
+                                .document(EsBookDto.build(book))
                         )
                 ).timeout(Time.of(t -> t.time("10s")));
                 maxId = book.getId();
@@ -87,26 +85,4 @@ public class BookToEsTask {
 
     }
 
-    private EsBookDto buildEsBook(BookInfo book) {
-        return EsBookDto.builder()
-                .id(book.getId())
-                .categoryId(book.getCategoryId())
-                .categoryName(book.getCategoryName())
-                .bookDesc(book.getBookDesc())
-                .bookName(book.getBookName())
-                .authorId(book.getAuthorId())
-                .authorName(book.getAuthorName())
-                .bookStatus(book.getBookStatus())
-                .commentCount(book.getCommentCount())
-                .isVip(book.getIsVip())
-                .score(book.getScore())
-                .visitCount(book.getVisitCount())
-                .wordCount(book.getWordCount())
-                .workDirection(book.getWorkDirection())
-                .lastChapterId(book.getLastChapterId())
-                .lastChapterName(book.getLastChapterName())
-                .lastChapterUpdateTime(book.getLastChapterUpdateTime()
-                        .toInstant(ZoneOffset.ofHours(8)).toEpochMilli())
-                .build();
-    }
 }

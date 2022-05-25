@@ -20,7 +20,7 @@ import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
 import io.github.xxyopen.novel.dto.resp.UserInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
-import io.github.xxyopen.novel.manager.VerifyCodeManager;
+import io.github.xxyopen.novel.manager.redis.VerifyCodeManager;
 import io.github.xxyopen.novel.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,4 +1,4 @@
-package io.github.xxyopen.novel.manager;
+package io.github.xxyopen.novel.manager.cache;
 
 import io.github.xxyopen.novel.core.constant.CacheConsts;
 import io.github.xxyopen.novel.dao.entity.UserInfo;

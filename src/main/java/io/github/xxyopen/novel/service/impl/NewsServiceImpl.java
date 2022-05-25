@@ -8,7 +8,7 @@ import io.github.xxyopen.novel.dao.entity.NewsInfo;
 import io.github.xxyopen.novel.dao.mapper.NewsContentMapper;
 import io.github.xxyopen.novel.dao.mapper.NewsInfoMapper;
 import io.github.xxyopen.novel.dto.resp.NewsInfoRespDto;
-import io.github.xxyopen.novel.manager.NewsCacheManager;
+import io.github.xxyopen.novel.manager.cache.NewsCacheManager;
 import io.github.xxyopen.novel.service.NewsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

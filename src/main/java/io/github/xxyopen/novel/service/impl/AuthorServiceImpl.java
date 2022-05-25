@@ -5,7 +5,7 @@ import io.github.xxyopen.novel.dao.entity.AuthorInfo;
 import io.github.xxyopen.novel.dao.mapper.AuthorInfoMapper;
 import io.github.xxyopen.novel.dto.AuthorInfoDto;
 import io.github.xxyopen.novel.dto.req.AuthorRegisterReqDto;
-import io.github.xxyopen.novel.manager.AuthorInfoCacheManager;
+import io.github.xxyopen.novel.manager.cache.AuthorInfoCacheManager;
 import io.github.xxyopen.novel.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

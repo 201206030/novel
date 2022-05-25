@@ -6,7 +6,7 @@ import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.dto.resp.ImgVerifyCodeRespDto;
-import io.github.xxyopen.novel.manager.VerifyCodeManager;
+import io.github.xxyopen.novel.manager.redis.VerifyCodeManager;
 import io.github.xxyopen.novel.service.ResourceService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;

@@ -1,4 +1,4 @@
-package io.github.xxyopen.novel.manager;
+package io.github.xxyopen.novel.manager.cache;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.github.xxyopen.novel.core.constant.CacheConsts;

@@ -5,8 +5,8 @@ import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.util.JwtUtils;
 import io.github.xxyopen.novel.dto.AuthorInfoDto;
-import io.github.xxyopen.novel.manager.AuthorInfoCacheManager;
-import io.github.xxyopen.novel.manager.UserInfoCacheManager;
+import io.github.xxyopen.novel.manager.cache.AuthorInfoCacheManager;
+import io.github.xxyopen.novel.manager.cache.UserInfoCacheManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -5,7 +5,7 @@ import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.core.util.JwtUtils;
 import io.github.xxyopen.novel.dto.UserInfoDto;
-import io.github.xxyopen.novel.manager.UserInfoCacheManager;
+import io.github.xxyopen.novel.manager.cache.UserInfoCacheManager;
 import org.springframework.util.StringUtils;
 
 import java.util.Objects;

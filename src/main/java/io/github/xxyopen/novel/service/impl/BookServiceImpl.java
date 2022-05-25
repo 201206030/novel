@@ -15,7 +15,9 @@ import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
 import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
-import io.github.xxyopen.novel.manager.*;
+import io.github.xxyopen.novel.manager.cache.*;
+import io.github.xxyopen.novel.manager.dao.UserDaoManager;
+import io.github.xxyopen.novel.manager.mq.AmqpMsgManager;
 import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,6 +63,8 @@ public class BookServiceImpl implements BookService {
     private final BookCommentMapper bookCommentMapper;
 
     private final UserDaoManager userDaoManager;
+
+    private final AmqpMsgManager amqpMsgManager;
 
     private static final Integer REC_BOOK_COUNT = 4;
 
@@ -335,6 +339,8 @@ public class BookServiceImpl implements BookService {
         bookInfoMapper.updateById(newBookInfo);
         //  b) 刷新小说信息缓存
         bookInfoCacheManager.cachePutBookInfo(dto.getBookId());
+        //  c) 发送小说信息更新的 MQ 消息
+        amqpMsgManager.sendBookChangeMsg(dto.getBookId());
         return RestResp.ok();
     }
 

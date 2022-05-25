@@ -110,6 +110,12 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <!-- MQ 相关-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

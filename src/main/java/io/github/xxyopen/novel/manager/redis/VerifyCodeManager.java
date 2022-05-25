@@ -1,4 +1,4 @@
-package io.github.xxyopen.novel.manager;
+package io.github.xxyopen.novel.manager.redis;
 
 import io.github.xxyopen.novel.core.common.util.ImgVerifyCodeUtils;
 import io.github.xxyopen.novel.core.constant.CacheConsts;

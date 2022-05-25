@@ -1,9 +1,12 @@
 package io.github.xxyopen.novel.dto.es;
 
+import io.github.xxyopen.novel.dao.entity.BookInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.ZoneOffset;
 
 /**
  * Elasticsearch 存储小说 DTO
@@ -100,5 +103,28 @@ public class EsBookDto {
      * 是否收费;1-收费 0-免费
      */
     private Integer isVip;
+
+    public static EsBookDto build(BookInfo bookInfo){
+        return EsBookDto.builder()
+                .id(bookInfo.getId())
+                .categoryId(bookInfo.getCategoryId())
+                .categoryName(bookInfo.getCategoryName())
+                .bookDesc(bookInfo.getBookDesc())
+                .bookName(bookInfo.getBookName())
+                .authorId(bookInfo.getAuthorId())
+                .authorName(bookInfo.getAuthorName())
+                .bookStatus(bookInfo.getBookStatus())
+                .commentCount(bookInfo.getCommentCount())
+                .isVip(bookInfo.getIsVip())
+                .score(bookInfo.getScore())
+                .visitCount(bookInfo.getVisitCount())
+                .wordCount(bookInfo.getWordCount())
+                .workDirection(bookInfo.getWorkDirection())
+                .lastChapterId(bookInfo.getLastChapterId())
+                .lastChapterName(bookInfo.getLastChapterName())
+                .lastChapterUpdateTime(bookInfo.getLastChapterUpdateTime()
+                        .toInstant(ZoneOffset.ofHours(8)).toEpochMilli())
+                .build();
+    }
 
 }

@@ -13,11 +13,14 @@ public class CommonConsts {
      * 是
      * */
     public static final Integer YES = 1;
+    public static final String TRUE = "true";
+
 
     /**
      * 否
      * */
     public static final Integer NO = 0;
+    public static final String FALSE = "false";
 
     /**
      * 性别常量
