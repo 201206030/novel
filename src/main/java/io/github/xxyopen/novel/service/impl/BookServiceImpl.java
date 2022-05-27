@@ -346,6 +346,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public RestResp<BookContentAboutRespDto> getBookContentAbout(Long chapterId) {
+        log.debug("userId:{}",UserHolder.getUserId());
         // 查询章节信息
         BookChapterRespDto bookChapter = bookChapterCacheManager.getChapter(chapterId);
 

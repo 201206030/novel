@@ -4,6 +4,7 @@ import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.core.interceptor.AuthInterceptor;
 import io.github.xxyopen.novel.core.interceptor.FileInterceptor;
+import io.github.xxyopen.novel.core.interceptor.TokenParseInterceptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -25,6 +26,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final FileInterceptor fileInterceptor;
 
+    private final TokenParseInterceptor tokenParseInterceptor;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 文件访问拦截
@@ -42,7 +45,12 @@ public class WebConfig implements WebMvcConfigurer {
                 // 放行登录注册相关请求接口
                 .excludePathPatterns(ApiRouterConsts.API_FRONT_USER_URL_PREFIX + "/register"
                         , ApiRouterConsts.API_FRONT_USER_URL_PREFIX + "/login"
-                        ,ApiRouterConsts.API_ADMIN_URL_PREFIX + "/login");
+                        , ApiRouterConsts.API_ADMIN_URL_PREFIX + "/login");
+
+        // Token 解析拦截器
+        registry.addInterceptor(tokenParseInterceptor)
+                // 拦截小说内容查询接口，需要解析 token 以判断该用户是否有权阅读该章节（付费章节是否已购买）
+                .addPathPatterns(ApiRouterConsts.API_FRONT_BOOK_URL_PREFIX + "/content/*");
 
     }
 }
