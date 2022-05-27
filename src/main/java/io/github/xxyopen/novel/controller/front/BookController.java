@@ -1,12 +1,9 @@
 package io.github.xxyopen.novel.controller.front;
 
-import io.github.xxyopen.novel.core.common.resp.PageRespDto;
-import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
-import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
+import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.service.BookService;
-import io.github.xxyopen.novel.service.SearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,22 +23,12 @@ public class BookController {
 
     private final BookService bookService;
 
-    private final SearchService searchService;
-
     /**
      * 小说分类列表查询接口
      */
     @GetMapping("category/list")
     public RestResp<List<BookCategoryRespDto>> listCategory(Integer workDirection) {
         return bookService.listCategory(workDirection);
-    }
-
-    /**
-     * 小说搜索接口
-     */
-    @GetMapping("search_list")
-    public RestResp<PageRespDto<BookInfoRespDto>> searchBooks(BookSearchReqDto condition) {
-        return searchService.searchBooks(condition);
     }
 
     /**
