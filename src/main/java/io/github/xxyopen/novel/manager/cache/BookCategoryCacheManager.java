@@ -27,8 +27,8 @@ public class BookCategoryCacheManager {
     /**
      * 根据作品方向查询小说分类列表，并放入缓存中
      */
-    @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER
-            , value = CacheConsts.BOOK_CATEGORY_LIST_CACHE_NAME)
+    @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER,
+            value = CacheConsts.BOOK_CATEGORY_LIST_CACHE_NAME)
     public List<BookCategoryRespDto> listCategory(Integer workDirection) {
         QueryWrapper<BookCategory> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.BookCategoryTable.COLUMN_WORK_DIRECTION, workDirection);

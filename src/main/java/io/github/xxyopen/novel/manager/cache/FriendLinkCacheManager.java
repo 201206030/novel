@@ -27,8 +27,8 @@ public class FriendLinkCacheManager {
     /**
      * 友情链接列表查询，并放入缓存中
      */
-    @Cacheable(cacheManager = CacheConsts.REDIS_CACHE_MANAGER
-            , value = CacheConsts.HOME_FRIEND_LINK_CACHE_NAME)
+    @Cacheable(cacheManager = CacheConsts.REDIS_CACHE_MANAGER,
+            value = CacheConsts.HOME_FRIEND_LINK_CACHE_NAME)
     public List<HomeFriendLinkRespDto> listFriendLinks() {
         // 从友情链接表中查询出友情链接列表
         QueryWrapper<HomeFriendLink> queryWrapper = new QueryWrapper<>();

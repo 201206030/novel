@@ -25,11 +25,11 @@ public class UserInfoCacheManager {
     /**
      * 查询用户信息，并放入缓存中
      */
-    @Cacheable(cacheManager = CacheConsts.REDIS_CACHE_MANAGER
-            , value = CacheConsts.USER_INFO_CACHE_NAME)
+    @Cacheable(cacheManager = CacheConsts.REDIS_CACHE_MANAGER,
+            value = CacheConsts.USER_INFO_CACHE_NAME)
     public UserInfoDto getUser(Long userId) {
         UserInfo userInfo = userInfoMapper.selectById(userId);
-        if(Objects.isNull(userInfo)){
+        if (Objects.isNull(userInfo)) {
             return null;
         }
         return UserInfoDto.builder()

@@ -64,10 +64,10 @@ public class EsSearchServiceImpl implements SearchService {
                     searchBuilder.from((condition.getPageNum() - 1) * condition.getPageSize())
                             .size(condition.getPageSize());
                     // 设置高亮显示
-                    searchBuilder.highlight(h -> h.fields(EsConsts.BookIndex.FIELD_BOOK_NAME
-                                    , t -> t.preTags("<em style='color:red'>").postTags("</em>"))
-                            .fields(EsConsts.BookIndex.FIELD_AUTHOR_NAME
-                                    , t -> t.preTags("<em style='color:red'>").postTags("</em>")));
+                    searchBuilder.highlight(h -> h.fields(EsConsts.BookIndex.FIELD_BOOK_NAME,
+                                    t -> t.preTags("<em style='color:red'>").postTags("</em>"))
+                            .fields(EsConsts.BookIndex.FIELD_AUTHOR_NAME,
+                                    t -> t.preTags("<em style='color:red'>").postTags("</em>")));
 
                     return searchBuilder;
                 },
@@ -113,9 +113,9 @@ public class EsSearchServiceImpl implements SearchService {
             if (!StringUtils.isBlank(condition.getKeyword())) {
                 // 关键词匹配
                 b.must((q -> q.multiMatch(t -> t
-                        .fields(EsConsts.BookIndex.FIELD_BOOK_NAME + "^2"
-                                , EsConsts.BookIndex.FIELD_AUTHOR_NAME + "^1.8"
-                                , EsConsts.BookIndex.FIELD_BOOK_DESC + "^0.1")
+                        .fields(EsConsts.BookIndex.FIELD_BOOK_NAME + "^2",
+                                EsConsts.BookIndex.FIELD_AUTHOR_NAME + "^1.8",
+                                EsConsts.BookIndex.FIELD_BOOK_DESC + "^0.1")
                         .query(condition.getKeyword())
                 )
                 ));

@@ -37,15 +37,15 @@ public class WebConfig implements WebMvcConfigurer {
         // 权限认证拦截
         registry.addInterceptor(authInterceptor)
                 // 拦截会员中心相关请求接口
-                .addPathPatterns(ApiRouterConsts.API_FRONT_USER_URL_PREFIX + "/**"
+                .addPathPatterns(ApiRouterConsts.API_FRONT_USER_URL_PREFIX + "/**",
                         // 拦截作家后台相关请求接口
-                        , ApiRouterConsts.API_AUTHOR_URL_PREFIX + "/**"
+                        ApiRouterConsts.API_AUTHOR_URL_PREFIX + "/**",
                         // 拦截平台后台相关请求接口
-                        , ApiRouterConsts.API_ADMIN_URL_PREFIX + "/**")
+                        ApiRouterConsts.API_ADMIN_URL_PREFIX + "/**")
                 // 放行登录注册相关请求接口
-                .excludePathPatterns(ApiRouterConsts.API_FRONT_USER_URL_PREFIX + "/register"
-                        , ApiRouterConsts.API_FRONT_USER_URL_PREFIX + "/login"
-                        , ApiRouterConsts.API_ADMIN_URL_PREFIX + "/login");
+                .excludePathPatterns(ApiRouterConsts.API_FRONT_USER_URL_PREFIX + "/register",
+                        ApiRouterConsts.API_FRONT_USER_URL_PREFIX + "/login",
+                        ApiRouterConsts.API_ADMIN_URL_PREFIX + "/login");
 
         // Token 解析拦截器
         registry.addInterceptor(tokenParseInterceptor)

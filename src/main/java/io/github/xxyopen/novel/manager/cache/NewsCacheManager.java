@@ -27,8 +27,8 @@ public class NewsCacheManager {
     /**
      * 最新新闻列表查询，并放入缓存中
      */
-    @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER
-            , value = CacheConsts.LATEST_NEWS_CACHE_NAME)
+    @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER,
+            value = CacheConsts.LATEST_NEWS_CACHE_NAME)
     public List<NewsInfoRespDto> listLatestNews() {
         // 从新闻信息表中查询出最新发布的两条新闻
         QueryWrapper<NewsInfo> queryWrapper = new QueryWrapper<>();

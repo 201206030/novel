@@ -27,39 +27,39 @@ public class BookRankCacheManager {
     /**
      * 查询小说点击榜列表，并放入缓存中
      */
-    @Cacheable(cacheManager = CacheConsts.REDIS_CACHE_MANAGER
-            , value = CacheConsts.BOOK_VISIT_RANK_CACHE_NAME)
+    @Cacheable(cacheManager = CacheConsts.REDIS_CACHE_MANAGER,
+            value = CacheConsts.BOOK_VISIT_RANK_CACHE_NAME)
     public List<BookRankRespDto> listVisitRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper.orderByDesc(DatabaseConsts.BookTable.COLUMN_VISIT_COUNT);
-        return getBookRankRespDtos(bookInfoQueryWrapper);
+        return listRankBooks(bookInfoQueryWrapper);
     }
 
     /**
      * 查询小说新书榜列表，并放入缓存中
      */
-    @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER
-            , value = CacheConsts.BOOK_NEWEST_RANK_CACHE_NAME)
+    @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER,
+            value = CacheConsts.BOOK_NEWEST_RANK_CACHE_NAME)
     public List<BookRankRespDto> listNewestRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper
                 .orderByDesc(DatabaseConsts.CommonColumnEnum.CREATE_TIME.getName());
-        return getBookRankRespDtos(bookInfoQueryWrapper);
+        return listRankBooks(bookInfoQueryWrapper);
     }
 
     /**
      * 查询小说更新榜列表，并放入缓存中
      */
-    @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER
-            , value = CacheConsts.BOOK_UPDATE_RANK_CACHE_NAME)
+    @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER,
+            value = CacheConsts.BOOK_UPDATE_RANK_CACHE_NAME)
     public List<BookRankRespDto> listUpdateRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper
                 .orderByDesc(DatabaseConsts.CommonColumnEnum.UPDATE_TIME.getName());
-        return getBookRankRespDtos(bookInfoQueryWrapper);
+        return listRankBooks(bookInfoQueryWrapper);
     }
 
-    private List<BookRankRespDto> getBookRankRespDtos(QueryWrapper<BookInfo> bookInfoQueryWrapper) {
+    private List<BookRankRespDto> listRankBooks(QueryWrapper<BookInfo> bookInfoQueryWrapper) {
         bookInfoQueryWrapper.last(DatabaseConsts.SqlEnum.LIMIT_30.getSql());
         return bookInfoMapper.selectList(bookInfoQueryWrapper).stream().map(v -> {
             BookRankRespDto respDto = new BookRankRespDto();

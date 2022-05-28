@@ -30,8 +30,8 @@ public class VerifyCodeManager {
     public String genImgVerifyCode(String sessionId) throws IOException {
         String verifyCode = ImgVerifyCodeUtils.getRandomVerifyCode(4);
         String img = ImgVerifyCodeUtils.genVerifyCodeImg(verifyCode);
-        stringRedisTemplate.opsForValue().set(CacheConsts.IMG_VERIFY_CODE_CACHE_KEY + sessionId
-                , verifyCode, Duration.ofMinutes(5));
+        stringRedisTemplate.opsForValue().set(CacheConsts.IMG_VERIFY_CODE_CACHE_KEY + sessionId,
+                verifyCode, Duration.ofMinutes(5));
         return img;
     }
 
@@ -39,9 +39,7 @@ public class VerifyCodeManager {
      * 校验图片验证码
      */
     public boolean imgVerifyCodeOk(String sessionId, String verifyCode) {
-        return Objects.equals(
-                stringRedisTemplate.opsForValue().get(CacheConsts.IMG_VERIFY_CODE_CACHE_KEY + sessionId)
-                , verifyCode);
+        return Objects.equals(stringRedisTemplate.opsForValue().get(CacheConsts.IMG_VERIFY_CODE_CACHE_KEY + sessionId), verifyCode);
     }
 
     /**
