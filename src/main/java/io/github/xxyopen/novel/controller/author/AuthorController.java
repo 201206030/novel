@@ -41,6 +41,14 @@ public class AuthorController {
     }
 
     /**
+     * 查询作家状态接口
+     * */
+    @GetMapping("status")
+    public RestResp<Integer> getStatus(){
+        return authorService.getStatus(UserHolder.getUserId());
+    }
+
+    /**
      * 小说发布接口
      */
     @PostMapping("book")
@@ -65,7 +73,7 @@ public class AuthorController {
     }
 
     /**
-     * 小说发布章节列表查询接口
+     * 小说章节发布列表查询接口
      */
     @GetMapping("book/chapters/{bookId}")
     public RestResp<PageRespDto<BookChapterRespDto>> listBookChapters(@PathVariable("bookId") Long bookId, PageReqDto dto) {

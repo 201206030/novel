@@ -18,4 +18,11 @@ public interface AuthorService {
      * @return void
      */
     RestResp<Void> register(AuthorRegisterReqDto dto);
+
+    /**
+     * 查询作家状态
+     * @param userId 用户ID
+     * @return 作家状态
+     * */
+    RestResp<Integer> getStatus(Long userId);
 }
