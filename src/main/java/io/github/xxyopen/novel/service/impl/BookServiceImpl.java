@@ -362,11 +362,10 @@ public class BookServiceImpl implements BookService {
                         .id(v.getId())
                         .bookName(v.getBookName())
                         .picUrl(v.getPicUrl())
-                        .categoryId(v.getCategoryId())
                         .categoryName(v.getCategoryName())
                         .wordCount(v.getWordCount())
                         .visitCount(v.getVisitCount())
-                        .lastChapterName(v.getLastChapterName())
+                        .updateTime(v.getUpdateTime())
                         .build()).toList()));
     }
 

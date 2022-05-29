@@ -1,6 +1,9 @@
 package io.github.xxyopen.novel.dto.resp;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 /**
  * 小说信息 响应DTO
@@ -88,6 +91,12 @@ public class BookInfoRespDto {
      * 最新章节名
      */
     private String lastChapterName;
+
+    /**
+     * 最新章节更新时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime updateTime;
 
 
 }
