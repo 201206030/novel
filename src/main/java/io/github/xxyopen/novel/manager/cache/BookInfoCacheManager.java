@@ -9,6 +9,7 @@ import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -72,6 +73,11 @@ public class BookInfoCacheManager {
                 .build();
     }
 
+    @CacheEvict(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER,
+            value = CacheConsts.BOOK_INFO_CACHE_NAME)
+    public void evictBookInfoCache(Long ignoredId) {
+        // 调用此方法自动清除小说信息的缓存
+    }
 
     /**
      * 查询每个类别下最新更新的 500 个小说ID列表，并放入缓存中 1 个小时
@@ -81,6 +87,7 @@ public class BookInfoCacheManager {
     public List<Long> getLastUpdateIdList(Long categoryId) {
         QueryWrapper<BookInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.BookTable.COLUMN_CATEGORY_ID, categoryId)
+                .gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT,0)
                 .orderByDesc(DatabaseConsts.BookTable.COLUMN_LAST_CHAPTER_UPDATE_TIME)
                 .last(DatabaseConsts.SqlEnum.LIMIT_500.getSql());
         return bookInfoMapper.selectList(queryWrapper).stream().map(BookInfo::getId).toList();

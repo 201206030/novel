@@ -301,7 +301,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public RestResp<Void> saveBookChapter(ChapterAddReqDto dto) {
         // 校验该作品是否属于当前作家
-        BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(dto.getBookId());
+        BookInfo bookInfo = bookInfoMapper.selectById(dto.getBookId());
         if (!Objects.equals(bookInfo.getAuthorId(), UserHolder.getAuthorId())) {
             return RestResp.fail(ErrorCodeEnum.USER_UN_AUTH);
         }
@@ -345,8 +345,8 @@ public class BookServiceImpl implements BookService {
         newBookInfo.setWordCount(bookInfo.getWordCount() + newBookChapter.getWordCount());
         newBookChapter.setUpdateTime(LocalDateTime.now());
         bookInfoMapper.updateById(newBookInfo);
-        //  b) 刷新小说信息缓存
-        bookInfoCacheManager.cachePutBookInfo(dto.getBookId());
+        //  b) 清除小说信息缓存
+        bookInfoCacheManager.evictBookInfoCache(dto.getBookId());
         //  c) 发送小说信息更新的 MQ 消息
         amqpMsgManager.sendBookChangeMsg(dto.getBookId());
         return RestResp.ok();

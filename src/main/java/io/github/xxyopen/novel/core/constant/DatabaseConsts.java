@@ -93,6 +93,8 @@ public class DatabaseConsts {
 
         public static final String COLUMN_VISIT_COUNT = "visit_count";
 
+        public static final String COLUMN_WORD_COUNT = "word_count";
+
         public static final String COLUMN_LAST_CHAPTER_UPDATE_TIME = "last_chapter_update_time";
 
     }
