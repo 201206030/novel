@@ -52,4 +52,9 @@ public class BookChapterRespDto implements Serializable {
     @JsonFormat(pattern = "yyyy/MM/dd HH:dd")
     private LocalDateTime chapterUpdateTime;
 
+    /**
+     * 是否收费;1-收费 0-免费
+     */
+    private Integer isVip;
+
 }

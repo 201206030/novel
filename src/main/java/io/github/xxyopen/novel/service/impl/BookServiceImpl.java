@@ -191,6 +191,7 @@ public class BookServiceImpl implements BookService {
         return RestResp.ok(bookChapterMapper.selectList(queryWrapper).stream().map(v -> BookChapterRespDto.builder()
                 .id(v.getId())
                 .chapterName(v.getChapterName())
+                .isVip(v.getIsVip())
                 .build()).toList());
     }
 
@@ -393,6 +394,7 @@ public class BookServiceImpl implements BookService {
                         .id(v.getId())
                         .chapterName(v.getChapterName())
                         .chapterUpdateTime(v.getUpdateTime())
+                        .isVip(v.getIsVip())
                         .build()).toList()));
     }
 
