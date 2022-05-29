@@ -1,8 +1,12 @@
 package io.github.xxyopen.novel.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.xxyopen.novel.core.auth.UserHolder;
 import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
+import io.github.xxyopen.novel.core.common.req.PageReqDto;
+import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.DatabaseConsts;
 import io.github.xxyopen.novel.dao.entity.*;
@@ -199,9 +203,9 @@ public class BookServiceImpl implements BookService {
     public RestResp<Void> saveComment(UserCommentReqDto dto) {
         // 校验用户是否已发表评论
         QueryWrapper<BookComment> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID,dto.getUserId())
-                .eq(DatabaseConsts.BookCommentTable.COLUMN_BOOK_ID,dto.getBookId());
-        if(bookCommentMapper.selectCount(queryWrapper) > 0){
+        queryWrapper.eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID, dto.getUserId())
+                .eq(DatabaseConsts.BookCommentTable.COLUMN_BOOK_ID, dto.getBookId());
+        if (bookCommentMapper.selectCount(queryWrapper) > 0) {
             // 用户已发表评论
             return RestResp.fail(ErrorCodeEnum.USER_COMMENTED);
         }
@@ -254,8 +258,8 @@ public class BookServiceImpl implements BookService {
     public RestResp<Void> deleteComment(Long userId, Long commentId) {
         QueryWrapper<BookComment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.CommonColumnEnum.ID.getName(), commentId)
-                .eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID,userId);
-         bookCommentMapper.delete(queryWrapper);
+                .eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID, userId);
+        bookCommentMapper.delete(queryWrapper);
         return RestResp.ok();
     }
 
@@ -263,10 +267,10 @@ public class BookServiceImpl implements BookService {
     public RestResp<Void> updateComment(Long userId, Long id, String content) {
         QueryWrapper<BookComment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.CommonColumnEnum.ID.getName(), id)
-                .eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID,userId);
+                .eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID, userId);
         BookComment bookComment = new BookComment();
         bookComment.setCommentContent(content);
-        bookCommentMapper.update(bookComment,queryWrapper);
+        bookCommentMapper.update(bookComment, queryWrapper);
         return RestResp.ok();
     }
 
@@ -300,11 +304,11 @@ public class BookServiceImpl implements BookService {
         //  a) 查询最新章节号
         int chapterNum = 0;
         QueryWrapper<BookChapter> chapterQueryWrapper = new QueryWrapper<>();
-        chapterQueryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID,dto.getBookId())
+        chapterQueryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID, dto.getBookId())
                 .orderByDesc(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM)
                 .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         BookChapter bookChapter = bookChapterMapper.selectOne(chapterQueryWrapper);
-        if(Objects.nonNull(bookChapter)){
+        if (Objects.nonNull(bookChapter)) {
             chapterNum = bookChapter.getChapterNum() + 1;
         }
         //  b) 设置章节相关信息并保存
@@ -345,8 +349,30 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public RestResp<PageRespDto<BookInfoRespDto>> listAuthorBooks(PageReqDto dto) {
+        IPage<BookInfo> page = new Page<>();
+        page.setCurrent(dto.getPageNum());
+        page.setSize(dto.getPageSize());
+        QueryWrapper<BookInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.BookTable.AUTHOR_ID, UserHolder.getAuthorId())
+                .orderByDesc(DatabaseConsts.CommonColumnEnum.CREATE_TIME.getName());
+        IPage<BookInfo> bookInfoPage = bookInfoMapper.selectPage(page, queryWrapper);
+        return RestResp.ok(PageRespDto.of(dto.getPageNum(), dto.getPageSize(), page.getTotal(),
+                bookInfoPage.getRecords().stream().map(v -> BookInfoRespDto.builder()
+                        .id(v.getId())
+                        .bookName(v.getBookName())
+                        .picUrl(v.getPicUrl())
+                        .categoryId(v.getCategoryId())
+                        .categoryName(v.getCategoryName())
+                        .wordCount(v.getWordCount())
+                        .visitCount(v.getVisitCount())
+                        .lastChapterName(v.getLastChapterName())
+                        .build()).toList()));
+    }
+
+    @Override
     public RestResp<BookContentAboutRespDto> getBookContentAbout(Long chapterId) {
-        log.debug("userId:{}",UserHolder.getUserId());
+        log.debug("userId:{}", UserHolder.getUserId());
         // 查询章节信息
         BookChapterRespDto bookChapter = bookChapterCacheManager.getChapter(chapterId);
 

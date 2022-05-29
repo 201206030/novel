@@ -1,5 +1,7 @@
 package io.github.xxyopen.novel.service;
 
+import io.github.xxyopen.novel.core.common.req.PageReqDto;
+import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
@@ -128,32 +130,44 @@ public interface BookService {
 
     /**
      * 删除评论
-     * @param userId 评论用户ID
+     *
+     * @param userId    评论用户ID
      * @param commentId 评论ID
      * @return void
-     * */
+     */
     RestResp<Void> deleteComment(Long userId, Long commentId);
 
     /**
      * 修改评论
-     * @param userId 用户ID
-     * @param id 评论ID
+     *
+     * @param userId  用户ID
+     * @param id      评论ID
      * @param content 修改后的评论内容
      * @return void
-     * */
+     */
     RestResp<Void> updateComment(Long userId, Long id, String content);
 
     /**
      * 小说信息保存
+     *
      * @param dto 小说信息
      * @return void
-     * */
+     */
     RestResp<Void> saveBook(BookAddReqDto dto);
 
     /**
      * 小说章节信息保存
+     *
      * @param dto 章节信息
      * @return void
-     * */
+     */
     RestResp<Void> saveBookChapter(ChapterAddReqDto dto);
+
+    /**
+     * 查询作家发布小说列表
+     *
+     * @param dto 分页请求参数
+     * @return 小说分页列表数据
+     */
+    RestResp<PageRespDto<BookInfoRespDto>> listAuthorBooks(PageReqDto dto);
 }
