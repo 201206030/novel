@@ -43,6 +43,7 @@ public class BookRankCacheManager {
     public List<BookRankRespDto> listNewestRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper
+                .gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT,0)
                 .orderByDesc(DatabaseConsts.CommonColumnEnum.CREATE_TIME.getName());
         return listRankBooks(bookInfoQueryWrapper);
     }
@@ -55,12 +56,15 @@ public class BookRankCacheManager {
     public List<BookRankRespDto> listUpdateRankBooks() {
         QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
         bookInfoQueryWrapper
+                .gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT,0)
                 .orderByDesc(DatabaseConsts.CommonColumnEnum.UPDATE_TIME.getName());
         return listRankBooks(bookInfoQueryWrapper);
     }
 
     private List<BookRankRespDto> listRankBooks(QueryWrapper<BookInfo> bookInfoQueryWrapper) {
-        bookInfoQueryWrapper.last(DatabaseConsts.SqlEnum.LIMIT_30.getSql());
+        bookInfoQueryWrapper
+                .gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT,0)
+                .last(DatabaseConsts.SqlEnum.LIMIT_30.getSql());
         return bookInfoMapper.selectList(bookInfoQueryWrapper).stream().map(v -> {
             BookRankRespDto respDto = new BookRankRespDto();
             respDto.setId(v.getId());
