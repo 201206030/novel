@@ -170,4 +170,13 @@ public interface BookService {
      * @return 小说分页列表数据
      */
     RestResp<PageRespDto<BookInfoRespDto>> listAuthorBooks(PageReqDto dto);
+
+    /**
+     * 查询小说发布章节列表
+     *
+     * @param bookId 小说ID
+     * @param dto    分页请求参数
+     * @return 章节分页列表数据
+     */
+    RestResp<PageRespDto<BookChapterRespDto>> listBookChapters(Long bookId, PageReqDto dto);
 }

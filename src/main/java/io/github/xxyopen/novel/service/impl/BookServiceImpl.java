@@ -371,6 +371,23 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public RestResp<PageRespDto<BookChapterRespDto>> listBookChapters(Long bookId, PageReqDto dto) {
+        IPage<BookChapter> page = new Page<>();
+        page.setCurrent(dto.getPageNum());
+        page.setSize(dto.getPageSize());
+        QueryWrapper<BookChapter> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID, bookId)
+                .orderByDesc(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM);
+        IPage<BookChapter> bookChapterPage = bookChapterMapper.selectPage(page, queryWrapper);
+        return RestResp.ok(PageRespDto.of(dto.getPageNum(), dto.getPageSize(), page.getTotal(),
+                bookChapterPage.getRecords().stream().map(v -> BookChapterRespDto.builder()
+                        .id(v.getId())
+                        .chapterName(v.getChapterName())
+                        .chapterUpdateTime(v.getUpdateTime())
+                        .build()).toList()));
+    }
+
+    @Override
     public RestResp<BookContentAboutRespDto> getBookContentAbout(Long chapterId) {
         log.debug("userId:{}", UserHolder.getUserId());
         // 查询章节信息
