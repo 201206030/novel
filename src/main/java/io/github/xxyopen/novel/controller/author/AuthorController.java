@@ -42,9 +42,9 @@ public class AuthorController {
 
     /**
      * 查询作家状态接口
-     * */
+     */
     @GetMapping("status")
-    public RestResp<Integer> getStatus(){
+    public RestResp<Integer> getStatus() {
         return authorService.getStatus(UserHolder.getUserId());
     }
 
@@ -67,8 +67,9 @@ public class AuthorController {
     /**
      * 小说章节发布接口
      */
-    @PostMapping("book/chapter")
-    public RestResp<Void> publishBookChapter(@Valid @RequestBody ChapterAddReqDto dto) {
+    @PostMapping("book/chapter/{bookId}")
+    public RestResp<Void> publishBookChapter(@PathVariable("bookId") Long bookId, @Valid @RequestBody ChapterAddReqDto dto) {
+        dto.setBookId(bookId);
         return bookService.saveBookChapter(dto);
     }
 

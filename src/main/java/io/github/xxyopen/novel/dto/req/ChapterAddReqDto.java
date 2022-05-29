@@ -17,7 +17,6 @@ public class ChapterAddReqDto {
     /**
      * 小说ID
      */
-    @NotNull
     private Long bookId;
 
     /**

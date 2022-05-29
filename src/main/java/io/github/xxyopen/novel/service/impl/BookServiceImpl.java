@@ -300,6 +300,11 @@ public class BookServiceImpl implements BookService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public RestResp<Void> saveBookChapter(ChapterAddReqDto dto) {
+        // 校验该作品是否属于当前作家
+        BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(dto.getBookId());
+        if (!Objects.equals(bookInfo.getAuthorId(), UserHolder.getAuthorId())) {
+            return RestResp.fail(ErrorCodeEnum.USER_UN_AUTH);
+        }
         // 1) 保存章节相关信息到小说章节表
         //  a) 查询最新章节号
         int chapterNum = 0;
@@ -332,7 +337,6 @@ public class BookServiceImpl implements BookService {
 
         // 3) 更新小说表最新章节信息和小说总字数信息
         //  a) 更新小说表关于最新章节的信息
-        BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(dto.getBookId());
         BookInfo newBookInfo = new BookInfo();
         newBookInfo.setId(dto.getBookId());
         newBookInfo.setLastChapterId(newBookChapter.getId());
