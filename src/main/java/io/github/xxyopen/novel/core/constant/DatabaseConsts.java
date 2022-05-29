@@ -89,6 +89,8 @@ public class DatabaseConsts {
 
         public static final String COLUMN_CATEGORY_ID = "category_id";
 
+        public static final String COLUMN_BOOK_NAME = "book_name";
+
         public static final String AUTHOR_ID = "author_id";
 
         public static final String COLUMN_VISIT_COUNT = "visit_count";

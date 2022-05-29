@@ -93,6 +93,17 @@ public enum ErrorCodeEnum {
     USER_COMMENTED("A2001","用户已发表评论"),
 
     /**
+     * 作家发布异常
+     * */
+    AUTHOR_PUBLISH("A3000","作家发布异常"),
+
+    /**
+     * 小说名已存在
+     * */
+    AUTHOR_BOOK_NAME_EXIST("A3001","小说名已存在"),
+
+
+    /**
      * 用户上传文件异常
      * */
     USER_UPLOAD_FILE_ERROR("A0700","用户上传文件异常"),

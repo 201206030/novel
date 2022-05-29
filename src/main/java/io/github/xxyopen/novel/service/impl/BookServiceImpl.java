@@ -276,6 +276,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public RestResp<Void> saveBook(BookAddReqDto dto) {
+        // 校验小说名是否已存在
+        QueryWrapper<BookInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.BookTable.COLUMN_BOOK_NAME, dto.getBookName());
+        if (bookInfoMapper.selectCount(queryWrapper) > 0) {
+            return RestResp.fail(ErrorCodeEnum.AUTHOR_BOOK_NAME_EXIST);
+        }
         BookInfo bookInfo = new BookInfo();
         // 设置作家信息
         AuthorInfoDto author = authorInfoCacheManager.getAuthor(UserHolder.getUserId());
