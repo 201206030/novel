@@ -19,6 +19,7 @@
         <spring.version>6.0.0-SNAPSHOT</spring.version>
         <jjwt.version>0.11.5</jjwt.version>
         <elasticsearch.version>8.2.0</elasticsearch.version>
+        <xxl-job.version>2.3.1</xxl-job.version>
     </properties>
     <dependencies>
         <dependency>
@@ -114,6 +115,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-job-core</artifactId>
+            <version>${xxl-job.version}</version>
         </dependency>
 
         <dependency>

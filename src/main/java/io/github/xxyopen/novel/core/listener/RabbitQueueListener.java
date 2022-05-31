@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * @date 2022/5/25
  */
 @Component
-@ConditionalOnProperty(prefix = "spring.elasticsearch", name = "enable", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring", name = {"elasticsearch.enable","amqp.enable"}, havingValue = "true")
 @RequiredArgsConstructor
 @Slf4j
 public class RabbitQueueListener {

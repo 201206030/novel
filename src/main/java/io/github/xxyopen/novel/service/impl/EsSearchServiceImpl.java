@@ -109,6 +109,12 @@ public class EsSearchServiceImpl implements SearchService {
 
         BoolQuery boolQuery = BoolQuery.of(b -> {
 
+            // 只查有字数的小说
+            b.must(RangeQuery.of(m -> m
+                    .field(EsConsts.BookIndex.FIELD_WORD_COUNT)
+                    .gt(JsonData.of(0))
+            )._toQuery());
+
             if (!StringUtils.isBlank(condition.getKeyword())) {
                 // 关键词匹配
                 b.must((q -> q.multiMatch(t -> t
