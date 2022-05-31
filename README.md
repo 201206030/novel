@@ -27,6 +27,8 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
 - IntelliJ IDEA 2021.3（可选）
 - Node 16.14
 
+**注：Elasticsearch、RabbitMQ 和 XXL-JOB 默认关闭，可通过 application.yml 配置文件中相应的`enable`配置属性开启。**
+
 ## 后端技术选型
 
 | 技术            |       版本       | 说明                  | 官网                                |                        学习                         |
