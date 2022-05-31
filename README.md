@@ -21,6 +21,7 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
 - Redis 7.0
 - Elasticsearch 8.2.0（可选）
 - RabbitMQ 3.10.2（可选）
+- XXL-JOB 2.3.1（可选）
 - JDK 17
 - Maven 3.8
 - IntelliJ IDEA 2021.3（可选）
@@ -40,6 +41,7 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
 | MySQL         |      8.0       | 数据库服务               | https://www.mysql.com                   |     [进入](https://docs.oracle.com/en-us/iaas/mysql-database/doc/getting-started.html)      |
 | Elasticsearch |     8.2.0      | 搜索引擎服务              | https://www.elastic.co                   |     [进入](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)      |
 | RabbitMQ      |     3.10.2     | 开源消息中间件             | https://www.rabbitmq.com                   |     [进入](https://www.rabbitmq.com/tutorials/tutorial-one-java.html)      |
+| XXL-JOB        |     2.3.1     | 分布式任务调度平台             | https://www.xuxueli.com/xxl-job                   |     [进入](https://www.xuxueli.com/xxl-job)      |
 | Undertow      |  2.2.17.Final  | Java 开发的高性能 Web 服务器 | https://undertow.io |   [进入](https://undertow.io/documentation.html)    |
 | Docker        |       -        | 应用容器引擎              | https://www.docker.com/                 |                          -                          |
 | Jenkins       |       -        | 自动化部署工具             | https://github.com/jenkinsci/jenkins    |                          -                          |
