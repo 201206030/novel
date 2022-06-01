@@ -252,13 +252,15 @@ git clone https://gitee.com/novel_dev_team/novel-front-web.git
     
 ## 公众号
 
-关注公众号接收项目最新动态，获取`Spring Boot 3`学习笔记！
+- 关注公众号接收`项目`和`文档`的更新动态
 
-加微信群学习交流，公众号后台回复「**微信群**」即可。
+- 加微信群学习交流，公众号后台回复「**微信群**」即可
 
-发送「**资料**」获取`JAVA 面试参考`、`海量简历模板`、`技术电子书`等学习面试资料。
+- 回复「**资料**」获取`Java 学习面试资料`
 
-![微信公众号](https://youdoc.github.io/img/qrcode_for_gh.jpg)
+- 回复「**笔记**」获取`Spring Boot 3 学习笔记`
+
+![IT进阶](https://youdoc.gitee.io/img/qrcode_for_gh.jpg)
 
 ## 赞赏支持
 
