@@ -20,6 +20,7 @@
         <jjwt.version>0.11.5</jjwt.version>
         <elasticsearch.version>8.2.0</elasticsearch.version>
         <xxl-job.version>2.3.1</xxl-job.version>
+        <sentinel.version>1.8.4</sentinel.version>
     </properties>
     <dependencies>
         <dependency>
@@ -128,12 +129,12 @@
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-core</artifactId>
-            <version>1.8.4</version>
+            <version>${sentinel.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-parameter-flow-control</artifactId>
-            <version>1.8.4</version>
+            <version>${sentinel.version}</version>
         </dependency>
 
         <dependency>
