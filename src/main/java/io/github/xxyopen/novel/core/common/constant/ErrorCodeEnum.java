@@ -83,6 +83,16 @@ public enum ErrorCodeEnum {
     USER_UN_AUTH("A0301","访问未授权"),
 
     /**
+     * 用户请求服务异常
+     * */
+    USER_REQ_EXCEPTION("A0500","用户请求服务异常"),
+
+    /**
+     * 请求超出限制
+     * */
+    USER_REQ_MANY("A0501","请求超出限制"),
+
+    /**
      * 用户评论异常
      * */
     USER_COMMENT("A2000","用户评论异常"),
@@ -137,11 +147,11 @@ public enum ErrorCodeEnum {
     /**
      * 错误码
      * */
-    private String code;
+    private final String code;
 
     /**
      * 中文描述
      * */
-    private String message;
+    private final String message;
 
 }
