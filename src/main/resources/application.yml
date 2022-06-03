@@ -20,6 +20,44 @@ spring:
     url: jdbc:mysql://localhost:3306/novel_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: test123456
+  # 分库分表配置
+  shardingsphere:
+    datasource:
+      names: ds_0
+      ds_0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        jdbcUrl: jdbc:mysql://localhost:3306/novel_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+        username: root
+        password: test123456
+    rules:
+      sharding:
+        tables:
+          # book_content表
+          book_content:
+            # 数据节点
+            actual-data-nodes: ds_$->{0}.book_content$->{0..9}
+            # 分表策略
+            table-strategy:
+              standard:
+                # 分片列名称
+                sharding-column: chapter_id
+                # 分片算法名称
+                sharding-algorithm-name: bookContentSharding
+        sharding-algorithms:
+          bookContentSharding:
+            # 行表达式分片算法，使用 Groovy 的表达式，提供对 SQL 语句中的 = 和 IN 的分片操作支持
+            type: INLINE
+            props:
+              # 分片算法的行表达式
+              algorithm-expression: book_content$->{chapter_id % 10}
+    props:
+      # 是否在日志中打印 SQL
+      sql-show: true
+    # 是否开启分库分表
+    enabled: false
+
+
   config:
     activate:
       on-profile: dev

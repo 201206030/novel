@@ -21,6 +21,7 @@
         <elasticsearch.version>8.2.0</elasticsearch.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <sentinel.version>1.8.4</sentinel.version>
+        <shardingsphere-jdbc.version>5.1.1</shardingsphere-jdbc.version>
     </properties>
     <dependencies>
         <dependency>
@@ -135,6 +136,13 @@
             <groupId>com.alibaba.csp</groupId>
             <artifactId>sentinel-parameter-flow-control</artifactId>
             <version>${sentinel.version}</version>
+        </dependency>
+
+        <!-- ShardingSphere-JDBC -->
+        <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
+            <version>${shardingsphere-jdbc.version}</version>
         </dependency>
 
         <dependency>
