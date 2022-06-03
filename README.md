@@ -260,7 +260,7 @@ git clone https://gitee.com/novel_dev_team/novel-front-web.git
 
 - 回复「**笔记**」获取`Spring Boot 3 学习笔记`
 
-![IT进阶](https://youdoc.gitee.io/img/qrcode_for_gh.jpg)
+![xxyopen](https://youdoc.gitee.io/img/qrcode_for_gh.jpg)
 
 ## 赞赏支持
 
