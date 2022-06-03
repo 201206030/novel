@@ -31,24 +31,25 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
 
 ## 后端技术选型
 
-| 技术            |       版本       | 说明                  | 官网                                |                        学习                         |
-|:--------------|:--------------:|---------------------| --------------------------------------- | :-------------------------------------------------: |
-| Spring Boot   | 3.0.0-SNAPSHOT | 容器 + MVC 框架         | https://spring.io/projects/spring-boot  |   [进入](https://youdoc.github.io/course/novel/11.html)    |
-| MyBatis       |     3.5.9      | ORM 框架              | http://www.mybatis.org                  | [进入](https://mybatis.org/mybatis-3/zh/index.html) |
-| MyBatis-Plus  |     3.5.1      | MyBatis 增强工具        | https://baomidou.com/                   |     [进入](https://baomidou.com/pages/24112f/)      |
-| JJWT          |     0.11.5     | JWT 登录支持            | https://github.com/jwtk/jjwt            |                          -                          |
-| Lombok        |    1.18.24     | 简化对象封装工具            | https://github.com/projectlombok/lombok |   [进入](https://projectlombok.org/features/all)    |
-| Caffeine      |     3.1.0      | 本地缓存支持              | https://github.com/ben-manes/caffeine                 |     [进入](https://github.com/ben-manes/caffeine/wiki/Home-zh-CN)      |
-| Redis         |      7.0       | 分布式缓存支持             | https://redis.io                   |     [进入](https://redis.io/docs)      |
-| MySQL         |      8.0       | 数据库服务               | https://www.mysql.com                   |     [进入](https://docs.oracle.com/en-us/iaas/mysql-database/doc/getting-started.html)      |
-| Elasticsearch |     8.2.0      | 搜索引擎服务              | https://www.elastic.co                   |     [进入](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)      |
-| RabbitMQ      |     3.10.2     | 开源消息中间件             | https://www.rabbitmq.com                   |     [进入](https://www.rabbitmq.com/tutorials/tutorial-one-java.html)      |
-| XXL-JOB       |     2.3.1      | 分布式任务调度平台             | https://www.xuxueli.com/xxl-job                   |     [进入](https://www.xuxueli.com/xxl-job)      |
-| Sentinel      |     1.8.4      | 流量控制组件             | https://github.com/alibaba/Sentinel                   |     [进入](https://github.com/alibaba/Sentinel/wiki/%E4%B8%BB%E9%A1%B5)      |
-| Undertow      |  2.2.17.Final  | Java 开发的高性能 Web 服务器 | https://undertow.io |   [进入](https://undertow.io/documentation.html)    |
-| Docker        |       -        | 应用容器引擎              | https://www.docker.com/                 |                          -                          |
-| Jenkins       |       -        | 自动化部署工具             | https://github.com/jenkinsci/jenkins    |                          -                          |
-| Sonarqube     |       -        | 代码质量控制              | https://www.sonarqube.org/              |                          -                          |
+| 技术                             |       版本       | 说明                  | 官网                                |                                            学习                                            |
+|:-------------------------------|:--------------:|---------------------| --------------------------------------- |:----------------------------------------------------------------------------------------:|
+| Spring Boot                    | 3.0.0-SNAPSHOT | 容器 + MVC 框架         | https://spring.io/projects/spring-boot  |                   [进入](https://youdoc.github.io/course/novel/11.html)                    |
+| MyBatis                        |     3.5.9      | ORM 框架              | http://www.mybatis.org                  |                    [进入](https://mybatis.org/mybatis-3/zh/index.html)                     |
+| MyBatis-Plus                   |     3.5.1      | MyBatis 增强工具        | https://baomidou.com/                   |                         [进入](https://baomidou.com/pages/24112f/)                         |
+| JJWT                           |     0.11.5     | JWT 登录支持            | https://github.com/jwtk/jjwt            |                                            -                                             |
+| Lombok                         |    1.18.24     | 简化对象封装工具            | https://github.com/projectlombok/lombok |                       [进入](https://projectlombok.org/features/all)                       |
+| Caffeine                       |     3.1.0      | 本地缓存支持              | https://github.com/ben-manes/caffeine                |               [进入](https://github.com/ben-manes/caffeine/wiki/Home-zh-CN)                |
+| Redis                          |      7.0       | 分布式缓存支持             | https://redis.io                   |                               [进入](https://redis.io/docs)                                |
+| MySQL                          |      8.0       | 数据库服务               | https://www.mysql.com                   |     [进入](https://docs.oracle.com/en-us/iaas/mysql-database/doc/getting-started.html)     |
+| ShardingSphere-JDBC            |      5.1.1       | 数据库分库分表支持           | https://shardingsphere.apache.org/index_zh.html                   |            [进入](https://shardingsphere.apache.org/document/5.1.1/cn/overview)            |
+| Elasticsearch                  |     8.2.0      | 搜索引擎服务              | https://www.elastic.co                   |     [进入](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)     |
+| RabbitMQ                       |     3.10.2     | 开源消息中间件             | https://www.rabbitmq.com                   |             [进入](https://www.rabbitmq.com/tutorials/tutorial-one-java.html)              |
+| XXL-JOB                        |     2.3.1      | 分布式任务调度平台           | https://www.xuxueli.com/xxl-job                   |                          [进入](https://www.xuxueli.com/xxl-job)                           |
+| Sentinel                       |     1.8.4      | 流量控制组件              | https://github.com/alibaba/Sentinel                  |            [进入](https://github.com/alibaba/Sentinel/wiki/%E4%B8%BB%E9%A1%B5)             |
+| Undertow                       |  2.2.17.Final  | Java 开发的高性能 Web 服务器 | https://undertow.io |                       [进入](https://undertow.io/documentation.html)                       |
+| Docker                         |       -        | 应用容器引擎              | https://www.docker.com/                 |                                            -                                             |
+| Jenkins                        |       -        | 自动化部署工具             | https://github.com/jenkinsci/jenkins    |                                            -                                             |
+| Sonarqube                      |       -        | 代码质量控制              | https://www.sonarqube.org/              |                                            -                                             |
 
 **注：更多热门新技术待集成。**
 ## 前端技术选型
