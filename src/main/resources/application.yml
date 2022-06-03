@@ -20,8 +20,28 @@ spring:
     url: jdbc:mysql://localhost:3306/novel_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: test123456
-  # 分库分表配置
+  # ShardingSphere-JDBC 配置
+  # 配置是 ShardingSphere-JDBC 中唯一与应用开发者交互的模块，
+  # 通过它可以快速清晰的理解 ShardingSphere-JDBC 所提供的功能。
   shardingsphere:
+    # 是否开启分库分表
+    enabled: false
+    props:
+      # 是否在日志中打印 SQL
+      sql-show: true
+    # 模式配置
+    mode:
+      # 单机模式
+      type: Standalone
+      repository:
+        # 文件持久化
+        type: File
+        props:
+          # 元数据存储路径
+          path: .shardingsphere
+      # 使用本地配置覆盖持久化配置
+      overwrite: true
+    # 数据源配置
     datasource:
       names: ds_0
       ds_0:
@@ -30,10 +50,12 @@ spring:
         jdbcUrl: jdbc:mysql://localhost:3306/novel_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
         username: root
         password: test123456
+    # 规则配置
     rules:
+      # 数据分片
       sharding:
         tables:
-          # book_content表
+          # book_content 表
           book_content:
             # 数据节点
             actual-data-nodes: ds_$->{0}.book_content$->{0..9}
@@ -51,12 +73,6 @@ spring:
             props:
               # 分片算法的行表达式
               algorithm-expression: book_content$->{chapter_id % 10}
-    props:
-      # 是否在日志中打印 SQL
-      sql-show: true
-    # 是否开启分库分表
-    enabled: false
-
 
   config:
     activate:
