@@ -53,26 +53,26 @@
         <!-- ROOT 日志级别 -->
         <root level="INFO">
             <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
         </root>
         <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
         <!-- com.maijinjie.springboot 为根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG -->
         <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE -->
         <logger name="io.github.xxyopen" level="DEBUG" additivity="false">
             <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
         </logger>
     </springProfile>
 
     <springProfile name="prod">
         <!-- ROOT 日志级别 -->
         <root level="INFO">
-            <appender-ref ref="STDOUT"/>
             <appender-ref ref="FILE"/>
         </root>
         <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
         <!-- com.maijinjie.springboot 为根包，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG -->
         <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE -->
         <logger name="io.github.xxyopen" level="ERROR" additivity="false">
-            <appender-ref ref="STDOUT"/>
             <appender-ref ref="FILE"/>
         </logger>
     </springProfile>
