@@ -147,6 +147,11 @@ spring:
         username: novel
         # Spring Boot Admin 服务端认证密码
         password: novel
+        instance:
+          metadata:
+            # SBA Client
+            user.name: ${spring.security.user.name}
+            user.password: ${spring.security.user.password}
   security:
     user:
       name: ENDPOINT_ADMIN
