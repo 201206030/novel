@@ -147,26 +147,42 @@ spring:
         username: novel
         # Spring Boot Admin 服务端认证密码
         password: novel
+  security:
+    user:
+      name: ENDPOINT_ADMIN
+      password: ENDPOINT_ADMIN
+      roles: ENDPOINT_ADMIN
 
-
+# Actuator 端点管理
 management:
+  # 端点公开配置
   endpoints:
+    # 通过 HTTP 公开的 Web 端点
     web:
       exposure:
+        # 公开所有的 Web 端点
         include: "*"
+
+  # 端点启用配置
   endpoint:
     logfile:
+      # 启用返回日志文件内容的端点
       enabled: true
+      # 外部日志文件路径
       external-file: logs/novel.log
 
   info:
     env:
+      # 公开所有以 info. 开头的环境属性
       enabled: true
   health:
     rabbit:
+      # 关闭 rabbitmq 的健康检查
       enabled: false
     elasticsearch:
+      # 关闭 elasticsearch 的健康检查
       enabled: false
+
 
 
 ---
