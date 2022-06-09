@@ -4,6 +4,7 @@
 [![Github forks](https://img.shields.io/github/forks/201206030/novel?logo=github)](https://github.com/201206030/novel)
 [![Gitee star](https://gitee.com/novel_dev_team/novel/badge/star.svg?theme=gitee)](https://gitee.com/novel_dev_team/novel)
 [![Gitee fork](https://gitee.com/novel_dev_team/novel/badge/fork.svg?theme=gitee)](https://gitee.com/novel_dev_team/novel)
+<a href="https://github.com/201206030/novel"><img src="https://visitor-badge.glitch.me/badge?page_id=201206030.novel" alt="visitors"></a>
 ## 项目简介
 
 novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开发的前后端分离的**学习型**小说项目，配备详细的项目教程手把手教你**从零开始**开发上线一个生产级别的 Java 系统，由小说门户系统、作家后台管理系统、平台后台管理系统、爬虫管理系统等多个子系统构成。包括小说推荐、作品检索、小说排行榜、小说阅读、小说评论、充值订阅、新闻发布等功能。
