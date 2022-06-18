@@ -1,6 +1,5 @@
 package io.github.xxyopen.novel.core.config;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
@@ -12,11 +11,6 @@ import java.util.List;
  * @date 2022/5/17
  */
 @ConfigurationProperties(prefix = "novel.cors")
-@Data
-public class CorsProperties {
+public record CorsProperties(List<String> allowOrigins) {
 
-    /**
-     * 允许跨域的域名
-     * */
-    private List<String> allowOrigins;
 }

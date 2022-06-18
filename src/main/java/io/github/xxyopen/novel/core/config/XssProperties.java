@@ -1,6 +1,5 @@
 package io.github.xxyopen.novel.core.config;
 
-import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.List;
@@ -12,17 +11,6 @@ import java.util.List;
  * @date 2022/5/17
  */
 @ConfigurationProperties(prefix = "novel.xss")
-@Data
-public class XssProperties {
-
-    /**
-     * 过滤开关
-     * */
-    private Boolean enabled;
-
-    /**
-     * 排除链接
-     * */
-    private List<String> excludes;
+public record XssProperties(Boolean enabled,List<String> excludes) {
 
 }

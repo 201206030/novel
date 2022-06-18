@@ -25,7 +25,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         // 允许的域,不要写*，否则cookie就无法使用了
-        for (String allowOrigin : corsProperties.getAllowOrigins()) {
+        for (String allowOrigin : corsProperties.allowOrigins()) {
             config.addAllowedOrigin(allowOrigin);
         }
         // 允许的头信息

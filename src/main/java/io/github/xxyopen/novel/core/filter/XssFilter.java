@@ -48,11 +48,11 @@ public class XssFilter implements Filter {
     }
 
     private boolean handleExcludeUrl(HttpServletRequest request) {
-        if (CollectionUtils.isEmpty(xssProperties.getExcludes())) {
+        if (CollectionUtils.isEmpty(xssProperties.excludes())) {
             return false;
         }
         String url = request.getServletPath();
-        for (String pattern : xssProperties.getExcludes()) {
+        for (String pattern : xssProperties.excludes()) {
             Pattern p = Pattern.compile("^" + pattern);
             Matcher m = p.matcher(url);
             if (m.find()) {
