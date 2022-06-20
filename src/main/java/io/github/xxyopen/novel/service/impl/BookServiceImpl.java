@@ -3,6 +3,8 @@ package io.github.xxyopen.novel.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.github.xxyopen.novel.core.annotation.Key;
+import io.github.xxyopen.novel.core.annotation.Lock;
 import io.github.xxyopen.novel.core.auth.UserHolder;
 import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.req.PageReqDto;
@@ -200,8 +202,9 @@ public class BookServiceImpl implements BookService {
         return RestResp.ok(bookCategoryCacheManager.listCategory(workDirection));
     }
 
+    @Lock(prefix = "userComment")
     @Override
-    public RestResp<Void> saveComment(UserCommentReqDto dto) {
+    public RestResp<Void> saveComment(@Key(expr = "#{userId + '::' + bookId}") UserCommentReqDto dto) {
         // 校验用户是否已发表评论
         QueryWrapper<BookComment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID, dto.getUserId())

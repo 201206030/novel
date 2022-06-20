@@ -22,6 +22,7 @@
         <xxl-job.version>2.3.1</xxl-job.version>
         <sentinel.version>1.8.4</sentinel.version>
         <shardingsphere-jdbc.version>5.1.1</shardingsphere-jdbc.version>
+        <redisson.version>3.17.4</redisson.version>
     </properties>
     <dependencies>
         <dependency>
@@ -158,6 +159,19 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- Redisson 相关 -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>${redisson.version}</version>
+        </dependency>
+
+        <!-- Aop 相关 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
         <dependency>
