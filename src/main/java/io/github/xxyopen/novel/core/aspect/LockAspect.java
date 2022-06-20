@@ -1,5 +1,6 @@
 package io.github.xxyopen.novel.core.aspect;
 
+import io.github.xxyopen.novel.core.annotation.Key;
 import io.github.xxyopen.novel.core.annotation.Lock;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import lombok.SneakyThrows;
@@ -14,10 +15,10 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.common.TemplateParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -55,14 +56,14 @@ public record LockAspect(RedissonClient redissonClient) {
 
     private String buildLockKey(String prefix, Method method, Object[] args) {
         StringBuilder builder = new StringBuilder();
-        if (Objects.nonNull(prefix) && !prefix.isEmpty()) {
+        if (StringUtils.hasText(prefix)) {
             builder.append(KEY_SEPARATOR).append(prefix);
         }
         Parameter[] parameters = method.getParameters();
         for (int i = 0; i < parameters.length; i++) {
             builder.append(KEY_SEPARATOR);
-            if (parameters[i].isAnnotationPresent(io.github.xxyopen.novel.core.annotation.Key.class)) {
-                io.github.xxyopen.novel.core.annotation.Key key = parameters[i].getAnnotation(io.github.xxyopen.novel.core.annotation.Key.class);
+            if (parameters[i].isAnnotationPresent(Key.class)) {
+                Key key = parameters[i].getAnnotation(Key.class);
                 builder.append(parseKeyExpr(key.expr(), args[i]));
             }
         }
@@ -70,7 +71,7 @@ public record LockAspect(RedissonClient redissonClient) {
     }
 
     private String parseKeyExpr(String expr, Object arg) {
-        if (Objects.isNull(expr) || expr.isEmpty()) {
+        if (!StringUtils.hasText(expr)) {
             return arg.toString();
         }
         ExpressionParser parser = new SpelExpressionParser();
