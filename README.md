@@ -3,7 +3,7 @@
 <p align="center">
     <a href='https://docs.oracle.com/en/java/javase/17'><img alt="JDK 17" src="https://img.shields.io/badge/JDK%2017-%234479A1.svg?logo=java"></a>
     <a href='https://docs.spring.io/spring-boot/docs/3.0.0-SNAPSHOT/reference/html'><img alt="Spring Boot 3" src="https://img.shields.io/badge/Spring%20Boot%203-%23000000.svg?logo=springboot"></a>
-    <a href='https://staging-cn.vuejs.org'><img alt="Vue 3" src="https://img.shields.io/badge/Vue%203%20-%232b3847.svg?logo=vue.js"></a>
+    <a href='https://staging-cn.vuejs.org'><img alt="Vue 3" src="https://img.shields.io/badge/Vue%203%20-%232b3847.svg?logo=vue.js"></a><br/>
     <a href='https://github.com/201206030/novel'><img alt="Github stars" src="https://img.shields.io/github/stars/201206030/novel?logo=github"></a>
     <a href='https://github.com/201206030/novel'><img alt="Github forks" src="https://img.shields.io/github/forks/201206030/novel?logo=github"></a>
     <a href='https://gitee.com/novel_dev_team/novel'><img alt="Gitee stars" src="https://gitee.com/novel_dev_team/novel/badge/star.svg?theme=gitee"></a>
