@@ -37,7 +37,8 @@ public class CacheConfig {
         SimpleCacheManager cacheManager = new SimpleCacheManager();
 
         List<CaffeineCache> caches = new ArrayList<>(CacheConsts.CacheEnum.values().length);
-        for (CacheConsts.CacheEnum c : CacheConsts.CacheEnum.values()) {
+        // 类型推断 var 非常适合 for 循环，JDK 10 引入，JDK 11 改进
+        for (var c : CacheConsts.CacheEnum.values()) {
             if (c.isLocal()) {
                 Caffeine<Object, Object> caffeine = Caffeine.newBuilder().recordStats().maximumSize(c.getMaxSize());
                 if (c.getTtl() > 0) {
@@ -62,7 +63,8 @@ public class CacheConfig {
                 .disableCachingNullValues().prefixCacheNameWith(CacheConsts.REDIS_CACHE_PREFIX);
 
         Map<String, RedisCacheConfiguration> cacheMap = new LinkedHashMap<>(CacheConsts.CacheEnum.values().length);
-        for (CacheConsts.CacheEnum c : CacheConsts.CacheEnum.values()) {
+        // 类型推断 var 非常适合 for 循环，JDK 10 引入，JDK 11 改进
+        for (var c : CacheConsts.CacheEnum.values()) {
             if (c.isRemote()) {
                 if (c.getTtl() > 0) {
                     cacheMap.put(c.getName(), RedisCacheConfiguration.defaultCacheConfig().disableCachingNullValues()

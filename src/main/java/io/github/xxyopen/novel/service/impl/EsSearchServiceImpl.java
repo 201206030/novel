@@ -77,7 +77,8 @@ public class EsSearchServiceImpl implements SearchService {
 
         List<BookInfoRespDto> list = new ArrayList<>();
         List<Hit<EsBookDto>> hits = response.hits().hits();
-        for (Hit<EsBookDto> hit : hits) {
+        // 类型推断 var 非常适合 for 循环，JDK 10 引入，JDK 11 改进
+        for (var hit : hits) {
             EsBookDto book = hit.source();
             assert book != null;
             if (!CollectionUtils.isEmpty(hit.highlight().get(EsConsts.BookIndex.FIELD_BOOK_NAME))) {
