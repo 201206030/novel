@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @author xiongxiaoyang
  * @date 2022/5/17
  */
-@Tag(name = "user", description = "前台门户-会员模块")
+@Tag(name = "UserController", description = "前台门户-会员模块")
 @SecurityRequirement(name = SystemConfigConsts.HTTP_AUTH_HEADER_NAME)
 @RestController
 @RequestMapping(ApiRouterConsts.API_FRONT_USER_URL_PREFIX)
@@ -41,7 +41,7 @@ public class UserController {
     /**
      * 用户注册接口
      */
-    @Operation(description = "用户注册接口")
+    @Operation(summary = "用户注册接口")
     @PostMapping("register")
     public RestResp<UserRegisterRespDto> register(@Valid @RequestBody UserRegisterReqDto dto) {
         return userService.register(dto);
@@ -50,7 +50,7 @@ public class UserController {
     /**
      * 用户登录接口
      */
-    @Operation(description = "用户登录接口")
+    @Operation(summary = "用户登录接口")
     @PostMapping("login")
     public RestResp<UserLoginRespDto> login(@Valid @RequestBody UserLoginReqDto dto) {
         return userService.login(dto);
@@ -59,7 +59,7 @@ public class UserController {
     /**
      * 用户信息查询接口
      */
-    @Operation(description = "用户信息查询接口")
+    @Operation(summary = "用户信息查询接口")
     @GetMapping
     public RestResp<UserInfoRespDto> getUserInfo() {
         return userService.getUserInfo(UserHolder.getUserId());
@@ -68,7 +68,7 @@ public class UserController {
     /**
      * 用户信息修改接口
      */
-    @Operation(description = "用户信息修改接口")
+    @Operation(summary = "用户信息修改接口")
     @PutMapping
     public RestResp<Void> updateUserInfo(@Valid @RequestBody UserInfoUptReqDto dto) {
         dto.setUserId(UserHolder.getUserId());
@@ -78,7 +78,7 @@ public class UserController {
     /**
      * 用户反馈提交接口
      */
-    @Operation(description = "用户反馈提交接口")
+    @Operation(summary = "用户反馈提交接口")
     @PostMapping("feedback")
     public RestResp<Void> submitFeedback(@RequestBody String content) {
         return userService.saveFeedback(UserHolder.getUserId(), content);
@@ -87,7 +87,7 @@ public class UserController {
     /**
      * 用户反馈删除接口
      */
-    @Operation(description = "用户反馈删除接口")
+    @Operation(summary = "用户反馈删除接口")
     @DeleteMapping("feedback/{id}")
     public RestResp<Void> deleteFeedback(@Parameter(description = "反馈ID") @PathVariable Long id) {
         return userService.deleteFeedback(UserHolder.getUserId(), id);
@@ -96,7 +96,7 @@ public class UserController {
     /**
      * 发表评论接口
      */
-    @Operation(description = "发表评论接口")
+    @Operation(summary = "发表评论接口")
     @PostMapping("comment")
     public RestResp<Void> comment(@Valid @RequestBody UserCommentReqDto dto) {
         dto.setUserId(UserHolder.getUserId());
@@ -106,7 +106,7 @@ public class UserController {
     /**
      * 修改评论接口
      */
-    @Operation(description = "修改评论接口")
+    @Operation(summary = "修改评论接口")
     @PutMapping("comment/{id}")
     public RestResp<Void> updateComment(@Parameter(description = "评论ID") @PathVariable Long id, String content) {
         return bookService.updateComment(UserHolder.getUserId(), id, content);
@@ -115,7 +115,7 @@ public class UserController {
     /**
      * 删除评论接口
      */
-    @Operation(description = "删除评论接口")
+    @Operation(summary = "删除评论接口")
     @DeleteMapping("comment/{id}")
     public RestResp<Void> deleteComment(@Parameter(description = "评论ID") @PathVariable Long id) {
         return bookService.deleteComment(UserHolder.getUserId(), id);
@@ -126,7 +126,7 @@ public class UserController {
      * 0-不在书架
      * 1-已在书架
      */
-    @Operation(description = "查询书架状态接口")
+    @Operation(summary = "查询书架状态接口")
     @GetMapping("bookshelf_status")
     public RestResp<Integer> getBookshelfStatus(@Parameter(description = "小说ID") String bookId) {
         return userService.getBookshelfStatus(UserHolder.getUserId(), bookId);

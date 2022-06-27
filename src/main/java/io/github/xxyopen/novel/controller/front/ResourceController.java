@@ -19,7 +19,7 @@ import java.io.IOException;
  * @author xiongxiaoyang
  * @date 2022/5/17
  */
-@Tag(name = "resource", description = "前台门户-资源模块")
+@Tag(name = "ResourceController", description = "前台门户-资源模块")
 @RestController
 @RequestMapping(ApiRouterConsts.API_FRONT_RESOURCE_URL_PREFIX)
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class ResourceController {
     /**
      * 获取图片验证码接口
      */
-    @Operation(description = "获取图片验证码接口")
+    @Operation(summary = "获取图片验证码接口")
     @GetMapping("img_verify_code")
     public RestResp<ImgVerifyCodeRespDto> getImgVerifyCode() throws IOException {
         return resourceService.getImgVerifyCode();
@@ -39,7 +39,7 @@ public class ResourceController {
     /**
      * 图片上传接口
      * */
-    @Operation(description = "图片上传接口")
+    @Operation(summary = "图片上传接口")
     @PostMapping("/image")
     RestResp<String> uploadImage(@Parameter(description = "上传文件") @RequestParam("file") MultipartFile file) {
         return resourceService.uploadImage(file);

@@ -21,7 +21,7 @@ import java.util.List;
  * @author xiongxiaoyang
  * @date 2022/5/12
  */
-@Tag(name = "news", description = "前台门户-新闻模块")
+@Tag(name = "NewsController", description = "前台门户-新闻模块")
 @RestController
 @RequestMapping(ApiRouterConsts.API_FRONT_NEWS_URL_PREFIX)
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class NewsController {
     /**
      * 最新新闻列表查询接口
      */
-    @Operation(description = "最新新闻列表查询接口")
+    @Operation(summary = "最新新闻列表查询接口")
     @GetMapping("latest_list")
     public RestResp<List<NewsInfoRespDto>> listLatestNews() {
         return newsService.listLatestNews();
@@ -41,7 +41,7 @@ public class NewsController {
     /**
      * 新闻信息查询接口
      */
-    @Operation(description = "新闻信息查询接口")
+    @Operation(summary = "新闻信息查询接口")
     @GetMapping("{id}")
     public RestResp<NewsInfoRespDto> getNews(@Parameter(description = "新闻ID") @PathVariable Long id) {
         return newsService.getNews(id);

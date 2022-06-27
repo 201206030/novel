@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author xiongxiaoyang
  * @date 2022/5/27
  */
-@Tag(name = "search", description = "前台门户-搜索模块")
+@Tag(name = "SearchController", description = "前台门户-搜索模块")
 @RestController
 @RequestMapping(ApiRouterConsts.API_FRONT_SEARCH_URL_PREFIX)
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class SearchController {
     /**
      * 小说搜索接口
      */
-    @Operation(description = "小说搜索接口")
+    @Operation(summary = "小说搜索接口")
     @GetMapping("books")
     public RestResp<PageRespDto<BookInfoRespDto>> searchBooks(@ParameterObject BookSearchReqDto condition) {
         return searchService.searchBooks(condition);

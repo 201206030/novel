@@ -20,7 +20,7 @@ import java.util.List;
  * @author xiongxiaoyang
  * @date 2022/5/12
  */
-@Tag(name = "home", description = "前台门户-首页模块")
+@Tag(name = "HomeController", description = "前台门户-首页模块")
 @RestController
 @RequestMapping(ApiRouterConsts.API_FRONT_HOME_URL_PREFIX)
 @RequiredArgsConstructor
@@ -31,7 +31,7 @@ public class HomeController {
     /**
      * 首页小说推荐查询接口
      */
-    @Operation(description = "首页小说推荐查询接口")
+    @Operation(summary = "首页小说推荐查询接口")
     @GetMapping("books")
     public RestResp<List<HomeBookRespDto>> listHomeBooks() {
         return homeService.listHomeBooks();
@@ -40,7 +40,7 @@ public class HomeController {
     /**
      * 首页友情链接列表查询接口
      */
-    @Operation(description = "首页友情链接列表查询接口")
+    @Operation(summary = "首页友情链接列表查询接口")
     @GetMapping("friend_Link/list")
     public RestResp<List<HomeFriendLinkRespDto>> listHomeFriendLinks() {
         return homeService.listHomeFriendLinks();
