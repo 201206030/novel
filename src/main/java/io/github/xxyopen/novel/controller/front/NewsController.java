@@ -4,6 +4,9 @@ import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.resp.NewsInfoRespDto;
 import io.github.xxyopen.novel.service.NewsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +21,7 @@ import java.util.List;
  * @author xiongxiaoyang
  * @date 2022/5/12
  */
+@Tag(name = "news", description = "前台门户-新闻模块")
 @RestController
 @RequestMapping(ApiRouterConsts.API_FRONT_NEWS_URL_PREFIX)
 @RequiredArgsConstructor
@@ -28,6 +32,7 @@ public class NewsController {
     /**
      * 最新新闻列表查询接口
      */
+    @Operation(description = "最新新闻列表查询接口")
     @GetMapping("latest_list")
     public RestResp<List<NewsInfoRespDto>> listLatestNews() {
         return newsService.listLatestNews();
@@ -36,8 +41,9 @@ public class NewsController {
     /**
      * 新闻信息查询接口
      */
+    @Operation(description = "新闻信息查询接口")
     @GetMapping("{id}")
-    public RestResp<NewsInfoRespDto> getNews(@PathVariable Long id) {
+    public RestResp<NewsInfoRespDto> getNews(@Parameter(description = "新闻ID") @PathVariable Long id) {
         return newsService.getNews(id);
     }
 }

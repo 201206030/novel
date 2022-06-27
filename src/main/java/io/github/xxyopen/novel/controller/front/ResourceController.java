@@ -4,6 +4,9 @@ import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.dto.resp.ImgVerifyCodeRespDto;
 import io.github.xxyopen.novel.service.ResourceService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +19,7 @@ import java.io.IOException;
  * @author xiongxiaoyang
  * @date 2022/5/17
  */
+@Tag(name = "resource", description = "前台门户-资源模块")
 @RestController
 @RequestMapping(ApiRouterConsts.API_FRONT_RESOURCE_URL_PREFIX)
 @RequiredArgsConstructor
@@ -26,6 +30,7 @@ public class ResourceController {
     /**
      * 获取图片验证码接口
      */
+    @Operation(description = "获取图片验证码接口")
     @GetMapping("img_verify_code")
     public RestResp<ImgVerifyCodeRespDto> getImgVerifyCode() throws IOException {
         return resourceService.getImgVerifyCode();
@@ -34,8 +39,9 @@ public class ResourceController {
     /**
      * 图片上传接口
      * */
+    @Operation(description = "图片上传接口")
     @PostMapping("/image")
-    RestResp<String> uploadImage(@RequestParam("file") MultipartFile file) {
+    RestResp<String> uploadImage(@Parameter(description = "上传文件") @RequestParam("file") MultipartFile file) {
         return resourceService.uploadImage(file);
     }
 
