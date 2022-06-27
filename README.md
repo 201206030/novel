@@ -54,6 +54,7 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
 | RabbitMQ            |     3.10.2     | 开源消息中间件             | https://www.rabbitmq.com                   |             [进入](https://www.rabbitmq.com/tutorials/tutorial-one-java.html)             |
 | XXL-JOB             |     2.3.1      | 分布式任务调度平台           | https://www.xuxueli.com/xxl-job                   |                          [进入](https://www.xuxueli.com/xxl-job)                          |
 | Sentinel            |     1.8.4      | 流量控制组件              | https://github.com/alibaba/Sentinel                  |            [进入](https://github.com/alibaba/Sentinel/wiki/%E4%B8%BB%E9%A1%B5)            |
+| Springdoc-openapi   |     2.0.0-M4-SNAPSHOT      | API 文档自动生成          | https://github.com/springdoc/springdoc-openapi                  |             [进入](https://springdoc.org/)              |
 | Spring Boot Admin   |     3.0.0-M1      | 应用管理和监控             | https://github.com/codecentric/spring-boot-admin                  |             [进入](https://codecentric.github.io/spring-boot-admin/3.0.0-M1)              |
 | Undertow            |  2.2.17.Final  | Java 开发的高性能 Web 服务器 | https://undertow.io |                      [进入](https://undertow.io/documentation.html)                       |
 | Docker              |       -        | 应用容器引擎              | https://www.docker.com/                 |                                            -                                            |
@@ -177,6 +178,10 @@ io
 
 ![img](https://oscimg.oschina.net/oscnet/up-f849960f4c1303fea77d26e64fc505a7180.png)
 
+11. 接口文档
+
+![img](https://youdoc.github.io/img/novel/SwaggerUI.png)
+
 
 ## 安装步骤
 
@@ -226,13 +231,15 @@ git clone https://gitee.com/novel_dev_team/novel.git
        password: 123456
     ```
 
-    3. 项目根目录下运行如下命令来启动后端服务（有安装 IDE 的可以导入源码到 IDE 中运行）
+    3. 根据前后端的实际部署情况，修改`application.yml`中的跨域配置（默认情况可忽略此步骤）
+  
+    4. 项目根目录下运行如下命令来启动后端服务（有安装 IDE 的可以导入源码到 IDE 中运行）
 
     ```
     mvn spring-boot:run
     ```
-
-    4. 根据前后端的实际部署情况，修改`application.yml`中的跨域配置（默认情况可忽略此步骤）
+    5. 接口文档访问地址：http://server:port/swagger-ui/index.html
+    
 
 - 下载前端前台门户系统源码
 
