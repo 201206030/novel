@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 public class AuthorRegisterReqDto {
 
+    @Schema(hidden = true)
     private Long userId;
 
     /**
