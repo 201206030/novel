@@ -18,7 +18,7 @@ public class RedissonConfig {
 
     @Bean
     @SneakyThrows
-    public RedissonClient redissonClient(){
+    public RedissonClient redissonClient() {
         Config config = Config.fromYAML(getClass().getResource("/redisson.yml"));
         return Redisson.create(config);
     }

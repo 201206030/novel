@@ -37,7 +37,7 @@ public class CorsConfig {
 
         UrlBasedCorsConfigurationSource configurationSource = new UrlBasedCorsConfigurationSource();
         // 添加映射路径，拦截一切请求
-        configurationSource.registerCorsConfiguration("/**",config);
+        configurationSource.registerCorsConfiguration("/**", config);
         return new CorsFilter(configurationSource);
     }
 

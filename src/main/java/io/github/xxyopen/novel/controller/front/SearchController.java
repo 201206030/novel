@@ -33,7 +33,8 @@ public class SearchController {
      */
     @Operation(summary = "小说搜索接口")
     @GetMapping("books")
-    public RestResp<PageRespDto<BookInfoRespDto>> searchBooks(@ParameterObject BookSearchReqDto condition) {
+    public RestResp<PageRespDto<BookInfoRespDto>> searchBooks(
+        @ParameterObject BookSearchReqDto condition) {
         return searchService.searchBooks(condition);
     }
 

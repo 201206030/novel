@@ -13,13 +13,12 @@ import io.github.xxyopen.novel.core.constant.EsConsts;
 import io.github.xxyopen.novel.dao.entity.BookInfo;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.es.EsBookDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * 小说数据同步到 elasticsearch 任务
@@ -51,10 +50,10 @@ public class BookToEsTask {
             for (; ; ) {
                 queryWrapper.clear();
                 queryWrapper
-                        .orderByAsc(DatabaseConsts.CommonColumnEnum.ID.getName())
-                        .gt(DatabaseConsts.CommonColumnEnum.ID.getName(), maxId)
-                        .gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT, 0)
-                        .last(DatabaseConsts.SqlEnum.LIMIT_30.getSql());
+                    .orderByAsc(DatabaseConsts.CommonColumnEnum.ID.getName())
+                    .gt(DatabaseConsts.CommonColumnEnum.ID.getName(), maxId)
+                    .gt(DatabaseConsts.BookTable.COLUMN_WORD_COUNT, 0)
+                    .last(DatabaseConsts.SqlEnum.LIMIT_30.getSql());
                 bookInfos = bookInfoMapper.selectList(queryWrapper);
                 if (bookInfos.isEmpty()) {
                     break;
@@ -63,11 +62,11 @@ public class BookToEsTask {
 
                 for (BookInfo book : bookInfos) {
                     br.operations(op -> op
-                            .index(idx -> idx
-                                    .index(EsConsts.BookIndex.INDEX_NAME)
-                                    .id(book.getId().toString())
-                                    .document(EsBookDto.build(book))
-                            )
+                        .index(idx -> idx
+                            .index(EsConsts.BookIndex.INDEX_NAME)
+                            .id(book.getId().toString())
+                            .document(EsBookDto.build(book))
+                        )
                     ).timeout(Time.of(t -> t.time("10s")));
                     maxId = book.getId();
                 }

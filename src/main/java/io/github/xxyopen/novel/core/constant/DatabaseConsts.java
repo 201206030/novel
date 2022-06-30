@@ -10,7 +10,6 @@ import lombok.Getter;
  */
 public class DatabaseConsts {
 
-
     /**
      * 用户信息表
      */

@@ -21,7 +21,8 @@ import org.springframework.stereotype.Component;
  * @date 2022/5/25
  */
 @Component
-@ConditionalOnProperty(prefix = "spring", name = {"elasticsearch.enable","amqp.enable"}, havingValue = "true")
+@ConditionalOnProperty(prefix = "spring", name = {"elasticsearch.enable",
+    "amqp.enable"}, havingValue = "true")
 @RequiredArgsConstructor
 @Slf4j
 public class RabbitQueueListener {
@@ -32,15 +33,15 @@ public class RabbitQueueListener {
 
     /**
      * 监听小说信息改变的 ES 更新队列，更新最新小说信息到 ES
-     * */
+     */
     @RabbitListener(queues = AmqpConsts.BookChangeMq.QUEUE_ES_UPDATE)
     @SneakyThrows
     public void updateEsBook(Long bookId) {
         BookInfo bookInfo = bookInfoMapper.selectById(bookId);
         IndexResponse response = esClient.index(i -> i
-                .index(EsConsts.BookIndex.INDEX_NAME)
-                .id(bookInfo.getId().toString())
-                .document(EsBookDto.build(bookInfo))
+            .index(EsConsts.BookIndex.INDEX_NAME)
+            .id(bookInfo.getId().toString())
+            .document(EsBookDto.build(bookInfo))
         );
         log.info("Indexed with version " + response.version());
     }

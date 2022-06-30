@@ -1,8 +1,7 @@
 package io.github.xxyopen.novel.core.config;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 import java.util.List;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * Xss 过滤配置属性
@@ -11,6 +10,6 @@ import java.util.List;
  * @date 2022/5/17
  */
 @ConfigurationProperties(prefix = "novel.xss")
-public record XssProperties(Boolean enabled,List<String> excludes) {
+public record XssProperties(Boolean enabled, List<String> excludes) {
 
 }

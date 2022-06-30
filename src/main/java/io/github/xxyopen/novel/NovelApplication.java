@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
@@ -20,8 +21,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.util.Map;
 
 @OpenAPIDefinition(info = @Info(title = "novel 项目接口文档", version = "v3.2.0", license = @License(name = "Apache 2.0", url = "https://www.apache.org/licenses/LICENSE-2.0")))
 @SecurityScheme(type = SecuritySchemeType.APIKEY, in = SecuritySchemeIn.HEADER, name = SystemConfigConsts.HTTP_AUTH_HEADER_NAME, description = "登录 token")
@@ -52,8 +51,8 @@ public class NovelApplication {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .requestMatcher(EndpointRequest.toAnyEndpoint())
-                .authorizeRequests(requests -> requests.anyRequest().hasRole("ENDPOINT_ADMIN"));
+            .requestMatcher(EndpointRequest.toAnyEndpoint())
+            .authorizeRequests(requests -> requests.anyRequest().hasRole("ENDPOINT_ADMIN"));
         http.httpBasic();
         return http.build();
     }

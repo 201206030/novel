@@ -1,14 +1,15 @@
 package io.github.xxyopen.novel.core.common.util;
 
-import lombok.experimental.UtilityClass;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Random;
+import javax.imageio.ImageIO;
+import lombok.experimental.UtilityClass;
 
 /**
  * 图片验证码工具类
@@ -79,7 +80,7 @@ public class ImgVerifyCodeUtils {
         for (int i = 1; i <= verifyCode.length(); i++) {
             g.setFont(getFont());
             g.setColor(new Color(random.nextInt(101), random.nextInt(111), random
-                    .nextInt(121)));
+                .nextInt(121)));
             g.translate(random.nextInt(3), random.nextInt(3));
             g.drawString(String.valueOf(verifyCode.charAt(i - 1)), 13 * i, 23);
         }

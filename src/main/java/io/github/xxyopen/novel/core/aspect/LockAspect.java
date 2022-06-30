@@ -3,6 +3,9 @@ package io.github.xxyopen.novel.core.aspect;
 import io.github.xxyopen.novel.core.annotation.Key;
 import io.github.xxyopen.novel.core.annotation.Lock;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -16,10 +19,6 @@ import org.springframework.expression.common.TemplateParserContext;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 分布式锁 切面
@@ -42,7 +41,7 @@ public record LockAspect(RedissonClient redissonClient) {
         Method targetMethod = methodSignature.getMethod();
         Lock lock = targetMethod.getAnnotation(Lock.class);
         String lockKey = KEY_PREFIX + buildLockKey(lock.prefix(), targetMethod,
-                joinPoint.getArgs());
+            joinPoint.getArgs());
         RLock rLock = redissonClient.getLock(lockKey);
         if (lock.isWait() ? rLock.tryLock(lock.waitTime(), TimeUnit.SECONDS) : rLock.tryLock()) {
             try {

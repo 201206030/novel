@@ -8,20 +8,19 @@ import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.dto.resp.ImgVerifyCodeRespDto;
 import io.github.xxyopen.novel.manager.redis.VerifyCodeManager;
 import io.github.xxyopen.novel.service.ResourceService;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.imageio.ImageIO;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import javax.imageio.ImageIO;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 资源（图片/视频/文档）相关服务实现类
@@ -43,9 +42,9 @@ public class ResourceServiceImpl implements ResourceService {
     public RestResp<ImgVerifyCodeRespDto> getImgVerifyCode() throws IOException {
         String sessionId = IdWorker.get32UUID();
         return RestResp.ok(ImgVerifyCodeRespDto.builder()
-                .sessionId(sessionId)
-                .img(verifyCodeManager.genImgVerifyCode(sessionId))
-                .build());
+            .sessionId(sessionId)
+            .img(verifyCodeManager.genImgVerifyCode(sessionId))
+            .build());
     }
 
     @SneakyThrows
@@ -53,10 +52,10 @@ public class ResourceServiceImpl implements ResourceService {
     public RestResp<String> uploadImage(MultipartFile file) {
         LocalDateTime now = LocalDateTime.now();
         String savePath =
-                SystemConfigConsts.IMAGE_UPLOAD_DIRECTORY
-                        + now.format(DateTimeFormatter.ofPattern("yyyy")) + File.separator
-                        + now.format(DateTimeFormatter.ofPattern("MM")) + File.separator
-                        + now.format(DateTimeFormatter.ofPattern("dd"));
+            SystemConfigConsts.IMAGE_UPLOAD_DIRECTORY
+                + now.format(DateTimeFormatter.ofPattern("yyyy")) + File.separator
+                + now.format(DateTimeFormatter.ofPattern("MM")) + File.separator
+                + now.format(DateTimeFormatter.ofPattern("dd"));
         String oriName = file.getOriginalFilename();
         assert oriName != null;
         String saveFileName = IdWorker.get32UUID() + oriName.substring(oriName.lastIndexOf("."));

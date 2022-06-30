@@ -10,10 +10,9 @@ import io.github.xxyopen.novel.dao.mapper.NewsInfoMapper;
 import io.github.xxyopen.novel.dto.resp.NewsInfoRespDto;
 import io.github.xxyopen.novel.manager.cache.NewsCacheManager;
 import io.github.xxyopen.novel.service.NewsService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 新闻模块 服务实现类
@@ -41,13 +40,13 @@ public class NewsServiceImpl implements NewsService {
         NewsInfo newsInfo = newsInfoMapper.selectById(id);
         QueryWrapper<NewsContent> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.NewsContentTable.COLUMN_NEWS_ID, id)
-                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+            .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         NewsContent newsContent = newsContentMapper.selectOne(queryWrapper);
         return RestResp.ok(NewsInfoRespDto.builder()
-                .title(newsInfo.getTitle())
-                .sourceName(newsInfo.getSourceName())
-                .updateTime(newsInfo.getUpdateTime())
-                .content(newsContent.getContent())
-                .build());
+            .title(newsInfo.getTitle())
+            .sourceName(newsInfo.getSourceName())
+            .updateTime(newsInfo.getUpdateTime())
+            .content(newsContent.getContent())
+            .build());
     }
 }

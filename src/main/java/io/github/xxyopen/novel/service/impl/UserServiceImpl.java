@@ -22,13 +22,12 @@ import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
 import io.github.xxyopen.novel.manager.redis.VerifyCodeManager;
 import io.github.xxyopen.novel.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.util.DigestUtils;
-
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 /**
  * 会员模块 服务实现类
@@ -61,7 +60,7 @@ public class UserServiceImpl implements UserService {
         // 校验手机号是否已注册
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.UserInfoTable.COLUMN_USERNAME, dto.getUsername())
-                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+            .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         if (userInfoMapper.selectCount(queryWrapper) > 0) {
             // 手机号已注册
             throw new BusinessException(ErrorCodeEnum.USER_NAME_EXIST);
@@ -69,7 +68,8 @@ public class UserServiceImpl implements UserService {
 
         // 注册成功，保存用户信息
         UserInfo userInfo = new UserInfo();
-        userInfo.setPassword(DigestUtils.md5DigestAsHex(dto.getPassword().getBytes(StandardCharsets.UTF_8)));
+        userInfo.setPassword(
+            DigestUtils.md5DigestAsHex(dto.getPassword().getBytes(StandardCharsets.UTF_8)));
         userInfo.setUsername(dto.getUsername());
         userInfo.setNickName(dto.getUsername());
         userInfo.setCreateTime(LocalDateTime.now());
@@ -82,10 +82,10 @@ public class UserServiceImpl implements UserService {
 
         // 生成JWT 并返回
         return RestResp.ok(
-                UserRegisterRespDto.builder()
-                        .token(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
-                        .uid(userInfo.getId())
-                        .build()
+            UserRegisterRespDto.builder()
+                .token(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
+                .uid(userInfo.getId())
+                .build()
         );
 
     }
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
         // 查询用户信息
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.UserInfoTable.COLUMN_USERNAME, dto.getUsername())
-                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+            .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         UserInfo userInfo = userInfoMapper.selectOne(queryWrapper);
         if (Objects.isNull(userInfo)) {
             // 用户不存在
@@ -104,16 +104,16 @@ public class UserServiceImpl implements UserService {
 
         // 判断密码是否正确
         if (!Objects.equals(userInfo.getPassword()
-                , DigestUtils.md5DigestAsHex(dto.getPassword().getBytes(StandardCharsets.UTF_8)))) {
+            , DigestUtils.md5DigestAsHex(dto.getPassword().getBytes(StandardCharsets.UTF_8)))) {
             // 密码错误
             throw new BusinessException(ErrorCodeEnum.USER_PASSWORD_ERROR);
         }
 
         // 登录成功，生成JWT并返回
         return RestResp.ok(UserLoginRespDto.builder()
-                .token(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
-                .uid(userInfo.getId())
-                .nickName(userInfo.getNickName()).build());
+            .token(jwtUtils.generateToken(userInfo.getId(), SystemConfigConsts.NOVEL_FRONT_KEY))
+            .uid(userInfo.getId())
+            .nickName(userInfo.getNickName()).build());
     }
 
     @Override
@@ -142,7 +142,7 @@ public class UserServiceImpl implements UserService {
     public RestResp<Void> deleteFeedback(Long userId, Long id) {
         QueryWrapper<UserFeedback> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.CommonColumnEnum.ID.getName(), id)
-                .eq(DatabaseConsts.UserFeedBackTable.COLUMN_USER_ID, userId);
+            .eq(DatabaseConsts.UserFeedBackTable.COLUMN_USER_ID, userId);
         userFeedbackMapper.delete(queryWrapper);
         return RestResp.ok();
     }
@@ -151,11 +151,11 @@ public class UserServiceImpl implements UserService {
     public RestResp<Integer> getBookshelfStatus(Long userId, String bookId) {
         QueryWrapper<UserBookshelf> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.UserBookshelfTable.COLUMN_USER_ID, userId)
-                .eq(DatabaseConsts.UserBookshelfTable.COLUMN_BOOK_ID, bookId);
+            .eq(DatabaseConsts.UserBookshelfTable.COLUMN_BOOK_ID, bookId);
         return RestResp.ok(
-                userBookshelfMapper.selectCount(queryWrapper) > 0
-                        ? CommonConsts.YES
-                        : CommonConsts.NO
+            userBookshelfMapper.selectCount(queryWrapper) > 0
+                ? CommonConsts.YES
+                : CommonConsts.NO
         );
     }
 
@@ -163,9 +163,9 @@ public class UserServiceImpl implements UserService {
     public RestResp<UserInfoRespDto> getUserInfo(Long userId) {
         UserInfo userInfo = userInfoMapper.selectById(userId);
         return RestResp.ok(UserInfoRespDto.builder()
-                .nickName(userInfo.getNickName())
-                .userSex(userInfo.getUserSex())
-                .userPhoto(userInfo.getUserPhoto())
-                .build());
+            .nickName(userInfo.getNickName())
+            .userSex(userInfo.getUserSex())
+            .userPhoto(userInfo.getUserPhoto())
+            .build());
     }
 }

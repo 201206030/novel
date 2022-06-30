@@ -19,7 +19,14 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 前台门户-会员模块 API 控制器
@@ -108,7 +115,8 @@ public class UserController {
      */
     @Operation(summary = "修改评论接口")
     @PutMapping("comment/{id}")
-    public RestResp<Void> updateComment(@Parameter(description = "评论ID") @PathVariable Long id, String content) {
+    public RestResp<Void> updateComment(@Parameter(description = "评论ID") @PathVariable Long id,
+        String content) {
         return bookService.updateComment(UserHolder.getUserId(), id, content);
     }
 
@@ -122,9 +130,7 @@ public class UserController {
     }
 
     /**
-     * 查询书架状态接口
-     * 0-不在书架
-     * 1-已在书架
+     * 查询书架状态接口 0-不在书架 1-已在书架
      */
     @Operation(summary = "查询书架状态接口")
     @GetMapping("bookshelf_status")

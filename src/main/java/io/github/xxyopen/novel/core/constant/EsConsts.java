@@ -14,8 +14,8 @@ public class EsConsts {
 
     /**
      * 小说索引
-     * */
-    public static class BookIndex{
+     */
+    public static class BookIndex {
 
         private BookIndex() {
             throw new IllegalStateException(SystemConfigConsts.CONST_INSTANCE_EXCEPTION_MSG);
@@ -23,18 +23,18 @@ public class EsConsts {
 
         /**
          * 索引名
-         * */
+         */
         public static final String INDEX_NAME = "book";
 
         /**
          * id
          */
-        public static final String FIELD_ID =  "id";
+        public static final String FIELD_ID = "id";
 
         /**
          * 作品方向;0-男频 1-女频
          */
-        public static final String FIELD_WORK_DIRECTION =  "workDirection";
+        public static final String FIELD_WORK_DIRECTION = "workDirection";
 
         /**
          * 类别ID
@@ -110,7 +110,7 @@ public class EsConsts {
          * 是否收费;1-收费 0-免费
          */
         public static final String FIELD_IS_VIP = "isVip";
-        
+
     }
 
 }

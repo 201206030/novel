@@ -24,7 +24,8 @@ public class TokenParseInterceptor implements HandlerInterceptor {
     private final JwtUtils jwtUtils;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+        Object handler) throws Exception {
         // 获取登录 JWT
         String token = request.getHeader(SystemConfigConsts.HTTP_AUTH_HEADER_NAME);
         if (StringUtils.hasText(token)) {
@@ -35,7 +36,8 @@ public class TokenParseInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+        ModelAndView modelAndView) throws Exception {
         // 清理当前线程保存的用户数据
         UserHolder.clear();
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);

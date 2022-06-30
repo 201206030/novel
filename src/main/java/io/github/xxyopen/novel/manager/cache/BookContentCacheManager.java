@@ -25,11 +25,11 @@ public class BookContentCacheManager {
      * 查询小说内容，并放入缓存中
      */
     @Cacheable(cacheManager = CacheConsts.REDIS_CACHE_MANAGER,
-            value = CacheConsts.BOOK_CONTENT_CACHE_NAME)
+        value = CacheConsts.BOOK_CONTENT_CACHE_NAME)
     public String getBookContent(Long chapterId) {
         QueryWrapper<BookContent> contentQueryWrapper = new QueryWrapper<>();
         contentQueryWrapper.eq(DatabaseConsts.BookContentTable.COLUMN_CHAPTER_ID, chapterId)
-                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+            .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
         BookContent bookContent = bookContentMapper.selectOne(contentQueryWrapper);
         return bookContent.getContent();
     }

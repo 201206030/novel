@@ -1,8 +1,7 @@
 package io.github.xxyopen.novel.core.common.resp;
 
-import lombok.Getter;
-
 import java.util.List;
+import lombok.Getter;
 
 /**
  * 分页响应数据格式封装
@@ -34,8 +33,7 @@ public class PageRespDto<T> {
     private final List<? extends T> list;
 
     /**
-     * 该构造函数用于通用分页查询的场景
-     * 接收普通分页数据和普通集合
+     * 该构造函数用于通用分页查询的场景 接收普通分页数据和普通集合
      */
     public PageRespDto(long pageNum, long pageSize, long total, List<T> list) {
         this.pageNum = pageNum;
@@ -50,7 +48,7 @@ public class PageRespDto<T> {
 
     /**
      * 获取分页数
-     * */
+     */
     public long getPages() {
         if (this.pageSize == 0L) {
             return 0L;
@@ -59,7 +57,6 @@ public class PageRespDto<T> {
             if (this.total % this.pageSize != 0L) {
                 ++pages;
             }
-
             return pages;
         }
     }

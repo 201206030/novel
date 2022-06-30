@@ -26,7 +26,7 @@ public class EsConfig {
 
         // Create the transport with a Jackson mapper
         ElasticsearchTransport transport = new RestClientTransport(
-                restClient, new JacksonJsonpMapper());
+            restClient, new JacksonJsonpMapper());
 
         // And create the API client
         return new ElasticsearchClient(transport);

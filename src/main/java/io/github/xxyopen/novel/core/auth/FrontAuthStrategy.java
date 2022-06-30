@@ -23,6 +23,6 @@ public class FrontAuthStrategy implements AuthStrategy {
     @Override
     public void auth(String token, String requestUri) throws BusinessException {
         // 统一账号认证
-        authSSO(jwtUtils,userInfoCacheManager,token);
+        authSSO(jwtUtils, userInfoCacheManager, token);
     }
 }

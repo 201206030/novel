@@ -2,7 +2,6 @@ package io.github.xxyopen.novel.core.wrapper;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +13,7 @@ import java.util.Map;
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
-    private static final Map<String,String> REPLACE_RULE = new HashMap<>();
+    private static final Map<String, String> REPLACE_RULE = new HashMap<>();
 
     static {
         REPLACE_RULE.put("<", "&lt;");
@@ -34,7 +33,8 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
             for (int i = 0; i < length; i++) {
                 escapeValues[i] = values[i];
                 int index = i;
-                REPLACE_RULE.forEach((k, v)-> escapeValues[index] = escapeValues[index].replaceAll(k, v));
+                REPLACE_RULE.forEach(
+                    (k, v) -> escapeValues[index] = escapeValues[index].replaceAll(k, v));
             }
             return escapeValues;
         }

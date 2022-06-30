@@ -15,20 +15,18 @@ import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.common.util.IpUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
- * 流量限制 拦截器
- * 实现接口防刷和限流
+ * 流量限制 拦截器：实现接口防刷和限流
  *
  * @author xiongxiaoyang
  * @date 2022/6/1
@@ -59,18 +57,19 @@ public class FlowLimitInterceptor implements HandlerInterceptor {
 
         // 接口防刷规则 1：所有的请求，限制每个 IP 每秒最多只能通过 50 个，超出限制直接拒绝
         ParamFlowRule rule2 = new ParamFlowRule(NOVEL_RESOURCE)
-                .setParamIdx(0)
-                .setCount(50);
+            .setParamIdx(0)
+            .setCount(50);
         // 接口防刷规则 2：所有的请求，限制每个 IP 每分钟最多只能通过 1000 个，超出限制直接拒绝
         ParamFlowRule rule3 = new ParamFlowRule(NOVEL_RESOURCE)
-                .setParamIdx(0)
-                .setCount(1000)
-                .setDurationInSec(60);
+            .setParamIdx(0)
+            .setCount(1000)
+            .setDurationInSec(60);
         ParamFlowRuleManager.loadRules(Arrays.asList(rule2, rule3));
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+        Object handler) throws Exception {
         String ip = IpUtils.getRealIp(request);
         Entry entry = null;
         try {
@@ -85,7 +84,8 @@ public class FlowLimitInterceptor implements HandlerInterceptor {
             log.info("IP:{}被限流了！", ip);
             response.setCharacterEncoding(StandardCharsets.UTF_8.name());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-            response.getWriter().write(objectMapper.writeValueAsString(RestResp.fail(ErrorCodeEnum.USER_REQ_MANY)));
+            response.getWriter()
+                .write(objectMapper.writeValueAsString(RestResp.fail(ErrorCodeEnum.USER_REQ_MANY)));
         } finally {
             // 注意：exit 的时候也一定要带上对应的参数，否则可能会有统计错误。
             if (entry != null) {

@@ -7,11 +7,14 @@ import io.github.xxyopen.novel.service.ResourceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 前台门户-资源(图片/视频/文档)模块 API 控制器
@@ -38,10 +41,11 @@ public class ResourceController {
 
     /**
      * 图片上传接口
-     * */
+     */
     @Operation(summary = "图片上传接口")
     @PostMapping("/image")
-    RestResp<String> uploadImage(@Parameter(description = "上传文件") @RequestParam("file") MultipartFile file) {
+    RestResp<String> uploadImage(
+        @Parameter(description = "上传文件") @RequestParam("file") MultipartFile file) {
         return resourceService.uploadImage(file);
     }
 

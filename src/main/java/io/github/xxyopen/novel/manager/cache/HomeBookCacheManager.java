@@ -8,16 +8,15 @@ import io.github.xxyopen.novel.dao.entity.HomeBook;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dao.mapper.HomeBookMapper;
 import io.github.xxyopen.novel.dto.resp.HomeBookRespDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 /**
  * 首页推荐小说 缓存管理类
@@ -37,7 +36,7 @@ public class HomeBookCacheManager {
      * 查询首页小说推荐，并放入缓存中
      */
     @Cacheable(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER,
-            value = CacheConsts.HOME_BOOK_CACHE_NAME)
+        value = CacheConsts.HOME_BOOK_CACHE_NAME)
     public List<HomeBookRespDto> listHomeBooks() {
         // 从首页小说推荐表中查询出需要推荐的小说
         QueryWrapper<HomeBook> queryWrapper = new QueryWrapper<>();
@@ -47,8 +46,8 @@ public class HomeBookCacheManager {
         // 获取推荐小说ID列表
         if (!CollectionUtils.isEmpty(homeBooks)) {
             List<Long> bookIds = homeBooks.stream()
-                    .map(HomeBook::getBookId)
-                    .toList();
+                .map(HomeBook::getBookId)
+                .toList();
 
             // 根据小说ID列表查询相关的小说信息列表
             QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
@@ -56,9 +55,9 @@ public class HomeBookCacheManager {
             List<BookInfo> bookInfos = bookInfoMapper.selectList(bookInfoQueryWrapper);
 
             // 组装 HomeBookRespDto 列表数据并返回
-            if(!CollectionUtils.isEmpty(bookInfos)){
+            if (!CollectionUtils.isEmpty(bookInfos)) {
                 Map<Long, BookInfo> bookInfoMap = bookInfos.stream()
-                        .collect(Collectors.toMap(BookInfo::getId, Function.identity()));
+                    .collect(Collectors.toMap(BookInfo::getId, Function.identity()));
                 return homeBooks.stream().map(v -> {
                     BookInfo bookInfo = bookInfoMap.get(v.getBookId());
                     HomeBookRespDto bookRespDto = new HomeBookRespDto();

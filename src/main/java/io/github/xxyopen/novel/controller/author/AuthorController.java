@@ -20,7 +20,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 作家后台-作家模块 API 控制器
@@ -81,7 +86,9 @@ public class AuthorController {
      */
     @Operation(summary = "小说章节发布接口")
     @PostMapping("book/chapter/{bookId}")
-    public RestResp<Void> publishBookChapter(@Parameter(description = "小说ID") @PathVariable("bookId") Long bookId, @Valid @RequestBody ChapterAddReqDto dto) {
+    public RestResp<Void> publishBookChapter(
+        @Parameter(description = "小说ID") @PathVariable("bookId") Long bookId,
+        @Valid @RequestBody ChapterAddReqDto dto) {
         dto.setBookId(bookId);
         return bookService.saveBookChapter(dto);
     }
@@ -91,7 +98,9 @@ public class AuthorController {
      */
     @Operation(summary = "小说章节发布列表查询接口")
     @GetMapping("book/chapters/{bookId}")
-    public RestResp<PageRespDto<BookChapterRespDto>> listBookChapters(@Parameter(description = "小说ID") @PathVariable("bookId") Long bookId,@ParameterObject PageReqDto dto) {
+    public RestResp<PageRespDto<BookChapterRespDto>> listBookChapters(
+        @Parameter(description = "小说ID") @PathVariable("bookId") Long bookId,
+        @ParameterObject PageReqDto dto) {
         return bookService.listBookChapters(bookId, dto);
     }
 

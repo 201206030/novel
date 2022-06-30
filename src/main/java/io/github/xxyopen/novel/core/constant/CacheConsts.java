@@ -56,7 +56,7 @@ public class CacheConsts {
 
     /**
      * 小说分类列表缓存
-     * */
+     */
     public static final String BOOK_CATEGORY_LIST_CACHE_NAME = "bookCategoryListCache";
 
     /**
@@ -76,13 +76,14 @@ public class CacheConsts {
 
     /**
      * 最近更新小说ID列表缓存
-     * */
+     */
     public static final String LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME = "lastUpdateBookIdListCache";
 
     /**
      * 图片验证码缓存 KEY
-     * */
-    public static final String IMG_VERIFY_CODE_CACHE_KEY = REDIS_CACHE_PREFIX + "imgVerifyCodeCache::";
+     */
+    public static final String IMG_VERIFY_CODE_CACHE_KEY =
+        REDIS_CACHE_PREFIX + "imgVerifyCodeCache::";
 
     /**
      * 用户信息缓存
@@ -111,19 +112,19 @@ public class CacheConsts {
 
         HOME_FRIEND_LINK_CACHE(2, HOME_FRIEND_LINK_CACHE_NAME, 0, 1),
 
-        BOOK_CATEGORY_LIST_CACHE(0,BOOK_CATEGORY_LIST_CACHE_NAME,0,2),
+        BOOK_CATEGORY_LIST_CACHE(0, BOOK_CATEGORY_LIST_CACHE_NAME, 0, 2),
 
         BOOK_INFO_CACHE(0, BOOK_INFO_CACHE_NAME, 60 * 60 * 18, 500),
 
-        BOOK_CHAPTER_CACHE(0,BOOK_CHAPTER_CACHE_NAME,60 * 60 * 6,5000),
+        BOOK_CHAPTER_CACHE(0, BOOK_CHAPTER_CACHE_NAME, 60 * 60 * 6, 5000),
 
         BOOK_CONTENT_CACHE(2, BOOK_CONTENT_CACHE_NAME, 60 * 60 * 12, 3000),
 
-        LAST_UPDATE_BOOK_ID_LIST_CACHE(0,LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME,60 * 60, 10),
+        LAST_UPDATE_BOOK_ID_LIST_CACHE(0, LAST_UPDATE_BOOK_ID_LIST_CACHE_NAME, 60 * 60, 10),
 
-        USER_INFO_CACHE(2,USER_INFO_CACHE_NAME,60 * 60 * 24, 10000),
+        USER_INFO_CACHE(2, USER_INFO_CACHE_NAME, 60 * 60 * 24, 10000),
 
-        AUTHOR_INFO_CACHE(2,AUTHOR_INFO_CACHE_NAME,60 * 60 * 48, 1000);
+        AUTHOR_INFO_CACHE(2, AUTHOR_INFO_CACHE_NAME, 60 * 60 * 48, 1000);
 
         /**
          * 缓存类型 0-本地 1-本地和远程 2-远程
