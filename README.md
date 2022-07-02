@@ -238,7 +238,7 @@ git clone https://gitee.com/novel_dev_team/novel.git
     ```
     mvn spring-boot:run
     ```
-    5. 接口文档访问地址：http://server:port/swagger-ui/index.html
+    5. 接口文档访问地址：`http://server:port/swagger-ui/index.html`
     
 
 - 下载前端前台门户系统源码
