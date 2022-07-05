@@ -98,6 +98,8 @@ io
             |   |   +- resp -- 接口响应工具及响应数据格式封装 
             |   |   +- util -- 通用工具   
             |   | 
+            |   +- annotation -- 自定义注解类
+            |   +- aspect -- Spring AOP 切面
             |   +- auth -- 用户认证授权相关
             |   +- config -- 业务相关配置
             |   +- constant -- 业务相关常量         
