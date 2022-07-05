@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * 作家后台管理系统 认证策略
+ * 作家后台管理系统 认证授权策略
  *
  * @author xiongxiaoyang
  * @date 2022/5/18
@@ -54,4 +54,5 @@ public class AuthorAuthStrategy implements AuthStrategy {
         // 设置作家ID到当前线程
         UserHolder.setAuthorId(authorInfo.getId());
     }
+    
 }

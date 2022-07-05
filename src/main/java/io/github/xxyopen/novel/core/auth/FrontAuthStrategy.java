@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * 前台门户系统 认证策略
+ * 前台门户系统 认证授权策略
  *
  * @author xiongxiaoyang
  * @date 2022/5/18
@@ -25,4 +25,5 @@ public class FrontAuthStrategy implements AuthStrategy {
         // 统一账号认证
         authSSO(jwtUtils, userInfoCacheManager, token);
     }
+
 }
