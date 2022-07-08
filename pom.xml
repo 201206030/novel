@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -23,6 +24,8 @@
         <sentinel.version>1.8.4</sentinel.version>
         <shardingsphere-jdbc.version>5.1.1</shardingsphere-jdbc.version>
         <redisson.version>3.17.4</redisson.version>
+        <spring-boot-admin.version>3.0.0-M1</spring-boot-admin.version>
+        <springdoc-openapi.version>2.0.0-M4-SNAPSHOT</springdoc-openapi.version>
     </properties>
 
     <dependencies>
@@ -155,7 +158,7 @@
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>3.0.0-M1</version>
+            <version>${spring-boot-admin.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -179,7 +182,7 @@
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>2.0.0-M4-SNAPSHOT</version>
+            <version>${springdoc-openapi.version}</version>
         </dependency>
 
         <dependency>
