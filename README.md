@@ -272,7 +272,7 @@ git clone https://gitee.com/novel_dev_team/novel-front-web.git
 
 ## 项目教程
 
-[手把手教你从零开始开发上线一个生产级别的小说系统](https://youdoc.github.io/course/novel/3.html)
+[手把手教你从零开始开发上线一个生产级别的小说系统](https://docs.xxyopen.com/course/novel/3.html)
     
 ## 公众号
 
