@@ -190,7 +190,7 @@ io
 
 - 下载后端源码
 
-```
+```bash
 git clone https://gitee.com/novel_dev_team/novel.git
 ```
 
@@ -208,7 +208,7 @@ git clone https://gitee.com/novel_dev_team/novel.git
 
     1. 修改`src/resources/application.yml`配置文件中的数据源配置
 
-    ```
+    ```yaml
     spring:
         datasource:
             url: jdbc:mysql://localhost:3306/novel_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
@@ -218,7 +218,7 @@ git clone https://gitee.com/novel_dev_team/novel.git
 
     2. 修改`src/resources/application.yml` 和 `src/resources/redisson.yml` 配置文件中的`redis`连接配置
 
-    ```
+    ```yaml
     spring:
         redis:
             host: 127.0.0.1
@@ -226,7 +226,7 @@ git clone https://gitee.com/novel_dev_team/novel.git
             password: 123456
     ```
 
-    ```
+    ```yaml
     singleServerConfig:
        address: "redis://127.0.0.1:6379"
        password: 123456
@@ -236,7 +236,7 @@ git clone https://gitee.com/novel_dev_team/novel.git
   
     4. 项目根目录下运行如下命令来启动后端服务（有安装 IDE 的可以导入源码到 IDE 中运行）
 
-    ```
+    ```bash
     mvn spring-boot:run
     ```
     5. 接口文档访问地址：`http://server:port/swagger-ui/index.html`
@@ -244,7 +244,7 @@ git clone https://gitee.com/novel_dev_team/novel.git
 
 - 下载前端前台门户系统源码
 
-```
+```bash
 git clone https://gitee.com/novel_dev_team/novel-front-web.git
 ```
 
@@ -254,18 +254,18 @@ git clone https://gitee.com/novel_dev_team/novel-front-web.git
 
     2. `yarn`安装
 
-    ```
+    ```bash
     npm install -g yarn
     ```
 
     3. 项目根目录下运行如下命令来安装项目依赖
 
-    ```
+    ```bash
     yarn install
     ```
     4. 项目根目录下运行如下命令启动
 
-    ```
+    ```bash
     yarn serve
     ```
     5. 浏览器通过`http://localhost:1024`来访问
