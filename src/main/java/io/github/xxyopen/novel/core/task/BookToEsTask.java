@@ -13,12 +13,13 @@ import io.github.xxyopen.novel.core.constant.EsConsts;
 import io.github.xxyopen.novel.dao.entity.BookInfo;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.es.EsBookDto;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 小说数据同步到 elasticsearch 任务
@@ -26,7 +27,7 @@ import org.springframework.stereotype.Component;
  * @author xiongxiaoyang
  * @date 2022/5/23
  */
-@ConditionalOnProperty(prefix = "spring.elasticsearch", name = "enable", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.elasticsearch", name = "enabled", havingValue = "true")
 @Component
 @RequiredArgsConstructor
 @Slf4j

@@ -1,8 +1,6 @@
 package io.github.xxyopen.novel.manager.mq;
 
-import io.github.xxyopen.novel.core.common.constant.CommonConsts;
 import io.github.xxyopen.novel.core.constant.AmqpConsts;
-import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,14 +20,14 @@ public class AmqpMsgManager {
 
     private final AmqpTemplate amqpTemplate;
 
-    @Value("${spring.amqp.enable}")
-    private String enableAmqp;
+    @Value("${spring.amqp.enabled:false}")
+    private boolean amqpEnabled;
 
     /**
      * 发送小说信息改变消息
      */
     public void sendBookChangeMsg(Long bookId) {
-        if (Objects.equals(enableAmqp, CommonConsts.TRUE)) {
+        if (amqpEnabled) {
             sendAmqpMessage(amqpTemplate, AmqpConsts.BookChangeMq.EXCHANGE_NAME, null, bookId);
         }
     }

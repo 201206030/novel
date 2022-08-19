@@ -8,11 +8,12 @@ import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
 import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
 import io.github.xxyopen.novel.service.SearchService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 数据库搜索 服务实现类
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @author xiongxiaoyang
  * @date 2022/5/23
  */
-@ConditionalOnProperty(prefix = "spring.elasticsearch", name = "enable", havingValue = "false")
+@ConditionalOnProperty(prefix = "spring.elasticsearch", name = "enabled", havingValue = "false")
 @Service
 @RequiredArgsConstructor
 @Slf4j

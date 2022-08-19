@@ -1,20 +1,26 @@
+#---------------------通用配置-------------------------
 spring:
+  application:
+    # 应用名
+    name: novel
   profiles:
+    # 激活特定配置
     active: dev
-# 将所有数字转为 String 类型返回，避免前端数据精度丢失的问题
   jackson:
     generator:
+      # JSON 序列化时，将所有 Number 类型的属性都转为 String 类型返回，避免前端数据精度丢失的问题。
+      # 由于 Javascript 标准规定所有数字处理都应使用 64 位 IEEE 754 浮点值完成，
+      # 结果是某些 64 位整数值无法准确表示（尾数只有 51 位宽）
       write-numbers-as-strings: true
   servlet:
-    # 上传文件最大大小
     multipart:
+      # 上传文件最大大小
       max-file-size: 5MB
-  application:
-    name: novel
-
 server:
+  # 端口号
   port: 8888
 
+#---------------------数据库配置-------------------------
 ---
 spring:
   datasource:
@@ -75,31 +81,29 @@ spring:
               # 分片算法的行表达式
               algorithm-expression: book_content$->{chapter_id % 10}
 
-  config:
-    activate:
-      on-profile: dev
-
+#---------------------中间件配置-------------------------
 ---
 spring:
-  # Redis 配置
-  redis:
-    host: 127.0.0.1
-    port: 6379
-    password: 123456
-  config:
-    activate:
-      on-profile: dev
+  data:
+    # Redis 配置
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+
   # Elasticsearch 配置
   elasticsearch:
-    # 是否开启 elasticsearch 搜索引擎功能：true-开启 false-不开启
-    enable: false
+    # 是否开启 Elasticsearch 搜索引擎功能：true-开启 false-不开启
+    enabled: false
     uris:
       - https://my-deployment-ce7ca3.es.us-central1.gcp.cloud.es.io:9243
     username: elastic
     password: qTjgYVKSuExX6tWAsDuvuvwl
+
+  # Spring AMQP 配置
   amqp:
     # 是否开启 Spring AMQP：true-开启 false-不开启
-    enable: false
+    enabled: false
   # RabbitMQ 配置
   rabbitmq:
     addresses: "amqp://guest:guest@47.106.243.172"
@@ -117,7 +121,7 @@ spring:
 xxl:
   job:
     # 是否开启 XXL-JOB：true-开启 false-不开启
-    enable: false
+    enabled: false
     admin:
       ### 调度中心部署根地址 [选填]：如调度中心集群部署存在多个地址则用逗号分隔。执行器将会使用该地址进行"执行器心跳注册"和"任务结果回调"；为空则关闭自动注册；
       addresses: http://127.0.0.1:8080/xxl-job-admin
@@ -129,13 +133,10 @@ xxl:
     ### xxl-job, access token
     accessToken: 123
 
-
+#---------------------安全配置-------------------------
 ---
 spring:
-  config:
-    activate:
-      on-profile: dev
-# Spring Boot 应用管理和监控
+  # Spring Boot 应用管理和监控
   boot:
     admin:
       client:
@@ -167,7 +168,6 @@ management:
       exposure:
         # 公开所有的 Web 端点
         include: "*"
-
   # 端点启用配置
   endpoint:
     logfile:
@@ -175,7 +175,6 @@ management:
       enabled: true
       # 外部日志文件路径
       external-file: logs/novel.log
-
   info:
     env:
       # 公开所有以 info. 开头的环境属性
@@ -188,15 +187,7 @@ management:
       # 关闭 elasticsearch 的健康检查
       enabled: false
 
-
-
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-
-# 项目配置
+#---------------------自定义配置-------------------------
 novel:
   # 跨域配置
   cors:
@@ -220,5 +211,32 @@ novel:
       # 上传路径
       path: /Users/xiongxiaoyang/upload
 
+
+#----------------------- dev 特定配置-----------------------------
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+#----------------------- test 特定配置-----------------------------
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+#----------------------- prod 特定配置-----------------------------
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  data:
+    # Redis 配置
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password:
 
 

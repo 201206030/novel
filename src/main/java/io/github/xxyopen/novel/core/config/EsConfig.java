@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022/5/23
  */
 @Configuration
-@ConditionalOnProperty(prefix = "spring.elasticsearch", name = "enable", havingValue = "true")
+@ConditionalOnProperty(prefix = "spring.elasticsearch", name = "enabled", havingValue = "true")
 @RequiredArgsConstructor
 public class EsConfig {
 

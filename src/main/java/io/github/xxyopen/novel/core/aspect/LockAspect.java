@@ -3,9 +3,7 @@ package io.github.xxyopen.novel.core.aspect;
 import io.github.xxyopen.novel.core.annotation.Key;
 import io.github.xxyopen.novel.core.annotation.Lock;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.concurrent.TimeUnit;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -20,6 +18,10 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.util.concurrent.TimeUnit;
+
 /**
  * 分布式锁 切面
  *
@@ -28,7 +30,10 @@ import org.springframework.util.StringUtils;
  */
 @Aspect
 @Component
-public record LockAspect(RedissonClient redissonClient) {
+@RequiredArgsConstructor
+public class LockAspect {
+    
+    private final RedissonClient redissonClient;
 
     private static final String KEY_PREFIX = "Lock";
 

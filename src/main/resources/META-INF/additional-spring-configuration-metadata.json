@@ -1,0 +1,65 @@
+{
+  "properties": [
+    {
+      "name": "spring.elasticsearch.enabled",
+      "description": "Whether enable elasticsearch or not.",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "defaultValue": false,
+      "name": "spring.amqp.enabled",
+      "description": "Whether enable amqp or not.",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "xxl.job.enabled",
+      "description": "Whether enable xxl-job or not.",
+      "type": "java.lang.Boolean"
+    },
+    {
+      "name": "novel.jwt.secret",
+      "type": "java.lang.String",
+      "description": "JWT 密钥."
+    },
+    {
+      "name": "novel.xss.enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否开启 XSS 过滤."
+    },
+    {
+      "name": "novel.xss.excludes",
+      "type": "java.util.List<java.lang.String>",
+      "description": "XSS 过滤排除链接."
+    },
+    {
+      "name": "novel.file.upload.path",
+      "type": "java.lang.String",
+      "description": "上传文件目录."
+    },
+    {
+      "name": "novel.cors.allow-origins",
+      "type": "java.util.List<java.lang.String>",
+      "description": "允许跨域的域名."
+    },
+    {
+      "name": "xxl.job.admin.addresses",
+      "type": "java.lang.String",
+      "description": "调度中心部署根地址."
+    },
+    {
+      "name": "xxl.job.executor.appname",
+      "type": "java.lang.String",
+      "description": "执行器 AppName."
+    },
+    {
+      "name": "xxl.job.executor.logpath",
+      "type": "java.lang.String",
+      "description": "执行器运行日志文件存储磁盘路径."
+    },
+    {
+      "name": "xxl.job.accessToken",
+      "type": "java.lang.String",
+      "description": "xxl-job accessToken."
+    }
+  ]
+}
