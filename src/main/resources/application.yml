@@ -184,6 +184,11 @@ management:
       # 关闭 elasticsearch 的健康检查
       enabled: false
 
+--- #--------------------接口文档配置---------------------------
+springdoc:
+  api-docs:
+    enabled: false
+
 --- #---------------------自定义配置----------------------------
 novel:
   # 跨域配置
@@ -214,6 +219,9 @@ spring:
   config:
     activate:
       on-profile: dev
+springdoc:
+  api-docs:
+    enabled: true
 
 --- #------------------- test 特定配置--------------------------
 spring:
