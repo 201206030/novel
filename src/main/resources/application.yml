@@ -82,12 +82,11 @@ spring:
 
 --- #---------------------中间件配置---------------------------
 spring:
-  data:
-    # Redis 配置
-    redis:
-      host: 127.0.0.1
-      port: 6379
-      password: 123456
+  # Redis 配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
 
   # Elasticsearch 配置
   elasticsearch:

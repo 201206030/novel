@@ -6,8 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <version>3.0.0-M3</version>
     </parent>
     <groupId>io.github.xxyopen</groupId>
     <artifactId>novel</artifactId>
@@ -17,7 +16,6 @@
     <properties>
         <java.version>17</java.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
-        <spring.version>6.0.0-SNAPSHOT</spring.version>
         <jjwt.version>0.11.5</jjwt.version>
         <elasticsearch.version>8.2.0</elasticsearch.version>
         <xxl-job.version>2.3.1</xxl-job.version>
@@ -235,20 +233,15 @@
             </snapshots>
         </repository>
         <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
+            <id>spring-snapshots</id>
+            <url>https://repo.spring.io/snapshot</url>
             <snapshots>
-                <enabled>false</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
         <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
+            <id>spring-milestones</id>
+            <url>https://repo.spring.io/milestone</url>
         </repository>
         <repository>
             <id>sonatype-nexus-snapshots</id>
@@ -285,20 +278,12 @@
             </snapshots>
         </pluginRepository>
         <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
+            <id>spring-snapshots</id>
+            <url>https://repo.spring.io/snapshot</url>
         </pluginRepository>
         <pluginRepository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
+            <id>spring-milestones</id>
+            <url>https://repo.spring.io/milestone</url>
         </pluginRepository>
     </pluginRepositories>
 
