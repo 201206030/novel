@@ -17,7 +17,6 @@
     <properties>
         <java.version>17</java.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
-        <spring.version>6.0.0-SNAPSHOT</spring.version>
         <jjwt.version>0.11.5</jjwt.version>
         <elasticsearch.version>8.2.0</elasticsearch.version>
         <xxl-job.version>2.3.1</xxl-job.version>
@@ -25,7 +24,7 @@
         <shardingsphere-jdbc.version>5.1.1</shardingsphere-jdbc.version>
         <redisson.version>3.17.4</redisson.version>
         <spring-boot-admin.version>3.0.0-M1</spring-boot-admin.version>
-        <springdoc-openapi.version>2.0.0-M4-SNAPSHOT</springdoc-openapi.version>
+        <springdoc-openapi.version>2.0.0-M4</springdoc-openapi.version>
     </properties>
 
     <dependencies>
@@ -225,7 +224,7 @@
     </build>
     <repositories>
         <repository>
-            <id>ali</id>
+            <id>aliyun</id>
             <url>https://maven.aliyun.com/repository/public</url>
             <releases>
                 <enabled>true</enabled>
@@ -241,41 +240,11 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </repository>
-        <repository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-        <repository>
-            <id>sonatype-nexus-snapshots-2</id>
-            <name>Sonatype Nexus Snapshots 2</name>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
         </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
-            <id>ali</id>
+            <id>aliyun</id>
             <url>https://maven.aliyun.com/repository/public</url>
             <releases>
                 <enabled>true</enabled>
@@ -291,14 +260,6 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-snapshots</id>
-            <name>Spring Snapshots</name>
-            <url>https://repo.spring.io/snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
         </pluginRepository>
     </pluginRepositories>
 
