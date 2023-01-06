@@ -43,8 +43,8 @@ public class NovelApplication {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
-            .requestMatcher(EndpointRequest.toAnyEndpoint())
-            .authorizeRequests(requests -> requests.anyRequest().hasRole("ENDPOINT_ADMIN"));
+            .securityMatcher(EndpointRequest.toAnyEndpoint())
+            .authorizeHttpRequests(requests -> requests.anyRequest().hasRole("ENDPOINT_ADMIN"));
         http.httpBasic();
         return http.build();
     }

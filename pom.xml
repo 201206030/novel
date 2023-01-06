@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.0.0-M4</version>
+        <version>3.0.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>io.github.xxyopen</groupId>
@@ -16,7 +16,8 @@
     <description>Spring Boot 3 + Vue 3 构建的前后端分离小说系统</description>
     <properties>
         <java.version>17</java.version>
-        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
+        <mybatis-plus-generator.version>3.5.1</mybatis-plus-generator.version>
         <jjwt.version>0.11.5</jjwt.version>
         <elasticsearch.version>8.2.0</elasticsearch.version>
         <xxl-job.version>2.3.1</xxl-job.version>
@@ -24,7 +25,7 @@
         <shardingsphere-jdbc.version>5.1.1</shardingsphere-jdbc.version>
         <redisson.version>3.17.4</redisson.version>
         <spring-boot-admin.version>3.0.0-M1</spring-boot-admin.version>
-        <springdoc-openapi.version>2.0.0-M4</springdoc-openapi.version>
+        <springdoc-openapi.version>2.0.0</springdoc-openapi.version>
     </properties>
 
     <dependencies>
@@ -57,7 +58,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>${mybatis-plus.version}</version>
+            <version>${mybatis-plus-generator.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -185,8 +186,8 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -233,14 +234,6 @@
                 <enabled>false</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
@@ -249,14 +242,6 @@
             <releases>
                 <enabled>true</enabled>
             </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
