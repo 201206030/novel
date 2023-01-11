@@ -23,7 +23,6 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
 - 前端项目（更新中）：[GitHub](https://github.com/201206030/novel-front-web)
   ｜ [码云](https://gitee.com/novel_dev_team/novel-front-web)
 - 线上应用版：[GitHub](https://github.com/201206030/novel-plus) ｜ [码云](https://gitee.com/novel_dev_team/novel-plus)
-  ｜ [演示站点](http://47.106.243.172:8888/)
 - 微服务版：[GitHub](https://github.com/201206030/novel-cloud) ｜ [码云](https://gitee.com/novel_dev_team/novel-cloud)
 
 ## 开发环境
