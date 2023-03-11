@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Token 解析拦截器
@@ -23,6 +22,7 @@ public class TokenParseInterceptor implements HandlerInterceptor {
 
     private final JwtUtils jwtUtils;
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
         Object handler) throws Exception {
@@ -35,11 +35,16 @@ public class TokenParseInterceptor implements HandlerInterceptor {
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
+    /**
+     * DispatcherServlet 完全处理完请求后调用，出现异常照常调用
+     */
+    @SuppressWarnings("NullableProblems")
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-        ModelAndView modelAndView) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+        throws Exception {
         // 清理当前线程保存的用户数据
         UserHolder.clear();
-        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
+        HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
     }
+
 }
