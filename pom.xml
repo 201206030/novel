@@ -221,6 +221,15 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <!--指定 Java 编译器的 -source 参数 -->
+                    <source>${java.version}</source>
+                    <!--指定 Java 编译器的 -target 参数 -->
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <repositories>
