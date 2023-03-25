@@ -183,8 +183,8 @@ management:
     elasticsearch:
       # 关闭 elasticsearch 的健康检查
       enabled: false
-      # 关闭 mail 的健康检查
     mail:
+      # 关闭 mail 的健康检查
       enabled: false
 
 --- #--------------------接口文档配置---------------------------
