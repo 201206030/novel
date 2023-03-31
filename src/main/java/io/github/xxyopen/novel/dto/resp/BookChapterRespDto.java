@@ -24,7 +24,7 @@ public class BookChapterRespDto implements Serializable {
 
     /**
      * 章节ID
-     * */
+     */
     @Schema(description = "章节ID")
     private Long id;
 
@@ -56,7 +56,7 @@ public class BookChapterRespDto implements Serializable {
      * 章节更新时间
      */
     @Schema(description = "章节更新时间")
-    @JsonFormat(pattern = "yyyy/MM/dd HH:dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime chapterUpdateTime;
 
     /**
