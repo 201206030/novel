@@ -192,21 +192,7 @@ io
 
 👉 [立即查看](https://docs.xxyopen.com/course/novel/#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4)
 
-## 答疑
+## 联系我们
 
-为了方便管理和查阅，安装过程中遇到任何问题请统一在指定评论区 👉 [立即前往](https://www.xxyopen.com/2022/07/18/os/novel.html) 留言 ，谢谢大家的配合！
+👉 [立即查看](https://novel.xxyopen.com/service.htm)
 
-## 公众号
-
-![xxyopen](https://youdoc.github.io/img/qrcode_for_gh.jpg)
-
-## 赞赏支持
-
-开源项目不易，若此项目能得到你的青睐，那么你可以赞赏支持作者持续开发与维护。
-
-- 更完善的文档教程
-- 服务器的费用也是一笔开销
-- 为用户提供更好的开发环境
-- 一杯咖啡
-
-![](https://s1.ax1x.com/2020/10/31/BUQJwq.png)
