@@ -60,6 +60,11 @@
       "name": "xxl.job.accessToken",
       "type": "java.lang.String",
       "description": "xxl-job accessToken."
+    },
+    {
+      "name": "spring.elasticsearch.ssl.verification-mode",
+      "type": "java.lang.String",
+      "description": "设置 ssl 的认证模式,如果该配置项为 none ,说明不需要认证,信任所有的 ssl 证书."
     }
   ]
 }

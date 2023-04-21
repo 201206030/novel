@@ -25,7 +25,6 @@ import java.security.cert.X509Certificate;
  * @author xiongxiaoyang
  * @date 2022/5/23
  */
-@ConditionalOnProperty(value = "spring.elasticsearch.enabled", havingValue = "true")
 @Configuration
 @Slf4j
 public class EsConfig {
@@ -42,6 +41,7 @@ public class EsConfig {
      * fix `sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException:
      * unable to find valid certification path to requested target`
      */
+    @ConditionalOnProperty(value = "spring.elasticsearch.ssl.verification-mode", havingValue = "none")
     @Bean
     RestClient elasticsearchRestClient(RestClientBuilder restClientBuilder,
         ObjectProvider<RestClientBuilderCustomizer> builderCustomizers) {
