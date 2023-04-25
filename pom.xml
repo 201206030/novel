@@ -11,7 +11,7 @@
     </parent>
     <groupId>io.github.xxyopen</groupId>
     <artifactId>novel</artifactId>
-    <version>3.3.0</version>
+    <version>3.4.0</version>
     <name>novel</name>
     <description>Spring Boot 3 + Vue 3 构建的前后端分离小说系统</description>
     <properties>
