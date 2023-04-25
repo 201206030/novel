@@ -1,6 +1,8 @@
 package io.github.xxyopen.novel.controller.front;
 
 import io.github.xxyopen.novel.core.auth.UserHolder;
+import io.github.xxyopen.novel.core.common.req.PageReqDto;
+import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.ApiRouterConsts;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
@@ -8,6 +10,7 @@ import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.req.UserInfoUptReqDto;
 import io.github.xxyopen.novel.dto.req.UserLoginReqDto;
 import io.github.xxyopen.novel.dto.req.UserRegisterReqDto;
+import io.github.xxyopen.novel.dto.resp.UserCommentRespDto;
 import io.github.xxyopen.novel.dto.resp.UserInfoRespDto;
 import io.github.xxyopen.novel.dto.resp.UserLoginRespDto;
 import io.github.xxyopen.novel.dto.resp.UserRegisterRespDto;
@@ -19,14 +22,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 前台门户-会员模块 API 控制器
@@ -136,6 +132,15 @@ public class UserController {
     @GetMapping("bookshelf_status")
     public RestResp<Integer> getBookshelfStatus(@Parameter(description = "小说ID") String bookId) {
         return userService.getBookshelfStatus(UserHolder.getUserId(), bookId);
+    }
+
+    /**
+     * 分页查询评论
+     */
+    @Operation(summary = "查询会员评论列表接口")
+    @GetMapping("comments")
+    public RestResp<PageRespDto<UserCommentRespDto>> listComments(PageReqDto pageReqDto) {
+        return bookService.listComments(UserHolder.getUserId(), pageReqDto);
     }
 
 }

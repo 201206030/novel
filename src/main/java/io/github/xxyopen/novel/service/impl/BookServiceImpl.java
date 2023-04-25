@@ -11,11 +11,7 @@ import io.github.xxyopen.novel.core.common.req.PageReqDto;
 import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.DatabaseConsts;
-import io.github.xxyopen.novel.dao.entity.BookChapter;
-import io.github.xxyopen.novel.dao.entity.BookComment;
-import io.github.xxyopen.novel.dao.entity.BookContent;
-import io.github.xxyopen.novel.dao.entity.BookInfo;
-import io.github.xxyopen.novel.dao.entity.UserInfo;
+import io.github.xxyopen.novel.dao.entity.*;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookCommentMapper;
 import io.github.xxyopen.novel.dao.mapper.BookContentMapper;
@@ -24,38 +20,23 @@ import io.github.xxyopen.novel.dto.AuthorInfoDto;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
 import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
-import io.github.xxyopen.novel.dto.resp.BookCategoryRespDto;
-import io.github.xxyopen.novel.dto.resp.BookChapterAboutRespDto;
-import io.github.xxyopen.novel.dto.resp.BookChapterRespDto;
-import io.github.xxyopen.novel.dto.resp.BookCommentRespDto;
-import io.github.xxyopen.novel.dto.resp.BookContentAboutRespDto;
-import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
-import io.github.xxyopen.novel.dto.resp.BookRankRespDto;
-import io.github.xxyopen.novel.manager.cache.AuthorInfoCacheManager;
-import io.github.xxyopen.novel.manager.cache.BookCategoryCacheManager;
-import io.github.xxyopen.novel.manager.cache.BookChapterCacheManager;
-import io.github.xxyopen.novel.manager.cache.BookContentCacheManager;
-import io.github.xxyopen.novel.manager.cache.BookInfoCacheManager;
-import io.github.xxyopen.novel.manager.cache.BookRankCacheManager;
+import io.github.xxyopen.novel.dto.resp.*;
+import io.github.xxyopen.novel.manager.cache.*;
 import io.github.xxyopen.novel.manager.dao.UserDaoManager;
 import io.github.xxyopen.novel.manager.mq.AmqpMsgManager;
 import io.github.xxyopen.novel.service.BookService;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 小说模块 服务实现类
@@ -425,6 +406,35 @@ public class BookServiceImpl implements BookService {
                 .chapterUpdateTime(v.getUpdateTime())
                 .isVip(v.getIsVip())
                 .build()).toList()));
+    }
+
+    @Override
+    public RestResp<PageRespDto<UserCommentRespDto>> listComments(Long userId, PageReqDto pageReqDto) {
+        IPage<BookComment> page = new Page<>();
+        page.setCurrent(pageReqDto.getPageNum());
+        page.setSize(pageReqDto.getPageSize());
+        QueryWrapper<BookComment> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID, userId)
+            .orderByDesc(DatabaseConsts.CommonColumnEnum.UPDATE_TIME.getName());
+        IPage<BookComment> bookCommentPage = bookCommentMapper.selectPage(page, queryWrapper);
+        List<BookComment> comments = bookCommentPage.getRecords();
+        if (!CollectionUtils.isEmpty(comments)) {
+            List<Long> bookIds = comments.stream().map(BookComment::getBookId).toList();
+            QueryWrapper<BookInfo> bookInfoQueryWrapper = new QueryWrapper<>();
+            bookInfoQueryWrapper.in(DatabaseConsts.CommonColumnEnum.ID.getName(), bookIds);
+            Map<Long, BookInfo> bookInfoMap = bookInfoMapper.selectList(bookInfoQueryWrapper).stream()
+                .collect(Collectors.toMap(BookInfo::getId, Function.identity()));
+            return RestResp.ok(PageRespDto.of(pageReqDto.getPageNum(), pageReqDto.getPageSize(), page.getTotal(),
+                comments.stream().map(v -> UserCommentRespDto.builder()
+                    .commentContent(v.getCommentContent())
+                    .commentBook(bookInfoMap.get(v.getBookId()).getBookName())
+                    .commentBookPic(bookInfoMap.get(v.getBookId()).getPicUrl())
+                    .commentTime(v.getCreateTime())
+                    .build()).toList()));
+
+        }
+        return RestResp.ok(PageRespDto.of(pageReqDto.getPageNum(), pageReqDto.getPageSize(), page.getTotal(),
+            Collections.emptyList()));
     }
 
     @Override

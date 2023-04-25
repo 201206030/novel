@@ -179,4 +179,14 @@ public interface BookService {
      * @return 章节分页列表数据
      */
     RestResp<PageRespDto<BookChapterRespDto>> listBookChapters(Long bookId, PageReqDto dto);
+
+    /**
+     * 分页查询评论
+     *
+     * @param userId     会员ID
+     * @param pageReqDto 分页参数
+     * @return 评论分页列表数据
+     */
+    RestResp<PageRespDto<UserCommentRespDto>> listComments(Long userId, PageReqDto pageReqDto);
+
 }
