@@ -20,12 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 作家后台-作家模块 API 控制器
@@ -91,6 +86,16 @@ public class AuthorController {
         @Valid @RequestBody ChapterAddReqDto dto) {
         dto.setBookId(bookId);
         return bookService.saveBookChapter(dto);
+    }
+
+    /**
+     * 小说章节删除接口
+     */
+    @Operation(summary = "小说章节删除接口")
+    @DeleteMapping("book/chapter/{chapterId}")
+    public RestResp<Void> deleteBookChapter(
+        @Parameter(description = "章节ID") @PathVariable("chapterId") Long chapterId) {
+        return bookService.deleteBookChapter(chapterId);
     }
 
     /**

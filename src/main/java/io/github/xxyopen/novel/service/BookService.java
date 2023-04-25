@@ -189,4 +189,12 @@ public interface BookService {
      */
     RestResp<PageRespDto<UserCommentRespDto>> listComments(Long userId, PageReqDto pageReqDto);
 
+    /**
+     * 小说章节删除
+     *
+     * @param chapterId 章节ID
+     * @return void
+     */
+    RestResp<Void> deleteBookChapter(Long chapterId);
+
 }

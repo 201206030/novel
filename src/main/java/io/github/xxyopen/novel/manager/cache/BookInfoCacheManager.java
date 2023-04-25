@@ -8,12 +8,13 @@ import io.github.xxyopen.novel.dao.entity.BookInfo;
 import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * 小说信息 缓存管理类
@@ -74,7 +75,7 @@ public class BookInfoCacheManager {
 
     @CacheEvict(cacheManager = CacheConsts.CAFFEINE_CACHE_MANAGER,
         value = CacheConsts.BOOK_INFO_CACHE_NAME)
-    public void evictBookInfoCache(Long ignoredId) {
+    public void evictBookInfoCache(Long bookId) {
         // 调用此方法自动清除小说信息的缓存
     }
 
