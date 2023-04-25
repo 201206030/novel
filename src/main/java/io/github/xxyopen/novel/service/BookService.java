@@ -5,6 +5,7 @@ import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
+import io.github.xxyopen.novel.dto.req.ChapterUpdateReqDto;
 import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
 
@@ -197,4 +198,20 @@ public interface BookService {
      */
     RestResp<Void> deleteBookChapter(Long chapterId);
 
+    /**
+     * 小说章节查询
+     *
+     * @param chapterId 章节ID
+     * @return 章节内容
+     */
+    RestResp<ChapterContentRespDto> getBookChapter(Long chapterId);
+
+    /**
+     * 小说章节更新
+     *
+     * @param chapterId 章节ID
+     * @param dto       更新内容
+     * @return void
+     */
+    RestResp<Void> updateBookChapter(Long chapterId, ChapterUpdateReqDto dto);
 }

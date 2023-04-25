@@ -19,6 +19,7 @@ import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
 import io.github.xxyopen.novel.dto.AuthorInfoDto;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
+import io.github.xxyopen.novel.dto.req.ChapterUpdateReqDto;
 import io.github.xxyopen.novel.dto.req.UserCommentReqDto;
 import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.manager.cache.*;
@@ -473,6 +474,63 @@ public class BookServiceImpl implements BookService {
             newBookInfo.setLastChapterId(lastChapterId);
             newBookInfo.setLastChapterName(lastChapterName);
             newBookInfo.setLastChapterUpdateTime(lastChapterUpdateTime);
+        }
+        bookInfoMapper.updateById(newBookInfo);
+        // 6.清理章节信息缓存
+        bookChapterCacheManager.evictBookChapterCache(chapterId);
+        // 7.清理章节内容缓存
+        bookContentCacheManager.evictBookContentCache(chapterId);
+        // 8.清理小说信息缓存
+        bookInfoCacheManager.evictBookInfoCache(chapter.getBookId());
+        // 9.发送小说信息更新的 MQ 消息
+        amqpMsgManager.sendBookChangeMsg(chapter.getBookId());
+        return RestResp.ok();
+    }
+
+    @Override
+    public RestResp<ChapterContentRespDto> getBookChapter(Long chapterId) {
+        BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
+        String bookContent = bookContentCacheManager.getBookContent(chapterId);
+        return RestResp.ok(
+            ChapterContentRespDto.builder()
+                .chapterName(chapter.getChapterName())
+                .chapterContent(bookContent)
+                .isVip(chapter.getIsVip())
+                .build());
+    }
+
+    @Transactional
+    @Override
+    public RestResp<Void> updateBookChapter(Long chapterId, ChapterUpdateReqDto dto) {
+        // 1.查询章节信息
+        BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
+        // 2.查询小说信息
+        BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(chapter.getBookId());
+        // 3.更新章节信息
+        BookChapter newChapter = new BookChapter();
+        newChapter.setId(chapterId);
+        newChapter.setChapterName(dto.getChapterName());
+        newChapter.setWordCount(dto.getChapterContent().length());
+        newChapter.setIsVip(dto.getIsVip());
+        newChapter.setUpdateTime(LocalDateTime.now());
+        bookChapterMapper.updateById(newChapter);
+        // 4.更新章节内容
+        BookContent newContent = new BookContent();
+        newContent.setContent(dto.getChapterContent());
+        newContent.setUpdateTime(LocalDateTime.now());
+        QueryWrapper<BookContent> bookContentQueryWrapper = new QueryWrapper<>();
+        bookContentQueryWrapper.eq(DatabaseConsts.BookContentTable.COLUMN_CHAPTER_ID, chapterId);
+        bookContentMapper.update(newContent, bookContentQueryWrapper);
+        // 5.更新小说信息
+        BookInfo newBookInfo = new BookInfo();
+        newBookInfo.setId(chapter.getBookId());
+        newBookInfo.setUpdateTime(LocalDateTime.now());
+        newBookInfo.setWordCount(
+            bookInfo.getWordCount() - chapter.getChapterWordCount() + dto.getChapterContent().length());
+        if (Objects.equals(bookInfo.getLastChapterId(), chapterId)) {
+            // 更新最新章节信息
+            newBookInfo.setLastChapterName(dto.getChapterName());
+            newBookInfo.setLastChapterUpdateTime(LocalDateTime.now());
         }
         bookInfoMapper.updateById(newBookInfo);
         // 6.清理章节信息缓存

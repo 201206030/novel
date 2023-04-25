@@ -9,8 +9,10 @@ import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
 import io.github.xxyopen.novel.dto.req.AuthorRegisterReqDto;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
+import io.github.xxyopen.novel.dto.req.ChapterUpdateReqDto;
 import io.github.xxyopen.novel.dto.resp.BookChapterRespDto;
 import io.github.xxyopen.novel.dto.resp.BookInfoRespDto;
+import io.github.xxyopen.novel.dto.resp.ChapterContentRespDto;
 import io.github.xxyopen.novel.service.AuthorService;
 import io.github.xxyopen.novel.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -96,6 +98,27 @@ public class AuthorController {
     public RestResp<Void> deleteBookChapter(
         @Parameter(description = "章节ID") @PathVariable("chapterId") Long chapterId) {
         return bookService.deleteBookChapter(chapterId);
+    }
+
+    /**
+     * 小说章节查询接口
+     */
+    @Operation(summary = "小说章节查询接口")
+    @GetMapping("book/chapter/{chapterId}")
+    public RestResp<ChapterContentRespDto> getBookChapter(
+        @Parameter(description = "章节ID") @PathVariable("chapterId") Long chapterId) {
+        return bookService.getBookChapter(chapterId);
+    }
+
+    /**
+     * 小说章节更新接口
+     */
+    @Operation(summary = "小说章节更新接口")
+    @PutMapping("book/chapter/{chapterId}")
+    public RestResp<Void> updateBookChapter(
+        @Parameter(description = "章节ID") @PathVariable("chapterId") Long chapterId,
+        @Valid @RequestBody ChapterUpdateReqDto dto) {
+        return bookService.updateBookChapter(chapterId, dto);
     }
 
     /**
