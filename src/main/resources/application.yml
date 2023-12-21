@@ -39,14 +39,15 @@ spring:
     mode:
       # 单机模式
       type: Standalone
+      # 元数据持久化
       repository:
-        # 文件持久化
-        type: File
+        # 数据库持久化
+        type: JDBC
         props:
-          # 元数据存储路径
-          path: .shardingsphere
-      # 使用本地配置覆盖持久化配置
-      overwrite: true
+          # 元数据存储类型
+          provider: H2
+          jdbc_url: jdbc:h2:./.h2/shardingsphere
+
     # 数据源配置
     datasource:
       names: ds_0
@@ -87,7 +88,7 @@ spring:
     redis:
       host: 127.0.0.1
       port: 6379
-      password: 123456
+      password: test123456
 
   # Elasticsearch 配置
   elasticsearch:
