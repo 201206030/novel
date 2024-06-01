@@ -1,6 +1,5 @@
 package io.github.xxyopen.novel.core.config;
 
-import co.elastic.clients.json.jackson.JacksonJsonpMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
 import org.elasticsearch.client.RestClient;
@@ -28,14 +27,6 @@ import java.security.cert.X509Certificate;
 @Configuration
 @Slf4j
 public class EsConfig {
-
-    /**
-     * 解决 ElasticsearchClientConfigurations 修改默认 ObjectMapper 配置的问题
-     */
-    @Bean
-    JacksonJsonpMapper jacksonJsonpMapper() {
-        return new JacksonJsonpMapper();
-    }
 
     /**
      * fix `sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException:
