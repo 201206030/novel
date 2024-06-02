@@ -16,6 +16,10 @@ spring:
     multipart:
       # 上传文件最大大小
       max-file-size: 5MB
+  # 启用虚拟线程
+  threads:
+    virtual:
+      enabled: true
 server:
   # 端口号
   port: 8888
