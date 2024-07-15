@@ -20,6 +20,9 @@ spring:
   threads:
     virtual:
       enabled: true
+  # initialize the schema history table
+  flyway:
+    baseline-on-migrate: true
 server:
   # 端口号
   port: 8888
