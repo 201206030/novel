@@ -259,9 +259,15 @@ spring:
   config:
     activate:
       on-profile: dev
+# 开启 SpringDoc 接口文档
 springdoc:
   api-docs:
     enabled: true
+# /env 端点显示属性值
+management:
+  endpoint:
+    env:
+      show-values: when_authorized
 
 --- #------------------- test 特定配置--------------------------
 spring:
