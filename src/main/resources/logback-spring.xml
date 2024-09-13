@@ -62,6 +62,10 @@
             <appender-ref ref="STDOUT"/>
             <appender-ref ref="FILE"/>
         </logger>
+        <logger name="org.zalando.logbook" level="TRACE" additivity="false">
+            <appender-ref ref="STDOUT"/>
+            <appender-ref ref="FILE"/>
+        </logger>
     </springProfile>
 
     <springProfile name="prod">

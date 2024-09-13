@@ -25,6 +25,7 @@
         <redisson.version>3.19.1</redisson.version>
         <spring-boot-admin.version>3.0.0-M1</spring-boot-admin.version>
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
+        <logbook.version>3.9.0</logbook.version>
     </properties>
 
     <dependencies>
@@ -203,6 +204,11 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-mysql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.zalando</groupId>
+            <artifactId>logbook-spring-boot-starter</artifactId>
+            <version>${logbook.version}</version>
         </dependency>
     </dependencies>
 

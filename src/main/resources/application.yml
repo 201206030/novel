@@ -30,7 +30,7 @@ server:
 --- #---------------------数据库配置---------------------------
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/novel_test?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/novel?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: test123456
   # ShardingSphere-JDBC 配置
@@ -229,6 +229,19 @@ spring:
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
 
+--- #----------------------Logbook配置-----------------------------
+logbook:
+  format:
+    # 输出格式
+    style: http
+  obfuscate:
+    headers:
+      # 隐藏 Authorization 头信息
+      - Authorization
+    parameters:
+      # 隐藏密码参数
+      - password
+
 --- #---------------------自定义配置----------------------------
 novel:
   # 跨域配置
@@ -237,7 +250,7 @@ novel:
     allow-origins:
       - http://localhost:1024
       - http://localhost:8080
-  # JWT密钥
+  # JWT 密钥
   jwt:
     secret: E66559580A1ADF48CDD928516062F12E
   # XSS 过滤配置
