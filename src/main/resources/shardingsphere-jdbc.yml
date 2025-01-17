@@ -1,0 +1,55 @@
+mode:
+  # 单机模式
+  type: Standalone
+  # 元数据持久化
+  repository:
+    # 数据库持久化
+    type: JDBC
+    props:
+      # 元数据存储类型
+      provider: H2
+      jdbc_url: jdbc:h2:./.h2/shardingsphere
+
+# 数据源配置
+dataSources:
+  ds_1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://localhost:3306/novel?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: test123456
+  # 配置其他数据源
+
+# 规则配置
+rules:
+  # 配置单表规则
+  - !SINGLE
+    tables:
+      - "*.*"
+  # 配置分片规则
+  - !SHARDING
+    tables: # 数据分片规则配置
+      book_content:
+        # 分库策略，缺省表示使用默认分库策略
+        actualDataNodes: ds_${1}.book_content${0..9}
+        # 分表策略
+        tableStrategy:
+          standard:
+            # 分片列名称
+            shardingColumn: chapter_id
+            # 分片算法名称
+            shardingAlgorithmName: bookContentSharding
+
+    shardingAlgorithms:
+      bookContentSharding:
+        # 行表达式分片算法，使用 Groovy 的表达式，提供对 SQL 语句中的 = 和 IN 的分片操作支持
+        type: INLINE
+        props:
+          # 分片算法的行表达式
+          algorithm-expression: book_content${chapter_id % 10}
+
+
+
+props:
+  # 是否在日志中打印 SQL
+  sql-show: true

@@ -21,7 +21,7 @@
         <jjwt.version>0.11.5</jjwt.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <sentinel.version>1.8.4</sentinel.version>
-        <shardingsphere-jdbc.version>5.2.1</shardingsphere-jdbc.version>
+        <shardingsphere-jdbc.version>5.5.1</shardingsphere-jdbc.version>
         <redisson.version>3.19.1</redisson.version>
         <spring-boot-admin.version>3.0.0-M1</spring-boot-admin.version>
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
@@ -127,7 +127,7 @@
         <!-- ShardingSphere-JDBC -->
         <dependency>
             <groupId>org.apache.shardingsphere</groupId>
-            <artifactId>shardingsphere-jdbc-core-spring-boot-starter</artifactId>
+            <artifactId>shardingsphere-jdbc</artifactId>
             <version>${shardingsphere-jdbc.version}</version>
         </dependency>
         <dependency>
