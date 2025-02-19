@@ -34,6 +34,18 @@ server:
   # 端口号
   port: 8888
 
+--- #--------------------- Spring AI 配置----------------------
+spring:
+  ai:
+    openai:
+      api-key:
+      base-url: https://api.siliconflow.cn
+      chat:
+        options:
+          model: deepseek-ai/DeepSeek-R1-Distill-Llama-8B
+
+
+
 --- #---------------------数据库配置---------------------------
 spring:
   datasource:
