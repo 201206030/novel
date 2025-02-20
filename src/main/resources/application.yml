@@ -20,6 +20,10 @@ spring:
   threads:
     virtual:
       enabled: true
+  # 即使所有的用户线程（包括虚拟线程）都是守护线程的情况下，JVM 也不会立即退出，
+  # Spring Boot 官方建议在开启虚拟线程时设置该属性
+  main:
+    keep-alive: true
 
   flyway:
     # 是否开启 Flyway
@@ -38,7 +42,7 @@ server:
 spring:
   ai:
     openai:
-      api-key:
+      api-key: sk-rrrupturhdofbiqzjutduuiceecpvfqlnvmgcyiaipbdikoi
       base-url: https://api.siliconflow.cn
       chat:
         options:
