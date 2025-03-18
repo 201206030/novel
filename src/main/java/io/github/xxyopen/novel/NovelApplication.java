@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.sql.DataSource;
 import java.util.Map;
 
 @SpringBootApplication
@@ -28,7 +29,7 @@ public class NovelApplication {
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext context) {
+    public CommandLineRunner commandLineRunner(ApplicationContext context, DataSource dataSource) {
         return args -> {
             Map<String, CacheManager> beans = context.getBeansOfType(CacheManager.class);
             log.info("加载了如下缓存管理器：");
@@ -36,7 +37,9 @@ public class NovelApplication {
                 log.info("{}:{}", k, v.getClass().getName());
                 log.info("缓存：{}", v.getCacheNames());
             });
-
+            // 提前创建连接池，而不是在第一次访问数据库时才创建，提高第一次访问接口的速度
+            log.info("创建连接池...");
+            dataSource.getConnection();
         };
     }
 
