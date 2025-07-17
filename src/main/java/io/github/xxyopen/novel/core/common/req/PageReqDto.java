@@ -30,4 +30,16 @@ public class PageReqDto {
     @Parameter(hidden = true)
     private boolean fetchAll = false;
 
+    /**
+     * 排序字段
+     */
+    @Parameter(description = "排序字段")
+    private String sort;
+
+    /**
+     * 排序方式
+     */
+    @Parameter(description = "排序方式")
+    private String order;
+
 }

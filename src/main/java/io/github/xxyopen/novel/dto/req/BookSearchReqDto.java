@@ -70,9 +70,4 @@ public class BookSearchReqDto extends PageReqDto {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updateTimeMin;
 
-    /**
-     * 排序字段
-     */
-    @Parameter(description = "排序字段")
-    private String sort;
 }

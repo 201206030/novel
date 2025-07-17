@@ -1,6 +1,7 @@
 package io.github.xxyopen.novel.dao.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.github.xxyopen.novel.core.annotation.ValidateSortOrder;
 import io.github.xxyopen.novel.dao.entity.BookInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import io.github.xxyopen.novel.dto.req.BookSearchReqDto;
@@ -32,6 +33,6 @@ public interface BookInfoMapper extends BaseMapper<BookInfo> {
      * @param condition 搜索条件
      * @return 返回结果
      * */
-    List<BookInfo> searchBooks(IPage<BookInfoRespDto> page, BookSearchReqDto condition);
+    List<BookInfo> searchBooks(IPage<BookInfoRespDto> page, @ValidateSortOrder BookSearchReqDto condition);
 
 }

@@ -32,7 +32,7 @@
             and last_chapter_update_time >= #{condition.updateTimeMin}
         </if>
         <if test="condition.sort != null">
-            order by ${condition.sort}
+            order by ${condition.sort} desc
         </if>
     </select>
 
