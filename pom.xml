@@ -26,6 +26,7 @@
         <spring-boot-admin.version>3.0.0-M1</spring-boot-admin.version>
         <springdoc-openapi.version>2.5.0</springdoc-openapi.version>
         <logbook.version>3.9.0</logbook.version>
+        <spring-ai.version>1.0.0</spring-ai.version>
     </properties>
 
     <dependencies>
@@ -180,7 +181,7 @@
         <!-- AI -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-openai-spring-boot-starter</artifactId>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
         </dependency>
 
         <dependency>
@@ -223,7 +224,7 @@
             <dependency>
                 <groupId>org.springframework.ai</groupId>
                 <artifactId>spring-ai-bom</artifactId>
-                <version>1.0.0-M6</version>
+                <version>${spring-ai.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
