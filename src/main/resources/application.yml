@@ -46,7 +46,7 @@ spring:
       base-url: https://api.siliconflow.cn
       chat:
         options:
-          model: deepseek-ai/DeepSeek-R1-Distill-Llama-8B
+          model: deepseek-ai/DeepSeek-R1-0528-Qwen3-8B
 
 
 
