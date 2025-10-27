@@ -5,6 +5,7 @@
     <a href='https://github.com/201206030/novel'><img alt="Github forks" src="https://img.shields.io/github/forks/201206030/novel?logo=github"></a>
     <a href='https://gitee.com/novel_dev_team/novel'><img alt="Gitee stars" src="https://gitee.com/novel_dev_team/novel/badge/star.svg?theme=gitee"></a>
     <a href='https://gitee.com/novel_dev_team/novel'><img alt="Gitee forks" src="https://gitee.com/novel_dev_team/novel/badge/fork.svg?theme=gitee"></a>
+    <a href='https://gitcode.com/opennovel/novel'><img alt="GitCode star" src="https://gitcode.com/opennovel/novel/star/badge.svg"></a>
 </p>
 
 ## 项目简介
@@ -15,9 +16,9 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
 
 ## 项目地址
 
-- 后端项目（更新中）：[GitHub](https://github.com/201206030/novel) ｜ [码云](https://gitee.com/novel_dev_team/novel)
-- 前端项目（更新中）：[GitHub](https://github.com/201206030/novel-front-web)
-  ｜ [码云](https://gitee.com/novel_dev_team/novel-front-web)
+- 后端项目（更新中）：[GitHub](https://github.com/201206030/novel) ｜ [码云](https://gitee.com/novel_dev_team/novel) ｜ [GitCode](https://gitcode.com/opennovel/novel)
+- 前端项目（更新中）：[GitHub](https://github.com/201206030/novel-front-web) 
+  ｜ [码云](https://gitee.com/novel_dev_team/novel-front-web) ｜ [GitCode](https://gitcode.com/opennovel/novel-front-web)
 - 线上应用版：[GitHub](https://github.com/201206030/novel-plus) ｜ [码云](https://gitee.com/novel_dev_team/novel-plus)
 - 微服务版：[GitHub](https://github.com/201206030/novel-cloud) ｜ [码云](https://gitee.com/novel_dev_team/novel-cloud)
 
