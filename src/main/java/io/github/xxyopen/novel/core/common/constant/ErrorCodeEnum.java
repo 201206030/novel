@@ -100,6 +100,11 @@ public enum ErrorCodeEnum {
     USER_COMMENTED("A2001", "用户已发表评论"),
 
     /**
+     * 小说不存在
+     */
+    BOOK_NOT_FOUND("A2002", "小说ID不存在"),
+
+    /**
      * 作家发布异常
      */
     AUTHOR_PUBLISH("A3000", "作家发布异常"),

@@ -230,6 +230,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public RestResp<Void> saveComment(
         @Key(expr = "#{userId + '::' + bookId}") UserCommentReqDto dto) {
+        // 校验书籍是否存在
+        BookInfo bookInfo = bookInfoMapper.selectById(dto.getBookId());
+        if (bookInfo == null) {
+            return RestResp.fail(ErrorCodeEnum.BOOK_NOT_FOUND);
+        }
         // 校验用户是否已发表评论
         QueryWrapper<BookComment> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq(DatabaseConsts.BookCommentTable.COLUMN_USER_ID, dto.getUserId())
