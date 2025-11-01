@@ -126,20 +126,39 @@ public class BookServiceImpl implements BookService {
         throws NoSuchAlgorithmException {
         Long categoryId = bookInfoCacheManager.getBookInfo(bookId).getCategoryId();
         List<Long> lastUpdateIdList = bookInfoCacheManager.getLastUpdateIdList(categoryId);
+
+        // 检查列表是否为空或不足
+        if (CollectionUtils.isEmpty(lastUpdateIdList)) {
+            return RestResp.ok(Collections.emptyList());
+        }
+
+        // 排除当前书籍，同时确保有足够的推荐书籍用于展示
+        List<Long> candidateIdList = lastUpdateIdList.stream()
+                .filter(id -> !Objects.equals(id, bookId))
+                .toList();
+
+        if (candidateIdList.isEmpty()) {
+            return RestResp.ok(Collections.emptyList());
+        }
+
+        // 确定实际推荐的书籍数量
+        int actualRecCount = Math.min(REC_BOOK_COUNT, candidateIdList.size());
+
         List<BookInfoRespDto> respDtoList = new ArrayList<>();
-        List<Integer> recIdIndexList = new ArrayList<>();
-        int count = 0;
+        Set<Integer> recIdIndexSet = new HashSet<>();
         Random rand = SecureRandom.getInstanceStrong();
-        while (count < REC_BOOK_COUNT) {
-            int recIdIndex = rand.nextInt(lastUpdateIdList.size());
-            if (!recIdIndexList.contains(recIdIndex)) {
-                recIdIndexList.add(recIdIndex);
-                bookId = lastUpdateIdList.get(recIdIndex);
-                BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(bookId);
+
+        // 使用 Set 提高查找效率，同时修复bug防止无限循环
+        while (respDtoList.size() < actualRecCount && recIdIndexSet.size() < candidateIdList.size()) {
+            int recIdIndex = rand.nextInt(candidateIdList.size());
+            if (!recIdIndexSet.contains(recIdIndex)) {
+                recIdIndexSet.add(recIdIndex);
+                Long recBookId = candidateIdList.get(recIdIndex);
+                BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(recBookId);
                 respDtoList.add(bookInfo);
-                count++;
             }
         }
+
         return RestResp.ok(respDtoList);
     }
 
