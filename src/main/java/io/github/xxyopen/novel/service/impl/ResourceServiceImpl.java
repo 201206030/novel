@@ -5,6 +5,8 @@ import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
 import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
 import io.github.xxyopen.novel.core.constant.SystemConfigConsts;
+import io.github.xxyopen.novel.core.util.AliyunOSSOperator;
+import io.github.xxyopen.novel.core.util.AliyunOSSProperties;
 import io.github.xxyopen.novel.dto.resp.ImgVerifyCodeRespDto;
 import io.github.xxyopen.novel.manager.redis.VerifyCodeManager;
 import io.github.xxyopen.novel.service.ResourceService;
@@ -18,6 +20,7 @@ import javax.imageio.ImageIO;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,6 +40,8 @@ public class ResourceServiceImpl implements ResourceService {
 
     @Value("${novel.file.upload.path}")
     private String fileUploadPath;
+    private final AliyunOSSOperator aliyunOSSOperator;
+    private final AliyunOSSProperties aliyunOSSProperties;
 
     @Override
     public RestResp<ImgVerifyCodeRespDto> getImgVerifyCode() throws IOException {
@@ -50,6 +55,14 @@ public class ResourceServiceImpl implements ResourceService {
     @SneakyThrows
     @Override
     public RestResp<String> uploadImage(MultipartFile file) {
+        if (Boolean.TRUE.equals(aliyunOSSProperties.getEnabled())){
+            return RestResp.ok(aliyunOSSOperator.upload(file.getBytes(),
+                Objects.requireNonNull(file.getOriginalFilename())));
+        }
+        return getLocalStringRestResp(file);
+    }
+
+    private @NotNull RestResp<String> getLocalStringRestResp(MultipartFile file) throws IOException {
         LocalDateTime now = LocalDateTime.now();
         String savePath =
             SystemConfigConsts.IMAGE_UPLOAD_DIRECTORY
@@ -72,7 +85,9 @@ public class ResourceServiceImpl implements ResourceService {
             Files.delete(saveFile.toPath());
             throw new BusinessException(ErrorCodeEnum.USER_UPLOAD_FILE_TYPE_NOT_MATCH);
         }
-        return RestResp.ok(savePath + File.separator + saveFileName);
+        // 返回文件的完整绝对路径，确保前端能够直接访问
+        String fullPath = savePath + File.separator + saveFileName;
+        return RestResp.ok(fullPath);
     }
 
 }

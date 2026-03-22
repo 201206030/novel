@@ -240,7 +240,17 @@ novel:
     upload:
       # 上传路径
       path: /Users/xiongxiaoyang/upload
-
+#------------------------配置 Aliyun----------------------------
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: java-ai-sliver
+    region: cn-beijing
+    enabled: false # 默认关闭 OSS
+#- 环境变量中必须设置：
+#  - ALIBABA_CLOUD_ACCESS_KEY_ID
+#  - ALIBABA_CLOUD_ACCESS_KEY_SECRET
+# 通过阿里云配置即可
 
 --- #------------------- dev 特定配置---------------------------
 spring:
