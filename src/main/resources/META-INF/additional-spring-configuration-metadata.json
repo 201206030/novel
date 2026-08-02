@@ -19,7 +19,7 @@
     {
       "name": "novel.jwt.secret",
       "type": "java.lang.String",
-      "description": "JWT 密钥."
+      "description": "Required deployment-specific JWT signing secret. Configure it with NOVEL_JWT_SECRET."
     },
     {
       "name": "novel.xss.enabled",
