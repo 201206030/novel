@@ -227,7 +227,7 @@ novel:
       - http://localhost:8080
   # JWT 密钥
   jwt:
-    secret: E66559580A1ADF48CDD928516062F12E
+    secret: ${NOVEL_JWT_SECRET}
   # XSS 过滤配置
   xss:
     # 过滤开关
@@ -274,5 +274,4 @@ spring:
       host: 127.0.0.1
       port: 6379
       password:
-
 
