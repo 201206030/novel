@@ -474,6 +474,10 @@ public class BookServiceImpl implements BookService {
         BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
         // 2.查询小说信息
         BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(chapter.getBookId());
+        // 校验该作品是否属于当前作家
+        if (!Objects.equals(bookInfo.getAuthorId(), UserHolder.getAuthorId())) {
+            return RestResp.fail(ErrorCodeEnum.USER_UN_AUTH);
+        }
         // 3.删除章节信息
         bookChapterMapper.deleteById(chapterId);
         // 4.删除章节内容
@@ -535,6 +539,10 @@ public class BookServiceImpl implements BookService {
         BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
         // 2.查询小说信息
         BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(chapter.getBookId());
+        // 校验该作品是否属于当前作家
+        if (!Objects.equals(bookInfo.getAuthorId(), UserHolder.getAuthorId())) {
+            return RestResp.fail(ErrorCodeEnum.USER_UN_AUTH);
+        }
         // 3.更新章节信息
         BookChapter newChapter = new BookChapter();
         newChapter.setId(chapterId);
