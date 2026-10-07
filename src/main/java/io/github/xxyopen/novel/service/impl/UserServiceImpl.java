@@ -25,7 +25,10 @@ import io.github.xxyopen.novel.service.UserService;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import java.util.regex.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
@@ -49,6 +52,17 @@ public class UserServiceImpl implements UserService {
 
     private final JwtUtils jwtUtils;
 
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    /**
+     * 32 位十六进制字符串，即旧版无盐 MD5 密码摘要的格式
+     */
+    private static final Pattern MD5_HEX_PATTERN = Pattern.compile("^[0-9a-f]{32}$");
+
+    private static boolean isBCryptHash(String storedPassword) {
+        return !MD5_HEX_PATTERN.matcher(storedPassword).matches();
+    }
+
     @Override
     public RestResp<UserRegisterRespDto> register(UserRegisterReqDto dto) {
         // 校验图形验证码是否正确
@@ -68,12 +82,13 @@ public class UserServiceImpl implements UserService {
 
         // 注册成功，保存用户信息
         UserInfo userInfo = new UserInfo();
-        userInfo.setPassword(
-            DigestUtils.md5DigestAsHex(dto.getPassword().getBytes(StandardCharsets.UTF_8)));
+        userInfo.setPassword(passwordEncoder.encode(dto.getPassword()));
         userInfo.setUsername(dto.getUsername());
         userInfo.setNickName(dto.getUsername());
         userInfo.setCreateTime(LocalDateTime.now());
         userInfo.setUpdateTime(LocalDateTime.now());
+        // salt 列为历史遗留字段，已不参与密码哈希计算（BCrypt 自带随机盐），
+        // 这里仅为满足数据库 NOT NULL 约束而写入占位值
         userInfo.setSalt("0");
         userInfoMapper.insert(userInfo);
 
@@ -103,8 +118,26 @@ public class UserServiceImpl implements UserService {
         }
 
         // 判断密码是否正确
-        if (!Objects.equals(userInfo.getPassword()
-            , DigestUtils.md5DigestAsHex(dto.getPassword().getBytes(StandardCharsets.UTF_8)))) {
+        // 兼容历史遗留的无盐 MD5 密码：优先按 BCrypt 校验，若存储的是旧格式哈希
+        // （非 BCrypt，即长度固定的 32 位十六进制 MD5 摘要）则按旧逻辑校验一次，
+        // 校验通过后立即将密码升级为 BCrypt 哈希，后续登录即不再走旧逻辑。
+        String storedPassword = userInfo.getPassword();
+        boolean passwordOk;
+        if (isBCryptHash(storedPassword)) {
+            passwordOk = passwordEncoder.matches(dto.getPassword(), storedPassword);
+        } else {
+            passwordOk = Objects.equals(storedPassword,
+                DigestUtils.md5DigestAsHex(dto.getPassword().getBytes(StandardCharsets.UTF_8)));
+            if (passwordOk) {
+                // 登录成功，顺带把旧的无盐 MD5 哈希升级为 BCrypt
+                UserInfo upgrade = new UserInfo();
+                upgrade.setId(userInfo.getId());
+                upgrade.setPassword(passwordEncoder.encode(dto.getPassword()));
+                upgrade.setUpdateTime(LocalDateTime.now());
+                userInfoMapper.updateById(upgrade);
+            }
+        }
+        if (!passwordOk) {
             // 密码错误
             throw new BusinessException(ErrorCodeEnum.USER_PASSWORD_ERROR);
         }
