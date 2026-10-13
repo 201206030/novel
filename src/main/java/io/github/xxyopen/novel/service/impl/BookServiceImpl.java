@@ -17,6 +17,7 @@ import io.github.xxyopen.novel.dao.mapper.BookChapterMapper;
 import io.github.xxyopen.novel.dao.mapper.BookCommentMapper;
 import io.github.xxyopen.novel.dao.mapper.BookContentMapper;
 import io.github.xxyopen.novel.dao.mapper.BookInfoMapper;
+import io.github.xxyopen.novel.dao.mapper.UserConsumeLogMapper;
 import io.github.xxyopen.novel.dto.AuthorInfoDto;
 import io.github.xxyopen.novel.dto.req.BookAddReqDto;
 import io.github.xxyopen.novel.dto.req.ChapterAddReqDto;
@@ -74,6 +75,8 @@ public class BookServiceImpl implements BookService {
     private final UserDaoManager userDaoManager;
 
     private final AmqpMsgManager amqpMsgManager;
+
+    private final UserConsumeLogMapper userConsumeLogMapper;
 
     private static final Integer REC_BOOK_COUNT = 4;
 
@@ -598,6 +601,14 @@ public class BookServiceImpl implements BookService {
         // 查询章节信息
         BookChapterRespDto bookChapter = bookChapterCacheManager.getChapter(chapterId);
 
+        // VIP 章节需要校验当前用户是否已购买该章节，未登录或未购买均不允许查看章节内容
+        if (Objects.equals(bookChapter.getIsVip(), DatabaseConsts.BookChapterTable.VIP_CHAPTER_YES)) {
+            Long userId = UserHolder.getUserId();
+            if (Objects.isNull(userId) || !hasPurchasedChapter(userId, chapterId)) {
+                throw new BusinessException(ErrorCodeEnum.USER_UN_AUTH);
+            }
+        }
+
         // 查询章节内容
         String content = bookContentCacheManager.getBookContent(chapterId);
 
@@ -610,5 +621,22 @@ public class BookServiceImpl implements BookService {
             .chapterInfo(bookChapter)
             .bookContent(content)
             .build());
+    }
+
+    /**
+     * 校验用户是否已购买指定的 VIP 章节
+     *
+     * <p>消费记录目前没有任何写入路径（充值订阅功能尚未实现），因此在该功能上线前，
+     * 本方法会对所有调用返回 false，VIP 章节内容对任何用户都不可读取。一旦消费记录被
+     * 写入（无论通过后续实现的购买流程还是管理员直接操作），本方法会按预期识别该记录。
+     */
+    private boolean hasPurchasedChapter(Long userId, Long chapterId) {
+        QueryWrapper<UserConsumeLog> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq(DatabaseConsts.UserConsumeLogTable.COLUMN_USER_ID, userId)
+            .eq(DatabaseConsts.UserConsumeLogTable.COLUMN_PRODUCT_TYPE,
+                DatabaseConsts.UserConsumeLogTable.PRODUCT_TYPE_VIP_CHAPTER)
+            .eq(DatabaseConsts.UserConsumeLogTable.COLUMN_PRODUCT_ID, chapterId)
+            .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+        return userConsumeLogMapper.selectCount(queryWrapper) > 0;
     }
 }
