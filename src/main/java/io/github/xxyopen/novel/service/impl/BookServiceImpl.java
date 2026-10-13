@@ -7,6 +7,7 @@ import io.github.xxyopen.novel.core.annotation.Key;
 import io.github.xxyopen.novel.core.annotation.Lock;
 import io.github.xxyopen.novel.core.auth.UserHolder;
 import io.github.xxyopen.novel.core.common.constant.ErrorCodeEnum;
+import io.github.xxyopen.novel.core.common.exception.BusinessException;
 import io.github.xxyopen.novel.core.common.req.PageReqDto;
 import io.github.xxyopen.novel.core.common.resp.PageRespDto;
 import io.github.xxyopen.novel.core.common.resp.RestResp;
@@ -417,6 +418,11 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public RestResp<PageRespDto<BookChapterRespDto>> listBookChapters(Long bookId, PageReqDto dto) {
+        // 校验该作品是否属于当前作家
+        BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(bookId);
+        if (!Objects.equals(bookInfo.getAuthorId(), UserHolder.getAuthorId())) {
+            throw new BusinessException(ErrorCodeEnum.USER_UN_AUTH);
+        }
         IPage<BookChapter> page = new Page<>();
         page.setCurrent(dto.getPageNum());
         page.setSize(dto.getPageSize());
@@ -523,6 +529,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public RestResp<ChapterContentRespDto> getBookChapter(Long chapterId) {
         BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
+        // 校验该作品是否属于当前作家
+        BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(chapter.getBookId());
+        if (!Objects.equals(bookInfo.getAuthorId(), UserHolder.getAuthorId())) {
+            throw new BusinessException(ErrorCodeEnum.USER_UN_AUTH);
+        }
         String bookContent = bookContentCacheManager.getBookContent(chapterId);
         return RestResp.ok(
             ChapterContentRespDto.builder()
