@@ -190,6 +190,14 @@ io
 
 👉 [立即查看](https://docs.xxyopen.com/course/novel/#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4)
 
+启动前请配置部署专用的 JWT 密钥，至少使用 32 字节随机值：
+
+```bash
+export NOVEL_JWT_SECRET="$(openssl rand -base64 32)"
+```
+
+密钥轮换后，使用旧密钥签发的 JWT 将失效，用户需要重新登录。
+
 ## 联系我们
 
 👉 [立即查看](https://novel.xxyopen.com/service.htm)
