@@ -5,11 +5,12 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.WeakKeyException;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
+import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,21 +19,29 @@ import org.springframework.stereotype.Component;
  * @author xiongxiaoyang
  * @date 2022/5/17
  */
-@ConditionalOnProperty("novel.jwt.secret")
 @Component
 @Slf4j
 public class JwtUtils {
 
-    /**
-     * 注入JWT加密密钥
-     */
-    @Value("${novel.jwt.secret}")
-    private String secret;
+    private final SecretKey secretKey;
 
     /**
      * 定义系统标识头常量
      */
     private static final String HEADER_SYSTEM_KEY = "systemKeyHeader";
+
+    public JwtUtils(@Value("${novel.jwt.secret}") String secret) {
+        if (secret == null || secret.isBlank()) {
+            throw new IllegalStateException(
+                "novel.jwt.secret must be configured with a deployment-specific value");
+        }
+        try {
+            this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        } catch (WeakKeyException exception) {
+            throw new IllegalStateException(
+                "novel.jwt.secret must contain at least 256 bits of key material", exception);
+        }
+    }
 
     /**
      * 根据用户ID生成JWT
@@ -45,7 +54,7 @@ public class JwtUtils {
         return Jwts.builder()
             .setHeaderParam(HEADER_SYSTEM_KEY, systemKey)
             .setSubject(uid.toString())
-            .signWith(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)))
+            .signWith(secretKey)
             .compact();
     }
 
@@ -60,7 +69,7 @@ public class JwtUtils {
         Jws<Claims> claimsJws;
         try {
             claimsJws = Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8)))
+                .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token);
             // OK, we can trust this JWT
