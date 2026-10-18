@@ -227,7 +227,7 @@ novel:
       - http://localhost:8080
   # JWT 密钥
   jwt:
-    secret: E66559580A1ADF48CDD928516062F12E
+    secret: ${JWT_SECRET:}
   # XSS 过滤配置
   xss:
     # 过滤开关
@@ -247,6 +247,10 @@ spring:
   config:
     activate:
       on-profile: dev
+novel:
+  jwt:
+    # Development only; production requires an explicit JWT_SECRET.
+    secret: ${JWT_SECRET:E66559580A1ADF48CDD928516062F12E}
 # 开启 SpringDoc 接口文档
 springdoc:
   api-docs:
