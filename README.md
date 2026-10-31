@@ -21,7 +21,7 @@ novel 是一套基于时下**最新** Java 技术栈 Spring Boot 3 + Vue 3 开�
   ｜ [码云](https://gitee.com/novel_dev_team/novel-front-web) ｜ [GitCode](https://gitcode.com/opennovel/novel-front-web)
 - 线上应用版：[GitHub](https://github.com/201206030/novel-plus) ｜ [码云](https://gitee.com/novel_dev_team/novel-plus)
 - 微服务版：[GitHub](https://github.com/201206030/novel-cloud) ｜ [码云](https://gitee.com/novel_dev_team/novel-cloud)
-- 多端应用版（H5 / Android / iOS / 微信小程序）：[👉 点此获取](https://mp.weixin.qq.com/s/7aKaG-ztpew1jEA15V3Vpw)
+- 多端应用版（H5 / Android / iOS / 微信小程序）：[👉 点此获取](https://www.xxyopen.com/2026/10/22/news/novel-app.html)
 > novel-app 基于 **uni-app（Vue 3 + Vite）** 开发，一套代码即可编译为 H5、Android、iOS 和微信小程序。与 novel-plus 后端共用数据库和接口，实现数据互通，降低多端开发、部署与维护成本。
 
 
