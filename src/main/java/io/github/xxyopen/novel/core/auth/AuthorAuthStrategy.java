@@ -29,6 +29,11 @@ public class AuthorAuthStrategy implements AuthStrategy {
     private final AuthorInfoCacheManager authorInfoCacheManager;
 
     /**
+     * 作家账号状态：正常（见 author_info 表 status 字段注释：0-正常 1-封禁）
+     */
+    private static final Integer AUTHOR_STATUS_NORMAL = 0;
+
+    /**
      * 不需要进行作家权限认证的 URI
      */
     private static final List<String> EXCLUDE_URI = List.of(
@@ -48,6 +53,10 @@ public class AuthorAuthStrategy implements AuthStrategy {
         AuthorInfoDto authorInfo = authorInfoCacheManager.getAuthor(userId);
         if (Objects.isNull(authorInfo)) {
             // 作家账号不存在，无权访问作家专区
+            throw new BusinessException(ErrorCodeEnum.USER_UN_AUTH);
+        }
+        if (!Objects.equals(authorInfo.getStatus(), AUTHOR_STATUS_NORMAL)) {
+            // 作家账号已被封禁(status=1)，无权访问作家专区
             throw new BusinessException(ErrorCodeEnum.USER_UN_AUTH);
         }
 
