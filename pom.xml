@@ -19,7 +19,7 @@
         <mybatis-plus.version>3.5.6</mybatis-plus.version>
         <mybatis-plus-generator.version>3.5.1</mybatis-plus-generator.version>
         <jjwt.version>0.11.5</jjwt.version>
-        <xxl-job.version>2.3.1</xxl-job.version>
+        <xxl-job.version>2.4.2</xxl-job.version>
         <sentinel.version>1.8.4</sentinel.version>
         <shardingsphere-jdbc.version>5.5.1</shardingsphere-jdbc.version>
         <redisson.version>3.19.1</redisson.version>
