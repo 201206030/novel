@@ -31,7 +31,10 @@ import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.CollectionUtils;
 
 import java.security.NoSuchAlgorithmException;
@@ -343,11 +346,14 @@ public class BookServiceImpl implements BookService {
         return RestResp.ok();
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     @Override
     public RestResp<Void> saveBookChapter(ChapterAddReqDto dto) {
-        // 校验该作品是否属于当前作家
-        BookInfo bookInfo = bookInfoMapper.selectById(dto.getBookId());
+        // 锁定作品行，串行处理该作品的章节变更并读取数据库中的最新信息。
+        BookInfo bookInfo = bookInfoMapper.selectByIdForUpdate(dto.getBookId());
+        if (Objects.isNull(bookInfo)) {
+            return RestResp.fail(ErrorCodeEnum.BOOK_NOT_FOUND);
+        }
         if (!Objects.equals(bookInfo.getAuthorId(), UserHolder.getAuthorId())) {
             return RestResp.fail(ErrorCodeEnum.USER_UN_AUTH);
         }
@@ -381,19 +387,9 @@ public class BookServiceImpl implements BookService {
         bookContent.setUpdateTime(LocalDateTime.now());
         bookContentMapper.insert(bookContent);
 
-        // 3) 更新小说表最新章节信息和小说总字数信息
-        //  a) 更新小说表关于最新章节的信息
-        BookInfo newBookInfo = new BookInfo();
-        newBookInfo.setId(dto.getBookId());
-        newBookInfo.setLastChapterId(newBookChapter.getId());
-        newBookInfo.setLastChapterName(newBookChapter.getChapterName());
-        newBookInfo.setLastChapterUpdateTime(LocalDateTime.now());
-        newBookInfo.setWordCount(bookInfo.getWordCount() + newBookChapter.getWordCount());
-        newBookChapter.setUpdateTime(LocalDateTime.now());
-        bookInfoMapper.updateById(newBookInfo);
-        //  b) 清除小说信息缓存
-        bookInfoCacheManager.evictBookInfoCache(dto.getBookId());
-        //  c) 发送小说信息更新的 MQ 消息
+        // Recalculate aggregate fields from persisted chapters instead of cached counters.
+        refreshBookChapterMetadata(dto.getBookId());
+        evictBookCachesAfterCommit(dto.getBookId(), newBookChapter.getId());
         amqpMsgManager.sendBookChangeMsg(dto.getBookId());
         return RestResp.ok();
     }
@@ -476,16 +472,26 @@ public class BookServiceImpl implements BookService {
             page.getTotal(), commentRespDtoList));
     }
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     @Override
     public RestResp<Void> deleteBookChapter(Long chapterId) {
-        // 1.查询章节信息
-        BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
-        // 2.查询小说信息
-        BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(chapter.getBookId());
+        // 先读取作品ID，再锁定作品行并重新读取章节，避免使用缓存中的旧信息。
+        BookChapter chapter = bookChapterMapper.selectById(chapterId);
+        if (Objects.isNull(chapter)) {
+            return RestResp.fail(ErrorCodeEnum.BOOK_NOT_FOUND);
+        }
+        Long bookId = chapter.getBookId();
+        BookInfo bookInfo = bookInfoMapper.selectByIdForUpdate(bookId);
+        if (Objects.isNull(bookInfo)) {
+            return RestResp.fail(ErrorCodeEnum.BOOK_NOT_FOUND);
+        }
         // 校验该作品是否属于当前作家
         if (!Objects.equals(bookInfo.getAuthorId(), UserHolder.getAuthorId())) {
             return RestResp.fail(ErrorCodeEnum.USER_UN_AUTH);
+        }
+        chapter = bookChapterMapper.selectById(chapterId);
+        if (Objects.isNull(chapter) || !Objects.equals(chapter.getBookId(), bookId)) {
+            return RestResp.fail(ErrorCodeEnum.BOOK_NOT_FOUND);
         }
         // 3.删除章节信息
         bookChapterMapper.deleteById(chapterId);
@@ -493,39 +499,10 @@ public class BookServiceImpl implements BookService {
         QueryWrapper<BookContent> bookContentQueryWrapper = new QueryWrapper<>();
         bookContentQueryWrapper.eq(DatabaseConsts.BookContentTable.COLUMN_CHAPTER_ID, chapterId);
         bookContentMapper.delete(bookContentQueryWrapper);
-        // 5.更新小说信息
-        BookInfo newBookInfo = new BookInfo();
-        newBookInfo.setId(chapter.getBookId());
-        newBookInfo.setUpdateTime(LocalDateTime.now());
-        newBookInfo.setWordCount(bookInfo.getWordCount() - chapter.getChapterWordCount());
-        if (Objects.equals(bookInfo.getLastChapterId(), chapterId)) {
-            // 设置最新章节信息
-            QueryWrapper<BookChapter> bookChapterQueryWrapper = new QueryWrapper<>();
-            bookChapterQueryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID, chapter.getBookId())
-                .orderByDesc(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM)
-                .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
-            BookChapter bookChapter = bookChapterMapper.selectOne(bookChapterQueryWrapper);
-            Long lastChapterId = 0L;
-            String lastChapterName = "";
-            LocalDateTime lastChapterUpdateTime = null;
-            if (Objects.nonNull(bookChapter)) {
-                lastChapterId = bookChapter.getId();
-                lastChapterName = bookChapter.getChapterName();
-                lastChapterUpdateTime = bookChapter.getUpdateTime();
-            }
-            newBookInfo.setLastChapterId(lastChapterId);
-            newBookInfo.setLastChapterName(lastChapterName);
-            newBookInfo.setLastChapterUpdateTime(lastChapterUpdateTime);
-        }
-        bookInfoMapper.updateById(newBookInfo);
-        // 6.清理章节信息缓存
-        bookChapterCacheManager.evictBookChapterCache(chapterId);
-        // 7.清理章节内容缓存
-        bookContentCacheManager.evictBookContentCache(chapterId);
-        // 8.清理小说信息缓存
-        bookInfoCacheManager.evictBookInfoCache(chapter.getBookId());
-        // 9.发送小说信息更新的 MQ 消息
-        amqpMsgManager.sendBookChangeMsg(chapter.getBookId());
+        // Recalculate both the word count and last-chapter fields after deletion.
+        refreshBookChapterMetadata(bookId);
+        evictBookCachesAfterCommit(bookId, chapterId);
+        amqpMsgManager.sendBookChangeMsg(bookId);
         return RestResp.ok();
     }
 
@@ -546,16 +523,26 @@ public class BookServiceImpl implements BookService {
                 .build());
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     @Override
     public RestResp<Void> updateBookChapter(Long chapterId, ChapterUpdateReqDto dto) {
-        // 1.查询章节信息
-        BookChapterRespDto chapter = bookChapterCacheManager.getChapter(chapterId);
-        // 2.查询小说信息
-        BookInfoRespDto bookInfo = bookInfoCacheManager.getBookInfo(chapter.getBookId());
+        // 先读取作品ID，再锁定作品行并重新读取章节，避免使用缓存中的旧信息。
+        BookChapter chapter = bookChapterMapper.selectById(chapterId);
+        if (Objects.isNull(chapter)) {
+            return RestResp.fail(ErrorCodeEnum.BOOK_NOT_FOUND);
+        }
+        Long bookId = chapter.getBookId();
+        BookInfo bookInfo = bookInfoMapper.selectByIdForUpdate(bookId);
+        if (Objects.isNull(bookInfo)) {
+            return RestResp.fail(ErrorCodeEnum.BOOK_NOT_FOUND);
+        }
         // 校验该作品是否属于当前作家
         if (!Objects.equals(bookInfo.getAuthorId(), UserHolder.getAuthorId())) {
             return RestResp.fail(ErrorCodeEnum.USER_UN_AUTH);
+        }
+        chapter = bookChapterMapper.selectById(chapterId);
+        if (Objects.isNull(chapter) || !Objects.equals(chapter.getBookId(), bookId)) {
+            return RestResp.fail(ErrorCodeEnum.BOOK_NOT_FOUND);
         }
         // 3.更新章节信息
         BookChapter newChapter = new BookChapter();
@@ -572,26 +559,10 @@ public class BookServiceImpl implements BookService {
         QueryWrapper<BookContent> bookContentQueryWrapper = new QueryWrapper<>();
         bookContentQueryWrapper.eq(DatabaseConsts.BookContentTable.COLUMN_CHAPTER_ID, chapterId);
         bookContentMapper.update(newContent, bookContentQueryWrapper);
-        // 5.更新小说信息
-        BookInfo newBookInfo = new BookInfo();
-        newBookInfo.setId(chapter.getBookId());
-        newBookInfo.setUpdateTime(LocalDateTime.now());
-        newBookInfo.setWordCount(
-            bookInfo.getWordCount() - chapter.getChapterWordCount() + dto.getChapterContent().length());
-        if (Objects.equals(bookInfo.getLastChapterId(), chapterId)) {
-            // 更新最新章节信息
-            newBookInfo.setLastChapterName(dto.getChapterName());
-            newBookInfo.setLastChapterUpdateTime(LocalDateTime.now());
-        }
-        bookInfoMapper.updateById(newBookInfo);
-        // 6.清理章节信息缓存
-        bookChapterCacheManager.evictBookChapterCache(chapterId);
-        // 7.清理章节内容缓存
-        bookContentCacheManager.evictBookContentCache(chapterId);
-        // 8.清理小说信息缓存
-        bookInfoCacheManager.evictBookInfoCache(chapter.getBookId());
-        // 9.发送小说信息更新的 MQ 消息
-        amqpMsgManager.sendBookChangeMsg(chapter.getBookId());
+        // Recalculate aggregate metadata after the chapter change.
+        refreshBookChapterMetadata(bookId);
+        evictBookCachesAfterCommit(bookId, chapterId);
+        amqpMsgManager.sendBookChangeMsg(bookId);
         return RestResp.ok();
     }
 
@@ -621,6 +592,41 @@ public class BookServiceImpl implements BookService {
             .chapterInfo(bookChapter)
             .bookContent(content)
             .build());
+    }
+
+    /**
+     * 根据数据库中的章节重建作品汇总信息。调用方必须在事务期间持有对应作品行锁。
+     */
+    private void refreshBookChapterMetadata(Long bookId) {
+        QueryWrapper<BookChapter> chapterQueryWrapper = new QueryWrapper<>();
+        chapterQueryWrapper.eq(DatabaseConsts.BookChapterTable.COLUMN_BOOK_ID, bookId)
+            .orderByDesc(DatabaseConsts.BookChapterTable.COLUMN_CHAPTER_NUM)
+            .last(DatabaseConsts.SqlEnum.LIMIT_1.getSql());
+        BookChapter lastChapter = bookChapterMapper.selectOne(chapterQueryWrapper);
+
+        BookInfo bookInfo = new BookInfo();
+        bookInfo.setId(bookId);
+        bookInfo.setWordCount(bookChapterMapper.selectTotalWordCountByBookId(bookId));
+        bookInfo.setLastChapterId(Objects.nonNull(lastChapter) ? lastChapter.getId() : 0L);
+        bookInfo.setLastChapterName(Objects.nonNull(lastChapter) ? lastChapter.getChapterName() : "");
+        bookInfo.setLastChapterUpdateTime(
+            Objects.nonNull(lastChapter) ? lastChapter.getUpdateTime() : null);
+        bookInfo.setUpdateTime(LocalDateTime.now());
+        bookInfoMapper.updateChapterMetadata(bookInfo);
+    }
+
+    /**
+     * 在数据库事务提交后再清理章节和作品缓存，避免缓存保留提交前的元数据。
+     */
+    private void evictBookCachesAfterCommit(Long bookId, Long chapterId) {
+        TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+            @Override
+            public void afterCommit() {
+                bookChapterCacheManager.evictBookChapterCache(chapterId);
+                bookContentCacheManager.evictBookContentCache(chapterId);
+                bookInfoCacheManager.evictBookInfoCache(bookId);
+            }
+        });
     }
 
     /**
