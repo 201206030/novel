@@ -69,7 +69,7 @@ public class JwtUtils {
                 return Long.parseLong(claimsJws.getBody().getSubject());
             }
         } catch (JwtException e) {
-            log.warn("JWT解析失败:{}", token);
+            log.warn("JWT解析失败");
             // don't trust the JWT!
         }
         return null;

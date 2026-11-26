@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,8 +62,9 @@ public class BookController {
      */
     @Operation(summary = "增加小说点击量接口")
     @PostMapping("visit")
-    public RestResp<Void> addVisitCount(@Parameter(description = "小说ID") Long bookId) {
-        return bookService.addVisitCount(bookId);
+    public RestResp<Void> addVisitCount(@Parameter(description = "小说ID") Long bookId,
+        HttpServletRequest request) {
+        return bookService.addVisitCount(bookId, request.getRemoteAddr());
     }
 
     /**

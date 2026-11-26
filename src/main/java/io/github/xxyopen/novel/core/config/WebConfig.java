@@ -61,8 +61,10 @@ public class WebConfig implements WebMvcConfigurer {
 
         // Token 解析拦截器
         registry.addInterceptor(tokenParseInterceptor)
-            // 拦截小说内容查询接口，需要解析 token 以判断该用户是否有权阅读该章节（付费章节是否已购买）
-            .addPathPatterns(ApiRouterConsts.API_FRONT_BOOK_URL_PREFIX + "/content/*")
+            // 解析 VIP 内容接口和点击量接口的可选 token
+            .addPathPatterns(ApiRouterConsts.API_FRONT_BOOK_URL_PREFIX + "/content/*",
+                // 点击量接口允许匿名访问，但登录用户按账号去重
+                ApiRouterConsts.API_FRONT_BOOK_URL_PREFIX + "/visit")
             .order(3);
 
     }

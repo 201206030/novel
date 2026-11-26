@@ -77,9 +77,10 @@ public interface BookService {
      * 增加小说点击量
      *
      * @param bookId 小说ID
+     * @param visitorAddress 访客来源地址，用于匿名访客去重
      * @return 成功状态
      */
-    RestResp<Void> addVisitCount(Long bookId);
+    RestResp<Void> addVisitCount(Long bookId, String visitorAddress);
 
     /**
      * 获取上一章节ID

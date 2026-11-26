@@ -27,6 +27,7 @@ import io.github.xxyopen.novel.dto.resp.*;
 import io.github.xxyopen.novel.manager.cache.*;
 import io.github.xxyopen.novel.manager.dao.UserDaoManager;
 import io.github.xxyopen.novel.manager.mq.AmqpMsgManager;
+import io.github.xxyopen.novel.manager.redis.BookVisitDedupManager;
 import io.github.xxyopen.novel.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,6 +78,8 @@ public class BookServiceImpl implements BookService {
     private final AmqpMsgManager amqpMsgManager;
 
     private final UserConsumeLogMapper userConsumeLogMapper;
+
+    private final BookVisitDedupManager bookVisitDedupManager;
 
     private static final Integer REC_BOOK_COUNT = 4;
 
@@ -167,8 +170,26 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public RestResp<Void> addVisitCount(Long bookId) {
-        bookInfoMapper.addVisitCount(bookId);
+    public RestResp<Void> addVisitCount(Long bookId, String visitorAddress) {
+        if (Objects.isNull(bookId)) {
+            return RestResp.ok();
+        }
+
+        Long userId = UserHolder.getUserId();
+        String visitorId = Objects.nonNull(userId) ? "user:" + userId :
+            "ip:" + (Objects.nonNull(visitorAddress) && !visitorAddress.isBlank()
+                ? visitorAddress : "unknown");
+        String reservation = bookVisitDedupManager.reserveVisit(bookId, visitorId);
+        if (Objects.isNull(reservation)) {
+            return RestResp.ok();
+        }
+
+        try {
+            bookInfoMapper.addVisitCount(bookId);
+        } catch (RuntimeException exception) {
+            bookVisitDedupManager.releaseVisit(bookId, visitorId, reservation);
+            throw exception;
+        }
         return RestResp.ok();
     }
 
