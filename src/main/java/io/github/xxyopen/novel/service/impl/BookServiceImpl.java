@@ -253,7 +253,7 @@ public class BookServiceImpl implements BookService {
         BookComment bookComment = new BookComment();
         bookComment.setBookId(dto.getBookId());
         bookComment.setUserId(dto.getUserId());
-        bookComment.setCommentContent(dto.getCommentContent());
+        bookComment.setCommentContent(dto.getCommentContent().replace("<", "&lt;").replace(">", "&gt;"));
         bookComment.setCreateTime(LocalDateTime.now());
         bookComment.setUpdateTime(LocalDateTime.now());
         bookCommentMapper.insert(bookComment);
